@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trioshop.mybatis.UserMapper">
+
+    <select id="findAll" resultType="User">
+        SELECT TRIO_USERS.user_code userCode,
+               TRIO_USERS.grade_code gradeCode,
+               TRIO_USERS.user_id userId,
+               TRIO_USERS.user_passwd userPasswd,
+               TRIO_USERS_INFO.user_name userName,
+               TRIO_USERS_INFO.user_address userAddress,
+               TRIO_USERS_INFO.user_tel userTel,
+               TRIO_USERS_INFO.user_sex userSex,
+               TRIO_USERS_INFO.user_nickname userNickname
+        FROM TRIO_USERS ,TRIO_USERS_INFO
+        WHERE TRIO_USERS.user_code = TRIO_USERS_INFO.user_code
+    </select>
+
+</mapper>
