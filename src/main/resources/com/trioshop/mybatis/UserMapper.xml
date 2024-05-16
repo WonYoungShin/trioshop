@@ -4,17 +4,16 @@
 <mapper namespace="com.trioshop.mybatis.UserMapper">
 
     <select id="findAll" resultType="User">
-        SELECT TRIO_USERS.user_code userCode,
-               TRIO_USERS.grade_code gradeCode,
-               TRIO_USERS.user_id userId,
-               TRIO_USERS.user_passwd userPasswd,
-               TRIO_USERS_INFO.user_name userName,
-               TRIO_USERS_INFO.user_address userAddress,
-               TRIO_USERS_INFO.user_tel userTel,
-               TRIO_USERS_INFO.user_sex userSex,
-               TRIO_USERS_INFO.user_nickname userNickname
-        FROM TRIO_USERS ,TRIO_USERS_INFO
-        WHERE TRIO_USERS.user_code = TRIO_USERS_INFO.user_code
+        SELECT tuser.user_code userCode,
+               tuser.grade_code gradeCode,
+               tuser.user_id userId,
+               tuser.user_passwd userPasswd,
+               info.user_name userName,
+               info.user_address userAddress,
+               info.user_tel userTel,
+               info.user_sex userSex,
+               info.user_nickname userNickname
+        FROM TRIO_USERS tuser,TRIO_USERS_INFO info
+        WHERE tuser.user_code = info.user_code
     </select>
-
 </mapper>
