@@ -1,6 +1,6 @@
-package com.trioshop.mybatis;
+package com.trioshop.repository.mybatis;
 
-import com.trioshop.dto.User;
+import com.trioshop.model.dto.user.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

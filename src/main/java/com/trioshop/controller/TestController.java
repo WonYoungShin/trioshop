@@ -1,14 +1,12 @@
 package com.trioshop.controller;
 
-import com.trioshop.dao.MybatisTestDao;
-import com.trioshop.dto.User;
-
+import com.trioshop.model.dto.user.User;
+import com.trioshop.repository.dao.MybatisTestDao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 
 import java.util.List;
 

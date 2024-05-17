@@ -1,6 +1,6 @@
-package com.trioshop.dao;
+package com.trioshop.repository.dao;
 
-import com.trioshop.dto.User;
+import com.trioshop.model.dto.user.User;
 
 import java.util.List;
 

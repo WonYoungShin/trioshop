@@ -1,7 +1,7 @@
-package com.trioshop.dao;
+package com.trioshop.repository.dao;
 
-import com.trioshop.dto.User;
-import com.trioshop.mybatis.UserMapper;
+import com.trioshop.model.dto.user.User;
+import com.trioshop.repository.mybatis.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

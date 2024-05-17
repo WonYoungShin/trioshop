@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.trioshop.mybatis")
+@MapperScan(basePackages = "com.trioshop.repository.mybatis")
 public class TrioshopApplication {
 
 	public static void main(String[] args) {
