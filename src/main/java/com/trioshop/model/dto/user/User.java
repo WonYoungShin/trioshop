@@ -13,6 +13,5 @@ public class User {
     String userName;
     String userAddress;
     String userTel;
-    String userSex;
     String userNicename;
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trioshop.repository.mybatis.ItemMapper">
+
+    <select id="findAllItem" resultType="ItemInfoByUser">
+        SELECT TI.item_code itemCode,
+               TC.category_name categoryName,
+               TF.factory_name factoryName,
+               TI.item_name itemName,
+               TS.stock_qty stockQty,
+               TI.item_price itemPrice,
+               TI.item_src itemSrc
+        FROM TRIO_ITEMS TI, TRIO_STOCK TS, TRIO_CATEGORY TC, TRIO_FACTORY TF
+        WHERE TI.item_code=TS.item_code
+          AND TI.category_code=TC.category_code
+          AND TI.factory_code=TF.factory_code
+    </select>
+</mapper>

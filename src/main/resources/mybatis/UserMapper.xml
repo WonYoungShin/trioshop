@@ -11,7 +11,6 @@
                info.user_name userName,
                info.user_address userAddress,
                info.user_tel userTel,
-               info.user_sex userSex,
                info.user_nickname userNickname
         FROM TRIO_USERS tuser,TRIO_USERS_INFO info
         WHERE tuser.user_code = info.user_code
