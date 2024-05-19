@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class User {
+public class UserInfoBySession {
     int userCode;
     int gradeCode;
     String userId;
@@ -13,5 +13,5 @@ public class User {
     String userName;
     String userAddress;
     String userTel;
-    String userNicename;
+    String userNickname;
 }

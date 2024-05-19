@@ -22,15 +22,20 @@ dependencies {
 	//lombok 사용
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	//jsp 및 tomcat
-	// spring boot 3.0 이상부터는 1.2가 호환되지않아 2.0으로 수정
-	//	implementation 'javax.servlet:jstl:1.2'
-	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
-	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+	//JSP 추가 시작
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트	3.0 이상
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+	//JSP 추가 끝
+
+
 	//db관련
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
-
+	//passwd 해싱
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
