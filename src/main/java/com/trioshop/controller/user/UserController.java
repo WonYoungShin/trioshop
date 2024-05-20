@@ -10,7 +10,7 @@ public class UserController {
 
     @RequestMapping("/login")
     public String itemDetailPage () {
-        return "/user/itemInfo/ite";
+        return "/user/itemInfo/itemList";
     }
 
     @PostMapping("/login")
