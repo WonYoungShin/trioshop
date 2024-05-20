@@ -6,8 +6,8 @@
 <body>
 <h1>관리자 페이지</h1>
 <div>
-    <button type="button" onclick="location.href='/trioAdmin/stores'">재고</button>
-    <button type="button" onclick="location.href='/trioAdmin/stock'">입고</button>
+    <button type="button" onclick="location.href='/trioAdmin/stock'">재고</button>
+    <button type="button" onclick="location.href='/trioAdmin/stores'">입고</button>
     <button type="button" onclick="location.href='/trioAdmin/purchase'">발주</button>
     <button type="button" onclick="location.href='/trioAdmin/addItem'">상품등록</button>
 </div>

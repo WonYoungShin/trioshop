@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.trioshop.repository.mybatis.AdminMapper">
+
+    <insert id="itemSave">
+        <selectKey keyProperty="itemCode" resultType="long" order="BEFORE">
+            SELECT item_seq.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO trio_items (item_code,item_name, category_code, item_price, factory_code, item_size, item_color)
+        VALUES (#{itemCode}, #{itemName},#{categoryCode},#{itemPrice},#{factoryCode},#{itemSize},#{itemColor})
+    </insert>
+
+    <insert id="purchaseSave">
+        <selectKey keyProperty="purchaseCode" resultType="long" order="BEFORE">
+            SELECT purchase_seq.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO trio_purchase (purchase_code, purchase_qty, item_code)
+        VALUES (#{purchaseCode}, #{purchaseQty}, #{itemCode})
+    </insert>
+
+    <insert id="storeSave">
+        <selectKey keyProperty="storeCode" resultType="long" order="BEFORE">
+            SELECT stores_seq.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO trio_stores (store_code, stores_qty, item_code, stores_price
+        <if test="purchaseCode != null">
+            , purchase_code
+        </if>
+        )
+        VALUES (#{storeCode},#{storeQty},#{itemCode},#{storePrice}
+        <if test="purchaseCode != null">
+            , #{purchaseCode}
+        </if>
+        )
+    </insert>
+
+
+</mapper>
