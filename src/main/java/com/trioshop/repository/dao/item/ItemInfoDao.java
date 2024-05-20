@@ -14,6 +14,7 @@ public class ItemInfoDao {
     private final ItemMapper itemMapper;
 
     public List<ItemInfoByUser> findAllItem() {
+
         return itemMapper.findAllItem();
     }
 }

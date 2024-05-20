@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class UserInfoBySession {
-    int userCode;
-    int gradeCode;
+    long userCode;
+    long gradeCode;
     String userId;
     String userPasswd;
     String userName;
@@ -18,4 +18,6 @@ public class UserInfoBySession {
     public UserInfoBySession(int gradeCode) {
         this.gradeCode = gradeCode;
     }
+
+
 }
