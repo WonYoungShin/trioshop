@@ -25,8 +25,4 @@ public class AdminDao {
         adminMapper.storeSave(itemModel);
         return itemModel;
     }
-
-
-
-
 }

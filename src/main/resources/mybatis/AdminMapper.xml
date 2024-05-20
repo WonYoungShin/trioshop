@@ -18,7 +18,7 @@
         </selectKey>
         INSERT INTO trio_purchase (purchase_code, purchase_qty, item_code)
         VALUES (#{purchaseCode}, #{purchaseQty}, #{itemCode})
-    </insert>gg
+    </insert>
 
     <insert id="storeSave">
         <selectKey keyProperty="storeCode" resultType="long" order="BEFORE">

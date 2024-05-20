@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor // 생성자
 public class UserInfoDao {
+
     private final UserMapper userMapper;
     public UserInfoBySession loginUser (String userId, String userPasswd) {
         UserIdPasswd userIdPasswd = new UserIdPasswd(userId, userPasswd);
