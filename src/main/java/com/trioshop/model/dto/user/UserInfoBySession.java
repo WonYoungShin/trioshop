@@ -14,4 +14,8 @@ public class UserInfoBySession {
     String userAddress;
     String userTel;
     String userNickname;
+
+    public UserInfoBySession(int gradeCode) {
+        this.gradeCode = gradeCode;
+    }
 }
