@@ -25,9 +25,16 @@ public class AdminService {
     public List<PurchaseListModel> purchaseFindAll(){
         return adminDao.purchaseFindAll();
     }
+    public Optional<PurchaseListModel> purchaseFindByCode(Long purchaseCode){
+        return adminDao.purchaseFindByCode(purchaseCode);
+    }
 
     public List<StoresListModel> storesFindAll(){
         return adminDao.storesFindAll();
+    }
+
+    public Optional<StoresListModel> storesFindByCode(Long storeCode){
+        return adminDao.storeFindByCode(storeCode);
     }
 
     public List<StockModel> stockFindAll(){

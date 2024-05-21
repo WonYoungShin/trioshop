@@ -13,9 +13,11 @@ public interface AdminMapper {
     void storeSave(StoreItemModel ItemModel);
     void purchaseSave(PurchaseItemModel ItemModel);
 
-    Optional<PurchaseListModel> purchaseFindCode();
     List<PurchaseListModel> purchaseFindAll();
+    Optional<PurchaseListModel> purchaseFindByCode(Long purchaseCode);
+
     List<StoresListModel> storesFindAll();
+    Optional<StoresListModel> storesFindByCode(Long storeCode);
     List<StockModel> stockFindAll();
     Optional<AddItemQtyModel> itemFindByCode(Long itemCode);
 

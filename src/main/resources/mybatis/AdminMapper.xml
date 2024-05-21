@@ -23,6 +23,16 @@
         ORDER BY 1;
     </select>
 
+    <select id="purchaseFindByCode" resultType="PurchaseListModel">
+        SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name,
+               category_name, item_size, item_color
+        FROM TRIO_PURCHASE pur, TRIO_ITEMS item, TRIO_CATEGORY cate
+        WHERE pur.item_code = item.item_code
+          AND item.category_code = cate.category_code
+        AND purchase_code = #{purchaseCode}
+        ORDER BY 1;
+    </select>
+
     <insert id="storeSave" useGeneratedKeys="true" keyProperty="storeCode">
         INSERT INTO TRIO_STORES (stores_qty, item_code, stores_price
         <if test="purchaseCode != null">
@@ -55,6 +65,27 @@
         ORDER BY 1;
     </select>
 
+    <select id="storesFindByCode" resultType="StoresListModel">
+        SELECT store_code, stores_qty,
+        <if test="purchaseCode != null">
+            st.purchase_code,
+        </if>
+        st.item_code, factory_code, item_name,
+        category_name, stores_price, item_size, item_color
+        FROM TRIO_STORES st, TRIO_ITEMS item, triodb.TRIO_CATEGORY cate
+        <if test="purchaseCode != null">
+            ,TRIO_PURCHASE pur
+        </if>
+        WHERE st.item_code = item.item_code
+        <if test="purchaseCode != null">
+            AND st.purchase_code = pur.purchase_code
+        </if>
+        AND item.category_code = cate.category_code
+        AND store_code = #{storeCode}
+        ORDER BY 1;
+    </select>
+
+
     <select id="itemFindByCode" resultType="AddItemQtyModel">
         SELECT item_code, stock_qty
         FROM TRIO_STOCK
@@ -76,4 +107,5 @@
           AND item.category_code = cate.category_code
         ORDER BY 1;
     </select>
+
 </mapper>

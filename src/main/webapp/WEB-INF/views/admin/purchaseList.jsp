@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="my-4">발주 목록</h1>
+    <h1 class="my-4 text-center">발주 목록</h1>
     <div class="row">
         <div class="col-12">
             <table class="table table-striped">
@@ -25,19 +25,20 @@
                     <th>카테고리</th>
                     <th>사이즈</th>
                     <th>상품색깔</th>
+                    <th>삭제</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="item" items="${purchaseList}">
                     <tr>
-                        <td>${item.purchaseCode}</td>
-                        <td>${item.itemCode}</td>
+                        <td><a href="/trioAdmin/purchase/${item.purchaseCode}">${item.purchaseCode}</a></td>                        <td>${item.itemCode}</td>
                         <td>${item.purchaseQty}</td>
                         <td>${item.factoryCode}</td>
                         <td>${item.itemName}</td>
                         <td>${item.categoryName}</td>
                         <td>${item.itemSize}</td>
                         <td>${item.itemColor}</td>
+                        <td><button class="btn btn-secondary" onclick="location.href='/trioAdmin'">삭제</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>

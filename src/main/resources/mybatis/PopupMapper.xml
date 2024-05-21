@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.trioshop.repository.mybatis.PopupMapper">
+    <select id="findByAll" resultType="PopupItemModel">
+        SELECT item_code, item_name, category_code, factory_code, item_size, item_color
+        FROM TRIO_ITEMS
+    </select>
+</mapper>
