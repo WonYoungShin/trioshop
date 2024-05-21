@@ -1,9 +1,6 @@
 package com.trioshop.repository.mybatis;
 
-import com.trioshop.model.dto.admin.AddItemModel;
-import com.trioshop.model.dto.admin.PurchaseItemModel;
-import com.trioshop.model.dto.admin.PurchaseListModel;
-import com.trioshop.model.dto.admin.StoreItemModel;
+import com.trioshop.model.dto.admin.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,4 +15,6 @@ public interface AdminMapper {
 
     Optional<PurchaseListModel> purchaseFindCode();
     List<PurchaseListModel> purchaseFindAll();
+    List<StoresListModel> storesFindAll();
+
 }

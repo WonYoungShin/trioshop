@@ -20,12 +20,8 @@
         FROM TRIO_PURCHASE pur, TRIO_ITEMS item, TRIO_CATEGORY cate
         WHERE pur.item_code = item.item_code
         AND item.category_code = cate.category_code
+        ORDER BY 1;
     </select>
-
-
-
-
-
 
     <insert id="storeSave" useGeneratedKeys="true" keyProperty="storeCode">
         INSERT INTO TRIO_STORES (stores_qty, item_code, stores_price
@@ -39,5 +35,24 @@
         </if>
         )
     </insert>
+
+    <select id="storesFindAll" resultType="StoresListModel">
+        SELECT store_code, stores_qty,
+               <if test="purchaseCode != null">
+               st.purchase_code,
+               </if>
+               st.item_code, factory_code, item_name,
+               category_name, stores_price, item_size, item_color
+        FROM TRIO_STORES st, TRIO_ITEMS item, triodb.TRIO_CATEGORY cate
+        <if test="purchaseCode != null">
+            ,TRIO_PURCHASE pur
+        </if>
+        WHERE st.item_code = item.item_code
+        <if test="purchaseCode != null">
+        AND st.purchase_code = pur.purchase_code
+        </if>
+        AND item.category_code = cate.category_code
+        ORDER BY 1;
+    </select>
 
 </mapper>

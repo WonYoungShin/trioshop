@@ -1,9 +1,6 @@
 package com.trioshop.controller.admin;
 
-import com.trioshop.model.dto.admin.AddItemModel;
-import com.trioshop.model.dto.admin.PurchaseItemModel;
-import com.trioshop.model.dto.admin.PurchaseListModel;
-import com.trioshop.model.dto.admin.StoreItemModel;
+import com.trioshop.model.dto.admin.*;
 import com.trioshop.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +66,7 @@ public class AdminController {
     public String stores(){
         return "/admin/stores";
     }
+
     @PostMapping("/stores")
     public String addStores(@ModelAttribute StoreItemModel itemModel, RedirectAttributes redirectAttributes){
         log.info("Received itemModel: " + itemModel.toString());
@@ -76,7 +74,12 @@ public class AdminController {
         log.info("Saved itemModel: " + saveItemModel.toString());
         return "redirect:/trioAdmin";
     }
-
+    @GetMapping("/storesList")
+    public String storesList(Model model){
+        List<StoresListModel> storesList = adminService.storesFindAll();
+        model.addAttribute("storesList", storesList);
+        return "/admin/storesList";
+    }
     @GetMapping("/chart")
     public String chart(){
         return "/admin/chart";

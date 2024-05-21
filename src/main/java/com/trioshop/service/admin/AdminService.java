@@ -1,9 +1,6 @@
 package com.trioshop.service.admin;
 
-import com.trioshop.model.dto.admin.AddItemModel;
-import com.trioshop.model.dto.admin.PurchaseItemModel;
-import com.trioshop.model.dto.admin.PurchaseListModel;
-import com.trioshop.model.dto.admin.StoreItemModel;
+import com.trioshop.model.dto.admin.*;
 import com.trioshop.repository.dao.admin.AdminDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,11 @@ public class AdminService {
     public List<PurchaseListModel> purchaseFindAll(){
         return adminDao.purchaseFindAll();
     }
+
+    public List<StoresListModel> storesFindAll(){
+        return adminDao.storesFindAll();
+    }
+
 
 
 }
