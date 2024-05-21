@@ -2,36 +2,46 @@ package com.trioshop.controller.user;
 
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.user.UserInfoService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
-
     @Autowired
     private UserInfoService userInfoService;
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String loginPage() {
         return "/user/userInfo/login";
     }
 
     @PostMapping("/login")
-    public ModelAndView login(String userId, String userPasswd) {
+    public ModelAndView login(String userId, String userPasswd, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        //유저 정보가 검색되는지 확인
         UserInfoBySession user = userInfoService.isValidUser(userId, userPasswd);
+        session.setAttribute("UserInfoBySession", user);
+
         if (user == null || user.getGradeCode() == 0) {
-            ModelAndView modelAndView = new ModelAndView("/user/userInfo/login");
-            modelAndView.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
-            return modelAndView;
+            mv.setViewName("/user/userInfo/login");
+            mv.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
+            return mv;
         } else if (user.getGradeCode() == 4) {
-            return new ModelAndView("redirect:/trioAdmin");
+            mv.setViewName("redirect:/trioAdmin");
+            return mv;
         } else {
-            return new ModelAndView("/etc/homePage");
+            System.out.println("로그인완료");
+            mv.setViewName("redirect:/");
+            return mv;
         }
+
     }
+
 
     @RequestMapping("/join")
     public String joinPage() {

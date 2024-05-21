@@ -2,6 +2,7 @@ package com.trioshop.controller.item;
 
 import com.trioshop.model.dto.item.ItemInfoByCart;
 import com.trioshop.model.dto.item.ItemInfoByUser;
+import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,6 @@ public class ItemInfoController {
     public ModelAndView userList(HttpSession session) {
         System.out.println("homePage");
         ModelAndView mv = new ModelAndView();
-
         categoryCheck(session);
         List<ItemInfoByUser> itemList = itemService.findAllItem();
         mv.addObject("itemList", itemList);
@@ -53,12 +53,12 @@ public class ItemInfoController {
         return mv;
     }
 
-    @RequestMapping("/cart/{userCode}")//카트 페이지로
+    @RequestMapping("/cart")//카트 페이지로
     public ModelAndView cartPage(HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        long userCode = (long) session.getAttribute("userCode");
-        System.out.println(userCode);
-        List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
+        UserInfoBySession userInfoBySession = (UserInfoBySession) session.getAttribute("UserInfoBySession");
+        System.out.println(userInfoBySession.getUserCode());
+        List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getUserCode());
         for (ItemInfoByCart cartItem : cartItems) {
             System.out.println(cartItem);
         }

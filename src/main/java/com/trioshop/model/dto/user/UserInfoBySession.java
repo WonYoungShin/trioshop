@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class UserInfoBySession {
+public class
+UserInfoBySession {
     long userCode;
     long gradeCode;
     String userId;
