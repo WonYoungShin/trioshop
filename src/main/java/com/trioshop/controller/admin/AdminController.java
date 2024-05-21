@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -60,6 +57,19 @@ public class AdminController {
         model.addAttribute("purchaseList", purchaseList);
         return "/admin/purchaseList";
     }
+    @GetMapping("/purchase/{purchaseCode}")
+    public String purchaseDetail(@PathVariable("purchaseCode") Long purchaseCode, Model model){
+        try {
+            PurchaseListModel purchaseItem = adminService.purchaseFindByCode(purchaseCode).orElseThrow(NoSuchElementException::new);
+            model.addAttribute("purchase", purchaseItem);
+        } catch (NoSuchElementException e) {
+            log.info("조회 실패");
+            return "/admin/purchaseList";
+        }
+
+        return "/admin/purchaseDetail";
+    }
+
 
 
     @GetMapping("/stores")
@@ -70,20 +80,19 @@ public class AdminController {
     @PostMapping("/stores")
     public String addStores(@ModelAttribute StoreItemModel itemModel, RedirectAttributes redirectAttributes){
         StoreItemModel saveItemModel = adminService.storeSave(itemModel);
-
-        addStockQty(saveItemModel);
-
+        try {
+            addStockQty(saveItemModel);
+        } catch (NoSuchElementException e) {
+            log.info("입고 처리실패 실패");
+            return "/admin/stores";
+        }
         return "redirect:/trioAdmin/storesList";
     }
 
     private void addStockQty(StoreItemModel saveItemModel) {
-        try {
             AddItemQtyModel item = adminService.itemFindById(saveItemModel.getItemCode()).orElseThrow(NoSuchElementException::new);
             item.setStockQty(item.getStockQty() + saveItemModel.getStoreQty());
             adminService.addItemQty(item);
-        } catch (NoSuchElementException e) {
-            log.info("입고 처리실패 실패");
-        }
     }
 
 
@@ -93,6 +102,24 @@ public class AdminController {
         model.addAttribute("storesList", storesList);
         return "/admin/storesList";
     }
+
+    @GetMapping("/stores/{storeCode}")
+    public String storesDetail(@PathVariable("storeCode") Long storeCode, Model model){
+        try {
+            StoresListModel storeItem = adminService.storesFindByCode(storeCode).orElseThrow(NoSuchElementException::new);
+            model.addAttribute("store", storeItem);
+        } catch (NoSuchElementException e) {
+            log.info("조회 실패");
+            return "/admin/storesList";
+        }
+
+        return "/admin/storesDetail";
+    }
+
+
+
+
+
     @GetMapping("/chart")
     public String chart(){
         return "/admin/chart";

@@ -11,50 +11,89 @@
 </head>
 <body>
 <div class="container mt-4">
-    <h1 class="mb-4">입고</h1>
+    <h1 class="mb-4 text-center">입고</h1>
     <form action="" method="post">
-        <div class="form-group">
-            <label for="itemCode">상품코드</label>
-            <input type="text" class="form-control" id="itemCode" name="itemCode" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemCode">상품코드</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="itemCode" name="itemCode" required readonly/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="openPopup()">선택</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <%--    <div>--%>
-        <%--        <label for="itemName">상품이름</label>--%>
-        <%--        <input type="text" id="itemName" name="itemName"/>--%>
-        <%--    </div>--%>
-        <%--    <div>--%>
-        <%--        <label for="categoryCode">상품분류</label>--%>
-        <%--        <input type="text" id="categoryCode" name="categoryCode"/>--%>
-        <%--    </div>--%>
-        <%--    <div>--%>
-        <%--        <label for="factoryCode">제조업체</label>--%>
-        <%--        <input type="text" id="factoryCode" name="factoryCode"/>--%>
-        <%--    </div>--%>
-        <%--    <div>--%>
-        <%--        <label for="itemSize">상품사이즈</label>--%>
-        <%--        <input type="text" id="itemSize" name="itemSize"/>--%>
-        <%--    </div>--%>
-        <%--    <div>--%>
-        <%--        <label for="itemColor">상품컬러</label>--%>
-        <%--        <input type="text" id="itemColor" name="itemColor"/>--%>
-        <%--    </div>--%>
-
-
-        <div class="form-group">
-            <label for="storePrice">입고가격</label>
-            <input type="text" class="form-control" id="storePrice" name="storePrice" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemName">상품이름</label>
+                <input type="text" class="form-control" id="itemName" name="itemName" readonly/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="storeQty">입고수량</label>
-            <input type="text" class="form-control" id="storeQty" name="storeQty" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="categoryCode">상품분류</label>
+                <input type="text" class="form-control" id="categoryCode" name="categoryCode" readonly/>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="factoryCode">제조업체</label>
+                <input type="text" class="form-control" id="factoryCode" name="factoryCode" readonly/>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemSize">상품사이즈</label>
+                <input type="text" class="form-control" id="itemSize" name="itemSize" readonly/>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemColor">상품컬러</label>
+                <input type="text" class="form-control" id="itemColor" name="itemColor" readonly/>
+            </div>
+        </div>
+
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="storePrice">입고가격</label>
+                <input type="text" class="form-control" id="storePrice" name="storePrice" required/>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="storeQty">입고수량</label>
+                <input type="text" class="form-control" id="storeQty" name="storeQty" required/>
+            </div>
         </div>
         <%--    <div>--%>
         <%--        <label for="purchaseCode">발주번호</label>--%>
         <%--        <input type="text" id="purchaseCode" name="purchaseCode"/>--%>
         <%--    </div>--%>
-        <button type="submit" class="btn btn-primary">입고</button>
-        <button type="button" class="btn btn-secondary" onclick="location.href='/trioAdmin'">취소</button>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6 text-center">
+                <button type="submit" class="btn btn-primary">입고</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='/trioAdmin'">취소</button>
+            </div>
+        </div>
     </form>
 </div>
+<!-- 팝업 창 열기 스크립트 -->
+<script>
+    function openPopup() {
+        window.open('/popupItemList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
+    }
+
+    function setItemDetails(itemCode, itemName, categoryCode, factoryCode, itemSize, itemColor) {
+        document.getElementById('itemCode').value = itemCode;
+        document.getElementById('itemName').value = itemName;
+        document.getElementById('categoryCode').value = categoryCode;
+        document.getElementById('factoryCode').value = factoryCode;
+        document.getElementById('itemSize').value = itemSize;
+        document.getElementById('itemColor').value = itemColor;
+    }
+</script>
 
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

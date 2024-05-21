@@ -33,9 +33,16 @@ public class AdminDao {
     public List<PurchaseListModel> purchaseFindAll(){
         return adminMapper.purchaseFindAll();
     }
+    public Optional<PurchaseListModel> purchaseFindByCode(Long purchaseCode){
+        return adminMapper.purchaseFindByCode(purchaseCode);
+    }
 
     public List<StoresListModel> storesFindAll(){
         return adminMapper.storesFindAll();
+    }
+
+    public Optional<StoresListModel> storeFindByCode(Long storeCode){
+        return adminMapper.storesFindByCode(storeCode);
     }
 
     public List<StockModel> stockFindAll(){

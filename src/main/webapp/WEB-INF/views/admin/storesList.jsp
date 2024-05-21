@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="my-4">입고 목록</h1>
+    <h1 class="my-4 text-center">입고 목록</h1>
     <div class="row">
         <div class="col-12">
             <table class="table table-striped">
@@ -27,12 +27,13 @@
                     <th>입고가격</th>
                     <th>사이즈</th>
                     <th>상품색깔</th>
+                    <th>삭제</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="item" items="${storesList}">
                     <tr>
-                        <td>${item.storeCode}</td>
+                        <td><a href="/trioAdmin/stores/${item.storeCode}">${item.storeCode}</a></td>
                         <td>${item.storesQty}</td>
                         <c:if test="${item.purchaseCode != null}">
                             <td>${item.purchaseCode}</td>
@@ -47,6 +48,7 @@
                         <td>${item.storesPrice}</td>
                         <td>${item.itemSize}</td>
                         <td>${item.itemColor}</td>
+                        <td><button class="btn btn-secondary" onclick="location.href='/trioAdmin'">삭제</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>

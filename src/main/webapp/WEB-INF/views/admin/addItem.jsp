@@ -10,35 +10,51 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <h1 class="my-4">상품등록</h1>
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">상품등록</h1>
     <form action="" method="post">
-        <div class="form-group">
-            <label for="itemName">상품이름</label>
-            <input type="text" class="form-control" id="itemName" name="itemName" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemName">상품이름</label>
+                <input type="text" class="form-control" id="itemName" name="itemName" required/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="categoryCode">상품분류</label>
-            <input type="text" class="form-control" id="categoryCode" name="categoryCode" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="categoryCode">상품분류</label>
+                <input type="text" class="form-control" id="categoryCode" name="categoryCode" required/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="factoryCode">제조업체</label>
-            <input type="text" class="form-control" id="factoryCode" name="factoryCode" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="factoryCode">제조업체</label>
+                <input type="text" class="form-control" id="factoryCode" name="factoryCode" required/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="itemSize">상품사이즈</label>
-            <input type="text" class="form-control" id="itemSize" name="itemSize" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemSize">상품사이즈</label>
+                <input type="text" class="form-control" id="itemSize" name="itemSize" required/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="itemColor">상품컬러</label>
-            <input type="text" class="form-control" id="itemColor" name="itemColor" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemColor">상품컬러</label>
+                <input type="text" class="form-control" id="itemColor" name="itemColor" required/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="itemPrice">판매가격</label>
-            <input type="number" class="form-control" id="itemPrice" name="itemPrice" required/>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="itemPrice">판매가격</label>
+                <input type="number" class="form-control" id="itemPrice" name="itemPrice" required/>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">등록</button>
-        <button type="button" class="btn btn-secondary" onclick="location.href='/trioAdmin'">취소</button>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6 text-center">
+                <button type="submit" class="btn btn-primary">등록</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='/trioAdmin'">취소</button>
+            </div>
+        </div>
     </form>
 </div>
 
