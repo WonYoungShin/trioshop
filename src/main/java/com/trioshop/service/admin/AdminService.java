@@ -29,6 +29,10 @@ public class AdminService {
         return adminDao.storesFindAll();
     }
 
+    public List<StockModel> stockFindAll(){
+        return adminDao.stockFindAll();
+    }
+
 
 
 }

@@ -36,4 +36,8 @@ public class AdminDao {
     public List<StoresListModel> storesFindAll(){
         return adminMapper.storesFindAll();
     }
+
+    public List<StockModel> stockFindAll(){
+        return adminMapper.stockFindAll();
+    }
 }

@@ -16,5 +16,6 @@ public interface AdminMapper {
     Optional<PurchaseListModel> purchaseFindCode();
     List<PurchaseListModel> purchaseFindAll();
     List<StoresListModel> storesFindAll();
+    List<StockModel> stockFindAll();
 
 }

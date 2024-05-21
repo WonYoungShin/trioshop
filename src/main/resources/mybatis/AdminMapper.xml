@@ -55,4 +55,12 @@
         ORDER BY 1;
     </select>
 
+    <select id="stockFindAll" resultType="StockModel">
+        SELECT st.item_code, item_name, category_name, item_price,
+               stock_qty, factory_code, item_size, item_color
+        FROM TRIO_STOCK st, TRIO_ITEMS item, TRIO_CATEGORY cate
+        WHERE st.item_code = item.item_code
+          AND item.category_code = cate.category_code
+        ORDER BY 1;
+    </select>
 </mapper>

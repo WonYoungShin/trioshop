@@ -51,7 +51,7 @@ public class AdminController {
         log.info("Received itemModel: " + itemModel.toString());
         PurchaseItemModel saveItemModel = adminService.purchaseSave(itemModel);
         log.info("Saved itemModel: " + saveItemModel.toString());
-        return "redirect:/trioAdmin";
+        return "redirect:/trioAdmin/purchaseList";
     }
 
     @GetMapping("/purchaseList")
@@ -72,7 +72,7 @@ public class AdminController {
         log.info("Received itemModel: " + itemModel.toString());
         StoreItemModel saveItemModel = adminService.storeSave(itemModel);
         log.info("Saved itemModel: " + saveItemModel.toString());
-        return "redirect:/trioAdmin";
+        return "redirect:/trioAdmin/storesList";
     }
     @GetMapping("/storesList")
     public String storesList(Model model){
@@ -86,7 +86,9 @@ public class AdminController {
     }
 
     @GetMapping("/stock")
-    public String stock(){
+    public String stock(Model model){
+        List<StockModel> stockList = adminService.stockFindAll();
+        model.addAttribute("stockList", stockList);
         return "/admin/stock";
     }
 

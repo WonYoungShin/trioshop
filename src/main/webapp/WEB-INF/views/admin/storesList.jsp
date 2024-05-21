@@ -4,13 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>발주 목록</title>
+    <title>입고 목록</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-    <h1 class="my-4">발주 목록</h1>
+    <h1 class="my-4">입고 목록</h1>
     <div class="row">
         <table>
             <thead>
