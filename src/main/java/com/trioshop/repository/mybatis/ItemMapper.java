@@ -1,5 +1,6 @@
 package com.trioshop.repository.mybatis;
 
+import com.trioshop.model.dto.item.ItemInfoByCart;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,4 +12,6 @@ public interface ItemMapper {
     List<ItemInfoByUser> findAllItem();
     List<ItemInfoByUser> searchItems(String searchText, String categoryName);
     List<String> categoryList();
+    ItemInfoByUser itemInfoByCode(long itemCode);
+    List<ItemInfoByCart> cartItemList(long userCode);
 }

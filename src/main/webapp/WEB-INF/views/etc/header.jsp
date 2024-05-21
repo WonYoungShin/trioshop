@@ -10,7 +10,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">TRIOShop</a>
+    <a class="navbar-brand" href="">TRIOShop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -20,13 +20,13 @@
             <c:choose>
                 <c:when test="${UserInfoBySession.gradeCode != 0}">
                     <li class="nav-item">
-                        <a class="nav-link" href="/orderlist/${UserInfoBySession.usercode}">주문내역</a>
+                        <a class="nav-link" href="/orderlist/${UserInfoBySession.userCode}">주문내역</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/itemList">상품조회</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/cart/${UserInfoBySession.usercode}">장바구니</a>
+                        <a class="nav-link" href="/cart/${UserInfoBySession.userCode}">장바구니</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">로그아웃</a>

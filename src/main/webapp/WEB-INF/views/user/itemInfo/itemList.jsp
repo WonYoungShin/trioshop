@@ -29,7 +29,7 @@
     <div class="row">
         <c:forEach var="item" items="${itemList}">
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100" onclick="redirectToItemPage(${item.itemCode})">
+                <div class="card h-100">
                     <img class="card-img-top" src="${item.itemSrc}" alt="${item.itemName}">
                     <div class="card-body">
                         <h4 class="card-title">${item.itemName}</h4>
@@ -40,11 +40,21 @@
                             Stock Quantity: ${item.stockQty}
                         </p>
                     </div>
-                    <div class="card-footer">
-                        <button class="btn btn-primary">Add to Cart</button>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button class="btn btn-primary" onclick="redirectToItemPage(${item.itemCode})">Details</button>
+                        <button class="btn btn-success" onclick="submitOrderForm(${item.itemCode})">Order</button>
                     </div>
                 </div>
                 <form id="itemForm-${item.itemCode}" method="post" action="/item/${item.itemCode}">
+                    <input type="hidden" name="itemCode" value="${item.itemCode}">
+                    <input type="hidden" name="itemName" value="${item.itemName}">
+                    <input type="hidden" name="itemPrice" value="${item.itemPrice}">
+                    <input type="hidden" name="itemSrc" value="${item.itemSrc}">
+                    <input type="hidden" name="categoryName" value="${item.categoryName}">
+                    <input type="hidden" name="factoryName" value="${item.factoryName}">
+                    <input type="hidden" name="stockQty" value="${item.stockQty}">
+                </form>
+                <form id="orderForm-${item.itemCode}" method="post" action="/orders">
                     <input type="hidden" name="itemCode" value="${item.itemCode}">
                     <input type="hidden" name="itemName" value="${item.itemName}">
                     <input type="hidden" name="itemPrice" value="${item.itemPrice}">
@@ -61,6 +71,11 @@
 <script>
     function redirectToItemPage(itemCode) {
         const form = document.getElementById('itemForm-' + itemCode);
+        form.submit();
+    }
+
+    function submitOrderForm(itemCode) {
+        const form = document.getElementById('orderForm-' + itemCode);
         form.submit();
     }
 </script>

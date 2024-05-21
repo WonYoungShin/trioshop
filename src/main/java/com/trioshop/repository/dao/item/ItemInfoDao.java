@@ -1,5 +1,6 @@
 package com.trioshop.repository.dao.item;
 
+import com.trioshop.model.dto.item.ItemInfoByCart;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.repository.mybatis.ItemMapper;
 
@@ -22,5 +23,12 @@ public class ItemInfoDao {
 
     public List<ItemInfoByUser> searchItems(String searchText, String categoryCode) {
         return  itemMapper.searchItems(searchText, categoryCode);
+    }
+    public  ItemInfoByUser itemInfoByCode(long itemCode) {
+        return  itemMapper.itemInfoByCode(itemCode);
+    }
+
+    public List<ItemInfoByCart> cartItemList(long userCode) {
+        return  itemMapper.cartItemList(userCode);
     }
 }

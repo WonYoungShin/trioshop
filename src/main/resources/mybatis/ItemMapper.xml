@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trioshop.repository.mybatis.ItemMapper">
-
+    <!--  모든 아이템 검색  -->
     <select id="findAllItem" resultType="ItemInfoByUser">
         SELECT TI.item_code itemCode,
                TC.category_name categoryName,
@@ -16,7 +16,7 @@
           AND TI.category_code=TC.category_code
           AND TI.factory_code=TF.factory_code
     </select>
-
+    <!--  searchText, categoryName 으로 아이템 검색  -->
     <select id="searchItems" resultType="ItemInfoByUser">
         SELECT TI.item_code AS itemCode,
         TC.category_name AS categoryName,
@@ -34,9 +34,44 @@
             AND TC.category_name = #{categoryName}
         </if>
     </select>
-
+    <!--  카테코리 선택을 위한 목록 검색  -->
     <select id="categoryList" resultType="String">
         SELECT category_name AS categoryName
         FROM TRIO_CATEGORY
+    </select>
+    <!--  item_code 으로 아이템 정보 반환 -->
+    <select id="itemInfoByCode" resultType="ItemInfoByUser">
+        SELECT TI.item_code AS itemCode,
+        TC.category_name AS categoryName,
+        TF.factory_name AS factoryName,
+        TI.item_name AS itemName,
+        TS.stock_qty AS stockQty,
+        TI.item_price AS itemPrice,
+        TI.item_src AS itemSrc
+        FROM TRIO_ITEMS TI
+        JOIN TRIO_STOCK TS ON TI.item_code = TS.item_code
+        JOIN TRIO_CATEGORY TC ON TI.category_code = TC.category_code
+        JOIN TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
+        WHERE TI.item_code = #{itemCode}
+    </select>
+
+    <!--  cart item list -->
+    <select id="cartItemList" resultType="ItemInfoByCart">
+        SELECT
+            c.cart_code AS cartCode,
+            c.user_code AS userCode,
+            c.cartitem_qty AS cartItemQty,
+            i.item_code AS itemCode,
+            i.item_name AS itemName,
+            i.item_price AS itemPrice,
+            i.item_src AS itemSrc,
+            i.item_color AS itemColor,
+            i.item_size AS itemSize,
+            s.stock_qty AS stockQty
+        FROM
+            TRIO_CART c
+                JOIN TRIO_ITEMS i ON c.item_code = i.item_code
+                JOIN TRIO_STOCK s ON i.item_code = s.item_code
+        WHERE c.user_code = #{userCode}
     </select>
 </mapper>

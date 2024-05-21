@@ -1,5 +1,6 @@
 package com.trioshop.controller.item;
 
+import com.trioshop.model.dto.item.ItemInfoByCart;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.service.item.ItemService;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +24,6 @@ public class ItemInfoController {
         ModelAndView mv = new ModelAndView();
 
         categoryCheck(session);
-
         List<ItemInfoByUser> itemList = itemService.findAllItem();
         mv.addObject("itemList", itemList);
         mv.setViewName("/etc/homePage");
@@ -41,8 +41,8 @@ public class ItemInfoController {
     }
 
     @RequestMapping("/searchItems")//상품 검색 페이지로
-    public ModelAndView searchItems(@RequestParam(value = "searchText", required=false) String searchText,
-                                   @RequestParam(value = "categoryCode", required=false) String categoryCode) {
+    public ModelAndView searchItems(@RequestParam(value = "searchText", required = false) String searchText,
+                                    @RequestParam(value = "categoryCode", required = false) String categoryCode) {
 
         ModelAndView mv = new ModelAndView();
 
@@ -53,38 +53,51 @@ public class ItemInfoController {
         return mv;
     }
 
-        @RequestMapping("/cart")//카트 페이지로
-        public String cartPage () {
-            return "/user/itemInfo/cart";
+    @RequestMapping("/cart/{userCode}")//카트 페이지로
+    public ModelAndView cartPage(HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        long userCode = (long) session.getAttribute("userCode");
+        System.out.println(userCode);
+        List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
+        for (ItemInfoByCart cartItem : cartItems) {
+            System.out.println(cartItem);
         }
-
-        @RequestMapping("/item/{itemCode}") // 상품 상세 페이지로
-        public ModelAndView itemDetailPage (@ModelAttribute ItemInfoByUser item) {
-
-            ModelAndView mv = new ModelAndView();
-            mv.addObject("item", item);
-            mv.setViewName("/user/itemInfo/itemPage");
-            return mv;
-        }
-
-        @RequestMapping("/orders") // 주문 페이지로
-        public String ordersPage () {
-            return "/user/itemInfo/orders";
-        }
-
-        @RequestMapping("/orderList") // 주문 리스트 페이지로
-        public String orderListPage () {
-            return "/user/itemInfo/orderList";
-        }
-
-        private void categoryCheck(HttpSession session) {
-            // 세션에 categoryList가 없으면 DAO를 통해 불러오기
-            List<String> categoryList = (List<String>) session.getAttribute("categoryList");
-            if (categoryList == null) {
-                categoryList = itemService.categoryList();
-                session.setAttribute("categoryList", categoryList);
-            }
-        }
-
+        mv.addObject("cartItems", cartItems);
+        mv.setViewName("/user/itemInfo/cart");
+        return mv;
     }
+
+    @RequestMapping("/item/{itemCode}") // 상품 상세 페이지로
+    public ModelAndView itemDetailPage(@ModelAttribute ItemInfoByUser item) {
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("item", item);
+        mv.setViewName("/user/itemInfo/itemPage");
+        return mv;
+    }
+
+    @RequestMapping("/orders") // 주문 페이지로
+    public ModelAndView ordersPage(@ModelAttribute List<ItemInfoByUser> orderItemList) {
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("orderItemList", orderItemList);
+        mv.setViewName("/user/itemInfo/orders");
+        return mv;
+    }
+
+    @RequestMapping("/orderList") // 주문 리스트 페이지로
+    public String orderListPage() {
+        return "/user/itemInfo/orderList";
+    }
+
+    private void categoryCheck(HttpSession session) {
+        // 세션에 categoryList가 없으면 DAO를 통해 불러오기
+        List<String> categoryList = (List<String>) session.getAttribute("categoryList");
+        if (categoryList == null) {
+            categoryList = itemService.categoryList();
+            session.setAttribute("categoryList", categoryList);
+        }
+    }
+
+}
 
