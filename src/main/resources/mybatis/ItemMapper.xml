@@ -16,4 +16,27 @@
           AND TI.category_code=TC.category_code
           AND TI.factory_code=TF.factory_code
     </select>
+
+    <select id="searchItems" resultType="ItemInfoByUser">
+        SELECT TI.item_code AS itemCode,
+        TC.category_name AS categoryName,
+        TF.factory_name AS factoryName,
+        TI.item_name AS itemName,
+        TS.stock_qty AS stockQty,
+        TI.item_price AS itemPrice,
+        TI.item_src AS itemSrc
+        FROM TRIO_ITEMS TI
+        JOIN TRIO_STOCK TS ON TI.item_code = TS.item_code
+        JOIN TRIO_CATEGORY TC ON TI.category_code = TC.category_code
+        JOIN TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
+        WHERE TI.item_name LIKE CONCAT('%', #{searchText}, '%')
+        <if test="categoryName != null and categoryName != ''">
+            AND TC.category_name = #{categoryName}
+        </if>
+    </select>
+
+    <select id="categoryList" resultType="String">
+        SELECT category_name AS categoryName
+        FROM TRIO_CATEGORY
+    </select>
 </mapper>

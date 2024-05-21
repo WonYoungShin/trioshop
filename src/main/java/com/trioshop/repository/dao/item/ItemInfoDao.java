@@ -14,7 +14,13 @@ public class ItemInfoDao {
     private final ItemMapper itemMapper;
 
     public List<ItemInfoByUser> findAllItem() {
-
         return itemMapper.findAllItem();
+    }
+    public List<String> categoryList() {
+        return itemMapper.categoryList();
+    }
+
+    public List<ItemInfoByUser> searchItems(String searchText, String categoryCode) {
+        return  itemMapper.searchItems(searchText, categoryCode);
     }
 }
