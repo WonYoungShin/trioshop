@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>재고</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -12,32 +13,36 @@
 <div class="container">
     <h1 class="my-4">재고 목록</h1>
     <div class="row">
-        <table>
-            <thead>
-            <th>상품코드</th>
-            <th>상품이름</th>
-            <th>카테고리</th>
-            <th>판매가격</th>
-            <th>재고수량</th>
-            <th>제조업체</th>
-            <th>사이즈</th>
-            <th>상품색깔</th>
-            </thead>
-            <tbody>
-            <c:forEach var="item" items="${stockList}">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>${item.itemCode}</td>
-                    <td>${item.itemName}</td>
-                    <td>${item.categoryName}</td>
-                    <td>${item.itemPrice}</td>
-                    <td>${item.stockQty}</td>
-                    <td>${item.factoryCode}</td>
-                    <td>${item.itemSize}</td>
-                    <td>${item.itemColor}</td>
+                    <th>상품코드</th>
+                    <th>상품이름</th>
+                    <th>카테고리</th>
+                    <th>판매가격</th>
+                    <th>재고수량</th>
+                    <th>제조업체</th>
+                    <th>사이즈</th>
+                    <th>상품색깔</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach var="item" items="${stockList}">
+                    <tr>
+                        <td>${item.itemCode}</td>
+                        <td>${item.itemName}</td>
+                        <td>${item.categoryName}</td>
+                        <td>${item.itemPrice}</td>
+                        <td>${item.stockQty}</td>
+                        <td>${item.factoryCode}</td>
+                        <td>${item.itemSize}</td>
+                        <td>${item.itemColor}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

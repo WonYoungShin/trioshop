@@ -71,16 +71,19 @@ public class AdminController {
     public String addStores(@ModelAttribute StoreItemModel itemModel, RedirectAttributes redirectAttributes){
         StoreItemModel saveItemModel = adminService.storeSave(itemModel);
 
+        addStockQty(saveItemModel);
+
+        return "redirect:/trioAdmin/storesList";
+    }
+
+    private void addStockQty(StoreItemModel saveItemModel) {
         try {
-            //값이 없을 경우 추가
             AddItemQtyModel item = adminService.itemFindById(saveItemModel.getItemCode()).orElseThrow(NoSuchElementException::new);
             item.setStockQty(item.getStockQty() + saveItemModel.getStoreQty());
             adminService.addItemQty(item);
         } catch (NoSuchElementException e) {
             log.info("입고 처리실패 실패");
         }
-
-        return "redirect:/trioAdmin/storesList";
     }
 
 
