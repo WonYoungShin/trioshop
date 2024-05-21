@@ -55,6 +55,19 @@
         ORDER BY 1;
     </select>
 
+    <select id="itemFindByCode" resultType="AddItemQtyModel">
+        SELECT item_code, stock_qty
+        FROM TRIO_STOCK
+        WHERE item_code = item_code
+        AND item_code = #{itemCode}
+    </select>
+
+    <update id="addItemQty">
+        UPDATE TRIO_STOCK
+        SET stock_qty = #{qty}
+        WHERE item_code = #{itemCode}
+        </update>
+
     <select id="stockFindAll" resultType="StockModel">
         SELECT st.item_code, item_name, category_name, item_price,
                stock_qty, factory_code, item_size, item_color

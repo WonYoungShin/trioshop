@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,13 @@ public class AdminService {
         return adminDao.stockFindAll();
     }
 
+    public Optional<AddItemQtyModel> itemFindById(Long itemCode){
+        return adminDao.itemFindByCode(itemCode);
+    }
+
+    public void addItemQty(AddItemQtyModel item){
+        adminDao.addItemQty(item);
+    }
 
 
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
 
 @Controller
 @RequestMapping("/trioAdmin")
@@ -48,9 +50,7 @@ public class AdminController {
 
     @PostMapping("/purchase")
     public String addPurchase(@ModelAttribute PurchaseItemModel itemModel, RedirectAttributes redirectAttributes){
-        log.info("Received itemModel: " + itemModel.toString());
         PurchaseItemModel saveItemModel = adminService.purchaseSave(itemModel);
-        log.info("Saved itemModel: " + saveItemModel.toString());
         return "redirect:/trioAdmin/purchaseList";
     }
 
@@ -69,11 +69,21 @@ public class AdminController {
 
     @PostMapping("/stores")
     public String addStores(@ModelAttribute StoreItemModel itemModel, RedirectAttributes redirectAttributes){
-        log.info("Received itemModel: " + itemModel.toString());
         StoreItemModel saveItemModel = adminService.storeSave(itemModel);
-        log.info("Saved itemModel: " + saveItemModel.toString());
+
+        try {
+            //값이 없을 경우 추가
+            AddItemQtyModel item = adminService.itemFindById(saveItemModel.getItemCode()).orElseThrow(NoSuchElementException::new);
+            item.setStockQty(item.getStockQty() + saveItemModel.getStoreQty());
+            adminService.addItemQty(item);
+        } catch (NoSuchElementException e) {
+            log.info("입고 처리실패 실패");
+        }
+
         return "redirect:/trioAdmin/storesList";
     }
+
+
     @GetMapping("/storesList")
     public String storesList(Model model){
         List<StoresListModel> storesList = adminService.storesFindAll();

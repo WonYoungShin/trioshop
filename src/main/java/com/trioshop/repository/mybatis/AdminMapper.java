@@ -17,5 +17,8 @@ public interface AdminMapper {
     List<PurchaseListModel> purchaseFindAll();
     List<StoresListModel> storesFindAll();
     List<StockModel> stockFindAll();
+    Optional<AddItemQtyModel> itemFindByCode(Long itemCode);
+
+    void addItemQty(Long itemCode, Integer qty);
 
 }
