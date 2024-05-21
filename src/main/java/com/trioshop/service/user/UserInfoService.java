@@ -1,4 +1,4 @@
-package com.trioshop.service;
+package com.trioshop.service.user;
 
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.repository.dao.user.UserInfoDao;
@@ -12,7 +12,14 @@ public class UserInfoService {
     private UserInfoDao userInfoDao;
 
     public UserInfoBySession isValidUser(String userId, String userPasswd) {
-        UserInfoBySession user = userInfoDao.loginUser(userId, userPasswd);
-        return user;
+        return userInfoDao.loginUser(userId, userPasswd);
+    }
+
+    public UserInfoBySession isfindId(String userName, String userTel) {
+        return userInfoDao.findId(userName, userTel);
+    }
+
+    public UserInfoBySession isfindPw(String userName, String userId) {
+        return userInfoDao.findPw(userName, userId);
     }
 }
