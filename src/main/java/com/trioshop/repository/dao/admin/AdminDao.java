@@ -1,11 +1,12 @@
 package com.trioshop.repository.dao.admin;
 
-import com.trioshop.model.dto.admin.AddItemModel;
-import com.trioshop.model.dto.admin.PurchaseItemModel;
-import com.trioshop.model.dto.admin.StoreItemModel;
+import com.trioshop.model.dto.admin.*;
 import com.trioshop.repository.mybatis.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -24,5 +25,27 @@ public class AdminDao {
     public StoreItemModel storeSave(StoreItemModel itemModel){
         adminMapper.storeSave(itemModel);
         return itemModel;
+    }
+
+//    public Optional<PurchaseListModel> purchaseFindCode(){
+//
+//    }
+    public List<PurchaseListModel> purchaseFindAll(){
+        return adminMapper.purchaseFindAll();
+    }
+
+    public List<StoresListModel> storesFindAll(){
+        return adminMapper.storesFindAll();
+    }
+
+    public List<StockModel> stockFindAll(){
+        return adminMapper.stockFindAll();
+    }
+    public Optional<AddItemQtyModel> itemFindByCode(Long itemCode){
+        return adminMapper.itemFindByCode(itemCode);
+    }
+
+    public void addItemQty(AddItemQtyModel item){
+        adminMapper.addItemQty(item.getItemCode(), item.getStockQty());
     }
 }

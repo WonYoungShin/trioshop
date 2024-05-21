@@ -1,17 +1,20 @@
 package com.trioshop.controller.admin;
 
-import com.trioshop.model.dto.admin.AddItemModel;
-import com.trioshop.model.dto.admin.PurchaseItemModel;
-import com.trioshop.model.dto.admin.StoreItemModel;
+import com.trioshop.model.dto.admin.*;
 import com.trioshop.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
 
 @Controller
 @RequestMapping("/trioAdmin")
@@ -44,12 +47,18 @@ public class AdminController {
     public String purchase(){
         return "/admin/purchase";
     }
+
     @PostMapping("/purchase")
     public String addPurchase(@ModelAttribute PurchaseItemModel itemModel, RedirectAttributes redirectAttributes){
-        log.info("Received itemModel: " + itemModel.toString());
         PurchaseItemModel saveItemModel = adminService.purchaseSave(itemModel);
-        log.info("Saved itemModel: " + saveItemModel.toString());
-        return "redirect:/trioAdmin";
+        return "redirect:/trioAdmin/purchaseList";
+    }
+
+    @GetMapping("/purchaseList")
+    public String purchaseList(Model model){
+        List<PurchaseListModel> purchaseList = adminService.purchaseFindAll();
+        model.addAttribute("purchaseList", purchaseList);
+        return "/admin/purchaseList";
     }
 
 
@@ -57,21 +66,42 @@ public class AdminController {
     public String stores(){
         return "/admin/stores";
     }
+
     @PostMapping("/stores")
     public String addStores(@ModelAttribute StoreItemModel itemModel, RedirectAttributes redirectAttributes){
-        log.info("Received itemModel: " + itemModel.toString());
         StoreItemModel saveItemModel = adminService.storeSave(itemModel);
-        log.info("Saved itemModel: " + saveItemModel.toString());
-        return "redirect:/trioAdmin";
+
+        addStockQty(saveItemModel);
+
+        return "redirect:/trioAdmin/storesList";
     }
 
+    private void addStockQty(StoreItemModel saveItemModel) {
+        try {
+            AddItemQtyModel item = adminService.itemFindById(saveItemModel.getItemCode()).orElseThrow(NoSuchElementException::new);
+            item.setStockQty(item.getStockQty() + saveItemModel.getStoreQty());
+            adminService.addItemQty(item);
+        } catch (NoSuchElementException e) {
+            log.info("입고 처리실패 실패");
+        }
+    }
+
+
+    @GetMapping("/storesList")
+    public String storesList(Model model){
+        List<StoresListModel> storesList = adminService.storesFindAll();
+        model.addAttribute("storesList", storesList);
+        return "/admin/storesList";
+    }
     @GetMapping("/chart")
     public String chart(){
         return "/admin/chart";
     }
 
     @GetMapping("/stock")
-    public String stock(){
+    public String stock(Model model){
+        List<StockModel> stockList = adminService.stockFindAll();
+        model.addAttribute("stockList", stockList);
         return "/admin/stock";
     }
 
