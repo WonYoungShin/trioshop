@@ -4,35 +4,40 @@
 
 <mapper namespace="com.trioshop.repository.mybatis.AdminMapper">
 
-    <insert id="itemSave">
-        <selectKey keyProperty="itemCode" resultType="long" order="BEFORE">
-            SELECT item_seq.NEXTVAL FROM DUAL
-        </selectKey>
-        INSERT INTO trio_items (item_code,item_name, category_code, item_price, factory_code, item_size, item_color)
-        VALUES (#{itemCode}, #{itemName},#{categoryCode},#{itemPrice},#{factoryCode},#{itemSize},#{itemColor})
+    <insert id="itemSave" useGeneratedKeys="true" keyProperty="itemCode">
+        INSERT INTO TRIO_ITEMS (item_name, category_code, item_price, factory_code, item_size, item_color)
+        VALUES (#{itemName},#{categoryCode},#{itemPrice},#{factoryCode},#{itemSize},#{itemColor})
     </insert>
 
-    <insert id="purchaseSave">
-        <selectKey keyProperty="purchaseCode" resultType="long" order="BEFORE">
-            SELECT purchase_seq.NEXTVAL FROM DUAL
-        </selectKey>
-        INSERT INTO trio_purchase (purchase_code, purchase_qty, item_code)
-        VALUES (#{purchaseCode}, #{purchaseQty}, #{itemCode})
+    <insert id="purchaseSave" useGeneratedKeys="true" keyProperty="purchaseCode">
+        INSERT INTO TRIO_PURCHASE (purchase_qty, item_code)
+        VALUES (#{purchaseQty}, #{itemCode})
     </insert>
 
-    <insert id="storeSave">
-        <selectKey keyProperty="storeCode" resultType="long" order="BEFORE">
-            SELECT stores_seq.NEXTVAL FROM DUAL
-        </selectKey>
-        INSERT INTO trio_stores (store_code, stores_qty, item_code, stores_price
+    <select id="purchaseFindAll" resultType="PurchaseListModel">
+        SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name,
+               category_name, item_size, item_color
+        FROM TRIO_PURCHASE pur, TRIO_ITEMS item, TRIO_CATEGORY cate
+        WHERE pur.item_code = item.item_code
+        AND item.category_code = cate.category_code
+    </select>
+
+
+
+
+
+
+    <insert id="storeSave" useGeneratedKeys="true" keyProperty="storeCode">
+        INSERT INTO TRIO_STORES (stores_qty, item_code, stores_price
         <if test="purchaseCode != null">
             , purchase_code
         </if>
         )
-        VALUES (#{storeCode},#{storeQty},#{itemCode},#{storePrice}
+        VALUES (#{storeQty},#{itemCode},#{storePrice}
         <if test="purchaseCode != null">
             , #{purchaseCode}
         </if>
         )
     </insert>
+
 </mapper>

@@ -2,16 +2,20 @@ package com.trioshop.controller.admin;
 
 import com.trioshop.model.dto.admin.AddItemModel;
 import com.trioshop.model.dto.admin.PurchaseItemModel;
+import com.trioshop.model.dto.admin.PurchaseListModel;
 import com.trioshop.model.dto.admin.StoreItemModel;
 import com.trioshop.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/trioAdmin")
@@ -44,12 +48,20 @@ public class AdminController {
     public String purchase(){
         return "/admin/purchase";
     }
+
     @PostMapping("/purchase")
     public String addPurchase(@ModelAttribute PurchaseItemModel itemModel, RedirectAttributes redirectAttributes){
         log.info("Received itemModel: " + itemModel.toString());
         PurchaseItemModel saveItemModel = adminService.purchaseSave(itemModel);
         log.info("Saved itemModel: " + saveItemModel.toString());
         return "redirect:/trioAdmin";
+    }
+
+    @GetMapping("/purchaseList")
+    public String purchaseList(Model model){
+        List<PurchaseListModel> purchaseList = adminService.purchaseFindAll();
+        model.addAttribute("purchaseList", purchaseList);
+        return "/admin/purchaseList";
     }
 
 
