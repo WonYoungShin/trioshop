@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter @Setter
 public class StoreItemModel {
-    Long itemCode;
-    Long storeCode;
-    Integer storeQty;
-    Long purchaseCode;
-    Integer storePrice;
+    private Long itemCode;
+    private Long storeCode;
+    private Integer storeQty;
+    private Long purchaseCode;
+    private Integer storePrice;
 
     public StoreItemModel() {
     }

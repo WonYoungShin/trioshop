@@ -21,7 +21,7 @@ import java.util.NoSuchElementException;
 public class AdminController {
     private final AdminService adminService;
 
-    @GetMapping
+    @GetMapping(value = {"/", ""})
     public String index() {
         return "/admin/adminMain";
     }
@@ -189,4 +189,38 @@ public class AdminController {
         return "/admin/stock";
     }
 
+    @GetMapping("/stock/{itemCode}")
+    public String stockDetail(@PathVariable("itemCode") Long itemCode, Model model){
+        try {
+            log.info("itemCode = {}",itemCode);
+            StockModel stockItem = adminService.stockFindByCode(itemCode).orElseThrow(NoSuchElementException::new);
+            model.addAttribute("item", stockItem);
+        } catch (NoSuchElementException e) {
+            log.info("조회 실패");
+            return "/admin/stock";
+        }
+
+        return "/admin/itemDetail";
+    }
+    @GetMapping("/stock/{itemCode}/edit")
+    public String itemEditForm(@PathVariable("itemCode") Long itemCode, Model model){
+        try {
+            log.info("itemCode = {}",itemCode);
+            StockModel stockItem = adminService.stockFindByCode(itemCode).orElseThrow(NoSuchElementException::new);
+            model.addAttribute("item", stockItem);
+        } catch (NoSuchElementException e) {
+            log.info("조회 실패");
+            return "/admin/itemDetail";
+        }
+
+        return "/admin/itemEditForm";
+    }
+
+    @PostMapping("/stock/{itemCode}/edit")
+    public String itemEditSummit(@PathVariable("itemCode")Long itemCode,@ModelAttribute StockModel item){
+        UpdateItemModel updateItem = new UpdateItemModel(itemCode, item.getItemName() , item.getFactoryCode(),item.getItemColor());
+        adminService.updateItem(updateItem);
+
+        return "redirect:/trioAdmin/stock/"+itemCode;
+    }
 }

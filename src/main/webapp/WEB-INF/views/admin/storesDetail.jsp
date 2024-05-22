@@ -70,7 +70,6 @@
                         <div class="col-sm-8">${store.itemColor}</div>
                     </div>
                     <div class="text-right">
-                        <a href="/trioAdmin/store/edit/${store.storeCode}" class="btn btn-secondary">수정</a>
                         <a href="/trioAdmin/storesList" class="btn btn-primary">목록으로 돌아가기</a>
                     </div>
                 </div>

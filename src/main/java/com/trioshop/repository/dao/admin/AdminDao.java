@@ -49,7 +49,13 @@ public class AdminDao {
     public List<StockModel> stockFindAll(){
         return adminMapper.stockFindAll();
     }
+    public Optional<StockModel> stockFindByCode(Long itemCode){
+        return adminMapper.stockFindByCode(itemCode);
+    }
 
+    public void updateItem(UpdateItemModel itemModel){
+        adminMapper.updateItem(itemModel);
+    }
     public void deleteStoresByCode(Long storeCode){
         adminMapper.deleteStoresByCode(storeCode);
     }
