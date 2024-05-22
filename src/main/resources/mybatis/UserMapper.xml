@@ -1,50 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trioshop.repository.mybatis.UserMapper">
 
-    <select id="loginUser" resultType="UserInfoBySession">
-        SELECT tuser.user_code userCode,
-               tuser.grade_code gradeCode,
-               tuser.user_id userId,
-               tuser.user_passwd userPasswd,
-               info.user_name userName,
-               info.user_address userAddress,
-               info.user_tel userTel,
-               info.user_nickname userNickname
-        FROM TRIO_USERS tuser, TRIO_USERS_INFO info
-        WHERE tuser.user_code = info.user_code
-          AND tuser.user_id = #{userId}
+    <select id="loginUser" parameterType="com.trioshop.model.dto.user.UserIdPasswd" resultType="com.trioshop.model.dto.user.UserInfoBySession">
+        SELECT tuser.user_code AS userCode,
+               tuser.grade_code AS gradeCode,
+               tuser.user_id AS userId,
+               tuser.user_passwd AS userPasswd,
+               info.user_name AS userName,
+               info.user_address AS userAddress,
+               info.user_tel AS userTel,
+               info.user_nickname AS userNickname
+        FROM TRIO_USERS tuser
+                 JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        WHERE tuser.user_id = #{userId}
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
-    <select id="findId" resultType="UserInfoBySession">
-        SELECT tuser.user_code userCode,
-               tuser.grade_code gradeCode,
-               tuser.user_id userId,
-               tuser.user_passwd userPasswd,
-               info.user_name userName,
-               info.user_tel userTel,
-               info.user_nickname userNickname
-        FROM TRIO_USERS tuser, TRIO_USERS_INFO info
-        WHERE tuser.user_code = info.user_code
-          AND info.user_name = #{userName}
+    <select id="findId" parameterType="map" resultType="com.trioshop.model.dto.user.UserInfoBySession">
+        SELECT tuser.user_code AS userCode,
+               tuser.grade_code AS gradeCode,
+               tuser.user_id AS userId,
+               tuser.user_passwd AS userPasswd,
+               info.user_name AS userName,
+               info.user_tel AS userTel,
+               info.user_nickname AS userNickname
+        FROM TRIO_USERS tuser
+                 JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        WHERE info.user_name = #{userName}
           AND info.user_tel = #{userTel}
     </select>
 
-    <select id="findPw" resultType="UserInfoBySession">
-        SELECT tuser.user_code userCode,
-               tuser.grade_code gradeCode,
-               tuser.user_id userId,
-               tuser.user_passwd userPasswd,
-               info.user_name userName,
-               info.user_address userAddress,
-               info.user_tel userTel,
-               info.user_nickname userNickname
-        FROM TRIO_USERS tuser, TRIO_USERS_INFO info
-        WHERE tuser.user_code = info.user_code
-          AND info.user_name = #{userName}
+    <select id="findPw" parameterType="map" resultType="com.trioshop.model.dto.user.UserInfoBySession">
+        SELECT tuser.user_code AS userCode,
+               tuser.grade_code AS gradeCode,
+               tuser.user_id AS userId,
+               tuser.user_passwd AS userPasswd,
+               info.user_name AS userName,
+               info.user_address AS userAddress,
+               info.user_tel AS userTel,
+               info.user_nickname AS userNickname
+        FROM TRIO_USERS tuser
+                 JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        WHERE info.user_name = #{userName}
           AND tuser.user_id = #{userId}
     </select>
+
+    <insert id="saveUsers" parameterType="UserJoin" useGeneratedKeys="true" keyProperty="userCode">
+        <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
+        INSERT INTO TRIO_USERS (grade_code, user_id, user_passwd)
+        VALUES (
+        1,
+        #{userId},
+        #{userPasswd}
+        )
+    </insert>
+
+    <insert id="saveUserInfo" parameterType="UserJoin">
+        <!-- TRIO_USERS_INFO 테이블에 사용자 상세 정보 저장 -->
+        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
+        VALUES (
+        LAST_INSERT_ID(),
+        #{userName},
+        #{userAddress},
+        #{userTel},
+        #{userNickname}
+        )
+    </insert>
 
 </mapper>

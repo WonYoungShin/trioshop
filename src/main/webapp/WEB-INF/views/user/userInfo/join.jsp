@@ -1,67 +1,102 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <!-- 부트스트랩 CSS 링크 추가 -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 에러 메시지 스타일 */
+        .error-message {
+            color: red;
+        }
+
+        /* 아이디 중복 에러 스타일 */
+        #userId {
+            border: 2px solid red;
+        }
+
+        /* 아이디 중복 에러 문구 스타일 */
+        #userIdErrorMessage {
+            display: none;
+            color: red;
+            font-size: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* 느낌표 이미지 스타일 */
+        #userIdErrorMessage img {
+            width: 12px;
+            height: 12px;
+            margin-bottom: -2px;
+        }
+
+        /* 설명창 스타일 */
+        #userIdDescription {
+            display: none;
+            color: red;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        /* 마우스 포인터 변경 */
+        #userIdDescription:hover {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        // 페이지 로드 시 에러 메시지가 있으면 알림창으로 표시
+        window.onload = function() {
+            var successMessage = "${success}";
+            var errorMessage = "${error}";
+
+            if(successMessage !== "") {
+                alert(successMessage);
+            }
+
+            if(errorMessage !== "") {
+                alert(errorMessage);
+            }
+        };
+    </script>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">회원가입</div>
-                <div class="card-body">
-                    <!-- 회원가입 폼 -->
-                    <form method="post" action="/join">
-                        <div class="form-group">
-                            <label for="userId">아이디 생성</label>
-                            <input type="text" class="form-control" id="userId" name="userId" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">비밀번호</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">비밀번호 확인</label>
-                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">이름</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">주소</label>
-                            <input type="text" class="form-control" id="address" name="address" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phoneNumber">전화번호</label>
-                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">이메일</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nickname">닉네임</label>
-                            <input type="text" class="form-control" id="nickname" name="nickname" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">가입하기</button>
-                        <a href="/login" class="btn btn-secondary">로그인 페이지로 돌아가기</a>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<form id="joinForm" action="/join" method="post" onsubmit="return hideUserIdErrorMessageOnSubmit()">
+    <!-- 에러 메시지 표시 -->
+    <c:if test="${not empty error}">
+        <p class="error-message">${error}</p>
+    </c:if>
 
-<!-- 부트스트랩 JS 및 jQuery 링크 추가 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- 성공 메시지 표시 -->
+    <c:if test="${not empty success}">
+        <p style="color: green">${success}</p>
+    </c:if>
+
+    <label for="userId">아이디:</label>
+    <input type="text" id="userId" name="userId" required>
+    <span id="userIdErrorMessage" onclick="toggleUserIdDescription()">
+        <img src="exclamation_mark.png" alt="!"> 이미 존재하는 계정입니다.
+        <span id="userIdDescription" onclick="toggleUserIdDescription()">다른 아이디를 사용해주세요.</span>
+    </span>
+    <br>
+
+    <label for="userPasswd">비밀번호:</label>
+    <input type="password" id="userPasswd" name="userPasswd" required><br>
+
+    <label for="userName">이름:</label>
+    <input type="text" id="userName" name="userName" required><br>
+
+    <label for="userAddress">주소:</label>
+    <input type="text" id="userAddress" name="userAddress" required><br>
+
+    <label for="userTel">전화번호:</label>
+    <input type="text" id="userTel" name="userTel" required><br>
+
+    <label for="userNickname">닉네임:</label>
+    <input type="text" id="userNickname" name="userNickname" required><br>
+
+    <input type="submit" value="회원가입">
+    <input type="button" value="로그인창으로 돌아가기" onclick="location.href='/login'">
+</form>
 </body>
 </html>

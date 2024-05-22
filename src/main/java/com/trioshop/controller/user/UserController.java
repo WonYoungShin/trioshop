@@ -1,17 +1,20 @@
+// UserController.java
 package com.trioshop.controller.user;
 
 import com.trioshop.model.dto.user.UserInfoBySession;
+import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
+
     @Autowired
     private UserInfoService userInfoService;
 
@@ -23,7 +26,6 @@ public class UserController {
     @PostMapping("/login")
     public ModelAndView login(String userId, String userPasswd, HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        //유저 정보가 검색되는지 확인
         UserInfoBySession user = userInfoService.isValidUser(userId, userPasswd);
         session.setAttribute("UserInfoBySession", user);
 
@@ -35,20 +37,44 @@ public class UserController {
             mv.setViewName("redirect:/trioAdmin");
             return mv;
         } else {
-            System.out.println("로그인완료");
             mv.setViewName("redirect:/");
             return mv;
         }
+    }
 
+    @GetMapping("/logout")
+    public String logoutPage(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 
 
-    @RequestMapping("/join")
-    public String joinPage() {
+    @GetMapping("/join")
+    public String joinPage(@ModelAttribute("userJoin") UserJoin userJoin) {
         return "/user/userInfo/join";
     }
 
-    @RequestMapping("/findId")
+    @PostMapping("/join")
+    public ModelAndView registerUserPage(@ModelAttribute("userJoin") UserJoin userJoin) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            // TRIO_USERS 테이블에 사용자 정보 저장
+            boolean isRegistered = userInfoService.registerUser(userJoin);
+            if (isRegistered) {
+                mv.setViewName("redirect:/login");
+                mv.addObject("success", "회원가입에 성공했습니다.");
+            } else {
+                mv.setViewName("redirect:/join");
+                mv.addObject("error", "이미 사용중인 계정입니다.");
+            }
+        } catch (Exception e) {
+            mv.setViewName("redirect:/join");
+            mv.addObject("error", "회원가입 중 오류가 발생했습니다.");
+        }
+        return mv;
+    }
+
+    @GetMapping("/findId")
     public String findIdPage() {
         return "/user/userInfo/findId";
     }
@@ -65,7 +91,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping("/findPw")
+    @GetMapping("/findPw")
     public String findPwPage() {
         return "/user/userInfo/findPw";
     }

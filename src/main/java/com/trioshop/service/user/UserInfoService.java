@@ -1,6 +1,8 @@
+// UserInfoService.java
 package com.trioshop.service.user;
 
 import com.trioshop.model.dto.user.UserInfoBySession;
+import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.repository.dao.user.UserInfoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +24,20 @@ public class UserInfoService {
     public UserInfoBySession isfindPw(String userName, String userId) {
         return userInfoDao.findPw(userName, userId);
     }
+
+    public boolean registerUser(UserJoin userJoin) {
+        try {
+            UserInfoBySession existingUser = userInfoDao.loginUser(userJoin.getUserId(), userJoin.getUserPasswd());
+            if (existingUser != null) {
+                return false;
+            }
+
+            return userInfoDao.saveUserInfo(userJoin);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
