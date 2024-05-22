@@ -30,7 +30,7 @@
                 <tbody>
                 <c:forEach var="item" items="${stockList}">
                     <tr>
-                        <td>${item.itemCode}</td>
+                        <td><a href="/trioAdmin/stock/${item.itemCode}">${item.itemCode}</a></td>
                         <td>${item.itemName}</td>
                         <td>${item.categoryName}</td>
                         <td>${item.itemPrice}</td>

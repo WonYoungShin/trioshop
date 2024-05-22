@@ -40,14 +40,29 @@ public class AdminService {
     public List<StockModel> stockFindAll(){
         return adminDao.stockFindAll();
     }
+    public Optional<StockModel> stockFindByCode(Long itemCode){
+        return adminDao.stockFindByCode(itemCode);
+    }
 
-    public Optional<AddItemQtyModel> itemFindById(Long itemCode){
+    public void deleteStoresByCode(Long storeCode){
+        adminDao.deleteStoresByCode(storeCode);
+    }
+
+    public void updateItem(UpdateItemModel itemModel){
+        adminDao.updateItem(itemModel);
+    }
+
+    public Optional<ItemQtyModel> itemFindById(Long itemCode){
         return adminDao.itemFindByCode(itemCode);
     }
 
-    public void addItemQty(AddItemQtyModel item){
+
+    public void addItemQty(ItemQtyModel item){
         adminDao.addItemQty(item);
     }
 
+    public void deletePurchaseByCode(String purchaseCode){
+        adminDao.deletePurchaseByCode(purchaseCode);
+    }
 
 }

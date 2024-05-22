@@ -1,5 +1,6 @@
 package com.trioshop.repository.dao.admin;
 
+import com.trioshop.model.dto.admin.FactoryEntity;
 import com.trioshop.model.dto.popup.PopupItemModel;
 import com.trioshop.repository.mybatis.PopupMapper;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,9 @@ public class PopupDao {
 
     public List<PopupItemModel> findByAll(){
         return popupMapper.findByAll();
+    }
+    public List<FactoryEntity> factoryFindByAll(){
+        return popupMapper.factoryFindAll();
     }
 
 
