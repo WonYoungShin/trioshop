@@ -1,17 +1,21 @@
 package com.trioshop.controller.item;
 
 import com.trioshop.model.dto.item.ItemInfoByCart;
+import com.trioshop.model.dto.item.ItemInfoByOrderList;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tags.shaded.org.apache.bcel.classfile.Code;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,52 +46,63 @@ public class ItemInfoController {
 
     @RequestMapping("/searchItems")//상품 검색 페이지로
     public ModelAndView searchItems(@RequestParam(value = "searchText", required = false) String searchText,
-                                    @RequestParam(value = "categoryCode", required = false) String categoryCode) {
-
+                                    @RequestParam(value = "categoryName", required = false) String categoryName) {
         ModelAndView mv = new ModelAndView();
 
-        List<ItemInfoByUser> itemList = itemService.searchItems(searchText, categoryCode);
+        List<ItemInfoByUser> itemList = itemService.searchItems(searchText, categoryName);
         mv.addObject("itemList", itemList);
         mv.setViewName("/user/itemInfo/itemList");
-
         return mv;
     }
 
-    @RequestMapping("/cart")//카트 페이지로
-    public ModelAndView cartPage(HttpSession session) {
+    @RequestMapping("/cart/{userCode}")//카트 페이지로
+    public ModelAndView cartPage(@PathVariable(value = "userCode") long userCode) {
         ModelAndView mv = new ModelAndView();
-        UserInfoBySession userInfoBySession = (UserInfoBySession) session.getAttribute("UserInfoBySession");
-        System.out.println(userInfoBySession.getUserCode());
-        List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getUserCode());
-        for (ItemInfoByCart cartItem : cartItems) {
-            System.out.println(cartItem);
-        }
+
+        List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
         mv.addObject("cartItems", cartItems);
         mv.setViewName("/user/itemInfo/cart");
         return mv;
     }
 
     @RequestMapping("/item/{itemCode}") // 상품 상세 페이지로
-    public ModelAndView itemDetailPage(@ModelAttribute ItemInfoByUser item) {
-
+    public ModelAndView itemDetailPage(@PathVariable(value = "itemCode") long itemCode) {
         ModelAndView mv = new ModelAndView();
+        ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
         mv.addObject("item", item);
         mv.setViewName("/user/itemInfo/itemPage");
         return mv;
     }
 
     @RequestMapping("/orders") // 주문 페이지로
-    public ModelAndView ordersPage(@ModelAttribute List<ItemInfoByUser> orderItemList) {
-
+    public ModelAndView ordersPage(@RequestParam(value = "itemCode", required = false) Long itemCode
+                                  ,@RequestParam(value = "userCode", required = false) Long userCode) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("orderItemList", orderItemList);
-        mv.setViewName("/user/itemInfo/orders");
-        return mv;
+        if(itemCode != null) {
+            ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
+            List<ItemInfoByUser> itemList = new ArrayList<>();
+            itemList.add(item);
+            mv.addObject("itemList", itemList);
+            mv.setViewName("/user/itemInfo/orders");
+            return mv;
+        } else {
+            List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
+            mv.addObject("itemList", cartItems);
+            mv.setViewName("/user/itemInfo/orders");
+            return mv;
+        }
+
+
     }
 
     @RequestMapping("/orderList") // 주문 리스트 페이지로
-    public String orderListPage() {
-        return "/user/itemInfo/orderList";
+    public ModelAndView orderListPage(@PathVariable(value = "userCode") long userCode ){
+
+        ModelAndView mv = new ModelAndView();
+        List<ItemInfoByOrderList> orderList = itemService.orderList(userCode);
+        mv.addObject("orderList", orderList);
+        mv.setViewName("/user/itemInfo/orderList");
+        return mv;
     }
 
     private void categoryCheck(HttpSession session) {

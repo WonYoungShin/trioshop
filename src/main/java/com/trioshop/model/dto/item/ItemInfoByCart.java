@@ -16,4 +16,5 @@ public class ItemInfoByCart {
     String itemColor;
     String itemSize;
     long stockQty;
+    String categoryName;
 }

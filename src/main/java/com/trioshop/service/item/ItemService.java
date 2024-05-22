@@ -1,6 +1,7 @@
 package com.trioshop.service.item;
 
 import com.trioshop.model.dto.item.ItemInfoByCart;
+import com.trioshop.model.dto.item.ItemInfoByOrderList;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.repository.dao.item.ItemInfoDao;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemInfoDao itemInfoDao;
-
-
     public List<String> categoryList() {
         return itemInfoDao.categoryList();
     }
@@ -26,8 +25,10 @@ public class ItemService {
     public ItemInfoByUser itemInfoByCode(long itemCode) {
         return itemInfoDao.itemInfoByCode(itemCode);
     }
-
     public List<ItemInfoByCart> cartItemList(long userCode) {
         return  itemInfoDao.cartItemList(userCode);
+    }
+    public List<ItemInfoByOrderList> orderList(long userCode) {
+        return  itemInfoDao.orderList(userCode);
     }
 }
