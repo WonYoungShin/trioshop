@@ -5,6 +5,7 @@ import com.trioshop.model.dto.item.ItemInfoByOrderList;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
+import com.trioshop.utils.CategoryList;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tags.shaded.org.apache.bcel.classfile.Code;
@@ -22,12 +23,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemInfoController {
     private final ItemService itemService;
+    private final CategoryList categoryList;
 
     @RequestMapping("/")
-    public ModelAndView userList(HttpSession session) {
-        System.out.println("homePage");
+    public ModelAndView userList() {
         ModelAndView mv = new ModelAndView();
-        categoryCheck(session);
+        //카테고리 목록 불러오기
+        mv.addObject("categoryList", categoryList.getCategoryList());
+
         List<ItemInfoByUser> itemList = itemService.findAllItem();
         mv.addObject("itemList", itemList);
         mv.setViewName("/etc/homePage");
@@ -35,9 +38,12 @@ public class ItemInfoController {
     }
 
     @RequestMapping("/itemList")//상품 전체리스트 페이지로
-    public ModelAndView itemListPage(HttpSession session) {
+    public ModelAndView itemListPage() {
         ModelAndView mv = new ModelAndView();
-        categoryCheck(session);
+
+        //카테고리 목록 불러오기
+        mv.addObject("categoryList", categoryList.getCategoryList());
+
         List<ItemInfoByUser> itemList = itemService.findAllItem();
         mv.addObject("itemList", itemList);
         mv.setViewName("/user/itemInfo/itemList");
@@ -48,9 +54,12 @@ public class ItemInfoController {
     public ModelAndView searchItems(@RequestParam(value = "searchText", required = false) String searchText,
                                     @RequestParam(value = "categoryName", required = false) String categoryName) {
         ModelAndView mv = new ModelAndView();
+        //카테고리 목록 불러오기
+        mv.addObject("categoryList", categoryList.getCategoryList());
 
         List<ItemInfoByUser> itemList = itemService.searchItems(searchText, categoryName);
         mv.addObject("itemList", itemList);
+
         mv.setViewName("/user/itemInfo/itemList");
         return mv;
     }
@@ -104,15 +113,5 @@ public class ItemInfoController {
         mv.setViewName("/user/itemInfo/orderList");
         return mv;
     }
-
-    private void categoryCheck(HttpSession session) {
-        // 세션에 categoryList가 없으면 DAO를 통해 불러오기
-        List<String> categoryList = (List<String>) session.getAttribute("categoryList");
-        if (categoryList == null) {
-            categoryList = itemService.categoryList();
-            session.setAttribute("categoryList", categoryList);
-        }
-    }
-
 }
 
