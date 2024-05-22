@@ -7,4 +7,9 @@
         SELECT item_code, item_name, category_code, factory_code, item_size, item_color
         FROM TRIO_ITEMS
     </select>
+
+    <select id="factoryFindAll" resultType="FactoryEntity">
+        SELECT factory_code, factory_name, factory_tel, factory_addr
+        FROM TRIO_FACTORY
+    </select>
 </mapper>

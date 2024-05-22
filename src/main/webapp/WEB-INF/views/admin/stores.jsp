@@ -27,31 +27,31 @@
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemName">상품이름</label>
-                <input type="text" class="form-control" id="itemName" name="itemName" readonly/>
+                <input type="text" class="form-control" id="itemName"  readonly/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="categoryCode">상품분류</label>
-                <input type="text" class="form-control" id="categoryCode" name="categoryCode" readonly/>
+                <input type="text" class="form-control" id="categoryCode"  readonly/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="factoryCode">제조업체</label>
-                <input type="text" class="form-control" id="factoryCode" name="factoryCode" readonly/>
+                <input type="text" class="form-control" id="factoryCode"  readonly/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemSize">상품사이즈</label>
-                <input type="text" class="form-control" id="itemSize" name="itemSize" readonly/>
+                <input type="text" class="form-control" id="itemSize"  readonly/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemColor">상품컬러</label>
-                <input type="text" class="form-control" id="itemColor" name="itemColor" readonly/>
+                <input type="text" class="form-control" id="itemColor" readonly/>
             </div>
         </div>
 
@@ -67,10 +67,12 @@
                 <input type="text" class="form-control" id="storeQty" name="storeQty" required/>
             </div>
         </div>
-        <%--    <div>--%>
-        <%--        <label for="purchaseCode">발주번호</label>--%>
-        <%--        <input type="text" id="purchaseCode" name="purchaseCode"/>--%>
-        <%--    </div>--%>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="purchaseCode">발주번호</label>
+                <input type="text" class="form-control" id="purchaseCode" name="purchaseCode" required/>
+            </div>
+        </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6 text-center">
                 <button type="submit" class="btn btn-primary">입고</button>

@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @Getter @Setter
 public class PurchaseItemModel{
-    Long purchaseCode;
-    Long itemCode;
-    Integer purchaseQty;
+    private Long purchaseCode;
+    private Long itemCode;
+    private Integer purchaseQty;
 
 
     public PurchaseItemModel() {

@@ -1,5 +1,6 @@
 package com.trioshop.repository.mybatis;
 
+import com.trioshop.model.dto.admin.FactoryEntity;
 import com.trioshop.model.dto.popup.PopupItemModel;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,4 +10,5 @@ import java.util.List;
 public interface PopupMapper {
 
     List<PopupItemModel> findByAll();
+    List<FactoryEntity> factoryFindAll();
 }

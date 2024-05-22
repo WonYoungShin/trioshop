@@ -1,5 +1,6 @@
 package com.trioshop.controller.admin;
 
+import com.trioshop.model.dto.admin.FactoryEntity;
 import com.trioshop.model.dto.popup.PopupItemModel;
 import com.trioshop.service.admin.PopupService;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,11 @@ public class PopupController {
         List<PopupItemModel> popupItemList = popupService.findByAll();
         model.addAttribute("itemList", popupItemList);
         return "admin/popupItemList";
+    }
+    @GetMapping("/popupFactoryList")
+    public String popupFactoryList(Model model) {
+        List<FactoryEntity> popupFactoryList = popupService.factoryFindByAll();
+        model.addAttribute("factoryList", popupFactoryList);
+        return "admin/popupFactoryList";
     }
 }

@@ -7,13 +7,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Getter @Setter
 public class AddItemModel{
-    Long itemCode;
-    String itemName;
-    String categoryCode;
-    Integer itemPrice;
-    String factoryCode;
-    String itemSize;
-    String itemColor;
+    private Long itemCode;
+    private String itemName;
+    private String categoryCode;
+    private Integer itemPrice;
+    private String factoryCode;
+    private String itemSize;
+    private String itemColor;
 
     public AddItemModel() {
     }
