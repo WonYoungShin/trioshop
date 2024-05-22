@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>Header</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -21,6 +23,24 @@
                     <c:choose>
                         <c:when test="${UserInfoBySession.gradeCode == 4}">
                             <!-- 관리자 메뉴 -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/stock">재고</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/stores">입고</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/storesList">입고내역</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/purchase">발주</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/purchaseList">발주내역</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/addItem">상품등록</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">로그아웃</a>
                             </li>
