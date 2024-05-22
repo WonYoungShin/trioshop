@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemInfoController {
     private final ItemService itemService;
+    //카테고리 목록 싱글톤으로 관리
     private final CategoryList categoryList;
 
     @RequestMapping("/")
@@ -87,27 +89,23 @@ public class ItemInfoController {
     public ModelAndView ordersPage(@RequestParam(value = "itemCode", required = false) Long itemCode
                                   ,@RequestParam(value = "userCode", required = false) Long userCode) {
         ModelAndView mv = new ModelAndView();
-        if(itemCode != null) {
+        if(itemCode != null) { // 바로 주문으로 가는경우
             ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
             List<ItemInfoByUser> itemList = new ArrayList<>();
             itemList.add(item);
             mv.addObject("itemList", itemList);
             mv.setViewName("/user/itemInfo/orders");
-            return mv;
-        } else {
+        } else { // 장바구니에서의 주문
             List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
             mv.addObject("itemList", cartItems);
             mv.setViewName("/user/itemInfo/orders");
-            return mv;
         }
-
-
+        return mv;
     }
-
-    @RequestMapping("/orderList") // 주문 리스트 페이지로
+    @RequestMapping("/orderList/{userCode}") // 주문 리스트 페이지로
     public ModelAndView orderListPage(@PathVariable(value = "userCode") long userCode ){
-
         ModelAndView mv = new ModelAndView();
+
         List<ItemInfoByOrderList> orderList = itemService.orderList(userCode);
         mv.addObject("orderList", orderList);
         mv.setViewName("/user/itemInfo/orderList");

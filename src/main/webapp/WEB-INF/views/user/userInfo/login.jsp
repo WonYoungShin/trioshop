@@ -49,6 +49,7 @@
                         <a href="/findId" class="btn btn-primary">아이디찾기</a>
                         <a href="/findPw" class="btn btn-primary">비밀번호찾기</a>
                         <a href="#" class="btn btn-primary">비회원로그인</a>
+
                     </form>
                     <!-- 카카오톡 로그인 버튼 -->
                     <button id="kakao-login-btn" class="btn btn-warning btn-block" style="background-color: transparent; border: none;">
@@ -81,7 +82,7 @@
     // 로그인 버튼 클릭 이벤트
     document.getElementById('kakao-login-btn').addEventListener('click', function() {
         Kakao.Auth.authorize({
-            redirectUri : 'http://localhost:8080/join' // 설정
+            redirectUri : 'http://localhost:8080/' // 설정
         });
     });
 

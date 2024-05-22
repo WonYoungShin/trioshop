@@ -68,4 +68,37 @@
         )
     </insert>
 
+
+    <update id="patchUser" parameterType="com.trioshop.model.dto.user.UserPatch">
+        UPDATE TRIO_USERS_INFO
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                user_address = #{userAddress},
+            </if>
+            <if test="userTel != null and userTel != ''">
+                user_tel = #{userTel},
+            </if>
+            <if test="userNickname != null and userNickname != ''">
+                user_nickname = #{userNickname}
+            </if>
+        </set>
+        WHERE user_code = #{userCode}
+    </update>
+
+    <update id="patchUserPw" parameterType="com.trioshop.model.dto.user.UserPatch">
+        UPDATE TRIO_USERS
+        <set>
+            <if test="userPasswd != null and userPasswd != ''">
+                user_passwd = #{userPasswd}
+            </if>
+        </set>
+        WHERE user_code = #{userCode}
+    </update>
+
+
+
+
 </mapper>

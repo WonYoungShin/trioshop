@@ -3,6 +3,7 @@ package com.trioshop.repository.mybatis;
 import com.trioshop.model.dto.user.UserIdPasswd;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.model.dto.user.UserJoin;
+import com.trioshop.model.dto.user.UserPatch;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
@@ -14,9 +15,11 @@ public interface UserMapper {
     UserInfoBySession findPw(@Param("userName") String userName,
                              @Param("userId") String userId);
 
-    // TRIO_USERS_INFO 테이블에 사용자 정보 저장
+    // TRIO_USERS 테이블에 사용자 정보 저장
     boolean saveUsers(UserJoin userJoin);
     boolean saveUserInfo(UserJoin userJoin);
 
 
+    boolean patchUserPw(UserPatch userPatch);
+    boolean patchUser(UserPatch userPatch);
 }

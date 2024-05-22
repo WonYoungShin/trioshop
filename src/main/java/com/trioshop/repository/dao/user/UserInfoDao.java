@@ -1,11 +1,7 @@
 // UserInfoDao.java
 package com.trioshop.repository.dao.user;
 
-import com.trioshop.model.dto.user.UserJoin;
-import com.trioshop.model.dto.user.UserFindId;
-import com.trioshop.model.dto.user.UserFindPw;
-import com.trioshop.model.dto.user.UserIdPasswd;
-import com.trioshop.model.dto.user.UserInfoBySession;
+import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.mybatis.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,16 +27,29 @@ public class UserInfoDao {
         UserFindPw userFindPw = new UserFindPw(userName, userId);
         return userMapper.findPw(userName, userId);
     }
+
     @Transactional
     public boolean saveUserInfo(UserJoin userJoin) {
         try {
-            // TRIO_USERS 테이블에 사용자 정보 저장
             userMapper.saveUsers(userJoin);
             userMapper.saveUserInfo(userJoin);
-            return true; // 저장에 성공하면 true 반환
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // 저장에 실패하면 false 반환
+            return false;
+        }
+    }
+
+    @Transactional
+    public boolean patchUser(UserPatch userPatch) {
+        try {
+            boolean patchUserSuccess = userMapper.patchUser(userPatch);
+            boolean patchUserPwSuccess = userMapper.patchUserPw(userPatch);
+            return patchUserSuccess && patchUserPwSuccess;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
+
