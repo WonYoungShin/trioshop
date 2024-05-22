@@ -4,6 +4,7 @@ import com.trioshop.model.dto.admin.*;
 import com.trioshop.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +71,16 @@ public class AdminController {
         return "/admin/purchaseDetail";
     }
 
-
+    @DeleteMapping("/purchase/{purchaseCode}")
+    @ResponseBody
+    public ResponseEntity<?> deletePurchaseByCode(@PathVariable("purchaseCode") String purchaseCode) {
+        try {
+            adminService.deletePurchaseByCode(purchaseCode);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
 
     @GetMapping("/stores")
     public String stores(){
@@ -79,6 +89,7 @@ public class AdminController {
 
     @PostMapping("/stores")
     public String addStores(@ModelAttribute StoreItemModel itemModel, RedirectAttributes redirectAttributes){
+        log.info(itemModel.toString());
         StoreItemModel saveItemModel = adminService.storeSave(itemModel);
         try {
             addStockQty(saveItemModel);
@@ -89,9 +100,9 @@ public class AdminController {
         return "redirect:/trioAdmin/storesList";
     }
 
-    private void addStockQty(StoreItemModel saveItemModel) {
-            AddItemQtyModel item = adminService.itemFindById(saveItemModel.getItemCode()).orElseThrow(NoSuchElementException::new);
-            item.setStockQty(item.getStockQty() + saveItemModel.getStoreQty());
+    private void addStockQty(StoreItemModel itemModel) {
+            ItemQtyModel item = adminService.itemFindById(itemModel.getItemCode()).orElseThrow(NoSuchElementException::new);
+            item.setStockQty(item.getStockQty() + itemModel.getStoreQty());
             adminService.addItemQty(item);
     }
 
@@ -118,6 +129,52 @@ public class AdminController {
 
 
 
+    @DeleteMapping("/stores/{storeCode}")
+    @ResponseBody
+    public ResponseEntity<?> deleteStoreCode(@PathVariable("storeCode") Long storeCode) {
+        try {
+            // 재고 수량 조정 시 문제가 발생하면 예외를 발생시킵니다.
+            if (delStockQty(storeCode)) {
+                throw new RuntimeException("Stock quantity adjustment failed");
+            }
+            // 재고 수량 조정이 성공하면 저장소 항목을 삭제합니다.
+            adminService.deleteStoresByCode(storeCode);
+            return ResponseEntity.ok().build();
+        } catch (NoSuchElementException e) {
+            // 특정 예외에 대해 다른 응답을 보낼 수 있습니다.
+            return ResponseEntity.status(404).body("해당 항목을 찾을 수 없습니다.");
+        } catch (Exception e) {
+            // 일반 예외 처리
+            return ResponseEntity.status(500).body("삭제 중 오류가 발생했습니다.");
+        }
+    }
+
+    private boolean delStockQty(Long delStoreCode) {
+        try {
+            // StoreItem을 찾습니다.
+            StoresListModel storeItem = adminService.storesFindByCode(delStoreCode).orElseThrow(NoSuchElementException::new);
+            if (storeItem == null) {
+                log.info("Store item not found");
+                return true;
+            }
+
+            // Item을 찾습니다.
+            ItemQtyModel item = adminService.itemFindById(storeItem.getItemCode()).orElseThrow(NoSuchElementException::new);
+            log.info("Item found");
+
+            // 재고 수량을 업데이트합니다.
+            item.setStockQty(item.getStockQty() - storeItem.getStoresQty());
+            adminService.addItemQty(item);
+
+            return false;
+        } catch (NoSuchElementException e) {
+            log.info("No such element exception: " + e.getMessage());
+            return true;
+        } catch (Exception e) {
+            log.error("Error during stock quantity adjustment", e);
+            return true;
+        }
+    }
 
 
     @GetMapping("/chart")

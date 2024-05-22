@@ -33,13 +33,18 @@
         ORDER BY 1;
     </select>
 
+    <delete id="deletePurchaseByCode">
+        DELETE FROM TRIO_PURCHASE
+        WHERE purchase_code = #{purchaseCode}
+    </delete>
+
     <insert id="storeSave" useGeneratedKeys="true" keyProperty="storeCode">
         INSERT INTO TRIO_STORES (stores_qty, item_code, stores_price
         <if test="purchaseCode != null">
             , purchase_code
         </if>
         )
-        VALUES (#{storeQty},#{itemCode},#{storePrice}
+        VALUES (#{storeQty}, #{itemCode}, #{storePrice}
         <if test="purchaseCode != null">
             , #{purchaseCode}
         </if>
@@ -47,46 +52,37 @@
     </insert>
 
     <select id="storesFindAll" resultType="StoresListModel">
-        SELECT store_code, stores_qty,
-               <if test="purchaseCode != null">
-               st.purchase_code,
-               </if>
-               st.item_code, factory_code, item_name,
-               category_name, stores_price, item_size, item_color
-        FROM TRIO_STORES st, TRIO_ITEMS item, triodb.TRIO_CATEGORY cate
-        <if test="purchaseCode != null">
-            ,TRIO_PURCHASE pur
-        </if>
-        WHERE st.item_code = item.item_code
-        <if test="purchaseCode != null">
-        AND st.purchase_code = pur.purchase_code
-        </if>
-        AND item.category_code = cate.category_code
-        ORDER BY 1;
+        SELECT st.store_code, st.stores_qty, st.purchase_code,
+               st.item_code, item.factory_code, item.item_name,
+               cate.category_name, st.stores_price, item.item_size, item.item_color
+        FROM TRIO_STORES st
+                 JOIN TRIO_ITEMS item ON st.item_code = item.item_code
+                 JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
+                 LEFT JOIN TRIO_PURCHASE pur ON st.purchase_code = pur.purchase_code
+        ORDER BY st.store_code
     </select>
 
     <select id="storesFindByCode" resultType="StoresListModel">
-        SELECT store_code, stores_qty,
-        <if test="purchaseCode != null">
-            st.purchase_code,
-        </if>
-        st.item_code, factory_code, item_name,
-        category_name, stores_price, item_size, item_color
-        FROM TRIO_STORES st, TRIO_ITEMS item, triodb.TRIO_CATEGORY cate
-        <if test="purchaseCode != null">
-            ,TRIO_PURCHASE pur
-        </if>
-        WHERE st.item_code = item.item_code
-        <if test="purchaseCode != null">
-            AND st.purchase_code = pur.purchase_code
-        </if>
-        AND item.category_code = cate.category_code
-        AND store_code = #{storeCode}
-        ORDER BY 1;
+        SELECT st.store_code, st.stores_qty, st.item_code,
+               item.factory_code, item.item_name, cate.category_name,
+               st.stores_price, item.item_size, item.item_color,
+               st.purchase_code
+        FROM TRIO_STORES st
+                 JOIN TRIO_ITEMS item ON st.item_code = item.item_code
+                 JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
+                 LEFT JOIN TRIO_PURCHASE pur ON st.purchase_code = pur.purchase_code
+        WHERE st.store_code = #{storeCode}
+        ORDER BY st.store_code
     </select>
 
 
-    <select id="itemFindByCode" resultType="AddItemQtyModel">
+
+    <delete id="deleteStoresByCode">
+        DELETE FROM TRIO_STORES
+        WHERE store_code = #{storeCode}
+    </delete>
+
+    <select id="itemFindByCode" resultType="ItemQtyModel">
         SELECT item_code, stock_qty
         FROM TRIO_STOCK
         WHERE item_code = item_code

@@ -19,7 +19,6 @@ public class StoreItemModel {
         this.storeCode = storeCode;
         this.storeQty = storeQty;
         this.purchaseCode = purchaseCode;
-
         this.storePrice = stockPrice;
     }
     public StoreItemModel(Long storeCode, Integer storeQty, Long itemCode, Integer stockPrice) {

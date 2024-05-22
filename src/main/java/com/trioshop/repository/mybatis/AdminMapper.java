@@ -19,8 +19,9 @@ public interface AdminMapper {
     List<StoresListModel> storesFindAll();
     Optional<StoresListModel> storesFindByCode(Long storeCode);
     List<StockModel> stockFindAll();
-    Optional<AddItemQtyModel> itemFindByCode(Long itemCode);
+    Optional<ItemQtyModel> itemFindByCode(Long itemCode);
 
     void addItemQty(Long itemCode, Integer qty);
-
+    void deletePurchaseByCode(String purchaseCode);
+    void deleteStoresByCode(Long storeCode);
 }

@@ -27,9 +27,10 @@ public class AdminDao {
         return itemModel;
     }
 
-//    public Optional<PurchaseListModel> purchaseFindCode(){
-//
-//    }
+    public void deletePurchaseByCode(String purchaseCode){
+        adminMapper.deletePurchaseByCode(purchaseCode);
+    }
+
     public List<PurchaseListModel> purchaseFindAll(){
         return adminMapper.purchaseFindAll();
     }
@@ -48,11 +49,16 @@ public class AdminDao {
     public List<StockModel> stockFindAll(){
         return adminMapper.stockFindAll();
     }
-    public Optional<AddItemQtyModel> itemFindByCode(Long itemCode){
+
+    public void deleteStoresByCode(Long storeCode){
+        adminMapper.deleteStoresByCode(storeCode);
+    }
+
+    public Optional<ItemQtyModel> itemFindByCode(Long itemCode){
         return adminMapper.itemFindByCode(itemCode);
     }
 
-    public void addItemQty(AddItemQtyModel item){
+    public void addItemQty(ItemQtyModel item){
         adminMapper.addItemQty(item.getItemCode(), item.getStockQty());
     }
 }
