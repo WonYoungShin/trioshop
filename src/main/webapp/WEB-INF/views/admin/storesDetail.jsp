@@ -30,7 +30,16 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4"><strong>발주코드:</strong></div>
-                        <div class="col-sm-8">${store.purchaseCode}</div>
+                        <div class="col-sm-8">
+                            <c:choose>
+                                <c:when test="${store.purchaseCode != null}">
+                                    ${store.purchaseCode}
+                                </c:when>
+                                <c:otherwise>
+                                    N/A
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4"><strong>상품코드:</strong></div>
@@ -61,8 +70,7 @@
                         <div class="col-sm-8">${store.itemColor}</div>
                     </div>
                     <div class="text-right">
-                        <a href="/trioAdmin/store/edit/${store.storeCode}" class="btn btn-secondary">수정</a>
-                        <a href="/trioAdmin/storeList" class="btn btn-primary">목록으로 돌아가기</a>
+                        <a href="/trioAdmin/storesList" class="btn btn-primary">목록으로 돌아가기</a>
                     </div>
                 </div>
             </div>

@@ -18,7 +18,8 @@
     </select>
     <!--  searchText, categoryName 으로 아이템 검색  -->
     <select id="searchItems" resultType="ItemInfoByUser">
-        SELECT TI.item_code AS itemCode,
+        SELECT
+        TI.item_code AS itemCode,
         TC.category_name AS categoryName,
         TF.factory_name AS factoryName,
         TI.item_name AS itemName,
@@ -29,7 +30,10 @@
         JOIN TRIO_STOCK TS ON TI.item_code = TS.item_code
         JOIN TRIO_CATEGORY TC ON TI.category_code = TC.category_code
         JOIN TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
-        WHERE TI.item_name LIKE CONCAT('%', #{searchText}, '%')
+        WHERE 1=1
+        <if test="searchText != null and searchText != ''">
+            AND TI.item_name LIKE CONCAT('%', #{searchText}, '%')
+        </if>
         <if test="categoryName != null and categoryName != ''">
             AND TC.category_name = #{categoryName}
         </if>
@@ -67,11 +71,30 @@
             i.item_src AS itemSrc,
             i.item_color AS itemColor,
             i.item_size AS itemSize,
-            s.stock_qty AS stockQty
+            s.stock_qty AS stockQty,
+            tc.category_name AS categoryName
         FROM
             TRIO_CART c
                 JOIN TRIO_ITEMS i ON c.item_code = i.item_code
                 JOIN TRIO_STOCK s ON i.item_code = s.item_code
+                JOIN TRIO_CATEGORY tc ON i.category_code = tc.category_code
         WHERE c.user_code = #{userCode}
     </select>
+
+    <!--  order list -->
+    <select id="orderList" resultType="ItemInfoByOrderList">
+        SELECT o.order_code,
+               o.order_date,
+               os.status_name,
+               oi.item_code,
+               i.item_name,
+               oi.order_qty,
+               i.item_price
+        FROM TRIO_ORDERS o
+                 JOIN TRIO_ORDER_STATUS os ON o.status_code = os.status_code
+                 JOIN TRIO_ORDER_ITEMS oi ON o.order_code = oi.order_code
+                 JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
+        WHERE o.user_code = #{userCode}
+    </select>
+
 </mapper>
