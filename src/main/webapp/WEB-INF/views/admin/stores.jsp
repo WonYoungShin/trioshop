@@ -39,7 +39,12 @@
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="factoryCode">제조업체</label>
-                <input type="text" class="form-control" id="factoryCode"  readonly/>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="factoryCode" name="factoryCode" required readonly/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="openFactoryPopup()">선택</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-row justify-content-center">
@@ -83,6 +88,14 @@
 </div>
 <!-- 팝업 창 열기 스크립트 -->
 <script>
+    function openFactoryPopup() {
+        window.open('/popupFactoryList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
+    }
+
+    function setFactoryCode(factoryCode) {
+        document.getElementById('factoryCode').value = factoryCode;
+    }
+
     function openPopup() {
         window.open('/popupItemList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
     }
