@@ -1,6 +1,7 @@
 package com.trioshop.service.admin;
 
 import com.trioshop.model.dto.admin.*;
+import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.repository.dao.admin.AdminDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,23 +23,23 @@ public class AdminService {
     public StoreItemModel storeSave(StoreItemModel itemModel){
         return adminDao.storeSave(itemModel);
     }
-    public List<PurchaseListModel> purchaseFindAll(){
-        return adminDao.purchaseFindAll();
+    public List<PurchaseListModel> purchaseFindAll(ItemCondition itemCondition){
+        return adminDao.purchaseFindAll(itemCondition);
     }
     public Optional<PurchaseListModel> purchaseFindByCode(Long purchaseCode){
         return adminDao.purchaseFindByCode(purchaseCode);
     }
 
-    public List<StoresListModel> storesFindAll(){
-        return adminDao.storesFindAll();
+    public List<StoresListModel> storesFindAll(ItemCondition itemCondition){
+        return adminDao.storesFindAll(itemCondition);
     }
 
     public Optional<StoresListModel> storesFindByCode(Long storeCode){
         return adminDao.storeFindByCode(storeCode);
     }
 
-    public List<StockModel> stockFindAll(){
-        return adminDao.stockFindAll();
+    public List<StockModel> stockFindAll(ItemCondition itemCondition){
+        return adminDao.stockFindAll(itemCondition);
     }
     public Optional<StockModel> stockFindByCode(Long itemCode){
         return adminDao.stockFindByCode(itemCode);

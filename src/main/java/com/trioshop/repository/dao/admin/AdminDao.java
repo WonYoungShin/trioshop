@@ -1,6 +1,7 @@
 package com.trioshop.repository.dao.admin;
 
 import com.trioshop.model.dto.admin.*;
+import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.repository.mybatis.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,23 +32,24 @@ public class AdminDao {
         adminMapper.deletePurchaseByCode(purchaseCode);
     }
 
-    public List<PurchaseListModel> purchaseFindAll(){
-        return adminMapper.purchaseFindAll();
+    public List<PurchaseListModel> purchaseFindAll(ItemCondition itemCondition){
+        return adminMapper.purchaseFindAll(itemCondition);
     }
     public Optional<PurchaseListModel> purchaseFindByCode(Long purchaseCode){
         return adminMapper.purchaseFindByCode(purchaseCode);
     }
 
-    public List<StoresListModel> storesFindAll(){
-        return adminMapper.storesFindAll();
+    public List<StoresListModel> storesFindAll(ItemCondition itemCondition){
+
+        return adminMapper.storesFindAll(itemCondition);
     }
 
     public Optional<StoresListModel> storeFindByCode(Long storeCode){
         return adminMapper.storesFindByCode(storeCode);
     }
 
-    public List<StockModel> stockFindAll(){
-        return adminMapper.stockFindAll();
+    public List<StockModel> stockFindAll(ItemCondition itemCondition){
+        return adminMapper.stockFindAll(itemCondition);
     }
     public Optional<StockModel> stockFindByCode(Long itemCode){
         return adminMapper.stockFindByCode(itemCode);
