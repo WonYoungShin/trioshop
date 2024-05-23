@@ -18,9 +18,21 @@ UserInfoBySession {
     String userTel;
     String userNickname;
 
+    @Override
+    public String toString() {
+        return "UserInfoBySession{" +
+                "userCode=" + userCode +
+                ", gradeCode=" + gradeCode +
+                ", userId='" + userId + '\'' +
+                ", userPasswd='" + userPasswd + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", userTel='" + userTel + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                '}';
+    }
+
     public UserInfoBySession(int gradeCode) {
         this.gradeCode = gradeCode;
     }
-
-
 }

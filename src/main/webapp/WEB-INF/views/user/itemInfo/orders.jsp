@@ -1,6 +1,3 @@
-<%@ page import="com.trioshop.model.dto.item.OrdersEntity" %>
-<%@ page import="com.trioshop.model.dto.item.OrderItemWrapper" %>
-<%@ page import="com.trioshop.model.dto.item.OrderItemEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/etc/header.jsp" %>
@@ -16,6 +13,7 @@
 <div class="container mt-5">
     <h2>Order Form</h2>
     <form method="post" action="/placeOrder" id="orderForm">
+        <input type="hidden" name="userCode" value="${loginMember.userCode}" />
         <c:if test="${not empty itemList}">
             <c:forEach var="item" items="${itemList}" varStatus="status">
                 <div class="card mb-4">
@@ -33,12 +31,11 @@
                                 <p class="card-text">Price: ₩${item.itemPrice}</p>
                                 <div class="form-group">
                                     <label for="quantity-${item.itemCode}">Quantity</label>
-                                    <input type="number" class="form-control quantity" id="quantity-${item.itemCode}" name="orderItemWrapper.orderItemEntityList[${status.index}].order_qty" value="1" min="1" max="${item.stockQty}" data-price="${item.itemPrice}" required>
+                                    <input type="number" class="form-control quantity" id="quantity-${item.itemCode}" name="orderItemEntityList[${status.index}].setOrderQty" value="${item.}" min="1" max="${item.stockQty}" data-price="${item.itemPrice}" required>
                                 </div>
                                 <p class="card-text">Subtotal: ₩<span class="subtotal" id="subtotal-${item.itemCode}">${item.itemPrice}</span></p>
-                                <input type="hidden" name="orderItemWrapper.orderItemEntityList[${status.index}].itemCode" value="${item.itemCode}">
-                                <input type="hidden" name="orderItemWrapper.orderItemEntityList[${status.index}].orderCode" value="${ordersEntity.orderCode}">
-                                <input type="hidden" name="userCode" value=${userCode}>
+                                <input type="hidden" name="orderItemEntityList[${status.index}].setItemCode" value="${item.itemCode}">
+                                <input type="hidden" name="orderItemEntityList[${status.index}].setOrderCode" value="${item.itemCode}">
                             </div>
                         </div>
                     </div>
@@ -70,7 +67,8 @@
                     <label for="phone">Contact Number</label>
                     <input type="text" class="form-control" id="phone" name="orderTel" required>
                 </div>
-
+                <input type="hidden" name="orderDate" value="${ordersEntity.orderDate}">
+                <input type="hidden" name="statusCode" value="${ordersEntity.statusCode}">
             </div>
         </div>
         <button type="submit" class="btn btn-success">Place Order</button>
@@ -102,6 +100,6 @@
 
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

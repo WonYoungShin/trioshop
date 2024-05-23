@@ -19,9 +19,9 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <c:choose>
-                <c:when test="${not empty UserInfoBySession}">
+                <c:when test="${not empty loginMember}">
                     <c:choose>
-                        <c:when test="${UserInfoBySession.gradeCode == 4}">
+                        <c:when test="${loginMember.gradeCode == 4}">
                             <!-- 관리자 메뉴 -->
                             <li class="nav-item">
                                 <a class="nav-link" href="/trioAdmin/stock">재고</a>
@@ -48,13 +48,13 @@
                         <c:otherwise>
                             <!-- 일반 사용자 메뉴 -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/orderList/${UserInfoBySession.userCode}">주문내역</a>
+                                <a class="nav-link" href="/orderList/${loginMember.userCode}">주문내역</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/itemList">상품조회</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/cart/${UserInfoBySession.userCode}">장바구니</a>
+                                <a class="nav-link" href="/cart/${loginMember.userCode}">장바구니</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/myPage">마이페이지</a>

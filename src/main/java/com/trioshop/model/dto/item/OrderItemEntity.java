@@ -1,15 +1,13 @@
 package com.trioshop.model.dto.item;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
-public class OrderItemEntity
-{
-
+public class OrderItemEntity {
     private String orderCode;
     private long itemCode;
     private long order_qty;

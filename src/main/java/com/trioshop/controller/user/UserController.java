@@ -32,8 +32,6 @@ public class UserController {
     @PostMapping("/login")
     public ModelAndView login(@ModelAttribute LoginModel loginModel, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
-        System.out.println(loginModel.getUserId());
-        System.out.println(loginModel.getUserPasswd());
         UserInfoBySession user = userInfoService.isValidUser(loginModel.getUserId(), loginModel.getUserPasswd());
 
         if (user == null || user.getGradeCode() == 0) {
@@ -43,9 +41,8 @@ public class UserController {
         }
 
         HttpSession session = request.getSession();
-
         session.setAttribute(SessionConst.LOGIN_MEMBER, user);
-
+        System.out.println("user = " + user);
         if (user.getGradeCode() == 4) {
             mv.setViewName("redirect:/trioAdmin");
             return mv;

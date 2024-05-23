@@ -16,7 +16,7 @@
           AND TI.category_code=TC.category_code
           AND TI.factory_code=TF.factory_code
     </select>
-    <!--  searchText, categoryName 으로 아이템 검색  -->
+    <!--  itemName, category 으로 아이템 검색  -->
     <select id="searchItems" resultType="ItemInfoByUser">
         SELECT
         TI.item_code AS itemCode,
@@ -105,8 +105,8 @@
 
     <!--  insert TRIO_ORDER_ITEMS  -->
     <insert id="insertOrderItems">
-        INSERT INTO TRIO_ORDER_ITEMS (order_itemcode, order_code, item_code, order_qty)
-        VALUES (LAST_INSERT_ID(), #{orderCode}, #{itemCode}, #{orderQty})
+        INSERT INTO TRIO_ORDER_ITEMS (order_code, item_code, order_qty)
+        VALUES (#{orderCode}, #{itemCode}, #{orderQty})
     </insert>
 
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,10 +46,10 @@ public class ItemService {
         try {
             // userCode+현재시간 으로 orderCode생성
             String orderCode = generateOrderCode(ordersEntity.getUserCode());
-
             // 주문 테이블 저장
             ordersEntity.setOrderCode(orderCode);
             ordersEntity.setStatusCode("10");
+            ordersEntity.setOrderDate(generateOrderDate()); // 시간입력 yyMMddHHmmss
             itemInfoDao.insertOrders(ordersEntity);
             // 주문 상품 테이블 저장
             for (OrderItemEntity orderItemEntity : orderItemList) {
@@ -71,5 +72,9 @@ public class ItemService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd-HHmmss");
         String dateStr = sdf.format(new Date());
         return userCode + "-" + dateStr;
+    }
+    private String generateOrderDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+        return sdf.format(new Date());
     }
 }

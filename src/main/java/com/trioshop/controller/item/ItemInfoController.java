@@ -103,10 +103,13 @@ public class ItemInfoController {
     }
     @PostMapping("/placeOrder")
     public ModelAndView orderProcess(@ModelAttribute OrdersEntity ordersEntity,
-                                     @ModelAttribute OrderItemWrapper orderItemWrapper){
+                                     @ModelAttribute("orderItemEntityList") List<OrderItemEntity> orderItemEntityList){
         ModelAndView mv = new ModelAndView();
         System.out.println("테스트1");
-        boolean check = itemService.orderProcess(ordersEntity, orderItemWrapper.getOrderItemEntityList());
+        for (OrderItemEntity orderItemEntity : orderItemEntityList) {
+            System.out.println("orderItemEntity = " + orderItemEntity);
+        }
+        boolean check = itemService.orderProcess(ordersEntity, orderItemEntityList);
         System.out.println("테스트2");
         if (check) {
             List<ItemInfoByOrderList> orderList = itemService.orderList(ordersEntity.getUserCode());
@@ -114,7 +117,7 @@ public class ItemInfoController {
             mv.setViewName("/user/itemInfo/orderList");
         } else {
             System.out.println("주문실패"); //테스트용
-            mv.setViewName("/");
+            mv.setViewName("redirect:/");
         }
         System.out.println("테스트3");
         return mv;
