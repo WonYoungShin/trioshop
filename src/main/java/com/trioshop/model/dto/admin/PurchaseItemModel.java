@@ -8,6 +8,7 @@ import lombok.Setter;
 public class PurchaseItemModel{
     private Long purchaseCode;
     private Long itemCode;
+    private Integer purchasePrice;
     private Integer purchaseQty;
 
 

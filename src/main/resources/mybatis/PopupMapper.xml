@@ -6,10 +6,27 @@
     <select id="findByAll" resultType="PopupItemModel">
         SELECT item_code, item_name, category_code, factory_code, item_size, item_color
         FROM TRIO_ITEMS
+        <where>
+            <if test="itemName != null and itemName != ''">
+                AND item_name LIKE concat('%', #{itemName}, '%')
+            </if>
+            <if test="category != null and category != ''">
+                AND category_code = #{category}
+            </if>
+        </where>
     </select>
 
     <select id="factoryFindAll" resultType="FactoryEntity">
         SELECT factory_code, factory_name, factory_tel, factory_addr
         FROM TRIO_FACTORY
+        <where>
+            <if test="factoryCode != null and factoryCode != ''">
+                AND factory_code LIKE concat('%', #{factoryCode}, '%')
+            </if>
+            <if test="factoryName != null and factoryName != ''">
+                AND factory_name LIKE concat('%', #{factoryName}, '%')
+            </if>
+        </where>
     </select>
+
 </mapper>

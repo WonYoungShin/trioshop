@@ -10,7 +10,9 @@ public class PurchaseListModel {
     private Integer purchaseQty;
     private String factoryCode;
     private String itemName;
+    private Integer purchasePrice;
     private String categoryName;
+    private String categoryCode;
     private String itemSize;
     private String itemColor;
 }

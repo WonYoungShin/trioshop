@@ -34,7 +34,7 @@ public class StoreItemModel {
                 "storeCode='" + storeCode + '\'' +
                 ", storeQty=" + storeQty +
                 ", purchaseCode='" + purchaseCode + '\'' +
-                ", stockPrice=" + storePrice +
+                ", storePrice=" + storePrice +
                 ", itemCode=" + itemCode +
                 '}';
     }

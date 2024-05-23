@@ -15,8 +15,8 @@
     </insert>
 
     <select id="purchaseFindAll" resultType="PurchaseListModel">
-        SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name,
-        category_name, item_size, item_color
+        SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name, purchase_price,
+        category_name, item_size, item_color, item.category_code
         FROM TRIO_PURCHASE pur
         JOIN TRIO_ITEMS item ON pur.item_code = item.item_code
         JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
@@ -32,7 +32,7 @@
     </select>
 
     <select id="purchaseFindByCode" resultType="PurchaseListModel">
-        SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name,
+        SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name, purchase_price,
                category_name, item_size, item_color
         FROM TRIO_PURCHASE pur, TRIO_ITEMS item, TRIO_CATEGORY cate
         WHERE pur.item_code = item.item_code
@@ -58,6 +58,7 @@
         </if>
         )
     </insert>
+
 
     <select id="storesFindAll" resultType="StoresListModel">
         SELECT st.store_code, st.stores_qty, st.purchase_code,
