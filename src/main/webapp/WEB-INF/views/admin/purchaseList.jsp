@@ -29,6 +29,7 @@
     </style>
 </head>
 <body>
+<%@ include file="adminSidebar.jsp" %>
 <div class="container">
     <h1 class="my-4 text-center">발주 목록</h1>
     <div class="row mb-4">
