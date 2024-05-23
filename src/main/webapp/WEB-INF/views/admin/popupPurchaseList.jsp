@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- jQuery 링크 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        th, .btn {
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-4">
