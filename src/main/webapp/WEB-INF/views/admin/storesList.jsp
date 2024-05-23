@@ -19,8 +19,8 @@
             vertical-align: middle;
             text-align: center;
         }
-        .btn-danger {
-            width: 60px;
+        .table tbody tr {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -62,8 +62,8 @@
                 </thead>
                 <tbody>
                 <c:forEach var="item" items="${storesList}">
-                    <tr>
-                        <td><a href="/trioAdmin/stores/${item.storeCode}">${item.storeCode}</a></td>
+                    <tr onclick="location.href='/trioAdmin/stores/${item.storeCode}'">
+                        <td>${item.storeCode}</td>
                         <td>${item.storesQty}</td>
                         <c:if test="${item.purchaseCode != null}">
                             <td>${item.purchaseCode}</td>
@@ -79,7 +79,7 @@
                         <td>${item.itemSize}</td>
                         <td>${item.itemColor}</td>
                         <td>
-                            <button class="btn btn-danger" onclick="deletePurchase(${item.storeCode})">삭제</button>
+                            <button class="btn btn-danger" onclick="deletePurchase(event, ${item.storeCode})">삭제</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -90,7 +90,8 @@
 </div>
 
 <script>
-    function deletePurchase(storeCode) {
+    function deletePurchase(event, storeCode) {
+        event.stopPropagation(); // 클릭 이벤트 전파 방지
         if (confirm('정말 삭제하시겠습니까?')) {
             $.ajax({
                 url: '/trioAdmin/stores/' + storeCode,

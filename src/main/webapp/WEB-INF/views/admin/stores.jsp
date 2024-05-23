@@ -75,7 +75,12 @@
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="purchaseCode">발주번호</label>
-                <input type="text" class="form-control" id="purchaseCode" name="purchaseCode" required/>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="purchaseCode" name="purchaseCode" required readonly/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="openPurchasePopup()">선택</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-row justify-content-center">
@@ -107,6 +112,23 @@
         document.getElementById('factoryCode').value = factoryCode;
         document.getElementById('itemSize').value = itemSize;
         document.getElementById('itemColor').value = itemColor;
+    }
+
+    function openPurchasePopup() {
+        window.open('/popupPurchaseList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
+    }
+
+    function setDetails(itemCode, itemName, categoryCode, factoryCode, itemSize,
+                            itemColor, purchasePrice, purchaseQty, purchaseCode) {
+        document.getElementById('itemCode').value = itemCode;
+        document.getElementById('itemName').value = itemName;
+        document.getElementById('categoryCode').value = categoryCode;
+        document.getElementById('factoryCode').value = factoryCode;
+        document.getElementById('itemSize').value = itemSize;
+        document.getElementById('itemColor').value = itemColor;
+        document.getElementById('storePrice').value = purchasePrice;
+        document.getElementById('storeQty').value = purchaseQty;
+        document.getElementById('purchaseCode').value = purchaseCode;
     }
 </script>
 
