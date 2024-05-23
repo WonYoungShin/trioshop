@@ -39,8 +39,9 @@
         </if>
     </select>
     <!--  카테코리 선택을 위한 목록 검색  -->
-    <select id="categoryList" resultType="String">
-        SELECT category_name AS categoryName
+    <select id="categoryList" resultType="CategoryEntity">
+        SELECT category_code,
+               category_name
         FROM TRIO_CATEGORY
     </select>
     <!--  item_code 으로 아이템 정보 반환 -->

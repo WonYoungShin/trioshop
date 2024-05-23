@@ -7,8 +7,8 @@
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchText">
         <select class="form-control mr-sm-2" name="categoryName">
           <option value="">Select Category</option>
-          <c:forEach var="categoryName" items="${categoryList}">
-            <option value="${categoryName}">${categoryName}</option>
+          <c:forEach var="category" items="${categoryList}">
+            <option value="${category.categoryName}">${category.categoryName}</option>
           </c:forEach>
         </select>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

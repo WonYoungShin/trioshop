@@ -3,6 +3,7 @@ package com.trioshop.service.item;
 import com.trioshop.model.dto.item.ItemInfoByCart;
 import com.trioshop.model.dto.item.ItemInfoByOrderList;
 import com.trioshop.model.dto.item.ItemInfoByUser;
+import com.trioshop.model.dto.item.CategoryEntity;
 import com.trioshop.repository.dao.item.ItemInfoDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemInfoDao itemInfoDao;
-    public List<String> categoryList() {
+    public List<CategoryEntity> categoryList() {
         return itemInfoDao.categoryList();
     }
     public List<ItemInfoByUser> searchItems(String searchText, String categoryCode) {

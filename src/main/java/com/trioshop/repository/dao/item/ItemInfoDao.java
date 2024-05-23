@@ -3,6 +3,7 @@ package com.trioshop.repository.dao.item;
 import com.trioshop.model.dto.item.ItemInfoByCart;
 import com.trioshop.model.dto.item.ItemInfoByOrderList;
 import com.trioshop.model.dto.item.ItemInfoByUser;
+import com.trioshop.model.dto.item.CategoryEntity;
 import com.trioshop.repository.mybatis.ItemMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class ItemInfoDao {
     public List<ItemInfoByUser> findAllItem() {
         return itemMapper.findAllItem();
     }
-    public List<String> categoryList() {
+    public List<CategoryEntity> categoryList() {
         return itemMapper.categoryList();
     }
     public List<ItemInfoByUser> searchItems(String searchText, String categoryCode) {
