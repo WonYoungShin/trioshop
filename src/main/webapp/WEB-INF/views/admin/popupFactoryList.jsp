@@ -13,6 +13,16 @@
 <body>
 <div class="container mt-4">
     <h1 class="mb-4">상품 목록</h1>
+    <div class="row mb-4">
+        <div class="col-md-12 d-flex justify-content-end">
+            <!-- 업체코드와 업체이름 검색 폼 -->
+            <form class="form-inline" method="get" action="">
+                <input class="form-control mr-sm-2" type="search" placeholder="업체코드 검색" aria-label="Search" name="factoryCode" value="${param.factoryCode}">
+                <input class="form-control mr-sm-2" type="search" placeholder="업체이름 검색" aria-label="Search" name="factoryName" value="${param.factoryName}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>

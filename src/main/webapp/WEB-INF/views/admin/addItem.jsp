@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 </head>
 <body>
+<%@ include file="adminSidebar.jsp" %>
 <div class="container mt-4">
     <h1 class="mb-4 text-center">상품등록</h1>
     <form action="" method="post">

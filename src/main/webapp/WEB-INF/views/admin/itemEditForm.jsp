@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<%@ include file="adminSidebar.jsp" %>
 <div class="container mt-4">
     <h1 class="mb-4 text-center">상품 수정</h1>
     <div class="row justify-content-center">

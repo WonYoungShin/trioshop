@@ -8,10 +8,26 @@
     <title>재고</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery 링크 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table tbody td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table tbody tr {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+<%@ include file="adminSidebar.jsp" %>
 <div class="container">
-    <h1 class="my-4">재고 목록</h1>
+    <h1 class="my-4 text-center">재고 목록</h1>
     <div class="row mb-4">
         <div class="col-md-12 d-flex justify-content-end">
             <!-- 검색창 및 카테고리 선택 항목 결합 -->
@@ -29,8 +45,8 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <table class="table table-striped">
-                <thead>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
                 <tr>
                     <th>상품코드</th>
                     <th>상품이름</th>
@@ -44,8 +60,8 @@
                 </thead>
                 <tbody>
                 <c:forEach var="item" items="${stockList}">
-                    <tr>
-                        <td><a href="/trioAdmin/stock/${item.itemCode}">${item.itemCode}</a></td>
+                    <tr onclick="location.href='/trioAdmin/stock/${item.itemCode}'">
+                        <td>${item.itemCode}</td>
                         <td>${item.itemName}</td>
                         <td>${item.categoryName}</td>
                         <td>${item.itemPrice}</td>
@@ -62,8 +78,7 @@
 </div>
 
 <!-- 부트스트랩 JavaScript 링크 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
