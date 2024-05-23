@@ -1,22 +1,12 @@
 package com.trioshop.controller.item;
 
-import com.trioshop.model.dto.item.CategoryEntity;
-import com.trioshop.model.dto.item.ItemInfoByCart;
-import com.trioshop.model.dto.item.ItemInfoByOrderList;
-import com.trioshop.model.dto.item.ItemInfoByUser;
-import com.trioshop.model.dto.user.UserInfoBySession;
+import com.trioshop.model.dto.item.*;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.CategoryList;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tags.shaded.org.apache.bcel.classfile.Code;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +18,7 @@ public class ItemInfoController {
     //카테고리 목록 싱글톤으로 관리
     private final CategoryList categoryList;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public ModelAndView userList() {
         ModelAndView mv = new ModelAndView();
         //카테고리 목록 불러오기
@@ -110,6 +100,24 @@ public class ItemInfoController {
         List<ItemInfoByOrderList> orderList = itemService.orderList(userCode);
         mv.addObject("orderList", orderList);
         mv.setViewName("/user/itemInfo/orderList");
+        return mv;
+    }
+    @PostMapping("/placeOrder")
+    public ModelAndView orderProcess(@ModelAttribute OrdersEntity ordersEntity,
+                                     @ModelAttribute OrderItemWrapper orderItemWrapper){
+        ModelAndView mv = new ModelAndView();
+        System.out.println("테스트1");
+        boolean check = itemService.orderProcess(ordersEntity, orderItemWrapper.getOrderItemEntityList());
+        System.out.println("테스트2");
+        if (check) {
+            List<ItemInfoByOrderList> orderList = itemService.orderList(ordersEntity.getUserCode());
+            mv.addObject("orderList", orderList);
+            mv.setViewName("/user/itemInfo/orderList");
+        } else {
+            System.out.println("주문실패"); //테스트용
+            mv.setViewName("/");
+        }
+        System.out.println("테스트3");
         return mv;
     }
 }

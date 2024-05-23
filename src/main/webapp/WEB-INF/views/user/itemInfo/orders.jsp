@@ -1,3 +1,6 @@
+<%@ page import="com.trioshop.model.dto.item.OrdersEntity" %>
+<%@ page import="com.trioshop.model.dto.item.OrderItemWrapper" %>
+<%@ page import="com.trioshop.model.dto.item.OrderItemEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/etc/header.jsp" %>
@@ -12,9 +15,9 @@
 <body>
 <div class="container mt-5">
     <h2>Order Form</h2>
-    <form method="post" action="${pageContext.request.contextPath}/placeOrder" id="orderForm">
+    <form method="post" action="/placeOrder" id="orderForm">
         <c:if test="${not empty itemList}">
-            <c:forEach var="item" items="${itemList}">
+            <c:forEach var="item" items="${itemList}" varStatus="status">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4>Item Information</h4>
@@ -30,11 +33,12 @@
                                 <p class="card-text">Price: ₩${item.itemPrice}</p>
                                 <div class="form-group">
                                     <label for="quantity-${item.itemCode}">Quantity</label>
-                                    <input type="number" class="form-control quantity" id="quantity-${item.itemCode}" name="quantity-${item.itemCode}" value="1" min="1" max="${item.stockQty}" data-price="${item.itemPrice}" required>
+                                    <input type="number" class="form-control quantity" id="quantity-${item.itemCode}" name="orderItemWrapper.orderItemEntityList[${status.index}].order_qty" value="1" min="1" max="${item.stockQty}" data-price="${item.itemPrice}" required>
                                 </div>
                                 <p class="card-text">Subtotal: ₩<span class="subtotal" id="subtotal-${item.itemCode}">${item.itemPrice}</span></p>
-                                <input type="hidden" name="itemCode" value="${item.itemCode}">
-                                <input type="hidden" name="itemPrice" value="${item.itemPrice}">
+                                <input type="hidden" name="orderItemWrapper.orderItemEntityList[${status.index}].itemCode" value="${item.itemCode}">
+                                <input type="hidden" name="orderItemWrapper.orderItemEntityList[${status.index}].orderCode" value="${ordersEntity.orderCode}">
+                                <input type="hidden" name="userCode" value=${item.}>
                             </div>
                         </div>
                     </div>
@@ -56,16 +60,17 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="receiverName">Receiver Name</label>
-                    <input type="text" class="form-control" id="receiverName" name="receiverName" required>
+                    <input type="text" class="form-control" id="receiverName" name="orderReceiver" required>
                 </div>
                 <div class="form-group">
                     <label for="address">Delivery Address</label>
-                    <input type="text" class="form-control" id="address" name="address" required>
+                    <input type="text" class="form-control" id="address" name="orderDestination" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">Contact Number</label>
-                    <input type="text" class="form-control" id="phone" name="phone" required>
+                    <input type="text" class="form-control" id="phone" name="orderTel" required>
                 </div>
+
             </div>
         </div>
         <button type="submit" class="btn btn-success">Place Order</button>

@@ -1,9 +1,6 @@
 package com.trioshop.repository.dao.item;
 
-import com.trioshop.model.dto.item.ItemInfoByCart;
-import com.trioshop.model.dto.item.ItemInfoByOrderList;
-import com.trioshop.model.dto.item.ItemInfoByUser;
-import com.trioshop.model.dto.item.CategoryEntity;
+import com.trioshop.model.dto.item.*;
 import com.trioshop.repository.mybatis.ItemMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -33,5 +30,11 @@ public class ItemInfoDao {
     }
     public List<ItemInfoByOrderList> orderList(long userCode) {
         return  itemMapper.orderList(userCode);
+    }
+    public void insertOrders(OrdersEntity ordersEntity) {
+        itemMapper.insertOrders(ordersEntity);
+    }
+    public void insertOrderItems(OrderItemEntity orderItemEntity) {
+        itemMapper.insertOrderItems(orderItemEntity);
     }
 }

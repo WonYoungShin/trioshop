@@ -1,9 +1,6 @@
 package com.trioshop.repository.mybatis;
 
-import com.trioshop.model.dto.item.ItemInfoByCart;
-import com.trioshop.model.dto.item.ItemInfoByOrderList;
-import com.trioshop.model.dto.item.ItemInfoByUser;
-import com.trioshop.model.dto.item.CategoryEntity;
+import com.trioshop.model.dto.item.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +13,6 @@ public interface ItemMapper {
     ItemInfoByUser itemInfoByCode(long itemCode);
     List<ItemInfoByCart> cartItemList(long userCode);
     List<ItemInfoByOrderList> orderList(long userCode);
+    void insertOrders (OrdersEntity ordersEntity);
+    void insertOrderItems (OrderItemEntity orderItemEntity);
 }

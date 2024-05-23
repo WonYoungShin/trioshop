@@ -97,5 +97,16 @@
                  JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
         WHERE o.user_code = #{userCode}
     </select>
+    <!--  insert TRIO_ORDERS  -->
+    <insert id="insertOrders">
+        INSERT INTO TRIO_ORDERS (order_code, user_code, status_code, order_receiver, order_destination, order_date, order_tel)
+        VALUES (#{orderCode}, #{userCode}, #{statusCode}, #{orderReceiver}, #{orderDestination}, #{orderDate}, #{orderTel})
+    </insert>
+
+    <!--  insert TRIO_ORDER_ITEMS  -->
+    <insert id="insertOrderItems">
+        INSERT INTO TRIO_ORDER_ITEMS (order_itemcode, order_code, item_code, order_qty)
+        VALUES (LAST_INSERT_ID(), #{orderCode}, #{itemCode}, #{orderQty})
+    </insert>
 
 </mapper>
