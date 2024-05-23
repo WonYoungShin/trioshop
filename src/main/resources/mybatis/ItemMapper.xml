@@ -31,11 +31,11 @@
         JOIN TRIO_CATEGORY TC ON TI.category_code = TC.category_code
         JOIN TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
         WHERE 1=1
-        <if test="searchText != null and searchText != ''">
-            AND TI.item_name LIKE CONCAT('%', #{searchText}, '%')
+        <if test="itemName != null and itemName != ''">
+            AND TI.item_name LIKE CONCAT('%', #{itemName}, '%')
         </if>
-        <if test="categoryName != null and categoryName != ''">
-            AND TC.category_name = #{categoryName}
+        <if test="category != null and category != ''">
+            AND TC.category_name = #{category}
         </if>
     </select>
     <!--  카테코리 선택을 위한 목록 검색  -->

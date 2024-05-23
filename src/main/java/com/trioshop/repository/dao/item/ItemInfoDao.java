@@ -19,8 +19,8 @@ public class ItemInfoDao {
     public List<CategoryEntity> categoryList() {
         return itemMapper.categoryList();
     }
-    public List<ItemInfoByUser> searchItems(String searchText, String categoryCode) {
-        return  itemMapper.searchItems(searchText, categoryCode);
+    public List<ItemInfoByUser> searchItems(ItemCondition itemCondition) {
+        return  itemMapper.searchItems(itemCondition);
     }
     public  ItemInfoByUser itemInfoByCode(long itemCode) {
         return  itemMapper.itemInfoByCode(itemCode);

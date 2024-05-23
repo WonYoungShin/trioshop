@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface ItemMapper {
     List<ItemInfoByUser> findAllItem();
-    List<ItemInfoByUser> searchItems(String searchText, String categoryName);
+    List<ItemInfoByUser> searchItems(ItemCondition itemCondition);
     List<CategoryEntity> categoryList();
     ItemInfoByUser itemInfoByCode(long itemCode);
     List<ItemInfoByCart> cartItemList(long userCode);

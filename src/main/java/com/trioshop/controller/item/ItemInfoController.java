@@ -44,13 +44,12 @@ public class ItemInfoController {
     }
 
     @RequestMapping("/searchItems")//상품 검색 페이지로
-    public ModelAndView searchItems(@RequestParam(value = "searchText", required = false) String searchText,
-                                    @RequestParam(value = "categoryName", required = false) String categoryName) {
+    public ModelAndView searchItems(@ModelAttribute ItemCondition itemCondition) {
         ModelAndView mv = new ModelAndView();
         //카테고리 목록 불러오기
         mv.addObject("categoryList", categoryList.getCategoryList());
 
-        List<ItemInfoByUser> itemList = itemService.searchItems(searchText, categoryName);
+        List<ItemInfoByUser> itemList = itemService.searchItems(itemCondition);
         mv.addObject("itemList", itemList);
 
         mv.setViewName("/user/itemInfo/itemList");

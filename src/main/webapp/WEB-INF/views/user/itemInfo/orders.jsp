@@ -38,7 +38,7 @@
                                 <p class="card-text">Subtotal: ₩<span class="subtotal" id="subtotal-${item.itemCode}">${item.itemPrice}</span></p>
                                 <input type="hidden" name="orderItemWrapper.orderItemEntityList[${status.index}].itemCode" value="${item.itemCode}">
                                 <input type="hidden" name="orderItemWrapper.orderItemEntityList[${status.index}].orderCode" value="${ordersEntity.orderCode}">
-                                <input type="hidden" name="userCode" value=${item.}>
+                                <input type="hidden" name="userCode" value=${userCode}>
                             </div>
                         </div>
                     </div>

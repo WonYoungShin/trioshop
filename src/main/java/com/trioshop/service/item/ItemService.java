@@ -19,8 +19,8 @@ public class ItemService {
         return itemInfoDao.categoryList();
     }
 
-    public List<ItemInfoByUser> searchItems(String searchText, String categoryCode) {
-        return itemInfoDao.searchItems(searchText, categoryCode);
+    public List<ItemInfoByUser> searchItems(ItemCondition itemCondition) {
+        return itemInfoDao.searchItems(itemCondition);
     }
 
     public List<ItemInfoByUser> findAllItem() {
