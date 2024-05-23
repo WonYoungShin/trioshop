@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ItemSearchModel {
-    String name;
+public class ItemCondition {
+    String itemName;
     String category;
 }
