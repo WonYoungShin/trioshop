@@ -1,5 +1,9 @@
 package com.trioshop.controller.user;
 
+import com.trioshop.SessionConst;
+import com.trioshop.model.dto.user.LoginModel;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
 import com.trioshop.model.dto.user.UserInfoBySession;
@@ -26,27 +30,38 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(String userId, String userPasswd, HttpSession session) {
+    public ModelAndView login(@ModelAttribute LoginModel loginModel, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
-        UserInfoBySession user = userInfoService.isValidUser(userId, userPasswd);
-        session.setAttribute("UserInfoBySession", user);
+        System.out.println(loginModel.getUserId());
+        System.out.println(loginModel.getUserPasswd());
+        UserInfoBySession user = userInfoService.isValidUser(loginModel.getUserId(), loginModel.getUserPasswd());
 
         if (user == null || user.getGradeCode() == 0) {
             mv.setViewName("/user/userInfo/login");
             mv.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
             return mv;
-        } else if (user.getGradeCode() == 4) {
+        }
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute(SessionConst.LOGIN_MEMBER, user);
+
+        if (user.getGradeCode() == 4) {
             mv.setViewName("redirect:/trioAdmin");
             return mv;
-        } else {
+        }
+        else {
+
             mv.setViewName("redirect:/");
             return mv;
         }
     }
 
     @GetMapping("/logout")
-    public String logoutPage(HttpSession session) {
-        session.invalidate();
+    public String logoutPage(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session!=null)
+            session.invalidate();
         return "redirect:/";
     }
 
