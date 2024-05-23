@@ -1,6 +1,8 @@
 package com.trioshop.service.admin;
 
+import com.trioshop.model.dto.admin.FactoryCondition;
 import com.trioshop.model.dto.admin.FactoryEntity;
+import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.model.dto.popup.PopupItemModel;
 import com.trioshop.repository.dao.admin.PopupDao;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +15,11 @@ import java.util.List;
 public class PopupService {
     private final PopupDao popupDao;
 
-    public List<PopupItemModel> findByAll(){
-        return popupDao.findByAll();
+    public List<PopupItemModel> findByAll(ItemCondition itemCondition){
+        return popupDao.findByAll(itemCondition);
     }
-    public List<FactoryEntity> factoryFindByAll(){
-        return popupDao.factoryFindByAll();
+    public List<FactoryEntity> factoryFindByAll(FactoryCondition factoryCondition){
+        return popupDao.factoryFindByAll(factoryCondition);
     }
 
 }
