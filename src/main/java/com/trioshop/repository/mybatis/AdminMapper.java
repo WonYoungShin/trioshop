@@ -1,6 +1,7 @@
 package com.trioshop.repository.mybatis;
 
 import com.trioshop.model.dto.admin.*;
+import com.trioshop.model.dto.item.ItemCondition;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,13 +14,13 @@ public interface AdminMapper {
     void storeSave(StoreItemModel ItemModel);
     void purchaseSave(PurchaseItemModel ItemModel);
 
-    List<PurchaseListModel> purchaseFindAll();
+    List<PurchaseListModel> purchaseFindAll(ItemCondition itemCondition);
     Optional<PurchaseListModel> purchaseFindByCode(Long purchaseCode);
 
-    List<StoresListModel> storesFindAll();
+    List<StoresListModel> storesFindAll(ItemCondition itemCondition);
     Optional<StoresListModel> storesFindByCode(Long storeCode);
 
-    List<StockModel> stockFindAll();
+    List<StockModel> stockFindAll(ItemCondition itemCondition);
     Optional<StockModel> stockFindByCode(Long itemCode);
 
     Optional<ItemQtyModel> itemFindByCode(Long itemCode);

@@ -1,5 +1,6 @@
 package com.trioshop.controller.item;
 
+import com.trioshop.model.dto.item.CategoryEntity;
 import com.trioshop.model.dto.item.ItemInfoByCart;
 import com.trioshop.model.dto.item.ItemInfoByOrderList;
 import com.trioshop.model.dto.item.ItemInfoByUser;

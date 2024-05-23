@@ -27,6 +27,21 @@
 <body>
 <div class="container">
     <h1 class="my-4 text-center">입고 목록</h1>
+    <div class="row mb-4">
+        <div class="col-md-12 d-flex justify-content-end">
+            <!-- 검색창 및 카테고리 선택 항목 결합 -->
+            <form class="form-inline" method="get" action="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName" value="${param.itemName}">
+                <select class="form-control mr-sm-2" name="category">
+                    <option value="">Select Category</option>
+                    <c:forEach var="category" items="${categoryList}">
+                        <option value="${category.categoryCode}" <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
+                    </c:forEach>
+                </select>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <table class="table table-bordered table-hover">

@@ -20,6 +20,8 @@
 <div class="container">
     <h1 class="my-4">Shopping Cart</h1>
     <c:if test="${not empty cartItems}">
+        <!-- totalPrice 계산을 위한 변수 초기화 -->
+        <c:set var="totalPrice" value="0" />
         <form method="post" action="/orders">
             <input type="hidden" name="userCode" value="${cartItems[0].userCode}">
             <table class="table table-bordered">
@@ -34,6 +36,10 @@
                 </thead>
                 <tbody>
                 <c:forEach var="cartItem" items="${cartItems}">
+                    <!-- 각 항목의 subtotal 계산 -->
+                    <c:set var="subtotal" value="${cartItem.itemPrice * cartItem.cartItemQty}" />
+                    <!-- totalPrice에 subtotal 누적 -->
+                    <c:set var="totalPrice" value="${totalPrice + subtotal}" />
                     <tr>
                         <td>${cartItem.itemName}</td>
                         <td>₩${cartItem.itemPrice}</td>
@@ -43,7 +49,7 @@
                                 <button type="submit" class="btn btn-sm btn-primary">Update</button>
                             </form>
                         </td>
-                        <td>₩${cartItem.itemPrice * cartItem.cartItemQty}</td>
+                        <td>₩${subtotal}</td>
                         <td>
                             <form method="post" action="/cart/remove/${cartItem.cartCode}">
                                 <button type="submit" class="btn btn-sm btn-danger">Remove</button>

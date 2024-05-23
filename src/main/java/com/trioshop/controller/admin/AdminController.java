@@ -1,7 +1,9 @@
 package com.trioshop.controller.admin;
 
 import com.trioshop.model.dto.admin.*;
+import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.AdminService;
+import com.trioshop.utils.CategoryList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class AdminController {
     private final AdminService adminService;
+    private final CategoryList categoryList;
 
     @GetMapping(value = {"/", ""})
     public String index() {
@@ -53,8 +56,9 @@ public class AdminController {
     }
 
     @GetMapping("/purchaseList")
-    public String purchaseList(Model model){
-        List<PurchaseListModel> purchaseList = adminService.purchaseFindAll();
+    public String purchaseList(@ModelAttribute ItemCondition itemCondition, Model model){
+        List<PurchaseListModel> purchaseList = adminService.purchaseFindAll(itemCondition);
+        model.addAttribute("categoryList",categoryList.getCategoryList());
         model.addAttribute("purchaseList", purchaseList);
         return "/admin/purchaseList";
     }
@@ -108,8 +112,9 @@ public class AdminController {
 
 
     @GetMapping("/storesList")
-    public String storesList(Model model){
-        List<StoresListModel> storesList = adminService.storesFindAll();
+    public String storesList(@ModelAttribute ItemCondition itemCondition, Model model){
+        List<StoresListModel> storesList = adminService.storesFindAll(itemCondition);
+        model.addAttribute("categoryList",categoryList.getCategoryList());
         model.addAttribute("storesList", storesList);
         return "/admin/storesList";
     }
@@ -183,8 +188,9 @@ public class AdminController {
     }
 
     @GetMapping("/stock")
-    public String stock(Model model){
-        List<StockModel> stockList = adminService.stockFindAll();
+    public String stock(@ModelAttribute ItemCondition itemCondition,Model model){
+        List<StockModel> stockList = adminService.stockFindAll(itemCondition);
+        model.addAttribute("categoryList",categoryList.getCategoryList());
         model.addAttribute("stockList", stockList);
         return "/admin/stock";
     }
