@@ -1,8 +1,7 @@
 package com.trioshop.controller.user;
 
 import com.trioshop.SessionConst;
-import com.trioshop.model.dto.user.LoginModel;
-import jakarta.servlet.http.HttpServlet;
+import com.trioshop.model.dto.user.UserIdPasswd;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
@@ -16,11 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
-
+    @Autowired
+    HttpSession session;
     @Autowired
     private UserInfoService userInfoService;
 
@@ -30,9 +31,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute LoginModel loginModel, HttpServletRequest request) {
+    public ModelAndView login(@ModelAttribute UserIdPasswd userIdPasswd, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
-        UserInfoBySession user = userInfoService.isValidUser(loginModel.getUserId(), loginModel.getUserPasswd());
+        UserInfoBySession user = userInfoService.isValidUser(userIdPasswd.getUserId(), userIdPasswd.getUserPasswd());
 
         if (user == null || user.getGradeCode() == 0) {
             mv.setViewName("/user/userInfo/login");
@@ -40,7 +41,6 @@ public class UserController {
             return mv;
         }
 
-        HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, user);
         System.out.println("user = " + user);
         if (user.getGradeCode() == 4) {
@@ -55,8 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String logoutPage(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
+    public String logoutPage() {
         if(session!=null)
             session.invalidate();
         return "redirect:/";
@@ -140,22 +139,30 @@ public class UserController {
 
     @GetMapping("/changeInfo")
     public String changeInfoPage(HttpSession session, Model model) {
-        UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute("UserInfoBySession");
-        model.addAttribute("currentUser", currentUser);
-        return "/user/userInfo/changeInfo";
+        // 세션에 저장된 객체 가져오기
+        Object sessionAttribute = session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        // 세션에 저장된 객체가 UserPatch 타입인지 확인
+        if (sessionAttribute instanceof UserPatch) {
+            UserPatch currentUser = (UserPatch) sessionAttribute;
+            model.addAttribute("currentUser", currentUser);
+            return "/user/userInfo/changeInfo";
+        } else {
+            // UserPatch 타입이 아닌 경우 로그인 페이지로 리디렉션
+            return "redirect:/login";
+        }
     }
 
 
+
     @PostMapping("/changeInfo")
-    public ModelAndView changeInfoPage(HttpSession session, String newUserPasswd, UserPatch userPatch) {
+    public ModelAndView changeInfoPage(@RequestParam String newUserPasswd, @ModelAttribute UserPatch userPatch) {
         ModelAndView mv = new ModelAndView();
         try {
-            UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute("UserInfoBySession");
+            UserPatch currentUser = (UserPatch) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
             // 사용자가 변경한 정보가 있는지 확인
-            if (userPatch.getUserNickname() == null &&
-                    userPatch.getUserAddress() == null &&
-                    userPatch.getUserTel() == null) {
+            if (!userInfoService.changedInfo(userPatch)) {
                 // 변경할 정보가 없으면 에러 메시지 표시
                 mv.setViewName("redirect:/changeInfo");
                 mv.addObject("error", "변경할 정보를 입력하세요.");
@@ -164,14 +171,13 @@ public class UserController {
 
             // 사용자의 이름은 변경할 수 없는 값으로 설정
             userPatch.setUserName(currentUser.getUserName());
-
-            // 사용자가 변경한 정보를 데이터베이스에 업데이트
             userPatch.setUserCode(currentUser.getUserCode()); // 현재 사용자의 코드 설정
             userPatch.setUserPasswd(newUserPasswd); // 새 비밀번호 설정
+
+            // 사용자가 변경한 정보를 데이터베이스에 업데이트
             boolean isUpdated = userInfoService.patchUser(userPatch);
             if (isUpdated) {
                 // 업데이트 성공 시
-                mv.addObject("currentUser", currentUser);
                 mv.setViewName("redirect:/myPage");
             } else {
                 // 업데이트 실패 시
@@ -186,4 +192,6 @@ public class UserController {
             return mv;
         }
     }
+
+
 }
