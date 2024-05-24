@@ -7,7 +7,7 @@ import com.trioshop.model.dto.admin.UpdateItemModel;
 
 import java.util.Optional;
 
-public interface StockService extends AdminService<AddItemModel, StockModel, Long> {
+public interface StockService extends AdminService<AddItemModel, StockModel> {
     void updateItem(UpdateItemModel itemModel);
 
 }

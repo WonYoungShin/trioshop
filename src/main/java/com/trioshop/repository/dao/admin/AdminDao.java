@@ -5,15 +5,15 @@ import com.trioshop.model.dto.item.ItemCondition;
 import java.util.List;
 import java.util.Optional;
 
-public interface AdminDao <T, L, ID> {
+public interface AdminDao <T, L> {
 
         T save(T itemModel);
 
         List<L> findAll(ItemCondition itemCondition);
 
-        Optional<L> findByCode(ID code);
+        Optional<L> findByCode(Long code);
 
-        void deleteByCode(ID code) throws Exception;
+        void deleteByCode(Long code) throws Exception;
 
     }
 
