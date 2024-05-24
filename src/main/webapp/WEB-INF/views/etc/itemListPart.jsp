@@ -18,27 +18,16 @@
   <div class="row">
     <c:forEach var="item" items="${itemList}">
       <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-          <a href="${pageContext.request.contextPath}/item/${item.itemCode}">
-            <img class="card-img-top" src="${item.itemSrc}" alt="${item.itemName}">
-          </a>
+        <div class="card h-100" onclick="location.href='${pageContext.request.contextPath}/item/${item.itemCode}'" style="cursor: pointer;">
+          <img class="card-img-top" src="${item.itemSrc}" alt="${item.itemName}">
           <div class="card-body">
-            <h4 class="card-title">
-              <a href="${pageContext.request.contextPath}/item/${item.itemCode}">${item.itemName}</a>
-            </h4>
+            <h4 class="card-title">${item.itemName}</h4>
             <h5>₩${item.itemPrice}</h5>
             <p class="card-text">
               Category: ${item.categoryName}<br>
               Factory: ${item.factoryName}<br>
               Stock Quantity: ${item.stockQty}
             </p>
-          </div>
-          <div class="card-footer d-flex justify-content-between">
-            <a class="btn btn-primary" href="${pageContext.request.contextPath}/item/${item.itemCode}">Details</a>
-            <form method="post" action="${pageContext.request.contextPath}/orders">
-              <input type="hidden" name="itemCode" value="${item.itemCode}">
-              <button type="submit" class="btn btn-success">Order</button>
-            </form>
           </div>
         </div>
       </div>

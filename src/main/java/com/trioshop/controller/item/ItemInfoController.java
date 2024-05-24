@@ -1,10 +1,18 @@
 package com.trioshop.controller.item;
 
+import com.trioshop.SessionConst;
 import com.trioshop.model.dto.item.*;
+import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.CategoryList;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,6 +25,8 @@ public class ItemInfoController {
     private final ItemService itemService;
     //카테고리 목록 싱글톤으로 관리
     private final CategoryList categoryList;
+    @Autowired
+    HttpSession session;
 
     @GetMapping("/")
     public ModelAndView userList() {
@@ -56,14 +66,25 @@ public class ItemInfoController {
         return mv;
     }
 
-    @RequestMapping("/cart/{userCode}")//카트 페이지로
-    public ModelAndView cartPage(@PathVariable(value = "userCode") long userCode) {
+    @RequestMapping("/cart")//카트 페이지로
+    public ModelAndView cartPage() {
         ModelAndView mv = new ModelAndView();
-
-        List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
+        UserInfoBySession userInfoBySession =
+                (UserInfoBySession)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getGradeCode());
         mv.addObject("cartItems", cartItems);
         mv.setViewName("/user/itemInfo/cart");
         return mv;
+    }
+    @PostMapping("/addCart")
+    @ResponseBody
+    public String addCartItem(@RequestParam("itemCode") String itemCode) {
+        System.out.println("확인1");
+        try {
+            return "success";
+        } catch (Exception e) {
+            return "failure";
+        }
     }
 
     @RequestMapping("/item/{itemCode}") // 상품 상세 페이지로
@@ -106,9 +127,6 @@ public class ItemInfoController {
                                      @ModelAttribute("orderItemEntityList") List<OrderItemEntity> orderItemEntityList){
         ModelAndView mv = new ModelAndView();
         System.out.println("테스트1");
-        for (OrderItemEntity orderItemEntity : orderItemEntityList) {
-            System.out.println("orderItemEntity = " + orderItemEntity);
-        }
         boolean check = itemService.orderProcess(ordersEntity, orderItemEntityList);
         System.out.println("테스트2");
         if (check) {

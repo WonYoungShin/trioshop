@@ -54,7 +54,7 @@
                                 <a class="nav-link" href="/itemList">상품조회</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/cart/${loginMember.userCode}">장바구니</a>
+                                <a class="nav-link" href="/cart">장바구니</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/myPage">마이페이지</a>
