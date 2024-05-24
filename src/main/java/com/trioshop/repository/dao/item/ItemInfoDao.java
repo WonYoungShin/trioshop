@@ -22,6 +22,9 @@ public class ItemInfoDao {
     public List<ItemInfoByUser> searchItems(ItemCondition itemCondition) {
         return  itemMapper.searchItems(itemCondition);
     }
+    public  List<ItemInfoByUser> itemInfoByCodes(List<Long> itemCodes) {
+        return  itemMapper.itemInfoByCodes(itemCodes);
+    }
     public  ItemInfoByUser itemInfoByCode(long itemCode) {
         return  itemMapper.itemInfoByCode(itemCode);
     }

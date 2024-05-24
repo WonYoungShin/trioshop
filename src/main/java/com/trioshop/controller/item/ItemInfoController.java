@@ -5,6 +5,7 @@ import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.CategoryList;
+import com.trioshop.utils.StringToLongConverter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -97,20 +99,28 @@ public class ItemInfoController {
     }
 
     @RequestMapping("/orders") // 주문 페이지로
-    public ModelAndView ordersPage(@RequestParam(value = "itemCode", required = false) Long itemCode
-                                  ,@RequestParam(value = "userCode", required = false) Long userCode) {
+    public ModelAndView ordersPage(@RequestParam(value = "itemCodes", required = false) List<String> itemCodes
+                                  ,@RequestParam(value = "quantities", required = false) List<String> quantities) {
+
+        List<ItemInfoByUser> itemList = itemService.makeOrderItems(
+                StringToLongConverter.convertListOfStringsToLongs(itemCodes),
+                StringToLongConverter.convertListOfStringsToLongs(quantities));
         ModelAndView mv = new ModelAndView();
-        if(itemCode != null) { // 바로 주문으로 가는경우
-            ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
-            List<ItemInfoByUser> itemList = new ArrayList<>();
-            itemList.add(item);
-            mv.addObject("itemList", itemList);
-            mv.setViewName("/user/itemInfo/orders");
-        } else { // 장바구니에서의 주문
-            List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
-            mv.addObject("itemList", cartItems);
-            mv.setViewName("/user/itemInfo/orders");
-        }
+        mv.addObject("itemList", itemList);
+        mv.setViewName("/user/itemInfo/orders");
+
+
+//        if(itemCode != null) { // 바로 주문으로 가는경우
+//            ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
+//            List<ItemInfoByUser> itemList = new ArrayList<>();
+//            itemList.add(item);
+//            mv.addObject("itemList", itemList);
+//            mv.setViewName("/user/itemInfo/orders");
+//        } else { // 장바구니에서의 주문
+//            List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
+//            mv.addObject("itemList", cartItems);
+//            mv.setViewName("/user/itemInfo/orders");
+//        }
         return mv;
     }
     @RequestMapping("/orderList/{userCode}") // 주문 리스트 페이지로

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -28,8 +29,11 @@ public class ItemService {
         return itemInfoDao.findAllItem();
     }
 
-    public ItemInfoByUser itemInfoByCode(long itemCode) {
+    public ItemInfoByUser itemInfoByCode (long itemCode) {
         return itemInfoDao.itemInfoByCode(itemCode);
+    }
+    public List<ItemInfoByUser> itemInfoByCodes (List<Long> itemCodes) {
+        return itemInfoDao.itemInfoByCodes(itemCodes);
     }
 
     public List<ItemInfoByCart> cartItemList(long userCode) {
@@ -40,6 +44,30 @@ public class ItemService {
         return itemInfoDao.orderList(userCode);
     }
 
+    public List<ItemInfoByUser> makeOrderItems(List<Long> itemCodes, List<Long> quantities) {
+
+        List<HashMap<String, Long>> orderList = new ArrayList<>();
+        List<ItemInfoByUser> itemInfoList = this.itemInfoByCodes(itemCodes);
+
+//        if (itemCodes != null && quantities != null
+//                && itemCodes.size() == quantities.size()) {
+//            for (int i = 0; i < itemCodes.size(); i++) {
+//                HashMap<String, Long> orderMap = new HashMap<>();
+//                orderMap.put("itemCode", itemCodes.get(i));
+//                orderMap.put("orderQty", quantities.get(i));
+//                orderList.add(orderMap);
+//
+//                ItemInfoByUser itemInfoByUser = this.itemInfoByCode(itemCodes.get(i));
+//                itemInfoByUser.setOrderQty(quantities.get(i));
+//                itemInfoList.add(itemInfoByUser);
+//            }
+//        }
+        // Debugging output
+        for (HashMap<String, Long> order : orderList) {
+            System.out.println("Order: " + order);
+        }
+        return itemInfoList;
+    }
     @Transactional
     public boolean orderProcess(OrdersEntity ordersEntity,
                                 List<OrderItemEntity> orderItemList) {

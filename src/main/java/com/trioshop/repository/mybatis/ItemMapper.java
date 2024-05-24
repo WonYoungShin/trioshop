@@ -10,6 +10,7 @@ public interface ItemMapper {
     List<ItemInfoByUser> findAllItem();
     List<ItemInfoByUser> searchItems(ItemCondition itemCondition);
     List<CategoryEntity> categoryList();
+    List<ItemInfoByUser> itemInfoByCodes(List<Long> itemCodes);
     ItemInfoByUser itemInfoByCode(long itemCode);
     List<ItemInfoByCart> cartItemList(long userCode);
     List<ItemInfoByOrderList> orderList(long userCode);

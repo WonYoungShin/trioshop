@@ -4,102 +4,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Order Form</title>
-    <!-- 부트스트랩 CSS 링크 -->
+    <meta charset="UTF-8">
+    <title>Order Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Order Form</h2>
-    <form method="post" action="/placeOrder" id="orderForm">
-        <input type="hidden" name="userCode" value="${loginMember.userCode}" />
-        <c:if test="${not empty itemList}">
-            <c:forEach var="item" items="${itemList}" varStatus="status">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h4>Item Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <img class="img-fluid" src="${item.itemSrc}" alt="${item.itemName}">
-                            </div>
-                            <div class="col-md-8">
-                                <h5 class="card-title">${item.itemName}</h5>
-                                <p class="card-text">Category: ${item.categoryName}</p>
-                                <p class="card-text">Price: ₩${item.itemPrice}</p>
-                                <div class="form-group">
-                                    <label for="quantity-${item.itemCode}">Quantity</label>
-                                    <input type="number" class="form-control quantity" id="quantity-${item.itemCode}" name="orderItemEntityList[${status.index}].setOrderQty" value="${item.}" min="1" max="${item.stockQty}" data-price="${item.itemPrice}" required>
-                                </div>
-                                <p class="card-text">Subtotal: ₩<span class="subtotal" id="subtotal-${item.itemCode}">${item.itemPrice}</span></p>
-                                <input type="hidden" name="orderItemEntityList[${status.index}].setItemCode" value="${item.itemCode}">
-                                <input type="hidden" name="orderItemEntityList[${status.index}].setOrderCode" value="${item.itemCode}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="container">
+    <h1 class="my-4">Order Page</h1>
+
+    <form id="orderForm" method="post" action="/orders">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Factory</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+                <th>Order Quantity</th>
+                <th>Subtotal</th>
+                <th>Color</th>
+                <th>Size</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="item" items="${itemList}">
+                <tr>
+                    <td><img src="${item.itemSrc}" alt="${item.itemName}" style="width: 100px; height: 100px;"></td>
+                    <td>${item.itemName}</td>
+                    <td>${item.categoryName}</td>
+                    <td>${item.factoryName}</td>
+                    <td>₩<span class="item-price">${item.itemPrice}</span></td>
+                    <td>${item.stockQty}</td>
+                    <td>
+                        <input type="hidden" name="itemCode" value="${item.itemCode}">
+                        <input type="number" name="orderQty" value="${item.orderQty}" min="1" max="${item.stockQty}" class="form-control quantity-input" data-price="${item.itemPrice}">
+                    </td>
+                    <td>₩<span class="item-subtotal">${item.itemPrice * item.orderQty}</span></td>
+                    <td>${item.itemColor}</td>
+                    <td>${item.itemSize}</td>
+                </tr>
             </c:forEach>
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Order Total</h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Total Price: ₩<span id="totalPrice">0</span></p>
-                </div>
-            </div>
-        </c:if>
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4>Order Details</h4>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="receiverName">Receiver Name</label>
-                    <input type="text" class="form-control" id="receiverName" name="orderReceiver" required>
-                </div>
-                <div class="form-group">
-                    <label for="address">Delivery Address</label>
-                    <input type="text" class="form-control" id="address" name="orderDestination" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Contact Number</label>
-                    <input type="text" class="form-control" id="phone" name="orderTel" required>
-                </div>
-                <input type="hidden" name="orderDate" value="${ordersEntity.orderDate}">
-                <input type="hidden" name="statusCode" value="${ordersEntity.statusCode}">
-            </div>
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <label for="orderReceiver">Receiver Name</label>
+            <input type="text" class="form-control" id="orderReceiver" name="orderReceiver" required>
         </div>
-        <button type="submit" class="btn btn-success">Place Order</button>
+        <div class="form-group">
+            <label for="orderDestination">Destination</label>
+            <input type="text" class="form-control" id="orderDestination" name="orderDestination" required>
+        </div>
+        <div class="form-group">
+            <label for="orderTel">Contact Number</label>
+            <input type="tel" class="form-control" id="orderTel" name="orderTel" required>
+        </div>
+
+        <h3>Total Price: ₩<span id="total-price">0</span></h3>
+
+        <button type="submit" class="btn btn-primary">Place Order</button>
     </form>
 </div>
 
+<!-- 부트스트랩 JavaScript 링크 -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
-        function updateTotal() {
-            var total = 0;
-            $(".quantity").each(function() {
-                var price = $(this).data("price");
-                var quantity = $(this).val();
-                var subtotal = price * quantity;
-                total += subtotal;
-                var itemCode = $(this).attr('id').split('-')[1];
-                $("#subtotal-" + itemCode).text(subtotal);
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            $('.quantity-input').each(function() {
+                let quantity = $(this).val();
+                let price = $(this).data('price');
+                let subtotal = quantity * price;
+                $(this).closest('tr').find('.item-subtotal').text(subtotal.toLocaleString());
+                totalPrice += subtotal;
             });
-            $("#totalPrice").text(total);
+            $('#total-price').text(totalPrice.toLocaleString());
         }
 
-        $(".quantity").on("input", function() {
-            updateTotal();
+        // 페이지 로드 시 총 가격 초기화
+        updateTotalPrice();
+
+        // 수량 변경 시 총 가격 업데이트
+        $('.quantity-input').on('input', function() {
+            updateTotalPrice();
         });
-        // 초기 총합 계산
-        updateTotal();
     });
 </script>
-
-<!-- 부트스트랩 JavaScript 링크 -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
