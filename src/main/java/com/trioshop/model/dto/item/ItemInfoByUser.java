@@ -15,5 +15,6 @@ public class ItemInfoByUser {
     private long orderQty;
     private long itemPrice;
     private String itemSrc;
-
+    private String itemColor;
+    private String itemSize;
 }
