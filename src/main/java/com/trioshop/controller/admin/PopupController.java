@@ -5,7 +5,7 @@ import com.trioshop.model.dto.admin.FactoryEntity;
 import com.trioshop.model.dto.admin.PurchaseListModel;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.model.dto.popup.PopupItemModel;
-import com.trioshop.service.admin.AdminService;
+import com.trioshop.service.admin.PurchaseService;
 import com.trioshop.service.admin.PopupService;
 import com.trioshop.utils.CategoryList;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 public class PopupController {
     private final PopupService popupService;
-    private final AdminService adminService;
+    private final PurchaseService purchaseService;
     private final CategoryList categoryList;
 
     @GetMapping("/popupItemList")
@@ -40,7 +40,7 @@ public class PopupController {
     }
     @GetMapping("/popupPurchaseList")
     public String popupPurchaseList(@ModelAttribute ItemCondition itemCondition, Model model) {
-        List<PurchaseListModel> popupPurchaseList = adminService.purchaseFindAll(itemCondition);
+        List<PurchaseListModel> popupPurchaseList = purchaseService.findAll(itemCondition);
         model.addAttribute("categoryList", categoryList.getCategoryList());
         model.addAttribute("purchaseList", popupPurchaseList);
         return "admin/popupPurchaseList";
