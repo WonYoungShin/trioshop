@@ -40,6 +40,7 @@ public class UserInfoDao {
         }
     }
 
+
     @Transactional
     public boolean patchUser(UserPatch userPatch) {
         try {
@@ -51,5 +52,12 @@ public class UserInfoDao {
             return false;
         }
     }
+
+    public boolean changedInfo(UserPatch userPatch) {
+        return userPatch.getUserNickname() != null ||
+                userPatch.getUserAddress() != null ||
+                userPatch.getUserTel() != null;
+    }
+
 }
 
