@@ -24,22 +24,22 @@
                         <c:when test="${loginMember.gradeCode == 4}">
                             <!-- 관리자 메뉴 -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/stock">재고</a>
+                                <a class="nav-link" href="/trioAdmin/stock/list">재고</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/trioAdmin/stores">입고</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/storesList">입고내역</a>
+                                <a class="nav-link" href="/trioAdmin/stores/list">입고내역</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/trioAdmin/purchase">발주</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/purchaseList">발주내역</a>
+                                <a class="nav-link" href="/trioAdmin/purchase/list">발주내역</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/addItem">상품등록</a>
+                                <a class="nav-link" href="/trioAdmin/stock">상품등록</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">로그아웃</a>
@@ -54,7 +54,7 @@
                                 <a class="nav-link" href="/itemList">상품조회</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/cart/${loginMember.userCode}">장바구니</a>
+                                <a class="nav-link" href="/cart">장바구니</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/myPage">마이페이지</a>

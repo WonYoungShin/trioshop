@@ -44,20 +44,40 @@
                category_name
         FROM TRIO_CATEGORY
     </select>
-    <!--  item_code 으로 아이템 정보 반환 -->
-    <select id="itemInfoByCode" resultType="ItemInfoByUser">
-        SELECT TI.item_code AS itemCode,
+    <!--  itemCode 또는 itemCodes 으로 아이템 정보 반환 -->
+    <select id="itemInfoByCodes" resultType="ItemInfoByUser">
+        SELECT
+        TI.item_code AS itemCode,
         TC.category_name AS categoryName,
         TF.factory_name AS factoryName,
         TI.item_name AS itemName,
         TS.stock_qty AS stockQty,
         TI.item_price AS itemPrice,
-        TI.item_src AS itemSrc
-        FROM TRIO_ITEMS TI
-        JOIN TRIO_STOCK TS ON TI.item_code = TS.item_code
-        JOIN TRIO_CATEGORY TC ON TI.category_code = TC.category_code
-        JOIN TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
-        WHERE TI.item_code = #{itemCode}
+        TI.item_src AS itemSrc,
+        TI.item_color AS itemColor,
+        TI.item_size AS itemSize,
+        0 AS orderQty
+        FROM
+        TRIO_ITEMS TI
+        JOIN
+        TRIO_STOCK TS ON TI.item_code = TS.item_code
+        JOIN
+        TRIO_CATEGORY TC ON TI.category_code = TC.category_code
+        JOIN
+        TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
+        WHERE
+        1=1
+        <choose>
+            <when test="itemCode != null">
+                AND TI.item_code = #{itemCode}
+            </when>
+            <when test="itemCodes != null and itemCodes.size() > 0">
+                AND TI.item_code IN
+                <foreach item="code" collection="itemCodes" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </when>
+        </choose>
     </select>
 
     <!--  cart item list -->
