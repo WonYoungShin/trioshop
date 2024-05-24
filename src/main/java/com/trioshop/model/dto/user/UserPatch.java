@@ -1,29 +1,33 @@
 package com.trioshop.model.dto.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class UserPatch {
-    private Long userCode;
-    private String userPasswd;
-    private String userName;
-    private String userAddress;
-    private String userTel;
-    private String userNickname;
+     long userCode;
+     String userPasswd;
+     String userName;
+     String userAddress;
+     String userTel;
+     String userNickname;
 
     public UserPatch() {
-
+        // 기본 생성자 추가
     }
 
-    public UserPatch(Long userCode, String userPasswd, String userName, String userAddress, String userTel, String userNickname) {
-        this.userCode = userCode;
-        this.userPasswd = userPasswd;
-        this.userName = userName;
-        this.userAddress = userAddress;
-        this.userTel = userTel;
-        this.userNickname = userNickname;
+    @Override
+    public String toString() {
+        return "UserPatch{" +
+                "userCode=" + userCode +
+                ", userPasswd='" + userPasswd + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", userTel='" + userTel + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                '}';
     }
-
 }

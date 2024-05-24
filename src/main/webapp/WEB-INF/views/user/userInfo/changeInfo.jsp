@@ -40,7 +40,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <c:choose>
-                <c:when test="${empty currentUser}">
+                <c:when test="${empty userPatch}">
                     <div class="alert alert-warning text-center mt-5">
                         세션이 만료되었거나 잘못된 접근입니다.
                     </div>
@@ -49,33 +49,23 @@
                     <div class="form-container">
                         <h2 class="form-heading text-center">정보 입력하기</h2>
                         <form action="/changeInfo" method="post">
-                            <!-- Hidden field to send currentUser information -->
-                            <input type="hidden" name="userCode" value="${currentUser.userCode}">
-                            <div class="form-group">
-                                <label for="userName">이름:</label>
-                                <!-- Displaying the user's name -->
-                                <p id="userName">${currentUser.userName}</p>
-                            </div>
                             <div class="form-group">
                                 <label for="newPassword">새 비밀번호:</label>
-                                <!-- New password input field -->
-                                <input type="password" class="form-control" id="newPassword" name="newUserPasswd" placeholder="새 비밀번호">
+                                <input type="password" class="form-control" id="newPassword" name="userPasswd" value="${userPasswd}" placeholder="새 비밀번호">
                             </div>
                             <div class="form-group">
                                 <label for="userAddress">주소:</label>
-                                <!-- Address input field -->
-                                <input type="text" class="form-control" id="userAddress" name="userAddress" value="${currentUser.userAddress}">
+                                <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userAddress}">
                             </div>
                             <div class="form-group">
                                 <label for="userTel">전화번호:</label>
-                                <!-- Phone number input field -->
-                                <input type="text" class="form-control" id="userTel" name="userTel" value="${currentUser.userTel}">
+                                <input type="text" class="form-control" id="userTel" name="userTel" value="${UserTel}">
                             </div>
                             <div class="form-group">
                                 <label for="userNickname">닉네임:</label>
-                                <!-- Nickname input field -->
-                                <input type="text" class="form-control" id="userNickname" name="userNickname" value="${currentUser.userNickname}">
+                                <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userNickname}">
                             </div>
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">저장</button>
                                 <a href="/myPage" class="btn btn-secondary">뒤로가기</a>

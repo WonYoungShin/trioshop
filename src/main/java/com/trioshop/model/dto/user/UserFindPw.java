@@ -6,11 +6,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserFindPw {
-    private String userName;
-    private String userId;
 
-    public UserFindPw(String userName, String userId) {
+     String userName;
+     String userId;
+     String userPasswd;
+
+    public UserFindPw(String userName, String userId, String userPasswd) {
         this.userName = userName;
         this.userId = userId;
+        this.userPasswd = userPasswd;
     }
 }
