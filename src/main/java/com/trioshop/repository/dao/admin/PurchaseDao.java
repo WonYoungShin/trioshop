@@ -4,6 +4,6 @@ import com.trioshop.model.dto.admin.PurchaseItemModel;
 import com.trioshop.model.dto.admin.PurchaseListModel;
 
 
-public interface PurchaseDao extends AdminDao<PurchaseItemModel, PurchaseListModel, Long> {
+public interface PurchaseDao extends AdminDao<PurchaseItemModel, PurchaseListModel> {
 
 }
