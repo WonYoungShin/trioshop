@@ -61,7 +61,7 @@
                     <div class="card-body">
                         <h5 class="card-title">총 재고 수량</h5>
                         <p class="card-text">1234</p>
-                        <a href="/trioAdmin/stock" class="btn btn-primary">자세히 보기</a>
+                        <a href="/trioAdmin/stock/list" class="btn btn-primary">자세히 보기</a>
                     </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@
                     <div class="card-body">
                         <h5 class="card-title">총 발주 수량</h5>
                         <p class="card-text">234</p>
-                        <a href="/trioAdmin/purchaseList" class="btn btn-primary">자세히 보기</a>
+                        <a href="/trioAdmin/purchase/list" class="btn btn-primary">자세히 보기</a>
                     </div>
                 </div>
             </div>

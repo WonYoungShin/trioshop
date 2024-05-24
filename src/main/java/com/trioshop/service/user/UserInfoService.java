@@ -41,6 +41,11 @@ public class UserInfoService {
         }
     }
 
+
+    public boolean changedInfo(UserPatch userPatch) {
+        return userInfoDao.changedInfo(userPatch);
+    }
+
     public boolean patchUser(UserPatch userPatch) {
         try {
             return userInfoDao.patchUser(userPatch);

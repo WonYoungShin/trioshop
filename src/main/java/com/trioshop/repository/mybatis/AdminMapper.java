@@ -27,6 +27,6 @@ public interface AdminMapper {
 
     void updateItem(UpdateItemModel ItemModel);
     void addItemQty(Long itemCode, Integer qty);
-    void deletePurchaseByCode(String purchaseCode);
+    void deletePurchaseByCode(Long purchaseCode);
     void deleteStoresByCode(Long storeCode);
 }
