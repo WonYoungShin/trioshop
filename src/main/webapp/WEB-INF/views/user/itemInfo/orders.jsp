@@ -12,7 +12,7 @@
 <div class="container">
     <h1 class="my-4">Order Page</h1>
 
-    <form id="orderForm" method="post" action="/orders">
+    <form id="orderForm" method="post" action="/placeOrder">
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -29,7 +29,9 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="item" items="${itemList}">
+
+
+            <c:forEach var="item" items="${itemList}" varStatus="status">
                 <tr>
                     <td><img src="${item.itemSrc}" alt="${item.itemName}" style="width: 100px; height: 100px;"></td>
                     <td>${item.itemName}</td>
@@ -38,8 +40,9 @@
                     <td>₩<span class="item-price">${item.itemPrice}</span></td>
                     <td>${item.stockQty}</td>
                     <td>
-                        <input type="hidden" name="itemCode" value="${item.itemCode}">
-                        <input type="number" name="orderQty" value="${item.orderQty}" min="1" max="${item.stockQty}" class="form-control quantity-input" data-price="${item.itemPrice}">
+                        <input type="hidden" name="orderItemEntityList[${status.index}].orderCode" value="${item.itemSrc}"/>
+                        <input type="hidden" name="orderItemEntityList[${status.index}].itemCode" value="${item.itemCode}"/>
+                        <input type="number" name="orderItemEntityList[${status.index}].orderQty" value="${item.orderQty}" min="1" max="${item.stockQty}" class="form-control quantity-input" data-price="${item.itemPrice}">
                     </td>
                     <td>₩<span class="item-subtotal">${item.itemPrice * item.orderQty}</span></td>
                     <td>${item.itemColor}</td>
@@ -63,7 +66,7 @@
         </div>
 
         <h3>Total Price: ₩<span id="total-price">0</span></h3>
-
+            <c:set var="userCode" value="${sessionScope.loginMember.userCode}" />
         <button type="submit" class="btn btn-primary">Place Order</button>
     </form>
 </div>

@@ -46,25 +46,16 @@ public class ItemService {
 
     public List<ItemInfoByUser> makeOrderItems(List<Long> itemCodes, List<Long> quantities) {
 
-        List<HashMap<String, Long>> orderList = new ArrayList<>();
+        HashMap<Long, Long> orderMap = new HashMap<>();
         List<ItemInfoByUser> itemInfoList = this.itemInfoByCodes(itemCodes);
 
-//        if (itemCodes != null && quantities != null
-//                && itemCodes.size() == quantities.size()) {
-//            for (int i = 0; i < itemCodes.size(); i++) {
-//                HashMap<String, Long> orderMap = new HashMap<>();
-//                orderMap.put("itemCode", itemCodes.get(i));
-//                orderMap.put("orderQty", quantities.get(i));
-//                orderList.add(orderMap);
-//
-//                ItemInfoByUser itemInfoByUser = this.itemInfoByCode(itemCodes.get(i));
-//                itemInfoByUser.setOrderQty(quantities.get(i));
-//                itemInfoList.add(itemInfoByUser);
-//            }
-//        }
-        // Debugging output
-        for (HashMap<String, Long> order : orderList) {
-            System.out.println("Order: " + order);
+            for (int i = 0; i < itemCodes.size(); i++) {
+                // itemcode 를 키로 orderQty를 값으로 하여 Map생성
+                orderMap.put(itemCodes.get(i),quantities.get(i));
+            }
+
+        for (ItemInfoByUser itemInfoByUser : itemInfoList) {
+            itemInfoByUser.setOrderQty(orderMap.get(itemInfoByUser.getItemCode()));
         }
         return itemInfoList;
     }

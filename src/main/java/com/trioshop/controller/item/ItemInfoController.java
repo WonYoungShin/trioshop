@@ -5,20 +5,12 @@ import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.CategoryList;
-import com.trioshop.utils.StringToLongConverter;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -72,12 +64,13 @@ public class ItemInfoController {
     public ModelAndView cartPage() {
         ModelAndView mv = new ModelAndView();
         UserInfoBySession userInfoBySession =
-                (UserInfoBySession)session.getAttribute(SessionConst.LOGIN_MEMBER);
+                (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
         List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getGradeCode());
         mv.addObject("cartItems", cartItems);
         mv.setViewName("/user/itemInfo/cart");
         return mv;
     }
+
     @PostMapping("/addCart")
     @ResponseBody
     public String addCartItem(@RequestParam("itemCode") String itemCode) {
@@ -99,12 +92,18 @@ public class ItemInfoController {
     }
 
     @RequestMapping("/orders") // 주문 페이지로
-    public ModelAndView ordersPage(@RequestParam(value = "itemCodes", required = false) List<String> itemCodes
-                                  ,@RequestParam(value = "quantities", required = false) List<String> quantities) {
-
-        List<ItemInfoByUser> itemList = itemService.makeOrderItems(
-                StringToLongConverter.convertListOfStringsToLongs(itemCodes),
-                StringToLongConverter.convertListOfStringsToLongs(quantities));
+    public ModelAndView ordersPage(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
+                                   @RequestParam(value = "quantities", required = false) List<Long> quantities) {
+        for (Long itemCode : itemCodes) {
+            System.out.println("itemCode = " + itemCode);
+        }
+        for (Long quantity : quantities) {
+            System.out.println("quantity = " + quantity);
+        }
+//        List<ItemInfoByUser> itemList = itemService.makeOrderItems(
+//                StringToLongConverter.convertListOfStringsToLongs(itemCodes),
+//                StringToLongConverter.convertListOfStringsToLongs(quantities));
+        List<ItemInfoByUser> itemList = itemService.makeOrderItems(itemCodes,quantities);
         ModelAndView mv = new ModelAndView();
         mv.addObject("itemList", itemList);
         mv.setViewName("/user/itemInfo/orders");
@@ -123,8 +122,9 @@ public class ItemInfoController {
 //        }
         return mv;
     }
+
     @RequestMapping("/orderList/{userCode}") // 주문 리스트 페이지로
-    public ModelAndView orderListPage(@PathVariable(value = "userCode") long userCode ){
+    public ModelAndView orderListPage(@PathVariable(value = "userCode") long userCode) {
         ModelAndView mv = new ModelAndView();
 
         List<ItemInfoByOrderList> orderList = itemService.orderList(userCode);
@@ -132,10 +132,17 @@ public class ItemInfoController {
         mv.setViewName("/user/itemInfo/orderList");
         return mv;
     }
+
     @PostMapping("/placeOrder")
+    @ResponseBody
     public ModelAndView orderProcess(@ModelAttribute OrdersEntity ordersEntity,
-                                     @ModelAttribute("orderItemEntityList") List<OrderItemEntity> orderItemEntityList){
+                                     @ModelAttribute OrderItemList orderItemList) {
         ModelAndView mv = new ModelAndView();
+        List<OrderItemEntity> orderItemEntityList = orderItemList.getOrderItemEntityList();
+        for (OrderItemEntity orderItemEntity : orderItemEntityList) {
+            System.out.println("확인용");
+            System.out.println("orderItemEntity = " + orderItemEntity);
+        }
         System.out.println("테스트1");
         boolean check = itemService.orderProcess(ordersEntity, orderItemEntityList);
         System.out.println("테스트2");

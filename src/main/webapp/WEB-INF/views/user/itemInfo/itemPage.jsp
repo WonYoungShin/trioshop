@@ -21,13 +21,15 @@
             <p><strong>Factory:</strong> ${item.factoryName}</p>
             <p><strong>Stock Quantity:</strong> ${item.stockQty}</p>
 
-            <form id="orderForm" action="/orderItem" method="post">
-                <input type="hidden" name="itemCode" value="${item.itemCode}">
+            <form id="orderForm" action="/orders" method="post">
+                <%-- 장바구니와 동일 주문 로직을 사용하기 위하여
+                    변수를 단일이아닌 복수형태로 사용함 (itemCodes, quantities) --%>
+                <input type="hidden" name="itemCodes" value="${item.itemCode}">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
                     </div>
-                    <input type="text" class="form-control" name="orderQty" id="orderQty" value="1" readonly>
+                    <input type="text" class="form-control" name="quantities" id="orderQty" value="1">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
                     </div>
