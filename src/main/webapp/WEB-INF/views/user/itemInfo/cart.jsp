@@ -22,7 +22,7 @@
     <h1 class="my-4">Shopping Cart</h1>
     <c:if test="${not empty cartItems}">
         <form id="orderForm" method="post" action="/orders">
-            <input type="hidden" name="userCode" value="${cartItems[0].userCode}">
+            <input type="hidden" name="userCode" value="${loginMember.userCode}">
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -47,7 +47,7 @@
                         </td>
                         <td>₩<span class="item-subtotal">${cartItem.itemPrice * cartItem.cartItemQty}</span></td>
                         <td>
-                            <form method="post" action="/cart/remove/${cartItem.cartCode}">
+                            <form method="post" action="/cart/remove/${cartItem.itemCode}">
                                 <button type="submit" class="btn btn-sm btn-danger">Remove</button>
                             </form>
                         </td>

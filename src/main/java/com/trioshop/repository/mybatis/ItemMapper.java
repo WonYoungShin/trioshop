@@ -16,4 +16,8 @@ public interface ItemMapper {
     List<ItemInfoByOrderList> orderList(long userCode);
     void insertOrders (OrdersEntity ordersEntity);
     void insertOrderItems (OrderItemEntity orderItemEntity);
+    void updateStockQty (ItemCodeAndQty itemCodeAndQty);
+    void deleteItemsFromCart(long userCode, List<Long> itemCodeList);
+    void insertCartItem (CartEntity cartEntity);
+    void deleteCartItem (CartEntity cartEntity);
 }

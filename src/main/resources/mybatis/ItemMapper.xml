@@ -145,4 +145,30 @@
         VALUES (#{orderCode}, #{itemCode}, #{orderQty})
     </insert>
 
+    <!--  기존수량-orderQty 를 업데이트  -->
+    <update id="updateStockQty">
+        UPDATE TRIO_STOCK
+        SET stock_qty = stock_qty - #{orderQty}
+        WHERE item_code = #{itemCode}
+    </update>
+
+    <!-- userCode로 장바구니를 특정해 구매한 물품을 itemCode로 제거   -->
+    <delete id="deleteItemsFromCart">
+        DELETE FROM TRIO_CART
+        WHERE user_code = #{userCode}
+        AND item_code IN
+        <foreach item="itemCode" collection="itemCodeList" open="(" separator="," close=")">
+            #{itemCode}
+        </foreach>
+    </delete>
+
+    <insert id="insertCartItem">
+        INSERT INTO TRIO_CART (user_code, item_code, cartitem_qty)
+        VALUES (#{userCode}, #{itemCode}, #{cartItemQty})
+    </insert>
+
+    <delete id="deleteCartItem">
+        DELETE FROM TRIO_CART
+        WHERE user_code = #{userCode} AND item_code = #{itemCode}
+    </delete>
 </mapper>

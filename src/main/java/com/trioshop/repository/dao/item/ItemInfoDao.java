@@ -40,4 +40,16 @@ public class ItemInfoDao {
     public void insertOrderItems(OrderItemEntity orderItemEntity) {
         itemMapper.insertOrderItems(orderItemEntity);
     }
+    public void updateStockQty (ItemCodeAndQty itemCodeAndQty) {
+        itemMapper.updateStockQty(itemCodeAndQty);
+    }
+    public void deleteItemsFromCart(long userCode, List<Long> itemCodeList) {
+        itemMapper.deleteItemsFromCart(userCode, itemCodeList);
+    }
+    public void insertCartItem (CartEntity cartEntity) {
+        itemMapper.insertCartItem(cartEntity);
+    }
+    public void deleteCartItem (CartEntity cartEntity) {
+        itemMapper.deleteCartItem(cartEntity);
+    }
 }
