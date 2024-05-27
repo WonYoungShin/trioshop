@@ -35,6 +35,16 @@
         ORDER BY DATE_FORMAT(o.order_date, '%Y-%m')
     </select>
 
-
+    <select id="allOrderPrice" resultType="Long">
+        SELECT SUM(item.item_price) * oi.order_qty
+        FROM TRIO_ITEMS item, TRIO_ORDER_ITEMS oi, TRIO_ORDERS o
+        WHERE item.item_code = oi.item_code
+        AND oi.order_code = o.order_code
+        AND o.status_code = '30'
+    </select>
+    <select id="allPurchaseQty" resultType="Integer">
+        SELECT SUM(purchase_qty)
+        FROM TRIO_PURCHASE
+    </select>
 
 </mapper>

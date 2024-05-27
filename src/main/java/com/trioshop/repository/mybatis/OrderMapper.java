@@ -13,5 +13,6 @@ import java.util.List;
 public interface OrderMapper {
     List<SalesModel> yearSales(SalesCondition salesCondition);
     List<SalesModel> monthSales(SalesCondition salesCondition);
-
+    Long allOrderPrice();
+    Integer allPurchaseQty();
 }

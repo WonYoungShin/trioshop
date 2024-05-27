@@ -25,6 +25,7 @@ public class OrderManagementController {
 
     @GetMapping
     public String yearSales(@ModelAttribute SalesCondition salesCondition, Model model) {
+
         List<SalesModel> yearlySales = orderService.yearSales(salesCondition);
         double totalSales = yearlySales.stream()
                 .mapToDouble(SalesModel::getTotalSales)

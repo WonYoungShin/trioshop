@@ -19,4 +19,12 @@ public class OrderManagementDao {
     public List<SalesModel> monthSales(SalesCondition salesCondition) {
         return orderMapper.monthSales(salesCondition);
     }
+
+    public Long allOrderPrice(){
+        return orderMapper.allOrderPrice();
+    }
+
+    public Integer allPurchaseQty(){
+        return orderMapper.allPurchaseQty();
+    }
 }
