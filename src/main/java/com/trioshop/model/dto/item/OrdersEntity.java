@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrdersEntity {
 
     private String orderCode;
@@ -16,9 +16,3 @@ public class OrdersEntity {
     private String orderTel;
     private String statusCode;
 }
-//  private long orderItemCode;
-//    private String itemName;
-//    private long itemPrice;
-//    private String itemSrc;
-//    private long stockQty;
-

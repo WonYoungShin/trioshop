@@ -26,65 +26,74 @@
         .btn-danger {
             width: 60px;
         }
+        .content {
+            margin-left: 250px; /* 사이드바의 너비만큼 마진을 줍니다 */
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
     </style>
 </head>
 <body>
-<%@ include file="adminSidebar.jsp" %>
-<div class="container">
-    <h1 class="my-4 text-center">발주 목록</h1>
-    <div class="row mb-4">
-        <div class="col-md-12 d-flex justify-content-end">
-            <!-- 검색창 및 카테고리 선택 항목 결합 -->
-            <form class="form-inline" method="get" action="">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName" value="${param.itemName}">
-                <select class="form-control mr-sm-2" name="category">
-                    <option value="">Select Category</option>
-                    <c:forEach var="category" items="${categoryList}">
-                        <option value="${category.categoryCode}" <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
-                    </c:forEach>
-                </select>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-light">
-                <tr>
-                    <th>발주번호</th>
-                    <th>상품코드</th>
-                    <th>발주수량</th>
-                    <th>제조업체</th>
-                    <th>상품이름</th>
-                    <th>가격</th>
-                    <th>카테고리</th>
-                    <th>사이즈</th>
-                    <th>상품색깔</th>
-                    <th>발주총액</th>
-                    <th>삭제</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="item" items="${purchaseList}">
-                    <tr onclick="location.href='/trioAdmin/purchase/${item.purchaseCode}'">
-                        <td>${item.purchaseCode}</td>
-                        <td>${item.itemCode}</td>
-                        <td>${item.purchaseQty}</td>
-                        <td>${item.factoryCode}</td>
-                        <td>${item.itemName}</td>
-                        <td><fmt:formatNumber value="${item.purchasePrice}" type="currency" currencySymbol="" /></td>
-                        <td>${item.categoryName}</td>
-                        <td>${item.itemSize}</td>
-                        <td>${item.itemColor}</td>
-                        <td><fmt:formatNumber value="${item.purchaseQty * item.purchasePrice}" type="currency" currencySymbol="" /></td>
-                        <td>
-                            <button class="btn btn-danger" onclick="deletePurchase(event, ${item.purchaseCode})">삭제</button>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+<div class="d-flex">
+    <%@ include file="adminSidebar.jsp" %>
+    <div class="content">
+        <div class="container">
+            <h1 class="my-4 text-center">발주 목록</h1>
+            <div class="row mb-4">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <!-- 검색창 및 카테고리 선택 항목 결합 -->
+                    <form class="form-inline" method="get" action="">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName" value="${param.itemName}">
+                        <select class="form-control mr-sm-2" name="category">
+                            <option value="">Select Category</option>
+                            <c:forEach var="category" items="${categoryList}">
+                                <option value="${category.categoryCode}" <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
+                            </c:forEach>
+                        </select>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>발주번호</th>
+                            <th>상품코드</th>
+                            <th>발주수량</th>
+                            <th>제조업체</th>
+                            <th>상품이름</th>
+                            <th>가격</th>
+                            <th>카테고리</th>
+                            <th>사이즈</th>
+                            <th>상품색깔</th>
+                            <th>발주총액</th>
+                            <th>삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="item" items="${purchaseList}">
+                            <tr onclick="location.href='/trioAdmin/purchase/${item.purchaseCode}'">
+                                <td>${item.purchaseCode}</td>
+                                <td>${item.itemCode}</td>
+                                <td>${item.purchaseQty}</td>
+                                <td>${item.factoryCode}</td>
+                                <td>${item.itemName}</td>
+                                <td><fmt:formatNumber value="${item.purchasePrice}" type="currency" currencySymbol="" /></td>
+                                <td>${item.categoryName}</td>
+                                <td>${item.itemSize}</td>
+                                <td>${item.itemColor}</td>
+                                <td><fmt:formatNumber value="${item.purchaseQty * item.purchasePrice}" type="currency" currencySymbol="" /></td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="deletePurchase(event, ${item.purchaseCode})">삭제</button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
