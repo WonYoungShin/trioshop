@@ -21,10 +21,9 @@ public class UserInfoService {
         return userInfoDao.findId(userName, userTel);
     }
 
-    public UserFindPw isfindPw(String userName, String userId) {
-        return userInfoDao.findPw(userName, userId);
+    public boolean findAndUpdatePw(UserFindPw userFindPw) {
+        return userInfoDao.findAndUpdatePw(userFindPw);
     }
-
 
     public boolean registerUser(UserJoin userJoin) {
         try {

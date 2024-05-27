@@ -8,15 +8,12 @@ import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
-//
+
     @Autowired
     HttpSession session;
 
@@ -29,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute UserIdPasswd userIdPasswd, HttpServletRequest request) {
+    public ModelAndView login(@ModelAttribute UserIdPasswd userIdPasswd) {
         ModelAndView mv = new ModelAndView();
         UserInfoBySession user = userInfoService.isValidUser(userIdPasswd.getUserId(), userIdPasswd.getUserPasswd());
 
@@ -104,16 +101,40 @@ public class UserController {
     }
 
     @PostMapping("/findPw")
-    public ModelAndView findPw(String userName, String userId) {
-        UserFindPw userPw = userInfoService.isfindPw(userName, userId);
+    // 첫 번째 단계:/findPw POST 요청 핸들러 메소드에서 새 비밀번호와 비밀번호 확인을 @RequestParam(required = false)로 설정하여 필수가 아님을 나타냈습니다.
+    public ModelAndView findPw(@RequestParam String userName,
+                               @RequestParam String userId,
+                               @RequestParam(required = false) String newPassword,
+                               @RequestParam(required = false) String confirmPassword) {
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findPw");
-        if (userPw != null) {
-            modelAndView.addObject("userInfo", userPw);
-        } else {
-            modelAndView.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
+
+        if (newPassword == null || confirmPassword == null) {
+            // 새 비밀번호와 비밀번호 확인이 입력되지 않은 경우
+            modelAndView.addObject("showForm", true);
+            modelAndView.addObject("userName", userName);
+            modelAndView.addObject("userId", userId);
+            return modelAndView;
         }
+
+        // 새 비밀번호와 비밀번호 확인이 입력된 경우
+        if (!newPassword.equals(confirmPassword)) {
+            modelAndView.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return modelAndView;
+        }
+
+        UserFindPw userFindPw = new UserFindPw(userName, userId, newPassword);
+        boolean isUpdated = userInfoService.findAndUpdatePw(userFindPw);
+        if (isUpdated) {
+            modelAndView.setViewName("redirect:/login");
+            modelAndView.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
+        } else {
+            modelAndView.addObject("message", "비밀번호 변경 중 오류가 발생했습니다.");
+        }
+
         return modelAndView;
     }
+
+
 
     @GetMapping("/myPage")
     public String myPage() {
@@ -131,7 +152,6 @@ public class UserController {
             UserPatch userPatch = new UserPatch();
             userPatch.setUserCode(currentUser.getUserCode());
             userPatch.setUserNickname(currentUser.getUserNickname());
-            // userPatch에 필요한 다른 정보를 설정
             mv.setViewName("/user/userInfo/changeInfo");
             mv.addObject("userPatch", userPatch);
         }
@@ -139,9 +159,9 @@ public class UserController {
     }
 
     @PostMapping("/changeInfo")
-    public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch) {
-        System.out.println("userPatch = " + userPatch);
-        UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+    public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession currentUser) {
+        System.out.println("userPatch = " + userPatch); //SessionAttribute 을 사용해서 loginMember에서 session을 불러옴 currentUser 로 이름정의
+        currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
         userPatch.setUserCode(currentUser.getUserCode());
 
         ModelAndView mv = new ModelAndView();
