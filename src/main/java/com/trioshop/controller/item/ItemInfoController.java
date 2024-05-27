@@ -5,9 +5,6 @@ import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.CategoryList;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,120 +20,101 @@ public class ItemInfoController {
     private final ItemService itemService;
     //카테고리 목록 싱글톤으로 관리
     private final CategoryList categoryList;
-    @Autowired
-    HttpSession session;
 
-    @GetMapping("/")
-    public ModelAndView userList() {
-        ModelAndView mv = new ModelAndView();
-        //카테고리 목록 불러오기
-        mv.addObject("categoryList", categoryList.getCategoryList());
-
+    @GetMapping("/") // 홈화면
+    public String userList(Model model) {
         List<ItemInfoByUser> itemList = itemService.findAllItem();
-        mv.addObject("itemList", itemList);
-        mv.setViewName("/etc/homePage");
-        return mv;
+        model.addAttribute("itemList", itemList);
+        //카테고리 목록 불러오기
+        model.addAttribute("categoryList", categoryList.getCategoryList());
+        return "etc/homePage";
+    }
+    @GetMapping("/itemList") // 전체아이템 목록화면
+    public String itemListPage(Model model) {
+        List<ItemInfoByUser> itemList = itemService.findAllItem();
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("categoryList", categoryList.getCategoryList());
+        return "user/itemInfo/itemList";
     }
 
-    @RequestMapping("/itemList")//상품 전체리스트 페이지로
-    public ModelAndView itemListPage() {
-        ModelAndView mv = new ModelAndView();
-
-        //카테고리 목록 불러오기
-        mv.addObject("categoryList", categoryList.getCategoryList());
-
-        List<ItemInfoByUser> itemList = itemService.findAllItem();
-        mv.addObject("itemList", itemList);
-        mv.setViewName("/user/itemInfo/itemList");
-        return mv;
-    }
-
-    @RequestMapping("/searchItems")//상품 검색 페이지로
-    public ModelAndView searchItems(@ModelAttribute ItemCondition itemCondition) {
-        ModelAndView mv = new ModelAndView();
-        //카테고리 목록 불러오기
-        mv.addObject("categoryList", categoryList.getCategoryList());
-
+    @GetMapping("/searchItems") // 상품 검색 페이지로
+    public String searchItems(@ModelAttribute ItemCondition itemCondition,
+                              Model model) {
         List<ItemInfoByUser> itemList = itemService.searchItems(itemCondition);
-        mv.addObject("itemList", itemList);
-
-        mv.setViewName("/user/itemInfo/itemList");
-        return mv;
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("categoryList", categoryList.getCategoryList());
+        return "user/itemInfo/itemList";
     }
 
-    @RequestMapping("/cart")//카트 페이지로
-    public ModelAndView cartPage() {
-        ModelAndView mv = new ModelAndView();
-        UserInfoBySession userInfoBySession =
-                (UserInfoBySession)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getGradeCode());
-        mv.addObject("cartItems", cartItems);
-        mv.setViewName("/user/itemInfo/cart");
-        return mv;
-    }
-    @PostMapping("/addCart")
-    @ResponseBody
-    public String addCartItem(@RequestParam("itemCode") String itemCode) {
-        System.out.println("확인1");
-        try {
-            return "success";
-        } catch (Exception e) {
-            return "failure";
-        }
+    @GetMapping("/cart") // 카트 페이지로
+    public String cartPage(@ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                           Model model) {
+
+        List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getUserCode());
+        model.addAttribute("cartItems", cartItems);
+        return "user/itemInfo/cart";
     }
 
-    @RequestMapping("/item/{itemCode}") // 상품 상세 페이지로
-    public ModelAndView itemDetailPage(@PathVariable(value = "itemCode") long itemCode) {
-        ModelAndView mv = new ModelAndView();
+    @PostMapping("/addCart") //
+    public String addCartItem(@RequestParam("itemCode") long itemCode,
+                              @RequestParam("cartItemQty") long cartItemQty,
+                              @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                              Model model) {
+        // cartCode는 MySQL 자동생성, 나머지항목으로 생성자 호출
+        itemService.insertCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode, cartItemQty));
+        // return "user/itemInfo/itemList";
+        return "redirect:/itemList";
+    }
+    @PostMapping("/cart/remove")
+    public String deleteCartItem (@RequestParam("itemCode") long itemCode,
+                                  @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                                  Model model ){
+        //userCode 와 itemCode 만으로 이루어진 생성자 호출
+        itemService.deleteCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode));
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/item/{itemCode}")
+    public String itemDetailPage(@PathVariable("itemCode") long itemCode, Model model) {
         ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
-        mv.addObject("item", item);
-        mv.setViewName("/user/itemInfo/itemPage");
-        return mv;
+        model.addAttribute("item", item);
+        return "user/itemInfo/itemPage";
     }
 
-    @RequestMapping("/orders") // 주문 페이지로
-    public ModelAndView ordersPage(@RequestParam(value = "itemCode", required = false) Long itemCode
-                                  ,@RequestParam(value = "userCode", required = false) Long userCode) {
-        ModelAndView mv = new ModelAndView();
-        if(itemCode != null) { // 바로 주문으로 가는경우
-            ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
-            List<ItemInfoByUser> itemList = new ArrayList<>();
-            itemList.add(item);
-            mv.addObject("itemList", itemList);
-            mv.setViewName("/user/itemInfo/orders");
-        } else { // 장바구니에서의 주문
-            List<ItemInfoByCart> cartItems = itemService.cartItemList(userCode);
-            mv.addObject("itemList", cartItems);
-            mv.setViewName("/user/itemInfo/orders");
-        }
-        return mv;
+    @PostMapping("/orders") // 주문 상세 페이지로
+    public String ordersPage(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
+                             @RequestParam(value = "quantities", required = false) List<Long> quantities,
+                             Model model) {
+        List<ItemInfoByUser> itemList = itemService.makeOrderItems(itemCodes, quantities);
+        model.addAttribute("itemList", itemList);
+        return "user/itemInfo/orders";
     }
-    @RequestMapping("/orderList/{userCode}") // 주문 리스트 페이지로
-    public ModelAndView orderListPage(@PathVariable(value = "userCode") long userCode ){
-        ModelAndView mv = new ModelAndView();
 
-        List<ItemInfoByOrderList> orderList = itemService.orderList(userCode);
-        mv.addObject("orderList", orderList);
-        mv.setViewName("/user/itemInfo/orderList");
-        return mv;
+    @GetMapping("/orderList") // 주문 완료 목록으로
+    public String orderListPage(@ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                                Model model) {
+
+        List<ItemInfoByOrderList> orderList = itemService.orderList(userInfoBySession.getUserCode());
+        model.addAttribute("orderList", orderList);
+        return "user/itemInfo/orderList";
     }
-    @PostMapping("/placeOrder")
-    public ModelAndView orderProcess(@ModelAttribute OrdersEntity ordersEntity,
-                                     @ModelAttribute("orderItemEntityList") List<OrderItemEntity> orderItemEntityList){
-        ModelAndView mv = new ModelAndView();
-        System.out.println("테스트1");
-        boolean check = itemService.orderProcess(ordersEntity, orderItemEntityList);
-        System.out.println("테스트2");
+
+    @PostMapping("/placeOrder") // 주문로직
+    public String orderProcess(@ModelAttribute OrdersEntity ordersEntity,
+                               @ModelAttribute OrderItemList orderItemList,
+                               @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                               Model model) {
+
+        ordersEntity.setUserCode(userInfoBySession.getUserCode());
+        boolean check = itemService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
         if (check) {
             List<ItemInfoByOrderList> orderList = itemService.orderList(ordersEntity.getUserCode());
-            mv.addObject("orderList", orderList);
-            mv.setViewName("/user/itemInfo/orderList");
+            model.addAttribute("orderList", orderList);
+            return "redirect:/orderList";
         } else {
             System.out.println("주문실패"); //테스트용
-            mv.setViewName("redirect:/");
+            return "redirect:/";
         }
-        System.out.println("테스트3");
-        return mv;
     }
 }
 
