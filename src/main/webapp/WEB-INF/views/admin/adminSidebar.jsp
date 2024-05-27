@@ -14,6 +14,7 @@
     .sidebar .nav-link:hover {
         background-color: #e9ecef;
     }
+
 </style>
 
 <div class="sidebar bg-light">
