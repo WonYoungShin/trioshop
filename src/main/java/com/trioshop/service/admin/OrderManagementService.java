@@ -1,6 +1,7 @@
 package com.trioshop.service.admin;
 
 import com.trioshop.model.dto.admin.DashboardModel;
+import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.admin.SalesCondition;
 import com.trioshop.model.dto.admin.SalesModel;
 import com.trioshop.model.dto.item.ItemCondition;
@@ -37,5 +38,9 @@ public class OrderManagementService {
          Long allOrderPrice  = orderDao.allOrderPrice();
          Integer allPurchaseQty = orderDao.allPurchaseQty();
          return new DashboardModel(allOrderPrice,allPurchaseQty);
+    }
+
+    public List<OrderListModel> orderList(){
+        return orderDao.orderList();
     }
 }
