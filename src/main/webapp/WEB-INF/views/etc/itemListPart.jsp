@@ -15,11 +15,11 @@
     <div class="col-md-12 d-flex justify-content-end">
       <!-- 검색창 및 카테고리 선택 항목 결합 -->
       <form class="form-inline" method="get" action="${pageContext.request.contextPath}/searchItems">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName" value="${param.itemName}">
         <select class="form-control mr-sm-2" name="category">
           <option value="">Select Category</option>
           <c:forEach var="category" items="${categoryList}">
-            <option value="${category.categoryName}">${category.categoryName}</option>
+            <option value="${category.categoryName}" <c:if test="${param.category == category.categoryName}">selected</c:if>>${category.categoryName}</option>
           </c:forEach>
         </select>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

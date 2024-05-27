@@ -97,22 +97,34 @@ public class ItemService {
             return false;
         }
     }
-    // 카트 테이블 insert
-    public void insertCartItem (CartEntity cartEntity) {
-        itemInfoDao.insertCartItem(cartEntity);
+    public void addCartItem (CartEntity cartEntity) {
+        if( itemInfoDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
+            itemInfoDao.updateCartItem(cartEntity); // 수량을 업데이트
+        } else {
+            itemInfoDao.insertCartItem(cartEntity); // cart에 insert
+        }
     }
     // 카트 항목 delete
     public void deleteCartItem (CartEntity cartEntity) {
         itemInfoDao.deleteCartItem(cartEntity);
     }
+
+    public List<String> findColors(String itemName) {
+        return itemInfoDao.findColors(itemName);
+    }
+
+    public List<String> findSizes(String itemName) {
+        return itemInfoDao.findSizes(itemName);
+    }
+
     //orderCode 생성 로직
     private String generateOrderCode(long userCode) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd-HHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         String dateStr = sdf.format(new Date());
         return userCode + "-" + dateStr;
     }
     private String generateOrderDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd-HHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         return sdf.format(new Date());
     }
 }
