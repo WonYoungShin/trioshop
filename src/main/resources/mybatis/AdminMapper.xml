@@ -147,4 +147,19 @@
         WHERE item_code = #{itemCode}
     </update>
 
+    <select id="orderList" resultType="OrderListModel">
+        SELECT o.order_code,
+               o.order_date,
+               oi.item_code,
+               i.item_name,
+               oi.order_qty,
+               i.item_price,
+            os.status_name,
+            o.user_code
+        FROM TRIO_ORDERS o
+                 JOIN TRIO_ORDER_STATUS os ON o.status_code = os.status_code
+                 JOIN TRIO_ORDER_ITEMS oi ON o.order_code = oi.order_code
+                 JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
+    </select>
+
 </mapper>

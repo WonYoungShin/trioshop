@@ -1,5 +1,6 @@
 package com.trioshop.repository.mybatis;
 
+import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.admin.SalesCondition;
 import com.trioshop.model.dto.admin.SalesModel;
 import com.trioshop.model.dto.item.ItemCondition;
@@ -15,4 +16,5 @@ public interface OrderMapper {
     List<SalesModel> monthSales(SalesCondition salesCondition);
     Long allOrderPrice();
     Integer allPurchaseQty();
+    List<OrderListModel> orderList();
 }
