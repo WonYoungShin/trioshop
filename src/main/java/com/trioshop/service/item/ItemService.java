@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -28,8 +29,11 @@ public class ItemService {
         return itemInfoDao.findAllItem();
     }
 
-    public ItemInfoByUser itemInfoByCode(long itemCode) {
+    public ItemInfoByUser itemInfoByCode (long itemCode) {
         return itemInfoDao.itemInfoByCode(itemCode);
+    }
+    public List<ItemInfoByUser> itemInfoByCodes (List<Long> itemCodes) {
+        return itemInfoDao.itemInfoByCodes(itemCodes);
     }
 
     public List<ItemInfoByCart> cartItemList(long userCode) {
@@ -40,16 +44,33 @@ public class ItemService {
         return itemInfoDao.orderList(userCode);
     }
 
+    public List<ItemInfoByUser> makeOrderItems(List<Long> itemCodes, List<Long> quantities) {
+
+        HashMap<Long, Long> orderMap = new HashMap<>();
+        List<ItemInfoByUser> itemInfoList = this.itemInfoByCodes(itemCodes);
+
+            for (int i = 0; i < itemCodes.size(); i++) {
+                // itemcode 를 키로 orderQty를 값으로 하여 Map생성
+                orderMap.put(itemCodes.get(i),quantities.get(i));
+            }
+
+        for (ItemInfoByUser itemInfoByUser : itemInfoList) {
+            itemInfoByUser.setOrderQty(orderMap.get(itemInfoByUser.getItemCode()));
+        }
+        return itemInfoList;
+    }
+    // 주문 로직
     @Transactional
     public boolean orderProcess(OrdersEntity ordersEntity,
                                 List<OrderItemEntity> orderItemList) {
         try {
-            // userCode+현재시간 으로 orderCode생성
+            // userCode+현재시간 으로 orderCode생성 (userCode + "-" + dateStr)
             String orderCode = generateOrderCode(ordersEntity.getUserCode());
+            List<Long> itemCodeList = new ArrayList<>(); // 장바구니에서 구매품목을 지우기위한 List
             // 주문 테이블 저장
             ordersEntity.setOrderCode(orderCode);
             ordersEntity.setStatusCode("10");
-            ordersEntity.setOrderDate(generateOrderDate()); // 시간입력 yyMMddHHmmss
+            ordersEntity.setOrderDate(generateOrderDate()); // 시간 yyMMdd-HHmmss
             itemInfoDao.insertOrders(ordersEntity);
             // 주문 상품 테이블 저장
             for (OrderItemEntity orderItemEntity : orderItemList) {
@@ -57,8 +78,18 @@ public class ItemService {
                 itemInfoDao.insertOrderItems(orderItemEntity);
             }
             // 재고 업데이트
+            for (OrderItemEntity orderItemEntity : orderItemList) {
+                ItemCodeAndQty itemCodeAndQty
+                        = new ItemCodeAndQty(orderItemEntity.getItemCode(),
+                                             orderItemEntity.getOrderQty());
+                // itemCode로 검색해 주문수량 update
+                itemInfoDao.updateStockQty(itemCodeAndQty);
 
-            // 기타 필요한 비즈니스 로직
+                itemCodeList.add(orderItemEntity.getItemCode());
+            }
+            // 구매 품목 카트 에서 제외
+            itemInfoDao.deleteItemsFromCart(ordersEntity.getUserCode(),itemCodeList);
+
             return true;
         } catch (Exception e) {
             // 예외 발생 시 로그 출력
@@ -66,7 +97,14 @@ public class ItemService {
             return false;
         }
     }
-
+    // 카트 테이블 insert
+    public void insertCartItem (CartEntity cartEntity) {
+        itemInfoDao.insertCartItem(cartEntity);
+    }
+    // 카트 항목 delete
+    public void deleteCartItem (CartEntity cartEntity) {
+        itemInfoDao.deleteCartItem(cartEntity);
+    }
     //orderCode 생성 로직
     private String generateOrderCode(long userCode) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd-HHmmss");
@@ -74,7 +112,7 @@ public class ItemService {
         return userCode + "-" + dateStr;
     }
     private String generateOrderDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd-HHmmss");
         return sdf.format(new Date());
     }
 }

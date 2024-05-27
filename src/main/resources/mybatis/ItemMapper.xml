@@ -10,7 +10,9 @@
                TI.item_name itemName,
                TS.stock_qty stockQty,
                TI.item_price itemPrice,
-               TI.item_src itemSrc
+               TI.item_src itemSrc,
+               TI.item_color itemColor,
+               TI.item_size itemSize
         FROM TRIO_ITEMS TI, TRIO_STOCK TS, TRIO_CATEGORY TC, TRIO_FACTORY TF
         WHERE TI.item_code=TS.item_code
           AND TI.category_code=TC.category_code
@@ -25,7 +27,9 @@
         TI.item_name AS itemName,
         TS.stock_qty AS stockQty,
         TI.item_price AS itemPrice,
-        TI.item_src AS itemSrc
+        TI.item_src AS itemSrc,
+        TI.item_color itemColor,
+        TI.item_size itemSize
         FROM TRIO_ITEMS TI
         JOIN TRIO_STOCK TS ON TI.item_code = TS.item_code
         JOIN TRIO_CATEGORY TC ON TI.category_code = TC.category_code
@@ -44,7 +48,29 @@
                category_name
         FROM TRIO_CATEGORY
     </select>
-    <!--  itemCode 또는 itemCodes 으로 아이템 정보 반환 -->
+    <!--  itemCode 로 아이템 정보 반환 -->
+    <select id="itemInfoByCode" resultType="ItemInfoByUser">
+        SELECT
+        TI.item_code AS itemCode,
+        TC.category_name AS categoryName,
+        TF.factory_name AS factoryName,
+        TI.item_name AS itemName,
+        TS.stock_qty AS stockQty,
+        TI.item_price AS itemPrice,
+        TI.item_src AS itemSrc,
+        TI.item_color AS itemColor,
+        TI.item_size AS itemSize
+        FROM
+        TRIO_ITEMS TI
+        JOIN
+        TRIO_STOCK TS ON TI.item_code = TS.item_code
+        JOIN
+        TRIO_CATEGORY TC ON TI.category_code = TC.category_code
+        JOIN
+        TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
+        WHERE TI.item_code = #{itemCode}
+    </select>
+    <!--  itemCodes 으로 아이템 정보 반환 -->
     <select id="itemInfoByCodes" resultType="ItemInfoByUser">
         SELECT
         TI.item_code AS itemCode,
@@ -55,8 +81,7 @@
         TI.item_price AS itemPrice,
         TI.item_src AS itemSrc,
         TI.item_color AS itemColor,
-        TI.item_size AS itemSize,
-        0 AS orderQty
+        TI.item_size AS itemSize
         FROM
         TRIO_ITEMS TI
         JOIN
@@ -65,19 +90,10 @@
         TRIO_CATEGORY TC ON TI.category_code = TC.category_code
         JOIN
         TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
-        WHERE
-        1=1
-        <choose>
-            <when test="itemCode != null">
-                AND TI.item_code = #{itemCode}
-            </when>
-            <when test="itemCodes != null and itemCodes.size() > 0">
-                AND TI.item_code IN
-                <foreach item="code" collection="itemCodes" open="(" separator="," close=")">
-                    #{code}
-                </foreach>
-            </when>
-        </choose>
+        WHERE TI.item_code IN
+        <foreach item="code" collection="itemCodes" open="(" separator="," close=")">
+            #{code}
+        </foreach>
     </select>
 
     <!--  cart item list -->
@@ -129,4 +145,30 @@
         VALUES (#{orderCode}, #{itemCode}, #{orderQty})
     </insert>
 
+    <!--  기존수량-orderQty 를 업데이트  -->
+    <update id="updateStockQty">
+        UPDATE TRIO_STOCK
+        SET stock_qty = stock_qty - #{orderQty}
+        WHERE item_code = #{itemCode}
+    </update>
+
+    <!-- userCode로 장바구니를 특정해 구매한 물품을 itemCode로 제거   -->
+    <delete id="deleteItemsFromCart">
+        DELETE FROM TRIO_CART
+        WHERE user_code = #{userCode}
+        AND item_code IN
+        <foreach item="itemCode" collection="itemCodeList" open="(" separator="," close=")">
+            #{itemCode}
+        </foreach>
+    </delete>
+
+    <insert id="insertCartItem">
+        INSERT INTO TRIO_CART (user_code, item_code, cartitem_qty)
+        VALUES (#{userCode}, #{itemCode}, #{cartItemQty})
+    </insert>
+
+    <delete id="deleteCartItem">
+        DELETE FROM TRIO_CART
+        WHERE user_code = #{userCode} AND item_code = #{itemCode}
+    </delete>
 </mapper>

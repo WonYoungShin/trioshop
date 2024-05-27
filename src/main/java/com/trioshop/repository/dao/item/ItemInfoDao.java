@@ -22,6 +22,9 @@ public class ItemInfoDao {
     public List<ItemInfoByUser> searchItems(ItemCondition itemCondition) {
         return  itemMapper.searchItems(itemCondition);
     }
+    public  List<ItemInfoByUser> itemInfoByCodes(List<Long> itemCodes) {
+        return  itemMapper.itemInfoByCodes(itemCodes);
+    }
     public  ItemInfoByUser itemInfoByCode(long itemCode) {
         return  itemMapper.itemInfoByCode(itemCode);
     }
@@ -36,5 +39,17 @@ public class ItemInfoDao {
     }
     public void insertOrderItems(OrderItemEntity orderItemEntity) {
         itemMapper.insertOrderItems(orderItemEntity);
+    }
+    public void updateStockQty (ItemCodeAndQty itemCodeAndQty) {
+        itemMapper.updateStockQty(itemCodeAndQty);
+    }
+    public void deleteItemsFromCart(long userCode, List<Long> itemCodeList) {
+        itemMapper.deleteItemsFromCart(userCode, itemCodeList);
+    }
+    public void insertCartItem (CartEntity cartEntity) {
+        itemMapper.insertCartItem(cartEntity);
+    }
+    public void deleteCartItem (CartEntity cartEntity) {
+        itemMapper.deleteCartItem(cartEntity);
     }
 }
