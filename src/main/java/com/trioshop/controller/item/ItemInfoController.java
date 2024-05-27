@@ -65,8 +65,8 @@ public class ItemInfoController {
         // return "user/itemInfo/itemList";
         return "redirect:/itemList";
     }
-    @PostMapping("/cart/remove/{itemCode}")
-    public String deleteCartItem (@PathVariable("itemCode") long itemCode,
+    @PostMapping("/cart/remove")
+    public String deleteCartItem (@RequestParam("itemCode") long itemCode,
                                   @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
                                   Model model ){
         //userCode 와 itemCode 만으로 이루어진 생성자 호출
@@ -81,7 +81,7 @@ public class ItemInfoController {
         return "user/itemInfo/itemPage";
     }
 
-    @GetMapping("/orders") // 주문 상세 페이지로
+    @PostMapping("/orders") // 주문 상세 페이지로
     public String ordersPage(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
                              @RequestParam(value = "quantities", required = false) List<Long> quantities,
                              Model model) {
@@ -90,16 +90,16 @@ public class ItemInfoController {
         return "user/itemInfo/orders";
     }
 
-    @GetMapping("/orderList/{userCode}") // 주문 완료 목록으로
-    public String orderListPage(@PathVariable("userCode") long userCode,
+    @GetMapping("/orderList") // 주문 완료 목록으로
+    public String orderListPage(@ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
                                 Model model) {
-        List<ItemInfoByOrderList> orderList = itemService.orderList(userCode);
+
+        List<ItemInfoByOrderList> orderList = itemService.orderList(userInfoBySession.getUserCode());
         model.addAttribute("orderList", orderList);
         return "user/itemInfo/orderList";
     }
 
     @PostMapping("/placeOrder") // 주문로직
-    @ResponseBody
     public String orderProcess(@ModelAttribute OrdersEntity ordersEntity,
                                @ModelAttribute OrderItemList orderItemList,
                                @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
@@ -110,7 +110,7 @@ public class ItemInfoController {
         if (check) {
             List<ItemInfoByOrderList> orderList = itemService.orderList(ordersEntity.getUserCode());
             model.addAttribute("orderList", orderList);
-            return "user/itemInfo/orderList";
+            return "redirect:/orderList";
         } else {
             System.out.println("주문실패"); //테스트용
             return "redirect:/";

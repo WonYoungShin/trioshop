@@ -22,6 +22,7 @@
             <p><strong>Stock Quantity:</strong> ${item.stockQty}</p>
 
             <form id="orderForm" action="/orders" method="post">
+                <input type="hidden" name="userCode" value="${loginMember.userCode}">
                 <%-- 장바구니와 동일 주문 로직을 사용하기 위하여
                     변수를 단일이 아닌 복수 형태로 사용함 (itemCodes, quantities) --%>
                 <input type="hidden" name="itemCodes" value="${item.itemCode}">

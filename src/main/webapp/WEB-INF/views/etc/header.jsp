@@ -4,14 +4,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Header</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand">TRIOShop</a>
+    <a class="navbar-brand" href="/" >TRIOShop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -48,7 +47,7 @@
                         <c:otherwise>
                             <!-- 일반 사용자 메뉴 -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/orderList/${loginMember.userCode}">주문내역</a>
+                                <a class="nav-link" href="/orderList">주문내역</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/itemList">상품조회</a>

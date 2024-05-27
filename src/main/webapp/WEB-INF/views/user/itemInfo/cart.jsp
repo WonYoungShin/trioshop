@@ -47,7 +47,7 @@
                         </td>
                         <td>₩<span class="item-subtotal">${cartItem.itemPrice * cartItem.cartItemQty}</span></td>
                         <td>
-                            <form method="post" action="/cart/remove/${cartItem.itemCode}">
+                            <form method="post" action="/cart/remove">
                                 <button type="submit" class="btn btn-sm btn-danger">Remove</button>
                             </form>
                         </td>

@@ -13,6 +13,7 @@
     <h1 class="my-4">Order Page</h1>
 
     <form id="orderForm" method="post" action="/placeOrder">
+        <input type="hidden" name="userCode" value="${loginMember.userCode}">
         <table class="table table-bordered">
             <thead>
             <tr>
