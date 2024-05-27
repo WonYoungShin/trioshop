@@ -8,8 +8,10 @@
     <title>상품등록</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 </head>
 <body>
+<%@ include file="adminSidebar.jsp" %>
 <div class="container mt-4">
     <h1 class="mb-4 text-center">상품등록</h1>
     <form action="" method="post">
@@ -28,7 +30,12 @@
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="factoryCode">제조업체</label>
-                <input type="text" class="form-control" id="factoryCode" name="factoryCode" required/>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="factoryCode" name="factoryCode" required readonly/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="openFactoryPopup()">선택</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-row justify-content-center">
@@ -57,9 +64,17 @@
         </div>
     </form>
 </div>
+<!-- 팝업 창 열기 스크립트 -->
+<script>
+    function openFactoryPopup() {
+        window.open('/popupFactoryList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
+    }
 
+    function setFactoryCode(factoryCode) {
+        document.getElementById('factoryCode').value = factoryCode;
+    }
+</script>
 <!-- 부트스트랩 JavaScript 링크 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

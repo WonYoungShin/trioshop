@@ -1,53 +1,18 @@
 package com.trioshop.service.admin;
 
-import com.trioshop.model.dto.admin.*;
-import com.trioshop.repository.dao.admin.AdminDao;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.trioshop.model.dto.item.ItemCondition;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class AdminService {
-    private final AdminDao adminDao;
+public interface AdminService<T, L> {
 
-    public AddItemModel itemSave(AddItemModel itemModel){
-        return adminDao.itemSave(itemModel);
-    }
-    public PurchaseItemModel purchaseSave(PurchaseItemModel itemModel){
-        return adminDao.purchaseSave(itemModel);
-    }
-    public StoreItemModel storeSave(StoreItemModel itemModel){
-        return adminDao.storeSave(itemModel);
-    }
-    public List<PurchaseListModel> purchaseFindAll(){
-        return adminDao.purchaseFindAll();
-    }
-    public Optional<PurchaseListModel> purchaseFindByCode(Long purchaseCode){
-        return adminDao.purchaseFindByCode(purchaseCode);
-    }
+        T save(T itemModel);
 
-    public List<StoresListModel> storesFindAll(){
-        return adminDao.storesFindAll();
-    }
+        List<L> findAll(ItemCondition itemCondition);
 
-    public Optional<StoresListModel> storesFindByCode(Long storeCode){
-        return adminDao.storeFindByCode(storeCode);
-    }
+        Optional<L> findByCode(Long code);
 
-    public List<StockModel> stockFindAll(){
-        return adminDao.stockFindAll();
-    }
-
-    public Optional<AddItemQtyModel> itemFindById(Long itemCode){
-        return adminDao.itemFindByCode(itemCode);
-    }
-
-    public void addItemQty(AddItemQtyModel item){
-        adminDao.addItemQty(item);
-    }
-
+        void deleteByCode(Long code) throws Exception;
 
 }

@@ -8,14 +8,45 @@
     <title>입고 목록</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery 링크 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table tbody td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table tbody tr {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+<%@ include file="adminSidebar.jsp" %>
 <div class="container">
     <h1 class="my-4 text-center">입고 목록</h1>
+    <div class="row mb-4">
+        <div class="col-md-12 d-flex justify-content-end">
+            <!-- 검색창 및 카테고리 선택 항목 결합 -->
+            <form class="form-inline" method="get" action="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName" value="${param.itemName}">
+                <select class="form-control mr-sm-2" name="category">
+                    <option value="">Select Category</option>
+                    <c:forEach var="category" items="${categoryList}">
+                        <option value="${category.categoryCode}" <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
+                    </c:forEach>
+                </select>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
-            <table class="table table-striped">
-                <thead>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
                 <tr>
                     <th>입고번호</th>
                     <th>입고수량</th>
@@ -32,8 +63,8 @@
                 </thead>
                 <tbody>
                 <c:forEach var="item" items="${storesList}">
-                    <tr>
-                        <td><a href="/trioAdmin/stores/${item.storeCode}">${item.storeCode}</a></td>
+                    <tr onclick="location.href='/trioAdmin/stores/${item.storeCode}'">
+                        <td>${item.storeCode}</td>
                         <td>${item.storesQty}</td>
                         <c:if test="${item.purchaseCode != null}">
                             <td>${item.purchaseCode}</td>
@@ -48,7 +79,9 @@
                         <td>${item.storesPrice}</td>
                         <td>${item.itemSize}</td>
                         <td>${item.itemColor}</td>
-                        <td><button class="btn btn-secondary" onclick="location.href='/trioAdmin'">삭제</button></td>
+                        <td>
+                            <button class="btn btn-danger" onclick="deletePurchase(event, ${item.storeCode})">삭제</button>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -57,8 +90,26 @@
     </div>
 </div>
 
+<script>
+    function deletePurchase(event, storeCode) {
+        event.stopPropagation(); // 클릭 이벤트 전파 방지
+        if (confirm('정말 삭제하시겠습니까?')) {
+            $.ajax({
+                url: '/trioAdmin/stores/' + storeCode,
+                type: 'DELETE',
+                success: function(result) {
+                    alert('삭제되었습니다.');
+                    location.reload(); // 페이지 새로고침
+                },
+                error: function(err) {
+                    alert('삭제 중 오류가 발생했습니다.');
+                }
+            });
+        }
+    }
+</script>
+
 <!-- 부트스트랩 JavaScript 링크 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

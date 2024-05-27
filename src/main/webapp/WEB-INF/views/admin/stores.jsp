@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<%@ include file="adminSidebar.jsp" %>
 <div class="container mt-4">
     <h1 class="mb-4 text-center">입고</h1>
     <form action="" method="post">
@@ -27,31 +28,36 @@
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemName">상품이름</label>
-                <input type="text" class="form-control" id="itemName" name="itemName" readonly/>
+                <input type="text" class="form-control" id="itemName"  readonly/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="categoryCode">상품분류</label>
-                <input type="text" class="form-control" id="categoryCode" name="categoryCode" readonly/>
+                <input type="text" class="form-control" id="categoryCode"  readonly/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="factoryCode">제조업체</label>
-                <input type="text" class="form-control" id="factoryCode" name="factoryCode" readonly/>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="factoryCode" name="factoryCode" required readonly/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="openFactoryPopup()">선택</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemSize">상품사이즈</label>
-                <input type="text" class="form-control" id="itemSize" name="itemSize" readonly/>
+                <input type="text" class="form-control" id="itemSize"  readonly/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemColor">상품컬러</label>
-                <input type="text" class="form-control" id="itemColor" name="itemColor" readonly/>
+                <input type="text" class="form-control" id="itemColor" readonly/>
             </div>
         </div>
 
@@ -67,10 +73,17 @@
                 <input type="text" class="form-control" id="storeQty" name="storeQty" required/>
             </div>
         </div>
-        <%--    <div>--%>
-        <%--        <label for="purchaseCode">발주번호</label>--%>
-        <%--        <input type="text" id="purchaseCode" name="purchaseCode"/>--%>
-        <%--    </div>--%>
+        <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+                <label for="purchaseCode">발주번호</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="purchaseCode" name="purchaseCode" required readonly/>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="openPurchasePopup()">선택</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6 text-center">
                 <button type="submit" class="btn btn-primary">입고</button>
@@ -81,6 +94,14 @@
 </div>
 <!-- 팝업 창 열기 스크립트 -->
 <script>
+    function openFactoryPopup() {
+        window.open('/popupFactoryList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
+    }
+
+    function setFactoryCode(factoryCode) {
+        document.getElementById('factoryCode').value = factoryCode;
+    }
+
     function openPopup() {
         window.open('/popupItemList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
     }
@@ -92,6 +113,23 @@
         document.getElementById('factoryCode').value = factoryCode;
         document.getElementById('itemSize').value = itemSize;
         document.getElementById('itemColor').value = itemColor;
+    }
+
+    function openPurchasePopup() {
+        window.open('/popupPurchaseList', 'popup', 'width=1000,height=600,scrollbars=yes,resizable=yes');
+    }
+
+    function setDetails(itemCode, itemName, categoryCode, factoryCode, itemSize,
+                            itemColor, purchasePrice, purchaseQty, purchaseCode) {
+        document.getElementById('itemCode').value = itemCode;
+        document.getElementById('itemName').value = itemName;
+        document.getElementById('categoryCode').value = categoryCode;
+        document.getElementById('factoryCode').value = factoryCode;
+        document.getElementById('itemSize').value = itemSize;
+        document.getElementById('itemColor').value = itemColor;
+        document.getElementById('storePrice').value = purchasePrice;
+        document.getElementById('storeQty').value = purchaseQty;
+        document.getElementById('purchaseCode').value = purchaseCode;
     }
 </script>
 

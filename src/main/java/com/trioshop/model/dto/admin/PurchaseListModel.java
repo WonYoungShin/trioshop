@@ -5,12 +5,14 @@ import lombok.Setter;
 
 @Getter @Setter
 public class PurchaseListModel {
-    Long purchaseCode;
-    Long itemCode;
-    Integer purchaseQty;
-    String factoryCode;
-    String itemName;
-    String categoryName;
-    String itemSize;
-    String itemColor;
+    private Long purchaseCode;
+    private Long itemCode;
+    private Integer purchaseQty;
+    private String factoryCode;
+    private String itemName;
+    private Integer purchasePrice;
+    private String categoryName;
+    private String categoryCode;
+    private String itemSize;
+    private String itemColor;
 }

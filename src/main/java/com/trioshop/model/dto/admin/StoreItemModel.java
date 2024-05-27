@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter @Setter
 public class StoreItemModel {
-    Long itemCode;
-    Long storeCode;
-    Integer storeQty;
-    Long purchaseCode;
-    Integer storePrice;
+    private Long itemCode;
+    private Long storeCode;
+    private Integer storeQty;
+    private Long purchaseCode;
+    private Integer storePrice;
 
     public StoreItemModel() {
     }
@@ -19,7 +19,6 @@ public class StoreItemModel {
         this.storeCode = storeCode;
         this.storeQty = storeQty;
         this.purchaseCode = purchaseCode;
-
         this.storePrice = stockPrice;
     }
     public StoreItemModel(Long storeCode, Integer storeQty, Long itemCode, Integer stockPrice) {
@@ -35,7 +34,7 @@ public class StoreItemModel {
                 "storeCode='" + storeCode + '\'' +
                 ", storeQty=" + storeQty +
                 ", purchaseCode='" + purchaseCode + '\'' +
-                ", stockPrice=" + storePrice +
+                ", storePrice=" + storePrice +
                 ", itemCode=" + itemCode +
                 '}';
     }

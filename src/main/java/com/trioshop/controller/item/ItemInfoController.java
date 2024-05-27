@@ -1,103 +1,120 @@
 package com.trioshop.controller.item;
 
-import com.trioshop.model.dto.item.ItemInfoByCart;
-import com.trioshop.model.dto.item.ItemInfoByUser;
+import com.trioshop.SessionConst;
+import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
+import com.trioshop.utils.CategoryList;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class ItemInfoController {
     private final ItemService itemService;
+    //카테고리 목록 싱글톤으로 관리
+    private final CategoryList categoryList;
 
-    @RequestMapping("/")
-    public ModelAndView userList(HttpSession session) {
-        System.out.println("homePage");
-        ModelAndView mv = new ModelAndView();
-        categoryCheck(session);
+    @GetMapping("/") // 홈화면
+    public String userList(Model model) {
         List<ItemInfoByUser> itemList = itemService.findAllItem();
-        mv.addObject("itemList", itemList);
-        mv.setViewName("/etc/homePage");
-        return mv;
+        model.addAttribute("itemList", itemList);
+        //카테고리 목록 불러오기
+        model.addAttribute("categoryList", categoryList.getCategoryList());
+        return "etc/homePage";
     }
-
-    @RequestMapping("/itemList")//상품 전체리스트 페이지로
-    public ModelAndView itemListPage(HttpSession session) {
-        ModelAndView mv = new ModelAndView();
-        categoryCheck(session);
+    @GetMapping("/itemList") // 전체아이템 목록화면
+    public String itemListPage(Model model) {
         List<ItemInfoByUser> itemList = itemService.findAllItem();
-        mv.addObject("itemList", itemList);
-        mv.setViewName("/user/itemInfo/itemList");
-        return mv;
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("categoryList", categoryList.getCategoryList());
+        return "user/itemInfo/itemList";
     }
 
-    @RequestMapping("/searchItems")//상품 검색 페이지로
-    public ModelAndView searchItems(@RequestParam(value = "searchText", required = false) String searchText,
-                                    @RequestParam(value = "categoryCode", required = false) String categoryCode) {
-
-        ModelAndView mv = new ModelAndView();
-
-        List<ItemInfoByUser> itemList = itemService.searchItems(searchText, categoryCode);
-        mv.addObject("itemList", itemList);
-        mv.setViewName("/user/itemInfo/itemList");
-
-        return mv;
+    @GetMapping("/searchItems") // 상품 검색 페이지로
+    public String searchItems(@ModelAttribute ItemCondition itemCondition,
+                              Model model) {
+        List<ItemInfoByUser> itemList = itemService.searchItems(itemCondition);
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("categoryList", categoryList.getCategoryList());
+        return "user/itemInfo/itemList";
     }
 
-    @RequestMapping("/cart")//카트 페이지로
-    public ModelAndView cartPage(HttpSession session) {
-        ModelAndView mv = new ModelAndView();
-        UserInfoBySession userInfoBySession = (UserInfoBySession) session.getAttribute("UserInfoBySession");
-        System.out.println(userInfoBySession.getUserCode());
+    @GetMapping("/cart") // 카트 페이지로
+    public String cartPage(@ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                           Model model) {
+
         List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getUserCode());
-        for (ItemInfoByCart cartItem : cartItems) {
-            System.out.println(cartItem);
+        model.addAttribute("cartItems", cartItems);
+        return "user/itemInfo/cart";
+    }
+
+    @PostMapping("/addCart") //
+    public String addCartItem(@RequestParam("itemCode") long itemCode,
+                              @RequestParam("cartItemQty") long cartItemQty,
+                              @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                              Model model) {
+        // cartCode는 MySQL 자동생성, 나머지항목으로 생성자 호출
+        itemService.insertCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode, cartItemQty));
+        // return "user/itemInfo/itemList";
+        return "redirect:/itemList";
+    }
+    @PostMapping("/cart/remove")
+    public String deleteCartItem (@RequestParam("itemCode") long itemCode,
+                                  @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                                  Model model ){
+        //userCode 와 itemCode 만으로 이루어진 생성자 호출
+        itemService.deleteCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode));
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/item/{itemCode}")
+    public String itemDetailPage(@PathVariable("itemCode") long itemCode, Model model) {
+        ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
+        model.addAttribute("item", item);
+        return "user/itemInfo/itemPage";
+    }
+
+    @PostMapping("/orders") // 주문 상세 페이지로
+    public String ordersPage(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
+                             @RequestParam(value = "quantities", required = false) List<Long> quantities,
+                             Model model) {
+        List<ItemInfoByUser> itemList = itemService.makeOrderItems(itemCodes, quantities);
+        model.addAttribute("itemList", itemList);
+        return "user/itemInfo/orders";
+    }
+
+    @GetMapping("/orderList") // 주문 완료 목록으로
+    public String orderListPage(@ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                                Model model) {
+
+        List<ItemInfoByOrderList> orderList = itemService.orderList(userInfoBySession.getUserCode());
+        model.addAttribute("orderList", orderList);
+        return "user/itemInfo/orderList";
+    }
+
+    @PostMapping("/placeOrder") // 주문로직
+    public String orderProcess(@ModelAttribute OrdersEntity ordersEntity,
+                               @ModelAttribute OrderItemList orderItemList,
+                               @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                               Model model) {
+
+        ordersEntity.setUserCode(userInfoBySession.getUserCode());
+        boolean check = itemService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
+        if (check) {
+            List<ItemInfoByOrderList> orderList = itemService.orderList(ordersEntity.getUserCode());
+            model.addAttribute("orderList", orderList);
+            return "redirect:/orderList";
+        } else {
+            System.out.println("주문실패"); //테스트용
+            return "redirect:/";
         }
-        mv.addObject("cartItems", cartItems);
-        mv.setViewName("/user/itemInfo/cart");
-        return mv;
     }
-
-    @RequestMapping("/item/{itemCode}") // 상품 상세 페이지로
-    public ModelAndView itemDetailPage(@ModelAttribute ItemInfoByUser item) {
-
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("item", item);
-        mv.setViewName("/user/itemInfo/itemPage");
-        return mv;
-    }
-
-    @RequestMapping("/orders") // 주문 페이지로
-    public ModelAndView ordersPage(@ModelAttribute List<ItemInfoByUser> orderItemList) {
-
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("orderItemList", orderItemList);
-        mv.setViewName("/user/itemInfo/orders");
-        return mv;
-    }
-
-    @RequestMapping("/orderList") // 주문 리스트 페이지로
-    public String orderListPage() {
-        return "/user/itemInfo/orderList";
-    }
-
-    private void categoryCheck(HttpSession session) {
-        // 세션에 categoryList가 없으면 DAO를 통해 불러오기
-        List<String> categoryList = (List<String>) session.getAttribute("categoryList");
-        if (categoryList == null) {
-            categoryList = itemService.categoryList();
-            session.setAttribute("categoryList", categoryList);
-        }
-    }
-
 }
 

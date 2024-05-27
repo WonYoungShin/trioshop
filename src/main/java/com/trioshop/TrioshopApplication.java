@@ -12,4 +12,6 @@ public class TrioshopApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TrioshopApplication.class, args);
 	}
+
+
 }

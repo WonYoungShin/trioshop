@@ -1,7 +1,6 @@
 package com.trioshop.repository.dao.item;
 
-import com.trioshop.model.dto.item.ItemInfoByCart;
-import com.trioshop.model.dto.item.ItemInfoByUser;
+import com.trioshop.model.dto.item.*;
 import com.trioshop.repository.mybatis.ItemMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -17,18 +16,40 @@ public class ItemInfoDao {
     public List<ItemInfoByUser> findAllItem() {
         return itemMapper.findAllItem();
     }
-    public List<String> categoryList() {
+    public List<CategoryEntity> categoryList() {
         return itemMapper.categoryList();
     }
-
-    public List<ItemInfoByUser> searchItems(String searchText, String categoryCode) {
-        return  itemMapper.searchItems(searchText, categoryCode);
+    public List<ItemInfoByUser> searchItems(ItemCondition itemCondition) {
+        return  itemMapper.searchItems(itemCondition);
+    }
+    public  List<ItemInfoByUser> itemInfoByCodes(List<Long> itemCodes) {
+        return  itemMapper.itemInfoByCodes(itemCodes);
     }
     public  ItemInfoByUser itemInfoByCode(long itemCode) {
         return  itemMapper.itemInfoByCode(itemCode);
     }
-
     public List<ItemInfoByCart> cartItemList(long userCode) {
         return  itemMapper.cartItemList(userCode);
+    }
+    public List<ItemInfoByOrderList> orderList(long userCode) {
+        return  itemMapper.orderList(userCode);
+    }
+    public void insertOrders(OrdersEntity ordersEntity) {
+        itemMapper.insertOrders(ordersEntity);
+    }
+    public void insertOrderItems(OrderItemEntity orderItemEntity) {
+        itemMapper.insertOrderItems(orderItemEntity);
+    }
+    public void updateStockQty (ItemCodeAndQty itemCodeAndQty) {
+        itemMapper.updateStockQty(itemCodeAndQty);
+    }
+    public void deleteItemsFromCart(long userCode, List<Long> itemCodeList) {
+        itemMapper.deleteItemsFromCart(userCode, itemCodeList);
+    }
+    public void insertCartItem (CartEntity cartEntity) {
+        itemMapper.insertCartItem(cartEntity);
+    }
+    public void deleteCartItem (CartEntity cartEntity) {
+        itemMapper.deleteCartItem(cartEntity);
     }
 }

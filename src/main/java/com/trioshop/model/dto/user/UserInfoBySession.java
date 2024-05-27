@@ -7,20 +7,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class
-UserInfoBySession {
+public class UserInfoBySession {
     long userCode;
     long gradeCode;
     String userId;
-    String userPasswd;
-    String userName;
-    String userAddress;
-    String userTel;
     String userNickname;
 
-    public UserInfoBySession(int gradeCode) {
-        this.gradeCode = gradeCode;
-    }
 
+
+    @Override
+    public String toString() {
+        return "UserInfoBySession{" +
+                "userCode=" + userCode +
+                ", gradeCode=" + gradeCode +
+                ", userId='" + userId + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                '}';
+    }
 
 }

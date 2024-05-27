@@ -1,11 +1,10 @@
 package com.trioshop.model.dto.user;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserJoin {
     private Long userCode;
     private String userId;
@@ -15,8 +14,13 @@ public class UserJoin {
     private String userTel;
     private String userNickname;
 
-    // 생성자를 간소화한 람다 표현식
     public UserJoin(String userId, String userPasswd, String userName, String userAddress, String userTel, String userNickname) {
-        this(null, userId, userPasswd, userName, userAddress, userTel, userNickname);
+        this.userCode = null;
+        this.userId = userId;
+        this.userPasswd = userPasswd;
+        this.userName = userName;
+        this.userAddress = userAddress;
+        this.userTel = userTel;
+        this.userNickname = userNickname;
     }
 }

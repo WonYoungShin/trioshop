@@ -3,14 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Header</title>
+    <meta charset="UTF-8">
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">TRIOShop</a>
+    <a class="navbar-brand" href="/" >TRIOShop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -18,24 +18,54 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <c:choose>
-                <c:when test="${not empty UserInfoBySession && UserInfoBySession.gradeCode != 0}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/orderlist/${UserInfoBySession.userCode}">주문내역</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/itemList">상품조회</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cart">장바구니</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/mypage">마이페이지</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">로그아웃</a>
-                    </li>
+                <c:when test="${not empty loginMember}">
+                    <c:choose>
+                        <c:when test="${loginMember.gradeCode == 4}">
+                            <!-- 관리자 메뉴 -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/stock/list">재고</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/stores">입고</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/stores/list">입고내역</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/purchase">발주</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/purchase/list">발주내역</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/trioAdmin/stock">상품등록</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">로그아웃</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- 일반 사용자 메뉴 -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/orderList">주문내역</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/itemList">상품조회</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cart">장바구니</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/myPage">마이페이지</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">로그아웃</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
                 </c:when>
                 <c:otherwise>
+                    <!-- 비회원 메뉴 -->
                     <li class="nav-item">
                         <a class="nav-link" href="/login">로그인</a>
                     </li>
