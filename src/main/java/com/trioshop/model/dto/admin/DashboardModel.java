@@ -1,6 +1,5 @@
 package com.trioshop.model.dto.admin;
 
-import com.trioshop.service.admin.OrderManagementService;
 import lombok.Getter;
 import lombok.Setter;
 
