@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class UserFindPw {
 
-     String userName;
-     String userId;
-     String userPasswd;
+    String userName;
+    String userId;
+    String userPasswd;
 
     public UserFindPw(String userName, String userId, String userPasswd) {
         this.userName = userName;

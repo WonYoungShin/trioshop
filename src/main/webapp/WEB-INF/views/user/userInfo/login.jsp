@@ -100,7 +100,7 @@
 
     togglePassword.addEventListener('mouseenter', function() {
         passwordInput.type = 'text';
-    });
+    });+
 
     togglePassword.addEventListener('mouseleave', function() {
         passwordInput.type = 'password';
