@@ -1,58 +1,40 @@
 package com.trioshop.utils;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+@Component
 public class DateUtils {
-    private final static DateUtils dateUtils = new DateUtils();
 
-    private DateUtils() {
-    }
-
-    /*
-     일자추가
-    public List<LocalDate> generateSalesDates() {
-        List<LocalDate> list = new ArrayList<>();
-        LocalDate now = LocalDate.now();
-        int currentYear = now.getYear();
-        int currentMonth = now.getMonthValue();
-
-        for (int year = currentYear; year >= 2021; year--) {
-            int startMonth = (year == currentYear) ? currentMonth : 12;
-            for (int month = startMonth; month >= 1; month--) {
-                YearMonth yearMonth = YearMonth.of(year, month);
-                for (int day = 1; day <= yearMonth.lengthOfMonth(); day++) {
-                    list.add(LocalDate.of(year, month, day));
-                }
-            }
-        }
-        return list;
-    }
-
-
-     */
-
-    public List<Integer> generateYearList() {
+    // 연도 리스트 생성 메서드 (최근 10년)
+    public List<Integer> getYearList() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         List<Integer> yearList = new ArrayList<>();
-        LocalDate now = LocalDate.now();
-        int currentYear = now.getYear();
-        for (int year = currentYear; year >= 2021; year--) {
-            yearList.add(year);
+        for (int i = currentYear; i >= currentYear - 10; i--) {
+            yearList.add(i);
         }
         return yearList;
     }
 
-    public List<Integer> generateMonthList() {
+    // 월 리스트 생성 메서드 (1월부터 12월까지)
+    public List<Integer> getMonthList() {
         List<Integer> monthList = new ArrayList<>();
-        for (int month = 1; month <= 12; month++) {
-            monthList.add(month);
+        for (int i = 1; i <= 12; i++) {
+            monthList.add(i);
         }
         return monthList;
     }
 
-    public static DateUtils getDateUtils() {
-        return dateUtils;
+    // 오늘의 연도 가져오기
+    public int getCurrentYear() {
+        return Calendar.getInstance().get(Calendar.YEAR);
     }
+    // 오늘의 연도 가져오기
+    public int getCurrentMonth() {
+        return Calendar.getInstance().get(Calendar.MONTH) + 1;
+    }
+
 }

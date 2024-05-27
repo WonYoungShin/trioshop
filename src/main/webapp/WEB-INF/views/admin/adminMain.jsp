@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ include file="/WEB-INF/views/etc/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -18,12 +19,7 @@
             display: flex;
             flex: 1;
         }
-        .sidebar {
-            width: 250px;
-            background: #343a40;
-            color: #fff;
-            flex-shrink: 0;
-        }
+
         .sidebar .nav-link {
             color: #fff;
         }
@@ -34,10 +30,9 @@
             flex: 1;
             padding: 20px;
         }
-        .footer {
-            background: #f1f1f1;
-            text-align: center;
-            padding: 10px 0;
+        .content {
+            margin-left: 250px;
+            padding: 20px;
         }
     </style>
 </head>
@@ -56,37 +51,11 @@
                 <!-- 예시 통계 카드 -->
                 <div class="card mb-4">
                     <div class="card-header">
-                        재고 현황
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">총 재고 수량</h5>
-                        <p class="card-text">1234</p>
-                        <a href="/trioAdmin/stock/list" class="btn btn-primary">자세히 보기</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <!-- 예시 통계 카드 -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        최근 주문
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">주문 수량</h5>
-                        <p class="card-text">567</p>
-                        <a href="/trioAdmin/orderStatus" class="btn btn-primary">자세히 보기</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <!-- 예시 통계 카드 -->
-                <div class="card mb-4">
-                    <div class="card-header">
                         매출
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">총 매출</h5>
-                        <p class="card-text">₩1,000,000</p>
+                        <p class="card-text"><fmt:formatNumber value="${dashboard.allOrderPrice}" type="currency" currencySymbol=""/></p>
                         <a href="/trioAdmin/sales" class="btn btn-primary">자세히 보기</a>
                     </div>
                 </div>
@@ -99,7 +68,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">총 발주 수량</h5>
-                        <p class="card-text">234</p>
+                        <p class="card-text">${dashboard.allPurchaseCount}</p>
                         <a href="/trioAdmin/purchase/list" class="btn btn-primary">자세히 보기</a>
                     </div>
                 </div>
