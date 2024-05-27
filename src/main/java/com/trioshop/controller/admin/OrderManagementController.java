@@ -2,7 +2,6 @@ package com.trioshop.controller.admin;
 
 import com.trioshop.model.dto.admin.SalesCondition;
 import com.trioshop.model.dto.admin.SalesModel;
-import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.OrderManagementService;
 import com.trioshop.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
@@ -11,19 +10,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/trioAdmin/sales")
+@RequestMapping("/trioAdmin")
 public class OrderManagementController {
 
     private final OrderManagementService orderService;
     private final DateUtils dateUtil;
 
-    @GetMapping
+    @GetMapping("/sales")
     public String yearSales(@ModelAttribute SalesCondition salesCondition, Model model) {
 
         List<SalesModel> yearlySales = orderService.yearSales(salesCondition);
@@ -65,5 +63,9 @@ public class OrderManagementController {
         return "admin/sales/monthlySales";
     }
 
+    @GetMapping("/orderStatus")
+    public String orderStatus(Model model) {
 
+        return "admin/orderStatusList";
+    }
 }

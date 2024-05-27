@@ -17,34 +17,27 @@
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
-    <select id="findId" parameterType="map" resultType="com.trioshop.model.dto.user.UserInfoBySession">
-        SELECT tuser.user_code AS userCode,
-               tuser.grade_code AS gradeCode,
-               tuser.user_id AS userId,
-               tuser.user_passwd AS userPasswd,
-               info.user_name AS userName,
-               info.user_tel AS userTel,
-               info.user_nickname AS userNickname
+    <select id="findId" parameterType="map" resultType="com.trioshop.model.dto.user.UserFindId">
+        SELECT info.user_name AS userName,
+        info.user_tel AS userTel,
+        tuser.user_id AS userId  <!-- 추가된 부분 -->
         FROM TRIO_USERS tuser
-                 JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
         WHERE info.user_name = #{userName}
-          AND info.user_tel = #{userTel}
+        AND info.user_tel = #{userTel}
     </select>
 
-    <select id="findPw" parameterType="map" resultType="com.trioshop.model.dto.user.UserInfoBySession">
-        SELECT tuser.user_code AS userCode,
-               tuser.grade_code AS gradeCode,
-               tuser.user_id AS userId,
-               tuser.user_passwd AS userPasswd,
+
+    <select id="findPw" parameterType="com.trioshop.model.dto.user.UserFindPw" resultType="com.trioshop.model.dto.user.UserFindPw">
+        SELECT tuser.user_id AS userId,
                info.user_name AS userName,
-               info.user_address AS userAddress,
-               info.user_tel AS userTel,
-               info.user_nickname AS userNickname
+               tuser.user_passwd AS userPasswd
         FROM TRIO_USERS tuser
                  JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
         WHERE info.user_name = #{userName}
           AND tuser.user_id = #{userId}
     </select>
+
 
     <insert id="saveUsers" parameterType="UserJoin" useGeneratedKeys="true" keyProperty="userCode">
         <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
@@ -68,13 +61,9 @@
         )
     </insert>
 
-
-    <update id="patchUser" parameterType="com.trioshop.model.dto.user.UserPatch">
+    <update id="patchUser" parameterType="UserPatch">
         UPDATE TRIO_USERS_INFO
         <set>
-            <if test="userName != null and userName != ''">
-                user_name = #{userName},
-            </if>
             <if test="userAddress != null and userAddress != ''">
                 user_address = #{userAddress},
             </if>
@@ -88,7 +77,7 @@
         WHERE user_code = #{userCode}
     </update>
 
-    <update id="patchUserPw" parameterType="com.trioshop.model.dto.user.UserPatch">
+    <update id="patchUserPw" parameterType="UserPatch">
         UPDATE TRIO_USERS
         <set>
             <if test="userPasswd != null and userPasswd != ''">
@@ -97,8 +86,4 @@
         </set>
         WHERE user_code = #{userCode}
     </update>
-
-
-
-
 </mapper>

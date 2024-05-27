@@ -47,7 +47,7 @@ public class ItemInfoController {
     }
 
     @GetMapping("/cart") // 카트 페이지로
-    public String cartPage(@ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+    public String cartPage(@SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                            Model model) {
 
         List<ItemInfoByCart> cartItems = itemService.cartItemList(userInfoBySession.getUserCode());
@@ -58,16 +58,16 @@ public class ItemInfoController {
     @PostMapping("/addCart") //
     public String addCartItem(@RequestParam("itemCode") long itemCode,
                               @RequestParam("cartItemQty") long cartItemQty,
-                              @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                              @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                               Model model) {
         // cartCode는 MySQL 자동생성, 나머지항목으로 생성자 호출
-        itemService.insertCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode, cartItemQty));
+        itemService.addCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode, cartItemQty));
         // return "user/itemInfo/itemList";
         return "redirect:/itemList";
     }
     @PostMapping("/cart/remove")
     public String deleteCartItem (@RequestParam("itemCode") long itemCode,
-                                  @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                                  @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                   Model model ){
         //userCode 와 itemCode 만으로 이루어진 생성자 호출
         itemService.deleteCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode));
@@ -75,8 +75,19 @@ public class ItemInfoController {
     }
 
     @GetMapping("/item/{itemCode}")
-    public String itemDetailPage(@PathVariable("itemCode") long itemCode, Model model) {
+    public String itemDetailPage(@PathVariable("itemCode") long itemCode,
+//                                 @ModelAttribute("itemCodes") List<String> addItemCodes,
+                                 Model model) {
+        List<String> itemColors = null;
+        List<String> itemSizes = null;
         ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
+        if ((itemColors == null) && (itemSizes == null)) {
+            itemColors = itemService.findColors(item.getItemName());
+            itemSizes = itemService.findSizes(item.getItemName());
+            model.addAttribute("itemColors", itemColors);
+            model.addAttribute("itemSizes", itemSizes);
+        }
+
         model.addAttribute("item", item);
         return "user/itemInfo/itemPage";
     }
@@ -91,7 +102,7 @@ public class ItemInfoController {
     }
 
     @GetMapping("/orderList") // 주문 완료 목록으로
-    public String orderListPage(@ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+    public String orderListPage(@SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                 Model model) {
 
         List<ItemInfoByOrderList> orderList = itemService.orderList(userInfoBySession.getUserCode());
@@ -102,7 +113,7 @@ public class ItemInfoController {
     @PostMapping("/placeOrder") // 주문로직
     public String orderProcess(@ModelAttribute OrdersEntity ordersEntity,
                                @ModelAttribute OrderItemList orderItemList,
-                               @ModelAttribute("userInfoBySession") UserInfoBySession userInfoBySession,
+                               @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                Model model) {
 
         ordersEntity.setUserCode(userInfoBySession.getUserCode());

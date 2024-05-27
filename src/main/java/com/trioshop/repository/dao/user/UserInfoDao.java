@@ -18,15 +18,15 @@ public class UserInfoDao {
         return userMapper.loginUser(userIdPasswd);
     }
 
-    public UserInfoBySession findId(String userName, String userTel) {
-        UserFindId userFindId = new UserFindId(userName, userTel);
+
+    public UserFindId findId(String userName, String userTel) {
         return userMapper.findId(userName, userTel);
     }
 
-    public UserInfoBySession findPw(String userName, String userId) {
-        UserFindPw userFindPw = new UserFindPw(userName, userId);
+    public UserFindPw findPw(String userName, String userId) {
         return userMapper.findPw(userName, userId);
     }
+
 
     @Transactional
     public boolean saveUserInfo(UserJoin userJoin) {
@@ -39,7 +39,6 @@ public class UserInfoDao {
             return false;
         }
     }
-
 
     @Transactional
     public boolean patchUser(UserPatch userPatch) {

@@ -11,11 +11,9 @@ public class UserInfoBySession {
     long userCode;
     long gradeCode;
     String userId;
-//    String userPasswd;//
-//    String userName;
-//    String userAddress;//
-//    String userTel;
     String userNickname;
+
+
 
     @Override
     public String toString() {

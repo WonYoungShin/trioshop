@@ -1,8 +1,8 @@
 package com.trioshop.repository.dao.admin;
 
+import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.admin.SalesCondition;
 import com.trioshop.model.dto.admin.SalesModel;
-import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.repository.mybatis.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -26,5 +26,9 @@ public class OrderManagementDao {
 
     public Integer allPurchaseQty(){
         return orderMapper.allPurchaseQty();
+    }
+
+    public List<OrderListModel> orderList(){
+        return orderMapper.orderList();
     }
 }

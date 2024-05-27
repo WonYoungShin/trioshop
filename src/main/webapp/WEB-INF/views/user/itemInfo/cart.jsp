@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: dst06
-  Date: 2024-05-17
-  Time: 오후 5:29
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -26,7 +19,9 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Select</th>
+                    <th>
+                        <input type="checkbox" id="selectAll" checked> Select All
+                    </th>
                     <th>Item Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -36,9 +31,9 @@
                 </thead>
                 <tbody>
                 <c:forEach var="cartItem" items="${cartItems}">
-                    <tr>
+                    <tr class="item-row" data-item-page="${pageContext.request.contextPath}/item/${cartItem.itemCode}">
                         <td>
-                            <input type="checkbox" class="item-checkbox" value="${cartItem.cartCode}" data-item-code="${cartItem.itemCode}">
+                            <input type="checkbox" class="item-checkbox" value="${cartItem.cartCode}" data-item-code="${cartItem.itemCode}" checked>
                         </td>
                         <td>${cartItem.itemName}</td>
                         <td>₩<span class="item-price">${cartItem.itemPrice}</span></td>
@@ -92,6 +87,20 @@
         // 수량 변경 시 총 가격 업데이트
         $('.quantity-input').on('change', function() {
             updateTotalPrice();
+        });
+
+        // 전체 선택 / 해제
+        $('#selectAll').on('change', function() {
+            var checked = $(this).is(':checked');
+            $('.item-checkbox').prop('checked', checked);
+        });
+
+        // 각 상품 항목의 줄을 클릭하면 해당 상품 페이지로 이동
+        $('.item-row').on('click', function(event) {
+            if (!$(event.target).is('.item-checkbox, .quantity-input, .btn')) {
+                var itemPage = $(this).data('item-page');
+                window.location.href = itemPage;
+            }
         });
 
         // 폼 제출 시 선택된 항목만 전송
