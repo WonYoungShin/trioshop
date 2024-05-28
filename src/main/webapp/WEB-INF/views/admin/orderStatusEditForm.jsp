@@ -14,8 +14,8 @@
         <div class="form-group">
             <label for="status" class="mr-2">상태:</label>
             <select id="status" class="form-control mr-sm-2" name="statusCode">
-                <c:forEach var="status" items="${statusList}">
-                    <option value="${status.statusCode}" <c:if test="${status.statusCode == param.statusCode}">selected</c:if>>${status.statusName}</option>
+                <c:forEach var="delivery" items="${statusList}">
+                    <option value="${delivery.statusCode}" <c:if test="${delivery.statusCode == param.statusCode}">selected</c:if>>${delivery.statusName}</option>
                 </c:forEach>
             </select>
         </div>

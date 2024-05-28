@@ -72,11 +72,21 @@
             GROUP_CONCAT(i.item_name SEPARATOR ', ') AS item_names,
             GROUP_CONCAT(oi.order_qty SEPARATOR ', ') AS order_qtys,
             GROUP_CONCAT(i.item_price SEPARATOR ', ') AS item_prices,
-            o.status_code
+            o.status_code,
+            o.delivery_code,
+            o.waybill_num
         FROM TRIO_ORDERS o
                 JOIN TRIO_ORDER_STATUS os ON o.status_code = os.status_code
                 JOIN TRIO_ORDER_ITEMS oi ON o.order_code = oi.order_code
                 JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
+        <where>
+            <if test="userCode != null and userCode != ''">
+                AND o.user_code = #{userCode}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                AND o.status_code = #{statusCode}
+            </if>
+        </where>
         GROUP BY o.order_code, o.user_code, o.order_date, os.status_name
         ORDER BY o.order_date DESC, o.user_code ASC
     </select>
@@ -89,6 +99,18 @@
     <update id="updateStatus">
         UPDATE TRIO_ORDERS
         SET status_code = #{statusCode}
+        WHERE order_code = #{orderCode}
+    </update>
+
+    <select id="deliveryEntityList" resultType="deliveryEntity">
+        SELECT delivery_code, delivery_name
+        FROM TRIO_DELIVERY
+    </select>
+
+    <update id="addWaybill">
+        UPDATE TRIO_ORDERS
+        SET delivery_code = #{deliveryCode},
+            waybill_num = #{waybillNum}
         WHERE order_code = #{orderCode}
     </update>
 </mapper>

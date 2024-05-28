@@ -6,21 +6,15 @@
 <head>
     <meta charset="UTF-8">
     <title>주문 상태 관리</title>
-    <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- jQuery 링크 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
         .content {
-            margin-left: 250px; /* 사이드바의 너비만큼 마진을 줍니다 */
+            margin-left: 250px;
             padding: 20px;
             width: calc(100% - 250px);
         }
-        .table thead th {
-            vertical-align: middle;
-            text-align: center;
-        }
-        .table tbody td {
+        .table thead th, .table tbody td {
             vertical-align: middle;
             text-align: center;
         }
@@ -33,13 +27,12 @@
         <h1 class="my-4 text-center">주문 목록</h1>
         <div class="row mb-4">
             <div class="col-md-12 d-flex justify-content-end">
-                <!-- 검색창 및 카테고리 선택 항목 결합 -->
                 <form class="form-inline" method="get" action="">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName" value="${param.itemName}">
-                    <select class="form-control mr-sm-2" name="status">
-                        <option value="">상태 선택</option>
+                    <input class="form-control mr-sm-2" type="search" placeholder="유저코드" aria-label="Search" name="userCode" value="${param.userCode}">
+                    <select class="form-control mr-sm-2" name="statusCode">
+                        <option value="">전체</option>
                         <c:forEach var="status" items="${statusList}">
-                            <option value="${status.statusCode}" <c:if test="${param.status == status.statusCode}">selected</c:if>>${status.statusName}</option>
+                            <option value="${status.statusCode}" <c:if test="${param.statusCode == status.statusCode}">selected</c:if>>${status.statusName}</option>
                         </c:forEach>
                     </select>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -58,7 +51,8 @@
                         <th>주문수량</th>
                         <th>상품가격</th>
                         <th>주문상태</th>
-                        <th>도구</th>
+                        <th>운송장</th>
+                        <th>상태변경</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -85,11 +79,14 @@
                             <td>${order.statusName}</td>
                             <td>
                                 <c:if test="${order.statusCode eq '10' || order.statusCode eq '20'}">
-                                    <button class="btn btn-secondary" onclick="">운송장입력</button>
+                                    <button class="btn btn-secondary" onclick="openWaybillPopup('${order.orderCode}')">운송장입력</button>
                                 </c:if>
                                 <c:if test="${order.statusCode != '10' && order.statusCode != '20'}">
-                                    <button class="btn btn-info" onclick="openPopup('${order.orderCode}','${order.statusCode}')">상태변경</button>
+                                    <button class="btn btn-info" onclick="openWaybillEditPopup('${order.orderCode}','${order.deliveryCode}','${order.waybillNum}')">운송장수정</button>
                                 </c:if>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" onclick="openPopup('${order.orderCode}','${order.statusCode}')">상태변경</button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -100,12 +97,29 @@
     </div>
 </div>
 <script>
-    function openPopup(orderCode, statusCode) {
-        var width = 100;
-        var height = 200;
+    function openWaybillPopup(orderCode) {
+        var width = 500;
+        var height = 400;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
-        window.open('/trioAdmin/orderStatus/edit/' + encodeURIComponent(orderCode) + "?statusCode=" + statusCode, 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
+        window.open('/trioAdmin/orderStatus/' + encodeURIComponent(orderCode), 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
+    }
+
+    function openWaybillEditPopup(orderCode, deliveryCode, waybillNum) {
+        var width = 500;
+        var height = 400;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+        var url = '/trioAdmin/orderStatus/' + encodeURIComponent(orderCode) + '?deliveryCode=' + encodeURIComponent(deliveryCode) + '&waybillNum=' + encodeURIComponent(waybillNum);
+        window.open(url, 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
+    }
+
+    function openPopup(orderCode, statusCode) {
+        var width = 500;
+        var height = 400;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+        window.open('/trioAdmin/orderStatus/edit/' + encodeURIComponent(orderCode) + '?statusCode=' + encodeURIComponent(statusCode), 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
     }
 </script>
 </body>

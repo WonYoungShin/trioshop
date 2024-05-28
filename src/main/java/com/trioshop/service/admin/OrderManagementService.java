@@ -18,42 +18,59 @@ public class OrderManagementService {
 
 
     public List<SalesModel> yearSales(SalesCondition salesCondition) {
-        if(salesCondition.getYear() != null && salesCondition.getYear() < 100) {
+        if (salesCondition.getYear() != null && salesCondition.getYear() < 100) {
             DateUtils dateUtils = new DateUtils();
             int year = salesCondition.getYear();
             int current = dateUtils.getCurrentYear() / 100;
-            year += current*100;
+            year += current * 100;
             salesCondition.setYear(year);
         }
 
         return orderDao.yearSales(salesCondition);
     }
+
     public List<SalesModel> monthSales(SalesCondition salesCondition) {
         return orderDao.monthSales(salesCondition);
     }
+
     @Transactional
-    public DashboardModel dashboard(){
-         Long allOrderPrice  = orderDao.allOrderPrice();
-         Integer allPurchaseQty = orderDao.allPurchaseQty();
-         return new DashboardModel(allOrderPrice,allPurchaseQty);
+    public DashboardModel dashboard() {
+        Long allOrderPrice = orderDao.allOrderPrice();
+        Integer allPurchaseQty = orderDao.allPurchaseQty();
+        return new DashboardModel(allOrderPrice, allPurchaseQty);
     }
 
-    public List<OrderListModel> orderList(){
-        return orderDao.orderList();
+    public List<OrderListModel> orderList(StatusCondition statusCondition) {
+        return orderDao.orderList(statusCondition);
     }
 
-    public List<OrderStatusEntity> statusList(){
+    public List<OrderStatusEntity> statusList() {
         return orderDao.statusList();
     }
 
     public boolean updateStatus(EditStatusModel editStatusModel) {
-
-        try{
+        try {
             orderDao.updateStatus(editStatusModel);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
+    }
 
+    public List<DeliveryEntity> deliveryEntityList() {
+        return orderDao.deliveryEntityList();
+    }
+
+    @Transactional
+    public boolean addWaybill(WaybillModel waybillModel, EditStatusModel editStatusModel) {
+        try {
+            orderDao.addWaybill(waybillModel);
+            orderDao.updateStatus(editStatusModel);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
+
+

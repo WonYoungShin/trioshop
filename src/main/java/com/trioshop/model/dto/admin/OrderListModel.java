@@ -14,4 +14,6 @@ public class OrderListModel {
     private String statusName;
     private String statusCode;
     private String itemPrices;
+    private String deliveryCode;
+    private String waybillNum;
 }

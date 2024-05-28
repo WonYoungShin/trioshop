@@ -1,9 +1,6 @@
 package com.trioshop.controller.admin;
 
-import com.trioshop.model.dto.admin.EditStatusModel;
-import com.trioshop.model.dto.admin.OrderListModel;
-import com.trioshop.model.dto.admin.SalesCondition;
-import com.trioshop.model.dto.admin.SalesModel;
+import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.service.admin.OrderManagementService;
 import com.trioshop.utils.DateUtils;
@@ -69,8 +66,9 @@ public class OrderManagementController {
     }
 
     @GetMapping("/orderStatus")
-    public String orderStatus(Model model) {
-        List<OrderListModel> orderList = orderService.orderList();
+    public String orderStatus(@RequestParam(defaultValue = "") String userCode, @RequestParam(defaultValue = "") String statusCode, Model model) {
+        StatusCondition statusCondition = new StatusCondition(userCode, statusCode);
+        List<OrderListModel> orderList = orderService.orderList(statusCondition);
         List<OrderStatusEntity> statusList = orderService.statusList();
 
         model.addAttribute("statusList", statusList);
@@ -99,4 +97,36 @@ public class OrderManagementController {
         }
         return response;
     }
+
+    @GetMapping("/orderStatus/{orderCode}")
+    public String waybillAddForm(Model model){
+        List<DeliveryEntity> deliveryEntities = orderService.deliveryEntityList();
+
+        model.addAttribute("deliveryList",deliveryEntities);
+
+        return "admin/deliveryAddForm";
+    }
+
+    @PostMapping("/orderStatus/{orderCode}")
+    @ResponseBody
+    public String waybillAdd(@PathVariable String orderCode, @ModelAttribute WaybillModel waybill){
+        WaybillModel waybillModel = getBuild(orderCode, waybill);
+        try{
+            EditStatusModel editStatusModel = new EditStatusModel(orderCode,"21");
+            orderService.addWaybill(waybillModel, editStatusModel);
+            return "success";
+        }catch (Exception e){
+            return "fail";
+        }
+
+    }
+
+    private static WaybillModel getBuild(String orderCode, WaybillModel waybill) {
+        return WaybillModel.builder()
+                .deliveryCode(waybill.getDeliveryCode())
+                .waybillNum(waybill.getWaybillNum())
+                .orderCode(orderCode)
+                .build();
+    }
+
 }
