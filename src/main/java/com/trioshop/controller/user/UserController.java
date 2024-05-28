@@ -2,21 +2,16 @@ package com.trioshop.controller.user;
 
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.ui.Model;
 import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
-//
+
     @Autowired
     HttpSession session;
 
@@ -29,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute UserIdPasswd userIdPasswd, HttpServletRequest request) {
+    public ModelAndView login(@ModelAttribute UserIdPasswd userIdPasswd) {
         ModelAndView mv = new ModelAndView();
         UserInfoBySession user = userInfoService.isValidUser(userIdPasswd.getUserId(), userIdPasswd.getUserPasswd());
 
@@ -104,16 +99,39 @@ public class UserController {
     }
 
     @PostMapping("/findPw")
-    public ModelAndView findPw(String userName, String userId) {
-        UserFindPw userPw = userInfoService.isfindPw(userName, userId);
+    // 첫 번째 단계:/findPw POST 요청 핸들러 메소드에서 새 비밀번호와 비밀번호 확인을 @RequestParam(required = false)로 설정하여 필수가 아님을 나타냈습니다.
+    public ModelAndView findPw(@RequestParam String userName,
+                               @RequestParam String userId,
+                               @RequestParam(required = false) String newPassword,
+                               @RequestParam(required = false) String confirmPassword) {
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findPw");
-        if (userPw != null) {
-            modelAndView.addObject("userInfo", userPw);
-        } else {
-            modelAndView.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
+
+        if (newPassword == null || confirmPassword == null) {
+            // 새 비밀번호와 비밀번호 확인이 입력되지 않은 경우
+            modelAndView.addObject("showForm", true);
+            modelAndView.addObject("userName", userName);
+            modelAndView.addObject("userId", userId);
+            return modelAndView;
         }
+
+        // 새 비밀번호와 비밀번호 확인이 입력된 경우
+        if (!newPassword.equals(confirmPassword)) {
+            modelAndView.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return modelAndView;
+        }
+
+        UserFindPw userFindPw = new UserFindPw(userName, userId, newPassword);
+        boolean isUpdated = userInfoService.findAndUpdatePw(userFindPw);
+        if (isUpdated) {
+            modelAndView.setViewName("redirect:/login");
+            modelAndView.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
+        } else {
+            modelAndView.addObject("message", "비밀번호 변경 중 오류가 발생했습니다.");
+        }
+
         return modelAndView;
     }
+
 
     @GetMapping("/myPage")
     public String myPage() {
@@ -121,27 +139,32 @@ public class UserController {
     }
 
     @GetMapping("/changeInfo")
-    public ModelAndView changeInfoPage() {
+    public ModelAndView changeInfoPage(HttpSession session) {
         ModelAndView mv = new ModelAndView();
         UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
         if (currentUser == null) {
             mv.setViewName("redirect:/login");
             mv.addObject("error", "세션이 만료되었거나 잘못된 접근입니다.");
         } else {
-            UserPatch userPatch = new UserPatch();
-            userPatch.setUserCode(currentUser.getUserCode());
-            userPatch.setUserNickname(currentUser.getUserNickname());
-            // userPatch에 필요한 다른 정보를 설정
-            mv.setViewName("/user/userInfo/changeInfo");
-            mv.addObject("userPatch", userPatch);
+            long userCode = currentUser.getUserCode();
+            UserPatch userPatch = userInfoService.getUserByUserCode(String.valueOf(userCode)); // getUserByUserCode의 인자를 String으로 변환하여 전달
+            if (userPatch != null) {
+                mv.setViewName("/user/userInfo/changeInfo");
+                mv.addObject("userPatch", userPatch);
+            } else {
+                mv.setViewName("redirect:/login");
+                mv.addObject("error", "사용자 정보를 찾을 수 없습니다.");
+            }
         }
         return mv;
     }
 
+
     @PostMapping("/changeInfo")
-    public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch) {
-        System.out.println("userPatch = " + userPatch);
-        UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+    public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession currentUser) {
+
+        currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
         userPatch.setUserCode(currentUser.getUserCode());
 
         ModelAndView mv = new ModelAndView();
@@ -163,4 +186,41 @@ public class UserController {
         }
     }
 
+    //@ModelAttribute 폼에서입력하면 컨트롤러로 전달~~
+    @GetMapping("/guestLogin")
+    public String guestLoginPage(@ModelAttribute("guestUser") GuestUserJoin guestUser) {
+        return "/user/userInfo/guestLogin";
+    }
+
+    @PostMapping("/guestLogin")
+    public ModelAndView guestLogin(@ModelAttribute GuestUserJoin guestUser) {
+        ModelAndView mv = new ModelAndView();
+        boolean existingUser = userInfoService.LoginGuestUser(guestUser);
+        if (existingUser) {
+            // 기존 사용자인 경우 로그인 성공
+            session.setAttribute(SessionConst.LOGIN_MEMBER, guestUser);
+            mv.setViewName("redirect:/myPage");
+        } else {
+            boolean isRegistered = userInfoService.registerGuestUser(guestUser);
+            if (isRegistered) {
+                System.out.println("확인3"+isRegistered);
+                session.setAttribute(SessionConst.LOGIN_MEMBER, guestUser);
+                mv.setViewName("redirect:/myPage");
+            } else {
+                // 회원가입 실패
+                mv.setViewName("redirect:/guestLogin");
+                mv.addObject("error", "회원가입 중 오류가 발생했습니다.");
+            }
+        }
+
+        return mv;
+
+    }
+//    @GetMapping("/guestJoin")
+//    public String guestJoin(@ModelAttribute("guestUser") GuestUserJoin guestUser) {
+//        return "/user/userInfo/guestJoin";
+//    }
+
 }
+
+

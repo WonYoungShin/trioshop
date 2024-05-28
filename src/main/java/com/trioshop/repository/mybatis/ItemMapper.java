@@ -8,16 +8,36 @@ import java.util.List;
 @Mapper
 public interface ItemMapper {
     List<ItemInfoByUser> findAllItem();
+
     List<ItemInfoByUser> searchItems(ItemCondition itemCondition);
+
     List<CategoryEntity> categoryList();
+
     List<ItemInfoByUser> itemInfoByCodes(List<Long> itemCodes);
+
     ItemInfoByUser itemInfoByCode(long itemCode);
+
     List<ItemInfoByCart> cartItemList(long userCode);
+
     List<ItemInfoByOrderList> orderList(long userCode);
-    void insertOrders (OrdersEntity ordersEntity);
-    void insertOrderItems (OrderItemEntity orderItemEntity);
-    void updateStockQty (ItemCodeAndQty itemCodeAndQty);
+
+    void insertOrders(OrdersEntity ordersEntity);
+
+    void insertOrderItems(OrderItemEntity orderItemEntity);
+
+    void updateStockQty(ItemCodeAndQty itemCodeAndQty);
+
     void deleteItemsFromCart(long userCode, List<Long> itemCodeList);
-    void insertCartItem (CartEntity cartEntity);
-    void deleteCartItem (CartEntity cartEntity);
+
+    void insertCartItem(CartEntity cartEntity);
+
+    void deleteCartItem(CartEntity cartEntity);
+
+    int selectCartItem(CartEntity cartEntity);
+
+    void updateCartItem(CartEntity cartEntity);
+
+    List<String> findColors(String itemName);
+
+    List<String> findSizes(String itemName);
 }

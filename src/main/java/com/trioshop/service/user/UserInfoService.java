@@ -12,19 +12,21 @@ public class UserInfoService {
     private UserInfoDao userInfoDao;
 
 
-
     public UserInfoBySession isValidUser(String userId, String userPasswd) {
         return userInfoDao.loginUser(userId, userPasswd);
+    }
+
+    public UserPatch getUserByUserCode(String userCode) {
+        return userInfoDao.findUserByUserCode(userCode);
     }
 
     public UserFindId isfindId(String userName, String userTel) {
         return userInfoDao.findId(userName, userTel);
     }
 
-    public UserFindPw isfindPw(String userName, String userId) {
-        return userInfoDao.findPw(userName, userId);
+    public boolean findAndUpdatePw(UserFindPw userFindPw) {
+        return userInfoDao.findAndUpdatePw(userFindPw);
     }
-
 
     public boolean registerUser(UserJoin userJoin) {
         try {
@@ -39,6 +41,14 @@ public class UserInfoService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean LoginGuestUser(GuestUserJoin guestUserJoin) {
+        return userInfoDao.LoginGuestUser(guestUserJoin);
+    }
+
+    public boolean registerGuestUser(GuestUserJoin guestUserJoin) {
+        return userInfoDao.saveGuestUser(guestUserJoin);
     }
 
 

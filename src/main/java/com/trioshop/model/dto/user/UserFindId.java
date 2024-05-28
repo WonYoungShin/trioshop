@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class UserFindId {
 
-     String userName;
-     String userTel;
-     String userId; // 추가된 부분
+    String userName;
+    String userTel;
+    String userId; // 추가된 부분
 
     public UserFindId(String userName, String userTel, String userId) {
         this.userName = userName;

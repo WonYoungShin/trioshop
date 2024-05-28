@@ -51,21 +51,20 @@
                         <form action="/changeInfo" method="post">
                             <div class="form-group">
                                 <label for="newPassword">새 비밀번호:</label>
-                                <input type="password" class="form-control" id="newPassword" name="userPasswd" value="${userPasswd}" placeholder="새 비밀번호">
+                                <input type="password" class="form-control" id="newPassword" name="userPasswd" placeholder="새 비밀번호">
                             </div>
                             <div class="form-group">
                                 <label for="userAddress">주소:</label>
-                                <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userAddress}">
+                                <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userPatch.userAddress}">
                             </div>
                             <div class="form-group">
                                 <label for="userTel">전화번호:</label>
-                                <input type="text" class="form-control" id="userTel" name="userTel" value="${UserTel}">
+                                <input type="text" class="form-control" id="userTel" name="userTel" value="${userPatch.userTel}">
                             </div>
                             <div class="form-group">
                                 <label for="userNickname">닉네임:</label>
-                                <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userNickname}">
+                                <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userPatch.userNickname}">
                             </div>
-
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">저장</button>
                                 <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
