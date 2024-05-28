@@ -12,6 +12,9 @@ public interface UserMapper {
     UserFindPw findPw(@Param("userName") String userName,
                       @Param("userId") String userId);
 
+    boolean updatePw(@Param("userId") String userId, @Param("userPasswd") String userPasswd);
+
+
     // TRIO_USERS 테이블에 사용자 정보 저장
     boolean saveUsers(UserJoin userJoin);
     boolean saveUserInfo(UserJoin userJoin);

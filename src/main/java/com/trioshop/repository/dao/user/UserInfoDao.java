@@ -23,8 +23,19 @@ public class UserInfoDao {
         return userMapper.findId(userName, userTel);
     }
 
-    public UserFindPw findPw(String userName, String userId) {
-        return userMapper.findPw(userName, userId);
+    @Transactional
+    public boolean findAndUpdatePw(UserFindPw userFindPw){
+        try {
+            UserFindPw result = userMapper.findPw(userFindPw.getUserName(), userFindPw.getUserId());
+            if (result != null) {
+                return userMapper.updatePw(userFindPw.getUserId(), userFindPw.getUserPasswd());
+            } else {
+                return false; // 일치하는 정보가 없을 경우
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // 에러 발생 시
+        }
     }
 
 
