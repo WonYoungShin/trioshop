@@ -1,8 +1,10 @@
 package com.trioshop.repository.dao.admin;
 
+import com.trioshop.model.dto.admin.EditStatusModel;
 import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.admin.SalesCondition;
 import com.trioshop.model.dto.admin.SalesModel;
+import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.repository.mybatis.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -30,5 +32,11 @@ public class OrderManagementDao {
 
     public List<OrderListModel> orderList(){
         return orderMapper.orderList();
+    }
+
+    public List<OrderStatusEntity> statusList(){ return  orderMapper.statusList(); }
+
+    public void updateStatus(EditStatusModel editStatusModel){
+        orderMapper.updateStatus(editStatusModel);
     }
 }

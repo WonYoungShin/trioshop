@@ -1,18 +1,23 @@
 package com.trioshop.controller.admin;
 
+import com.trioshop.model.dto.admin.EditStatusModel;
+import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.admin.SalesCondition;
 import com.trioshop.model.dto.admin.SalesModel;
+import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.service.admin.OrderManagementService;
 import com.trioshop.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/trioAdmin")
@@ -65,7 +70,33 @@ public class OrderManagementController {
 
     @GetMapping("/orderStatus")
     public String orderStatus(Model model) {
+        List<OrderListModel> orderList = orderService.orderList();
+        List<OrderStatusEntity> statusList = orderService.statusList();
 
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("orderList", orderList);
         return "admin/orderStatusList";
+    }
+
+    @GetMapping("/orderStatus/edit/{orderCode}")
+    public String orderStatusEditForm(@PathVariable String orderCode, Model model){
+        List<OrderStatusEntity> statusList = orderService.statusList();
+        model.addAttribute("orderCode",orderCode);
+        model.addAttribute("statusList", statusList);
+        return "admin/orderStatusEditForm";
+    }
+
+    @PostMapping("/orderStatus/edit/{orderCode}")
+    @ResponseBody
+    public Map<String,Object> orderStatusUpdate(@PathVariable String orderCode, @RequestParam String statusCode){
+        EditStatusModel editStatusModel = new EditStatusModel(orderCode, statusCode);
+        Map<String, Object> response = new HashMap<>();
+        try{
+            boolean s_f_checked = orderService.updateStatus(editStatusModel);
+            response.put("success",s_f_checked);
+        }catch (Exception e){
+            response.put("success", false);
+        }
+        return response;
     }
 }

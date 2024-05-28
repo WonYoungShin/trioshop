@@ -1,10 +1,8 @@
 package com.trioshop.service.admin;
 
-import com.trioshop.model.dto.admin.DashboardModel;
-import com.trioshop.model.dto.admin.OrderListModel;
-import com.trioshop.model.dto.admin.SalesCondition;
-import com.trioshop.model.dto.admin.SalesModel;
+import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.ItemCondition;
+import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.repository.dao.admin.OrderManagementDao;
 import com.trioshop.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +40,20 @@ public class OrderManagementService {
 
     public List<OrderListModel> orderList(){
         return orderDao.orderList();
+    }
+
+    public List<OrderStatusEntity> statusList(){
+        return orderDao.statusList();
+    }
+
+    public boolean updateStatus(EditStatusModel editStatusModel) {
+
+        try{
+            orderDao.updateStatus(editStatusModel);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 }
