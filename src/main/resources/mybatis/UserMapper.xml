@@ -17,6 +17,20 @@
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
+    <select id="findUserByUserCode" parameterType="String" resultType="UserPatch">
+        SELECT tuser.user_code AS userCode,
+               tuser.user_id AS userId,
+               tuser.user_passwd AS userPasswd,
+               info.user_name AS userName,
+               info.user_address AS userAddress,
+               info.user_tel AS userTel,
+               info.user_nickname AS userNickname
+        FROM TRIO_USERS tuser
+                 JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        WHERE tuser.user_code = #{userCode}
+    </select>
+
+
     <select id="findId" parameterType="map" resultType="com.trioshop.model.dto.user.UserFindId">
         SELECT info.user_name AS userName,
         info.user_tel AS userTel,
@@ -26,6 +40,7 @@
         WHERE info.user_name = #{userName}
         AND info.user_tel = #{userTel}
     </select>
+
 
 
     <select id="findPw" parameterType="com.trioshop.model.dto.user.UserFindPw" resultType="com.trioshop.model.dto.user.UserFindPw">
@@ -68,6 +83,40 @@
         )
     </insert>
 
+<!--guset-->
+    <select id="LoginGuestUsers" parameterType="GuestUserJoin" resultType="GuestUserJoin">
+        SELECT
+            info.user_code AS userCode,
+            tuser.grade_code AS gradeCode,
+            info.user_name AS userName,
+            info.user_address AS userAddress,
+            info.user_tel AS userTel
+        FROM
+            TRIO_USERS_INFO info
+                JOIN
+            TRIO_USERS tuser ON tuser.user_code = info.user_code
+        WHERE
+            info.user_name = #{userName}
+          AND info.user_address = #{userAddress}
+          AND info.user_tel = #{userTel}
+    </select>
+
+
+    <insert id="saveGuestUsers" parameterType="GuestUserJoin" useGeneratedKeys="true" keyProperty="userCode">
+        INSERT INTO TRIO_USERS (grade_code)
+        VALUES (0)
+    </insert>
+
+    <insert id="saveGuestUsers2" parameterType="GuestUserJoin" useGeneratedKeys="true" keyProperty="userCode">
+        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel)
+        VALUES (LAST_INSERT_ID(),
+                #{userName},
+                #{userAddress},
+                #{userTel})
+    </insert>
+
+    <!--guset-->
+
     <update id="patchUser" parameterType="UserPatch">
         UPDATE TRIO_USERS_INFO
         <set>
@@ -94,3 +143,4 @@
         WHERE user_code = #{userCode}
     </update>
 </mapper>
+
