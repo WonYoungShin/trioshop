@@ -8,6 +8,10 @@
     <title>비밀번호 찾기</title>
     <!-- 부트스트랩 CSS 링크 추가 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 여기서 스크립트 삽입 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container mt-5">
@@ -16,7 +20,7 @@
             <div class="card">
                 <div class="card-header">비밀번호 찾기</div>
                 <div class="card-body">
-                    <form action="/findPw" method="post">
+                    <form id="findPwForm" action="/findPw" method="post">
                         <div class="form-group">
                             <label for="userName">이름</label>
                             <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요" required>
@@ -26,13 +30,25 @@
                             <input type="text" class="form-control" name="userId" id="userId" placeholder="아이디를 입력해주세요" required>
                         </div>
                         <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
+                        <!-- 로그인 페이지로 돌아가는 버튼 -->
                         <button type="button" onclick="location.href='/login'" class="btn btn-primary">로그인 페이지로 돌아가기</button>
                     </form>
                     <br>
-                    <c:if test="${not empty userInfo}">
-                        <div class="alert alert-success" role="alert">
-                            당신의 비밀번호는 <strong>${userInfo.userPasswd}</strong> 입니다.
-                        </div>
+                    <c:if test="${showForm}">
+                        <hr>
+                        <form id="updatePwForm" action="/findPw" method="post">
+                            <div class="form-group">
+                                <label for="newPassword">새 비밀번호</label>
+                                <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="새 비밀번호를 입력해주세요">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">비밀번호 확인</label>
+                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="새 비밀번호를 다시 입력해주세요">
+                            </div>
+                            <input type="hidden" name="userName" value="${userName}">
+                            <input type="hidden" name="userId" value="${userId}">
+                            <button type="submit" class="btn btn-primary">비밀번호 변경</button>
+                        </form>
                     </c:if>
                     <c:if test="${not empty message}">
                         <div class="alert alert-danger" role="alert">
@@ -44,10 +60,5 @@
         </div>
     </div>
 </div>
-
-<!-- 부트스트랩 JS 및 jQuery 링크 추가 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
