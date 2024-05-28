@@ -1,6 +1,7 @@
 package com.trioshop.repository.dao.item;
 
 import com.trioshop.model.dto.item.*;
+import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.mybatis.ItemMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -79,5 +80,14 @@ public class ItemInfoDao {
 
     public List<String> findSizes(String itemName) {
         return itemMapper.findSizes(itemName);
+    }
+    public ItemDetailSearch itemDetailSearch(ItemDetailSearch itemDetailSearch) {
+        return itemMapper.itemDetailSearch(itemDetailSearch);
+    }
+    public List<ItemDetailSearch> itemDetailNameSearch(String itemName) {
+        return itemMapper.itemDetailNameSearch(itemName);
+    }
+    public UserAddressInfo selectUserAddressInfo (long userCode) {
+        return  itemMapper.selectUserAddressInfo(userCode);
     }
 }

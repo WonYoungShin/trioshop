@@ -1,6 +1,7 @@
 package com.trioshop.repository.mybatis;
 
 import com.trioshop.model.dto.item.*;
+import com.trioshop.model.dto.user.UserAddressInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -40,4 +41,7 @@ public interface ItemMapper {
     List<String> findColors(String itemName);
 
     List<String> findSizes(String itemName);
+    ItemDetailSearch itemDetailSearch(ItemDetailSearch itemDetailSearch);
+    List<ItemDetailSearch> itemDetailNameSearch(String itemName);
+    UserAddressInfo selectUserAddressInfo (long userCode);
 }

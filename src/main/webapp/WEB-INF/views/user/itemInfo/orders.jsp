@@ -54,16 +54,16 @@
         </table>
 
         <div class="form-group">
-            <label for="orderReceiver">Receiver Name</label>
-            <input type="text" class="form-control" id="orderReceiver" name="orderReceiver" required>
+            <label for="orderDestination">Destination</label>
+            <input type="text" class="form-control" id="orderDestination" name="orderDestination" value="${userAddressInfo.userName}" required>
         </div>
         <div class="form-group">
-            <label for="orderDestination">Destination</label>
-            <input type="text" class="form-control" id="orderDestination" name="orderDestination" required>
+            <label for="orderReceiver">Receiver Name</label>
+            <input type="text" class="form-control" id="orderReceiver" name="orderReceiver" value="${userAddressInfo.userAddress}" required>
         </div>
         <div class="form-group">
             <label for="orderTel">Contact Number</label>
-            <input type="tel" class="form-control" id="orderTel" name="orderTel" required>
+            <input type="tel" class="form-control" id="orderTel" name="orderTel" value="${userAddressInfo.userTel}" required>
         </div>
 
         <h3>Total Price: ₩<span id="total-price">0</span></h3>

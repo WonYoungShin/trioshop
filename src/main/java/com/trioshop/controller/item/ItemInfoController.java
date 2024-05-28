@@ -2,16 +2,16 @@ package com.trioshop.controller.item;
 
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.item.*;
+import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.CategoryList;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -60,10 +60,18 @@ public class ItemInfoController {
                               @RequestParam("cartItemQty") long cartItemQty,
                               @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                               Model model) {
-        // cartCode는 MySQL 자동생성, 나머지항목으로 생성자 호출
         itemService.addCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode, cartItemQty));
-        // return "user/itemInfo/itemList";
-        return "redirect:/itemList";
+        //return "user/itemInfo/itemList";
+        return "redirect:itemList";
+    }
+    @PostMapping("/addCarts") //
+    public String addCartItems(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
+                               @RequestParam(value = "quantities", required = false) List<Long> quantities,
+                              @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
+                              Model model) {
+        itemService.addCartItems(userInfoBySession.getUserCode(), itemCodes, quantities);
+
+        return "redirect:itemList";
     }
     @PostMapping("/cart/remove")
     public String deleteCartItem (@RequestParam("itemCode") long itemCode,
@@ -76,17 +84,11 @@ public class ItemInfoController {
 
     @GetMapping("/item/{itemCode}")
     public String itemDetailPage(@PathVariable("itemCode") long itemCode,
-//                                 @ModelAttribute("itemCodes") List<String> addItemCodes,
                                  Model model) {
-        List<String> itemColors = null;
-        List<String> itemSizes = null;
         ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
-        if ((itemColors == null) && (itemSizes == null)) {
-            itemColors = itemService.findColors(item.getItemName());
-            itemSizes = itemService.findSizes(item.getItemName());
-            model.addAttribute("itemColors", itemColors);
-            model.addAttribute("itemSizes", itemSizes);
-        }
+
+        List<ItemDetailSearch> itemLists = itemService.itemDetailNameSearch(item.getItemName());
+        model.addAttribute("itemLists", itemLists);
 
         model.addAttribute("item", item);
         return "user/itemInfo/itemPage";
@@ -95,8 +97,12 @@ public class ItemInfoController {
     @PostMapping("/orders") // 주문 상세 페이지로
     public String ordersPage(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
                              @RequestParam(value = "quantities", required = false) List<Long> quantities,
+                             @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                              Model model) {
         List<ItemInfoByUser> itemList = itemService.makeOrderItems(itemCodes, quantities);
+        UserAddressInfo userAddressInfo =
+                itemService.selectUserAddressInfo(userInfoBySession.getUserCode());
+        model.addAttribute("userAddressInfo",userAddressInfo);
         model.addAttribute("itemList", itemList);
         return "user/itemInfo/orders";
     }

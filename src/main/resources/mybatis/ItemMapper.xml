@@ -199,5 +199,39 @@
         FROM TRIO_ITEMS
         WHERE item_name = #{itemName}
     </select>
+    <!--  -->
+    <select id="itemDetailSearch" resultType="ItemDetailSearch">
+        SELECT
+            item_code AS itemCode,
+            item_name AS itemName,
+            item_color AS itemColor,
+            item_size AS itemSize
+        FROM TRIO_ITEMS
 
+        WHERE item_name = #{itemName}
+            AND item_color = #{itemColor}
+            AND item_size = #{itemSize}
+    </select>
+    <!--  -->
+    <select id="itemDetailNameSearch" resultType="ItemDetailSearch">
+        SELECT
+            item_code AS itemCode,
+            item_name AS itemName,
+            item_color AS itemColor,
+            item_size AS itemSize
+        FROM TRIO_ITEMS
+        WHERE item_name = #{itemName}
+        ORDER BY item_color, item_size
+    </select>
+    <!-- UserAddressInfo 조회하여 UserAddressInfo로 (추후 위치변경해야함)-->
+    <select id="selectUserAddressInfo" resultType="UserAddressInfo">
+        SELECT
+            user_name AS userName,
+            user_address AS userAddress,
+            user_tel AS userTel
+        FROM
+            TRIO_USERS_INFO
+        WHERE
+            user_code = #{userCode}
+    </select>
 </mapper>

@@ -42,9 +42,7 @@
                         </td>
                         <td>₩<span class="item-subtotal">${cartItem.itemPrice * cartItem.cartItemQty}</span></td>
                         <td>
-                            <form method="post" action="/cart/remove">
-                                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                            </form>
+                            <button type="button" class="btn btn-sm btn-danger remove-button" data-item-code="${cartItem.itemCode}">Remove</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -124,6 +122,25 @@
                 }).appendTo(form);
             });
             form.off('submit').submit();
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.remove-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const itemCode = this.getAttribute('data-item-code');
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = '/cart/remove';
+
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'itemCode';
+                input.value = itemCode;
+
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            });
         });
     });
 </script>
