@@ -1,5 +1,6 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/WEB-INF/views/etc/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,13 +34,13 @@
 
                     <form action="/addCart" method="post" class="form-inline mt-2" onsubmit="return updateQty('cartItemQty')">
                         <input type="hidden" name="itemCode" value="${item.itemCode}">
-                        <input type="hidden" id="cartItemQty" name="cartItemQty">
+                        <input type="hidden" id="cartItemQty" name="quantities">
                         <button type="submit" class="btn btn-primary mr-2">Add to Cart</button>
                     </form>
 
                     <form action="/orders" method="post" class="form-inline mt-2" onsubmit="return updateQty('orderQty')">
                         <input type="hidden" name="itemCodes" value="${item.itemCode}">
-                        <input type="hidden" id="orderQty" name="orderQty">
+                        <input type="hidden" id="orderQty" name="quantities">
                         <button type="submit" class="btn btn-success">Order Now</button>
                     </form>
                 </div>
