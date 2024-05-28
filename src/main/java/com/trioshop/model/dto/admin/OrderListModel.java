@@ -9,8 +9,11 @@ public class OrderListModel {
     private String orderCode;
     private Long userCode;
     private String orderDate;
-    private String itemName;
-    private Long orderQty;
+    private String itemNames;
+    private String orderQtys;
     private String statusName;
-
+    private String statusCode;
+    private String itemPrices;
+    private String deliveryCode;
+    private String waybillNum;
 }
