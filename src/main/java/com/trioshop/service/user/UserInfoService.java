@@ -2,7 +2,6 @@ package com.trioshop.service.user;
 
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserInfoDao;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,6 @@ public class UserInfoService {
 
     @Autowired
     private UserInfoDao userInfoDao;
-
 
 
     public UserInfoBySession isValidUser(String userId, String userPasswd) {
@@ -43,6 +41,14 @@ public class UserInfoService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean LoginGuestUser(GuestUserJoin guestUserJoin) {
+        return userInfoDao.LoginGuestUser(guestUserJoin);
+    }
+
+    public boolean registerGuestUser(GuestUserJoin guestUserJoin) {
+        return userInfoDao.saveGuestUser(guestUserJoin);
     }
 
 

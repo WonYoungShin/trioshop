@@ -2,9 +2,6 @@ package com.trioshop.controller.user;
 
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
-import jakarta.servlet.http.HttpServletRequest;
-import org.apache.catalina.User;
-import org.springframework.ui.Model;
 import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,7 +144,6 @@ public class UserController {
         UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         if (currentUser == null) {
-            System.out.println("확인2 = " + currentUser); //SessionAttribute 을 사용해서 loginMember에서 session을 불러옴 currentUser 로 이름정의
             mv.setViewName("redirect:/login");
             mv.addObject("error", "세션이 만료되었거나 잘못된 접근입니다.");
         } else {
@@ -190,4 +186,41 @@ public class UserController {
         }
     }
 
+    //@ModelAttribute 폼에서입력하면 컨트롤러로 전달~~
+    @GetMapping("/guestLogin")
+    public String guestLoginPage(@ModelAttribute("guestUser") GuestUserJoin guestUser) {
+        return "/user/userInfo/guestLogin";
+    }
+
+    @PostMapping("/guestLogin")
+    public ModelAndView guestLogin(@ModelAttribute GuestUserJoin guestUser) {
+        ModelAndView mv = new ModelAndView();
+        boolean existingUser = userInfoService.LoginGuestUser(guestUser);
+        if (existingUser) {
+            // 기존 사용자인 경우 로그인 성공
+            session.setAttribute(SessionConst.LOGIN_MEMBER, guestUser);
+            mv.setViewName("redirect:/myPage");
+        } else {
+            boolean isRegistered = userInfoService.registerGuestUser(guestUser);
+            if (isRegistered) {
+                System.out.println("확인3"+isRegistered);
+                session.setAttribute(SessionConst.LOGIN_MEMBER, guestUser);
+                mv.setViewName("redirect:/myPage");
+            } else {
+                // 회원가입 실패
+                mv.setViewName("redirect:/guestLogin");
+                mv.addObject("error", "회원가입 중 오류가 발생했습니다.");
+            }
+        }
+
+        return mv;
+
+    }
+//    @GetMapping("/guestJoin")
+//    public String guestJoin(@ModelAttribute("guestUser") GuestUserJoin guestUser) {
+//        return "/user/userInfo/guestJoin";
+//    }
+
 }
+
+

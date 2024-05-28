@@ -3,7 +3,6 @@ package com.trioshop.repository.dao.user;
 
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.mybatis.UserMapper;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,7 @@ public class UserInfoDao {
     }
 
     @Transactional
-    public boolean findAndUpdatePw(UserFindPw userFindPw){
+    public boolean findAndUpdatePw(UserFindPw userFindPw) {
         try {
             UserFindPw result = userMapper.findPw(userFindPw.getUserName(), userFindPw.getUserId());
             if (result != null) {
@@ -54,6 +53,31 @@ public class UserInfoDao {
             return false;
         }
     }
+
+    public boolean LoginGuestUser(GuestUserJoin guestUserJoin) {
+        // 사용자가 이미 존재하는지 확인
+        boolean existingUser = userMapper.LoginGuestUsers(guestUserJoin);
+        // 기존 사용자가 존재하면 true 반환
+        if(existingUser) {
+            return true;
+        } else {
+            // 기존 사용자가 존재하지 않으면 회원가입 처리
+            return saveGuestUser(guestUserJoin);
+        }
+    }
+
+    @Transactional
+    public boolean saveGuestUser(GuestUserJoin guestUserJoin) {
+        try {
+            userMapper.saveGuestUsers(guestUserJoin);
+            userMapper.saveGuestUsers2(guestUserJoin);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     @Transactional
     public boolean patchUser(UserPatch userPatch) {
