@@ -3,6 +3,7 @@ package com.trioshop.repository.dao.user;
 
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.mybatis.UserMapper;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ public class UserInfoDao {
         return userMapper.loginUser(userIdPasswd);
     }
 
+    public UserPatch findUserByUserCode(String userCode) {
+        return userMapper.findUserByUserCode(userCode);
+    }
 
     public UserFindId findId(String userName, String userTel) {
         return userMapper.findId(userName, userTel);

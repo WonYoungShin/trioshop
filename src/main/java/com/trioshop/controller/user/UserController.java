@@ -3,6 +3,7 @@ package com.trioshop.controller.user;
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.catalina.User;
 import org.springframework.ui.Model;
 import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
@@ -135,32 +136,38 @@ public class UserController {
     }
 
 
-
     @GetMapping("/myPage")
     public String myPage() {
         return "/user/userInfo/myPage";
     }
 
     @GetMapping("/changeInfo")
-    public ModelAndView changeInfoPage() {
+    public ModelAndView changeInfoPage(HttpSession session) {
         ModelAndView mv = new ModelAndView();
         UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
         if (currentUser == null) {
+            System.out.println("확인2 = " + currentUser); //SessionAttribute 을 사용해서 loginMember에서 session을 불러옴 currentUser 로 이름정의
             mv.setViewName("redirect:/login");
             mv.addObject("error", "세션이 만료되었거나 잘못된 접근입니다.");
         } else {
-            UserPatch userPatch = new UserPatch();
-            userPatch.setUserCode(currentUser.getUserCode());
-            userPatch.setUserNickname(currentUser.getUserNickname());
-            mv.setViewName("/user/userInfo/changeInfo");
-            mv.addObject("userPatch", userPatch);
+            long userCode = currentUser.getUserCode();
+            UserPatch userPatch = userInfoService.getUserByUserCode(String.valueOf(userCode)); // getUserByUserCode의 인자를 String으로 변환하여 전달
+            if (userPatch != null) {
+                mv.setViewName("/user/userInfo/changeInfo");
+                mv.addObject("userPatch", userPatch);
+            } else {
+                mv.setViewName("redirect:/login");
+                mv.addObject("error", "사용자 정보를 찾을 수 없습니다.");
+            }
         }
         return mv;
     }
 
+
     @PostMapping("/changeInfo")
     public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession currentUser) {
-        System.out.println("userPatch = " + userPatch); //SessionAttribute 을 사용해서 loginMember에서 session을 불러옴 currentUser 로 이름정의
+
         currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
         userPatch.setUserCode(currentUser.getUserCode());
 

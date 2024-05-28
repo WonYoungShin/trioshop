@@ -51,7 +51,7 @@
                         <form action="/changeInfo" method="post">
                             <div class="form-group">
                                 <label for="newPassword">새 비밀번호:</label>
-                                <input type="password" class="form-control" id="newPassword" name="userPasswd" value="${userPatch.userPasswd}" placeholder="새 비밀번호">
+                                <input type="password" class="form-control" id="newPassword" name="userPasswd" placeholder="새 비밀번호">
                             </div>
                             <div class="form-group">
                                 <label for="userAddress">주소:</label>

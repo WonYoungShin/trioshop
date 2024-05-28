@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trioshop.repository.mybatis.UserMapper">
 
-    <select id="loginUser" parameterType="com.trioshop.model.dto.user.UserIdPasswd" resultType="com.trioshop.model.dto.user.UserInfoBySession">
+    <select id="loginUser" parameterType="com.trioshop.model.dto.user.UserIdPasswd" resultType="UserInfoBySession">
         SELECT tuser.user_code AS userCode,
                tuser.grade_code AS gradeCode,
                tuser.user_id AS userId,
@@ -17,7 +17,21 @@
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
-    <select id="findId" parameterType="map" resultType="com.trioshop.model.dto.user.UserFindId">
+    <select id="findUserByUserCode" parameterType="String" resultType="UserPatch">
+        SELECT tuser.user_code AS userCode,
+               tuser.user_id AS userId,
+               tuser.user_passwd AS userPasswd,
+               info.user_name AS userName,
+               info.user_address AS userAddress,
+               info.user_tel AS userTel,
+               info.user_nickname AS userNickname
+        FROM TRIO_USERS tuser
+                 JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        WHERE tuser.user_code = #{userCode}
+    </select>
+
+
+    <select id="findId" parameterType="map" resultType="UserFindId">
         SELECT info.user_name AS userName,
         info.user_tel AS userTel,
         tuser.user_id AS userId  <!-- 추가된 부분 -->
@@ -28,7 +42,7 @@
     </select>
 
 
-    <select id="findPw" parameterType="com.trioshop.model.dto.user.UserFindPw" resultType="com.trioshop.model.dto.user.UserFindPw">
+    <select id="findPw" parameterType="com.trioshop.model.dto.user.UserFindPw" resultType="UserFindPw">
         SELECT tuser.user_id AS userId,
                info.user_name AS userName,
                tuser.user_passwd AS userPasswd

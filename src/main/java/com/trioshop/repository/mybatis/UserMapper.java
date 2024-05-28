@@ -1,10 +1,13 @@
 package com.trioshop.repository.mybatis;
 
 import com.trioshop.model.dto.user.*;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     UserInfoBySession loginUser(UserIdPasswd userIdPasswd);
+
+    UserPatch findUserByUserCode(String userCode);
 
     UserFindId findId(@Param("userName") String userName,
                       @Param("userTel") String userTel);
