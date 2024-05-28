@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -70,6 +71,10 @@ public class OrderManagementService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public Optional<WaybillSelectModel> findWaybillByCode(String orderCode) {
+        return orderDao.findWaybillByCode(orderCode);
     }
 }
 

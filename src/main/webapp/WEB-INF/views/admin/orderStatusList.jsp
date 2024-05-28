@@ -14,9 +14,23 @@
             padding: 20px;
             width: calc(100% - 250px);
         }
-        .table thead th, .table tbody td {
+        .table thead th,
+        .table tbody td {
             vertical-align: middle;
             text-align: center;
+            white-space: nowrap; /* 줄바꿈 방지 */
+        }
+        .nowrap {
+            white-space: nowrap; /* 줄바꿈 방지 */
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: nowrap;
+        }
+        .btn-container button {
+            flex: 1;
+            margin: 2px;
         }
     </style>
 </head>
@@ -61,7 +75,7 @@
                             <td>${order.orderCode}</td>
                             <td>${order.userCode}</td>
                             <td>${order.orderDate}</td>
-                            <td>
+                            <td class="nowrap">
                                 <c:forEach var="itemName" items="${order.itemNames.split(',')}">
                                     <div>${itemName}</div>
                                 </c:forEach>
@@ -76,13 +90,16 @@
                                     <div>${itemPrice}</div>
                                 </c:forEach>
                             </td>
-                            <td>${order.statusName}</td>
+                            <td class="nowrap">${order.statusName}</td>
                             <td>
                                 <c:if test="${order.statusCode eq '10' || order.statusCode eq '20'}">
                                     <button class="btn btn-secondary" onclick="openWaybillPopup('${order.orderCode}')">운송장입력</button>
                                 </c:if>
                                 <c:if test="${order.statusCode != '10' && order.statusCode != '20'}">
-                                    <button class="btn btn-info" onclick="openWaybillEditPopup('${order.orderCode}','${order.deliveryCode}','${order.waybillNum}')">운송장수정</button>
+                                    <div class="btn-container">
+                                        <button class="btn btn-info" onclick="openWaybillEditPopup('${order.orderCode}','${order.deliveryCode}','${order.waybillNum}')">운송장수정</button>
+                                        <button class="btn btn-secondary" onclick="openWaybillInformationPopup('${order.orderCode}')">운송장보기</button>
+                                    </div>
                                 </c:if>
                             </td>
                             <td>
@@ -105,12 +122,20 @@
         window.open('/trioAdmin/orderStatus/' + encodeURIComponent(orderCode), 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
     }
 
+    function openWaybillInformationPopup(orderCode) {
+        var width = 500;
+        var height = 400;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+        window.open('/trioAdmin/orderStatus/' + encodeURIComponent(orderCode) +"/information", 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
+    }
+
     function openWaybillEditPopup(orderCode, deliveryCode, waybillNum) {
         var width = 500;
         var height = 400;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
-        var url = '/trioAdmin/orderStatus/' + encodeURIComponent(orderCode) + '?deliveryCode=' + encodeURIComponent(deliveryCode) + '&waybillNum=' + encodeURIComponent(waybillNum);
+        var url = '/trioAdmin/orderStatus/' + encodeURIComponent(orderCode) + '?oldDeliveryCode=' + encodeURIComponent(deliveryCode) + '&oldWaybillNum=' + encodeURIComponent(waybillNum);
         window.open(url, 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
     }
 

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -43,5 +44,9 @@ public class OrderManagementDao {
 
     public void addWaybill(WaybillModel waybillModel) {
         orderMapper.addWaybill(waybillModel);
+    }
+
+    public Optional<WaybillSelectModel> findWaybillByCode(String orderCode) {
+        return orderMapper.findWaybillByCode(orderCode);
     }
 }

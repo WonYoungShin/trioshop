@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Controller
@@ -99,26 +100,38 @@ public class OrderManagementController {
     }
 
     @GetMapping("/orderStatus/{orderCode}")
-    public String waybillAddForm(Model model){
+    public String waybillAddForm(@PathVariable String orderCode,
+                                 @RequestParam(defaultValue = "", required = false) String oldDeliveryCode,
+                                 @RequestParam(defaultValue = "", required = false) String oldWaybillNum,
+                                 Model model) {
         List<DeliveryEntity> deliveryEntities = orderService.deliveryEntityList();
 
-        model.addAttribute("deliveryList",deliveryEntities);
+        model.addAttribute("deliveryList", deliveryEntities);
+        model.addAttribute("oldDeliveryCode", oldDeliveryCode);
+        model.addAttribute("oldWaybillNum", oldWaybillNum);
+        model.addAttribute("orderCode", orderCode);
 
         return "admin/deliveryAddForm";
     }
 
+
+
     @PostMapping("/orderStatus/{orderCode}")
     @ResponseBody
-    public String waybillAdd(@PathVariable String orderCode, @ModelAttribute WaybillModel waybill){
+    public String waybillAdd(@PathVariable String orderCode, @ModelAttribute WaybillModel waybill) {
+        // 로그로 입력된 파라미터 확인
+        System.out.println("orderCode: " + orderCode);
+        System.out.println("deliveryCode: " + waybill.getDeliveryCode());
+        System.out.println("waybillNum: " + waybill.getWaybillNum());
+
         WaybillModel waybillModel = getBuild(orderCode, waybill);
-        try{
-            EditStatusModel editStatusModel = new EditStatusModel(orderCode,"21");
+        try {
+            EditStatusModel editStatusModel = new EditStatusModel(orderCode, "21");
             orderService.addWaybill(waybillModel, editStatusModel);
             return "success";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "fail";
         }
-
     }
 
     private static WaybillModel getBuild(String orderCode, WaybillModel waybill) {
@@ -127,6 +140,18 @@ public class OrderManagementController {
                 .waybillNum(waybill.getWaybillNum())
                 .orderCode(orderCode)
                 .build();
+    }
+
+    @GetMapping("/orderStatus/{orderCode}/information")
+    public String waybillAddForm(@PathVariable String orderCode, Model model) {
+        try {
+            WaybillSelectModel waybillModel = orderService.findWaybillByCode(orderCode).orElseThrow(NoSuchElementException::new);
+            model.addAttribute("waybillModel", waybillModel);
+        }catch (NoSuchElementException e){
+            log.info("운송장 정보 없음");
+        }
+
+        return "admin/deliveryInformation";
     }
 
 }

@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>운송장</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
@@ -24,13 +24,13 @@
                             <select id="delivery" class="form-control" name="deliveryCode">
                                 <option value="">==운송회사를 선택해주세요==</option>
                                 <c:forEach var="delivery" items="${deliveryList}">
-                                    <option value="${delivery.deliveryCode}" <c:if test="${delivery.deliveryCode == param.deliveryCode}">selected</c:if>>${delivery.deliveryName}</option>
+                                    <option value="${delivery.deliveryCode}" <c:if test="${delivery.deliveryCode == oldDeliveryCode}">selected</c:if>>${delivery.deliveryName}</option>
                                 </c:forEach>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="waybillNum">운송장번호 :</label>
-                            <input id="waybillNum" type="text" class="form-control" name="waybillNum" placeholder="-를 제외하고 입력해주세요." value="${param.waybillNum != null ? param.waybillNum : ''}" />
+                            <input id="waybillNum" type="text" class="form-control" name="waybillNum" placeholder="-를 제외하고 입력해주세요." value="<c:out value='${oldWaybillNum}'/>" />
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">확인</button>
                     </form>

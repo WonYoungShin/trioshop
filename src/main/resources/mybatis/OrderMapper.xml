@@ -113,4 +113,11 @@
             waybill_num = #{waybillNum}
         WHERE order_code = #{orderCode}
     </update>
+
+    <select id="findWaybillByCode" resultType="WaybillSelectModel">
+        SELECT delivery_name, waybill_num
+        FROM TRIO_ORDERS o
+        JOIN TRIO_DELIVERY d ON o.delivery_code = d.delivery_code
+        WHERE o.order_code = #{orderCode}
+    </select>
 </mapper>

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Mapper
@@ -23,4 +24,6 @@ public interface OrderMapper {
     List<DeliveryEntity> deliveryEntityList();
 
     void addWaybill(WaybillModel waybillModel);
+
+    Optional<WaybillSelectModel> findWaybillByCode(String orderCode);
 }
