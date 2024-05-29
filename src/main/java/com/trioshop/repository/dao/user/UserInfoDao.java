@@ -54,23 +54,16 @@ public class UserInfoDao {
         }
     }
 
-    public boolean LoginGuestUser(GuestUserJoin guestUserJoin) {
-        // 사용자가 이미 존재하는지 확인
-        boolean existingUser = userMapper.LoginGuestUsers(guestUserJoin);
-        // 기존 사용자가 존재하면 true 반환
-        if(existingUser) {
-            return true;
-        } else {
-            // 기존 사용자가 존재하지 않으면 회원가입 처리
-            return saveGuestUser(guestUserJoin);
-        }
-    }
+    public GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin) {
+        return userMapper.LoginGuestUser(guestUserJoin);
+    } // 비회원 로그인
 
     @Transactional
-    public boolean saveGuestUser(GuestUserJoin guestUserJoin) {
+    public boolean saveGuestUser(GuestUserJoin guestUserJoin,GuestUserJoin2 guestUserJoin2) {
         try {
+            guestUserJoin = new GuestUserJoin();
             userMapper.saveGuestUsers(guestUserJoin);
-            userMapper.saveGuestUsers2(guestUserJoin);
+            userMapper.saveGuestUsers2(guestUserJoin2);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
