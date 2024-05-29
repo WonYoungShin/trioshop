@@ -140,8 +140,8 @@
     }
 
     function openPopup(orderCode, statusCode) {
-        var width = 500;
-        var height = 400;
+        var width = 100;
+        var height = 200;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
         window.open('/trioAdmin/orderStatus/edit/' + encodeURIComponent(orderCode) + '?statusCode=' + encodeURIComponent(statusCode), 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
