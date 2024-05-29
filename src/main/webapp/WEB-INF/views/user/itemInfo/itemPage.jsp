@@ -34,7 +34,7 @@
 
                     <form action="/addCart" method="post" class="form-inline mt-2" onsubmit="return updateQty('cartItemQty')">
                         <input type="hidden" name="itemCode" value="${item.itemCode}">
-                        <input type="hidden" id="cartItemQty" name="quantities">
+                        <input type="hidden" id="cartItemQty" name="cartItemQty">
                         <button type="submit" class="btn btn-primary mr-2">Add to Cart</button>
                     </form>
 
