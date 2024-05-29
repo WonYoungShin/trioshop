@@ -55,9 +55,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/cart">장바구니</a>
                             </li>
+                            <c:if test="${loginMember.gradeCode != 0}">
                             <li class="nav-item">
                                 <a class="nav-link" href="/myPage">마이페이지</a>
                             </li>
+                            </c:if>
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">로그아웃</a>
                             </li>

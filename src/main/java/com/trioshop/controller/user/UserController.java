@@ -175,10 +175,13 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         try {
             // 입력값이 모두 비어있는지 확인
-            if (userPatch.getUserPasswd().isEmpty() && userPatch.getUserAddress().isEmpty() && userPatch.getUserTel().isEmpty() && userPatch.getUserNickname().isEmpty()) {
+            if (userPatch.getUserPasswd().isEmpty() &&
+                    userPatch.getUserAddress().isEmpty() &&
+                    userPatch.getUserTel().isEmpty() &&
+                    userPatch.getUserNickname().isEmpty()) {
                 mv.setViewName("redirect:/changeInfo");
                 return mv;
-            }
+            } //Validation 적용시 삭제
 
             // 세션에서 현재 사용자 정보 가져오기
             currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);

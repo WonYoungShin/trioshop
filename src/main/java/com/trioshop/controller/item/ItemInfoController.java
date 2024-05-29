@@ -56,7 +56,7 @@ public class ItemInfoController {
         return "user/itemInfo/cart";
     }
 
-    @PostMapping("/addCart") //
+    @PostMapping("/addCart") // 단일 품목 카트 추가
     public String addCartItem(@RequestParam("itemCode") long itemCode,
                               @RequestParam("cartItemQty") long cartItemQty,
                               @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
@@ -65,16 +65,15 @@ public class ItemInfoController {
         //return "user/itemInfo/itemList";
         return "redirect:itemList";
     }
-    @PostMapping("/addCarts") //
+    @PostMapping("/addCarts") // 다중 품목 카트 추가
     public String addCartItems(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
                                @RequestParam(value = "quantities", required = false) List<Long> quantities,
                               @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                               Model model) {
         itemService.addCartItems(userInfoBySession.getUserCode(), itemCodes, quantities);
-
         return "redirect:itemList";
     }
-    @PostMapping("/cart/remove")
+    @PostMapping("/cart/remove") // 카트 품목 제거
     public String deleteCartItem (@RequestParam("itemCode") long itemCode,
                                   @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                   Model model ){
@@ -83,7 +82,7 @@ public class ItemInfoController {
         return "redirect:/cart";
     }
 
-    @GetMapping("/item/{itemCode}")
+    @GetMapping("/item/{itemCode}") //아이템 상세 페이지로
     public String itemDetailPage(@PathVariable("itemCode") long itemCode,
                                  Model model) {
         ItemInfoByUser item = itemService.itemInfoByCode(itemCode);
@@ -134,7 +133,5 @@ public class ItemInfoController {
             return "redirect:/";
         }
     }
-
-
 }
 

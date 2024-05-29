@@ -5,6 +5,7 @@ import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.dao.item.ItemInfoDao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ItemService {
@@ -56,7 +58,7 @@ public class ItemService {
                 // itemcode 를 키로 orderQty를 값으로 하여 Map생성
                 orderMap.put(itemCodes.get(i),quantities.get(i));
             }
-
+        //Map을 이용해 구매 수량 저장
         for (ItemInfoByUser itemInfoByUser : itemInfoList) {
             itemInfoByUser.setOrderQty(orderMap.get(itemInfoByUser.getItemCode()));
         }
@@ -72,37 +74,38 @@ public class ItemService {
             List<Long> itemCodeList = new ArrayList<>(); // 장바구니에서 구매품목을 지우기위한 List
             // 주문 테이블 저장
             ordersEntity.setOrderCode(orderCode);
-            ordersEntity.setStatusCode("10");
+            ordersEntity.setStatusCode("10"); //DEFAULT '10'
             ordersEntity.setOrderDate(generateOrderDate()); // 시간 yyMMdd-HHmmss
+
+
             itemInfoDao.insertOrders(ordersEntity);
             // 주문 상품 테이블 저장
             for (OrderItemEntity orderItemEntity : orderItemList) {
                 orderItemEntity.setOrderCode(orderCode);
                 itemInfoDao.insertOrderItems(orderItemEntity);
-            }
-            // 재고 업데이트
-            for (OrderItemEntity orderItemEntity : orderItemList) {
+                // 재고 업데이트
                 ItemCodeAndQty itemCodeAndQty
                         = new ItemCodeAndQty(orderItemEntity.getItemCode(),
-                                             orderItemEntity.getOrderQty());
+                        orderItemEntity.getOrderQty());
+
                 // itemCode로 검색해 주문수량 update
                 itemInfoDao.updateStockQty(itemCodeAndQty);
-
                 itemCodeList.add(orderItemEntity.getItemCode());
             }
             // 구매 품목 카트 에서 제외
             itemInfoDao.deleteItemsFromCart(ordersEntity.getUserCode(),itemCodeList);
-
             return true;
+
         } catch (Exception e) {
             // 예외 발생 시 로그 출력
-            System.err.println("Error processing order: " + e.getMessage());
+            log.info("Error processing order =  {}", e.getMessage());
             return false;
         }
     }
     //카트 단일 항목 추가
     public void addCartItem (CartEntity cartEntity) {
         if( itemInfoDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
+
             itemInfoDao.updateCartItem(cartEntity); // 수량을 업데이트
         } else {
             itemInfoDao.insertCartItem(cartEntity); // cart에 insert
