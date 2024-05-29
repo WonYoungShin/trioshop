@@ -48,25 +48,24 @@
                         <a href="/join" class="btn btn-primary" role="button">회원가입</a>
                         <a href="/findId" class="btn btn-primary" role="button">아이디 찾기</a>
                         <a href="/findPw" class="btn btn-primary" role="button">비밀번호 찾기</a>
-                        <a href="/guestLogin" class="btn btn-primary" role="button">비회원 로그인</a>
-                    </form>
 
-                    <!-- 카카오톡 로그인 버튼 -->
-                    <button id="kakao-login-btn" class="btn btn-warning btn-block" style="background-color: transparent; border: none;">
-                        <div class="text-SNS">
-                            <br><b>SNS 계정 간편 로그인</b>
-                        </div>
-                        <br>
-                        <img src="images/kakaoLog.png" alt="Kakao 로그인" style="width: 100%;">
-                    </button>
 
-                    <!-- 에러 메시지 표시 -->
-                    <c:if test="${not empty error}">
+                        <!-- 카카오톡 로그인 버튼 -->
+                        <button id="kakao-login-btn" class="btn btn-warning btn-block" style="background-color: transparent; border: none;">
+                            <div class="text-SNS">
+                                <br><b>SNS 계정 간편 로그인</b>
+                            </div>
+                            <br>
+                            <img src="images/kakaoLog.png" alt="Kakao 로그인" style="width: 100%;">
+                        </button>
+
+                        <!-- 에러 메시지 표시 -->
+                        <c:if test="${not empty error}">
                         <script>
                             alert("${error}");
                             document.getElementById('loginForm').reset();
                         </script>
-                    </c:if>
+                        </c:if>
                 </div>
             </div>
         </div>
@@ -102,9 +101,9 @@
         passwordInput.type = 'text';
     });+
 
-    togglePassword.addEventListener('mouseleave', function() {
-        passwordInput.type = 'password';
-    });
+        togglePassword.addEventListener('mouseleave', function() {
+            passwordInput.type = 'password';
+        });
 
     // 아이디 저장 체크 박스 이벤트
     const rememberMeCheckbox = document.getElementById('rememberMe');

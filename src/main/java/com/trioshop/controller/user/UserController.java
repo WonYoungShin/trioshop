@@ -99,36 +99,45 @@ public class UserController {
     }
 
     @PostMapping("/findPw")
-    // 첫 번째 단계:/findPw POST 요청 핸들러 메소드에서 새 비밀번호와 비밀번호 확인을 @RequestParam(required = false)로 설정하여 필수가 아님을 나타냈습니다.
     public ModelAndView findPw(@RequestParam String userName,
                                @RequestParam String userId,
                                @RequestParam(required = false) String newPassword,
                                @RequestParam(required = false) String confirmPassword) {
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findPw");
+        try {
+            // 이름과 아이디로 비밀번호 찾기 시도
+            UserFindPw userFindPw = new UserFindPw(userName, userId, null); // 비밀번호는 필요없음
+            boolean result = userInfoService.findAndUpdatePw(userFindPw);
 
-        if (newPassword == null || confirmPassword == null) {
-            // 새 비밀번호와 비밀번호 확인이 입력되지 않은 경우
-            modelAndView.addObject("showForm", true);
-            modelAndView.addObject("userName", userName);
-            modelAndView.addObject("userId", userId);
-            return modelAndView;
+            // 사용자 정보가 없을 경우
+            if (!result) {
+                modelAndView.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
+            } else {
+                // 새 비밀번호와 비밀번호 확인이 입력된 경우
+                if (newPassword != null && confirmPassword != null) {
+                    if (!newPassword.equals(confirmPassword)) {
+                        modelAndView.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                    } else {
+                        // 새 비밀번호를 업데이트
+                        userFindPw.setUserPasswd(newPassword);
+                        boolean isUpdated = userInfoService.findAndUpdatePw(userFindPw);
+                        if (isUpdated) {
+                            modelAndView.setViewName("redirect:/login");
+                            modelAndView.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
+                        } else {
+                            modelAndView.addObject("message", "비밀번호 변경 중 오류가 발생했습니다.");
+                        }
+                    }
+                } else {
+                    // 새 비밀번호와 비밀번호 확인이 입력되지 않은 경우
+                    modelAndView.addObject("showForm", true);
+                    modelAndView.addObject("userName", userName);
+                    modelAndView.addObject("userId", userId);
+                }
+            }
+        } catch (Exception e) {
+            modelAndView.addObject("message", "예외 발생");
         }
-
-        // 새 비밀번호와 비밀번호 확인이 입력된 경우
-        if (!newPassword.equals(confirmPassword)) {
-            modelAndView.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-            return modelAndView;
-        }
-
-        UserFindPw userFindPw = new UserFindPw(userName, userId, newPassword);
-        boolean isUpdated = userInfoService.findAndUpdatePw(userFindPw);
-        if (isUpdated) {
-            modelAndView.setViewName("redirect:/login");
-            modelAndView.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
-        } else {
-            modelAndView.addObject("message", "비밀번호 변경 중 오류가 발생했습니다.");
-        }
-
         return modelAndView;
     }
 
@@ -163,12 +172,17 @@ public class UserController {
 
     @PostMapping("/changeInfo")
     public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession currentUser) {
-
-        currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        userPatch.setUserCode(currentUser.getUserCode());
-
         ModelAndView mv = new ModelAndView();
         try {
+            // 입력값이 모두 비어있는지 확인
+            if (userPatch.getUserPasswd().isEmpty() && userPatch.getUserAddress().isEmpty() && userPatch.getUserTel().isEmpty() && userPatch.getUserNickname().isEmpty()) {
+                mv.setViewName("redirect:/changeInfo");
+                return mv;
+            }
+
+            // 세션에서 현재 사용자 정보 가져오기
+            currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            userPatch.setUserCode(currentUser.getUserCode());
 
             boolean isUpdated = userInfoService.patchUser(userPatch);
 
@@ -193,34 +207,31 @@ public class UserController {
     }
 
     @PostMapping("/guestLogin")
-    public ModelAndView guestLogin(@ModelAttribute GuestUserJoin guestUser) {
+    public ModelAndView guestLogin(@ModelAttribute GuestUserJoin guestUserJoin, @ModelAttribute GuestUserJoin2 guestUserJoin2) {
         ModelAndView mv = new ModelAndView();
-        boolean existingUser = userInfoService.LoginGuestUser(guestUser);
-        if (existingUser) {
-            // 기존 사용자인 경우 로그인 성공
-            session.setAttribute(SessionConst.LOGIN_MEMBER, guestUser);
-            mv.setViewName("redirect:/myPage");
+
+        // 첫 번째 로그인 시도
+        GuestUserJoin existingUser = userInfoService.LoginGuestUser(guestUserJoin);
+
+        // 기존 사용자가 있고 grade_code가 0인 경우에만 로그인 성공
+        if (existingUser != null && existingUser.getGradeCode() == 0) {
+            session.setAttribute(SessionConst.LOGIN_MEMBER, existingUser);
+            mv.setViewName("redirect:/");
         } else {
-            boolean isRegistered = userInfoService.registerGuestUser(guestUser);
-            if (isRegistered) {
-                System.out.println("확인3"+isRegistered);
-                session.setAttribute(SessionConst.LOGIN_MEMBER, guestUser);
-                mv.setViewName("redirect:/myPage");
+            // guestUserJoin 객체에 필요한 값 설정
+            guestUserJoin.setGradeCode(0); // 예시로 gradeCode를 설정하고, 필요한 다른 값들도 설정해야 함
+
+            // 중복된 DB가 없으면 회원가입을 시도
+            boolean isSuccess = userInfoService.saveGuestUser(guestUserJoin, guestUserJoin2);
+            if (isSuccess) {
+                mv.addObject("message", "회원가입이 완료되었습니다. 로그인해주세요.");
             } else {
-                // 회원가입 실패
-                mv.setViewName("redirect:/guestLogin");
-                mv.addObject("error", "회원가입 중 오류가 발생했습니다.");
+                mv.addObject("message", "회원가입에 실패했습니다. 다시 시도해주세요.");
             }
+            mv.setViewName("redirect:/guestLogin");
         }
 
         return mv;
-
     }
-//    @GetMapping("/guestJoin")
-//    public String guestJoin(@ModelAttribute("guestUser") GuestUserJoin guestUser) {
-//        return "/user/userInfo/guestJoin";
-//    }
 
 }
-
-

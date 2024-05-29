@@ -28,6 +28,7 @@ public class UserInfoService {
         return userInfoDao.findAndUpdatePw(userFindPw);
     }
 
+
     public boolean registerUser(UserJoin userJoin) {
         try {
             UserInfoBySession existingUser = userInfoDao.loginUser(userJoin.getUserId(), userJoin.getUserPasswd());
@@ -43,12 +44,22 @@ public class UserInfoService {
         }
     }
 
-    public boolean LoginGuestUser(GuestUserJoin guestUserJoin) {
+    public GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin) {
         return userInfoDao.LoginGuestUser(guestUserJoin);
     }
 
-    public boolean registerGuestUser(GuestUserJoin guestUserJoin) {
-        return userInfoDao.saveGuestUser(guestUserJoin);
+    public boolean saveGuestUser(GuestUserJoin guestUserJoin, GuestUserJoin2 guestUserJoin2) {
+        try {
+            boolean isSuccess = userInfoDao.saveGuestUser(guestUserJoin, guestUserJoin2);
+            if (isSuccess) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
