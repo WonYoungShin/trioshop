@@ -32,6 +32,7 @@ public class PurchaseController implements AdminController<PurchaseItemModel, Lo
     @PostMapping
     @Override
     public String save(@ModelAttribute PurchaseItemModel itemModel) {
+        System.out.println(itemModel);
         PurchaseItemModel saveItemModel = purchaseService.save(itemModel);
         return "redirect:/trioAdmin/purchase/list";
     }
