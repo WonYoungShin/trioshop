@@ -40,12 +40,13 @@
         FROM TRIO_ORDER_ITEMS oi
                  JOIN TRIO_ITEMS item ON oi.item_code = item.item_code
                  JOIN TRIO_ORDERS o ON o.order_code = oi.order_code
-        WHERE o.status_code = '30';
+        WHERE o.status_code = '30'
     </select>
 
     <select id="allPurchaseQty" resultType="Integer">
         SELECT SUM(purchase_qty)
         FROM TRIO_PURCHASE
+        WHERE status_code = '10'
     </select>
 
 <!--    <select id="orderList" resultType="OrderListModel">-->
