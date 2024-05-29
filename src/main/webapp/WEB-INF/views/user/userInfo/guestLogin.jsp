@@ -50,14 +50,10 @@
 <body>
 <div class="container">
     <!-- 첫 번째 폼 -->
-    <form id="firstForm" action="/guestlogin" method="post">
+    <form id="firstForm" action="/guestLogin" method="post">
         <div class="form-group">
             <label for="userName1">이름:</label>
             <input type="text" class="form-control" id="userName1" name="userName" required>
-        </div>
-        <div class="form-group">
-            <label for="userAddress1">주소:</label>
-            <input type="text" class="form-control" id="userAddress1" name="userAddress" required>
         </div>
         <div class="form-group">
             <label for="userTel1">전화번호:</label>
@@ -68,10 +64,14 @@
         <button id="loginButton" type="submit" class="btn btn-primary btn-block">로그인</button>
         <button id="signupButton1" type="button" class="btn btn-primary btn-block" onclick="showSecondForm()">회원가입</button>
 
+        <!-- 메시지 표시 -->
+        <c:if test="${not empty message}">
+            <div class="alert alert-danger mt-3" role="alert">${message}</div>
+        </c:if>
     </form>
 
     <!-- 두 번째 폼 -->
-    <form id="secondForm" action="/guestlogin" method="post">
+    <form id="secondForm" action="/guestLogin" method="post">
         <div class="form-group">
             <label for="userName2">이름:</label>
             <input type="text" class="form-control" id="userName2" name="userName" required>
@@ -88,6 +88,10 @@
         <button type="submit" class="btn btn-primary btn-block">가입하기</button>
         <!-- "취소" 버튼 클릭 시 JavaScript를 통해 기존 폼 표시 -->
         <button id="cancelButton" type="button" class="btn btn-secondary btn-block" onclick="showFirstForm()">취소</button>
+        <!-- 메시지 표시 -->
+        <c:if test="${not empty message}">
+            <div class="alert alert-danger mt-3" role="alert">${message}</div>
+        </c:if>
     </form>
 </div>
 
@@ -110,24 +114,6 @@
         document.getElementById("loginButton").style.display = "inline-block";
         // 회원가입 버튼 표시
         document.getElementById("signupButton1").style.display = "inline-block";
-    }
-
-    // 비회원 로그인 성공/실패 알림
-    function showLoginAlert(isSuccess) {
-        if (isSuccess) {
-            alert("비회원 로그인 성공!");
-        } else {
-            alert("비회원 로그인 실패!");
-        }
-    }
-
-    // 비회원 회원가입 성공/실패 알림
-    function showSignupAlert(isSuccess) {
-        if (isSuccess) {
-            alert("비회원 회원가입 성공!");
-        } else {
-            alert("비회원 회원가입 실패!");
-        }
     }
 </script>
 

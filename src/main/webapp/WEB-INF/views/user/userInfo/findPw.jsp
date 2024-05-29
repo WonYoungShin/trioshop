@@ -24,26 +24,29 @@
                         <div class="form-group">
                             <label for="userName">이름</label>
                             <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요" required>
+                            <div class="invalid-feedback">이름을 입력해주세요.</div>
                         </div>
                         <div class="form-group">
                             <label for="userId">아이디</label>
                             <input type="text" class="form-control" name="userId" id="userId" placeholder="아이디를 입력해주세요" required>
+                            <div class="invalid-feedback">아이디를 입력해주세요.</div>
                         </div>
                         <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
                         <!-- 로그인 페이지로 돌아가는 버튼 -->
                         <button type="button" onclick="location.href='/login'" class="btn btn-primary">로그인 페이지로 돌아가기</button>
                     </form>
-                    <br>
                     <c:if test="${showForm}">
                         <hr>
                         <form id="updatePwForm" action="/findPw" method="post">
                             <div class="form-group">
                                 <label for="newPassword">새 비밀번호</label>
-                                <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="새 비밀번호를 입력해주세요">
+                                <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="새 비밀번호를 입력해주세요" required>
+                                <div class="invalid-feedback">비밀번호를 입력해주세요.</div>
                             </div>
                             <div class="form-group">
                                 <label for="confirmPassword">비밀번호 확인</label>
-                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="새 비밀번호를 다시 입력해주세요">
+                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="새 비밀번호를 다시 입력해주세요" required>
+                                <div class="invalid-feedback">비밀번호를 다시 입력해주세요.</div>
                             </div>
                             <input type="hidden" name="userName" value="${userName}">
                             <input type="hidden" name="userId" value="${userId}">
@@ -60,5 +63,20 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+<script>
+    // 비밀번호 찾기 폼 검증
+    (function() {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+
+    // 폼 숨김/표시

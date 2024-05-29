@@ -10,8 +10,8 @@
     </insert>
 
     <insert id="purchaseSave" useGeneratedKeys="true" keyProperty="purchaseCode">
-        INSERT INTO TRIO_PURCHASE (purchase_qty, item_code)
-        VALUES (#{purchaseQty}, #{itemCode})
+        INSERT INTO TRIO_PURCHASE (purchase_qty, item_code, purchase_price)
+        VALUES (#{purchaseQty}, #{itemCode}, #{purchasePrice})
     </insert>
 
     <select id="purchaseFindAll" resultType="PurchaseListModel">
@@ -21,6 +21,7 @@
         JOIN TRIO_ITEMS item ON pur.item_code = item.item_code
         JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
         <where>
+                AND status_code = '10'
             <if test="itemName != null and itemName != ''">
                 AND item_name LIKE concat('%', #{itemName}, '%')
             </if>
@@ -41,10 +42,11 @@
         ORDER BY 1;
     </select>
 
-    <delete id="deletePurchaseByCode">
-        DELETE FROM TRIO_PURCHASE
+    <update id="deletePurchaseByCode">
+        UPDATE TRIO_PURCHASE
+        SET status_code = '30'
         WHERE purchase_code = #{purchaseCode}
-    </delete>
+    </update>
 
     <insert id="storeSave" useGeneratedKeys="true" keyProperty="storeCode">
         INSERT INTO TRIO_STORES (stores_qty, item_code, stores_price
@@ -146,5 +148,20 @@
             item_color = #{itemColor}
         WHERE item_code = #{itemCode}
     </update>
+
+    <select id="orderList" resultType="OrderListModel">
+        SELECT o.order_code,
+               o.order_date,
+               oi.item_code,
+               i.item_name,
+               oi.order_qty,
+               i.item_price,
+            os.status_name,
+            o.user_code
+        FROM TRIO_ORDERS o
+                 JOIN TRIO_ORDER_STATUS os ON o.status_code = os.status_code
+                 JOIN TRIO_ORDER_ITEMS oi ON o.order_code = oi.order_code
+                 JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
+    </select>
 
 </mapper>

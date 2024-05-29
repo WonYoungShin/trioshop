@@ -17,9 +17,14 @@ public class PurchaseItemModel{
     }
 
     public PurchaseItemModel(Long purchaseCode, Long itemCode, Integer purchaseQty) {
+        this(itemCode,purchaseCode,purchaseQty,0);
+    }
+
+    public PurchaseItemModel(Long purchaseCode, Long itemCode, Integer purchaseQty, Integer purchasePrice) {
         this.itemCode = itemCode;
         this.purchaseCode = purchaseCode;
         this.purchaseQty = purchaseQty;
+        this.purchasePrice = purchasePrice;
     }
 
     @Override
@@ -28,6 +33,7 @@ public class PurchaseItemModel{
                 "purchaseCode='" + purchaseCode + '\'' +
                 ", purchaseQty=" + purchaseQty +
                 ", itemCode=" + itemCode +
+                ", purchasePrice=" + purchasePrice +
                 '}';
     }
 }

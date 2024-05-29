@@ -1,10 +1,12 @@
 package com.trioshop.service.item;
 
 import com.trioshop.model.dto.item.*;
+import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.dao.item.ItemInfoDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -97,11 +99,23 @@ public class ItemService {
             return false;
         }
     }
+    //카트 단일 항목 추가
     public void addCartItem (CartEntity cartEntity) {
         if( itemInfoDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
             itemInfoDao.updateCartItem(cartEntity); // 수량을 업데이트
         } else {
             itemInfoDao.insertCartItem(cartEntity); // cart에 insert
+        }
+    }
+    //카트 다중 항목 추가
+    public void addCartItems (long userCode, List<Long> itemCodes, List<Long> quantities) {
+        for (int i = 0; i < itemCodes.size(); i++) {
+            CartEntity cartEntity = new CartEntity(userCode,itemCodes.get(i),quantities.get(i));
+            if( itemInfoDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
+                itemInfoDao.updateCartItem(cartEntity); // 수량을 업데이트
+            } else {
+                itemInfoDao.insertCartItem(cartEntity); // cart에 insert
+            }
         }
     }
     // 카트 항목 delete
@@ -117,6 +131,15 @@ public class ItemService {
         return itemInfoDao.findSizes(itemName);
     }
 
+    public ItemDetailSearch itemDetailSearch(ItemDetailSearch itemDetailSearch) {
+        return itemInfoDao.itemDetailSearch(itemDetailSearch);
+    }
+    public List<ItemDetailSearch> itemDetailNameSearch(String itemName) {
+        return  itemInfoDao.itemDetailNameSearch(itemName);
+    }
+    public UserAddressInfo selectUserAddressInfo (long userCode) {
+        return  itemInfoDao.selectUserAddressInfo(userCode);
+    }
     //orderCode 생성 로직
     private String generateOrderCode(long userCode) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
@@ -127,4 +150,5 @@ public class ItemService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         return sdf.format(new Date());
     }
+
 }

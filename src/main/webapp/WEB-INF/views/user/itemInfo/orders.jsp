@@ -32,7 +32,7 @@
             <tbody>
 
 
-            <c:forEach var="item" items="${itemList}" varStatus="status">
+            <c:forEach var="item" items="${itemList}" varStatus="delivery">
                 <tr>
                     <td><img src="${item.itemSrc}" alt="${item.itemName}" style="width: 100px; height: 100px;"></td>
                     <td>${item.itemName}</td>
@@ -41,9 +41,9 @@
                     <td>₩<span class="item-price">${item.itemPrice}</span></td>
                     <td>${item.stockQty}</td>
                     <td>
-                        <input type="hidden" name="orderItemEntityList[${status.index}].orderCode" value="${item.itemSrc}"/>
-                        <input type="hidden" name="orderItemEntityList[${status.index}].itemCode" value="${item.itemCode}"/>
-                        <input type="number" name="orderItemEntityList[${status.index}].orderQty" value="${item.orderQty}" min="1" max="${item.stockQty}" class="form-control quantity-input" data-price="${item.itemPrice}">
+                        <input type="hidden" name="orderItemEntityList[${delivery.index}].orderCode" value="${item.itemSrc}"/>
+                        <input type="hidden" name="orderItemEntityList[${delivery.index}].itemCode" value="${item.itemCode}"/>
+                        <input type="number" name="orderItemEntityList[${delivery.index}].orderQty" value="${item.orderQty}" min="1" max="${item.stockQty}" class="form-control quantity-input" data-price="${item.itemPrice}">
                     </td>
                     <td>₩<span class="item-subtotal">${item.itemPrice * item.orderQty}</span></td>
                     <td>${item.itemColor}</td>
@@ -54,16 +54,16 @@
         </table>
 
         <div class="form-group">
-            <label for="orderReceiver">Receiver Name</label>
-            <input type="text" class="form-control" id="orderReceiver" name="orderReceiver" required>
+            <label for="orderDestination">Destination</label>
+            <input type="text" class="form-control" id="orderDestination" name="orderDestination" value="${userAddressInfo.userName}" required>
         </div>
         <div class="form-group">
-            <label for="orderDestination">Destination</label>
-            <input type="text" class="form-control" id="orderDestination" name="orderDestination" required>
+            <label for="orderReceiver">Receiver Name</label>
+            <input type="text" class="form-control" id="orderReceiver" name="orderReceiver" value="${userAddressInfo.userAddress}" required>
         </div>
         <div class="form-group">
             <label for="orderTel">Contact Number</label>
-            <input type="tel" class="form-control" id="orderTel" name="orderTel" required>
+            <input type="tel" class="form-control" id="orderTel" name="orderTel" value="${userAddressInfo.userTel}" required>
         </div>
 
         <h3>Total Price: ₩<span id="total-price">0</span></h3>

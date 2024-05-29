@@ -22,10 +22,12 @@ public interface UserMapper {
     boolean saveUsers(UserJoin userJoin);
     boolean saveUserInfo(UserJoin userJoin);
 
-    boolean LoginGuestUsers(GuestUserJoin guestUserJoin);
+    GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin);
     boolean saveGuestUsers(GuestUserJoin guestUserJoin);
-    boolean saveGuestUsers2(GuestUserJoin guestUserJoin);
+    boolean saveGuestUsers2(GuestUserJoin2 guestUserJoin2);
 
     boolean patchUserPw(UserPatch userPatch);
     boolean patchUser(UserPatch userPatch);
+
+
 }

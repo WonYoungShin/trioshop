@@ -47,7 +47,7 @@
                 <tbody>
                 <c:forEach var="sale" items="${yearlySales}">
                     <tr>
-                        <td><a href="/trioAdmin/sales/monthSales?year=${sale.orderYear}">${sale.orderYear}</a></td>
+                        <td><a href="/trioAdmin/monthSales?year=${sale.orderYear}">${sale.orderYear}</a></td>
                         <td><fmt:formatNumber value="${sale.totalSales}" type="currency" currencySymbol="₩"/></td>
                     </tr>
                 </c:forEach>
