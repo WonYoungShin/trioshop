@@ -31,7 +31,6 @@ dependencies {
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
 	//JSP 추가 끝
 
-
 	//db관련
 	// MySQL
 	implementation 'mysql:mysql-connector-java:8.0.33'
