@@ -1,5 +1,6 @@
 package com.trioshop.service.item;
 
+import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.dao.item.ItemInfoDao;
@@ -42,7 +43,7 @@ public class ItemService {
         return itemInfoDao.cartItemList(userCode);
     }
 
-    public List<ItemInfoByOrderList> orderList(long userCode) {
+    public List<OrderListModel> orderList(long userCode) {
         return itemInfoDao.orderList(userCode);
     }
 

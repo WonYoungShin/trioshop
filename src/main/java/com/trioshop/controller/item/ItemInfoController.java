@@ -1,6 +1,7 @@
 package com.trioshop.controller.item;
 
 import com.trioshop.SessionConst;
+import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.model.dto.user.UserInfoBySession;
@@ -111,7 +112,7 @@ public class ItemInfoController {
     public String orderListPage(@SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                 Model model) {
 
-        List<ItemInfoByOrderList> orderList = itemService.orderList(userInfoBySession.getUserCode());
+        List<OrderListModel> orderList = itemService.orderList(userInfoBySession.getUserCode());
         model.addAttribute("orderList", orderList);
         return "user/itemInfo/orderList";
     }
@@ -125,7 +126,7 @@ public class ItemInfoController {
         ordersEntity.setUserCode(userInfoBySession.getUserCode());
         boolean check = itemService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
         if (check) {
-            List<ItemInfoByOrderList> orderList = itemService.orderList(ordersEntity.getUserCode());
+            List<OrderListModel> orderList = itemService.orderList(ordersEntity.getUserCode());
             model.addAttribute("orderList", orderList);
             return "redirect:/orderList";
         } else {
@@ -133,5 +134,7 @@ public class ItemInfoController {
             return "redirect:/";
         }
     }
+
+
 }
 
