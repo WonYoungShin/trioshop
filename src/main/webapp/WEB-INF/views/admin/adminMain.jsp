@@ -84,7 +84,7 @@
                                 <option value="${status.statusCode}" <c:if test="${param.statusCode == status.statusCode}">selected</c:if>>${status.statusName}</option>
                             </c:forEach>
                         </select>
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
                     </form>
                 </div>
             </div>

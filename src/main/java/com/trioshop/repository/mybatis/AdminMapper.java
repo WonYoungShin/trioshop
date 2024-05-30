@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface AdminMapper {
 
     void itemSave(AddItemModel ItemModel);
+    void stockSave(Long itemCode);
     void storeSave(StoreItemModel ItemModel);
     void purchaseSave(PurchaseItemModel ItemModel);
 
