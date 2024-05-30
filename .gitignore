@@ -28,6 +28,10 @@ replay_pid*
 build
 
  #추가사항
- modules.xml
- trioshop.main.iml
- misc.xml
+modules.xml
+trioshop.main.iml
+misc.xml
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+compiler.xml
+.idea
