@@ -24,7 +24,7 @@ public class StockAdminServiceImpl extends AbstractAdminService<AddItemModel, St
     public AddItemModel save(AddItemModel itemModel) {
         AddItemModel addItemModel =  super.save(itemModel);
         
-        stockDao.stockSave(addItemModel.getItemCode(););
+        stockDao.stockSave(addItemModel.getItemCode());
         return addItemModel;
     }
 
