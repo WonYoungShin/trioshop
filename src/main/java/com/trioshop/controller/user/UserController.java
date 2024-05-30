@@ -47,8 +47,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logoutPage() {
-        if (session != null)
-            session.invalidate();
+        session.invalidate();
         return "redirect:/";
     }
 
@@ -82,7 +81,7 @@ public class UserController {
     }
 
     @PostMapping("/findId")
-    public ModelAndView findId(String userName, String userTel) {
+    public ModelAndView findId(@RequestParam String userName, @RequestParam String userTel) {
         UserFindId userId = userInfoService.isfindId(userName, userTel);
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findId");
         if (userId != null) {
@@ -99,10 +98,7 @@ public class UserController {
     }
 
     @PostMapping("/findPw")
-    public ModelAndView findPw(@RequestParam String userName,
-                               @RequestParam String userId,
-                               @RequestParam(required = false) String newPassword,
-                               @RequestParam(required = false) String confirmPassword) {
+    public ModelAndView findPw(@RequestParam String userName, @RequestParam String userId, @RequestParam(required = false) String newPassword, @RequestParam(required = false) String confirmPassword) {
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findPw");
         try {
             // 이름과 아이디로 비밀번호 찾기 시도
@@ -169,22 +165,25 @@ public class UserController {
         return mv;
     }
 
-
     @PostMapping("/changeInfo")
-    public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession currentUser) {
+    public ModelAndView changeInfo(@ModelAttribute UserPatch userPatch) {
         ModelAndView mv = new ModelAndView();
         try {
+            UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+            if (currentUser == null) {
+                mv.setViewName("redirect:/login");
+                mv.addObject("error", "세션이 만료되었거나 잘못된 접근입니다.");
+                return mv;
+            }
+
             // 입력값이 모두 비어있는지 확인
-            if (userPatch.getUserPasswd().isEmpty() &&
-                    userPatch.getUserAddress().isEmpty() &&
-                    userPatch.getUserTel().isEmpty() &&
-                    userPatch.getUserNickname().isEmpty()) {
+            if (!userInfoService.changedInfo(userPatch)) {
                 mv.setViewName("redirect:/changeInfo");
                 return mv;
-            } //Validation 적용시 삭제
+            } // Validation 적용 시 삭제
 
             // 세션에서 현재 사용자 정보 가져오기
-            currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
             userPatch.setUserCode(currentUser.getUserCode());
 
             boolean isUpdated = userInfoService.patchUser(userPatch);
@@ -205,7 +204,7 @@ public class UserController {
 
     //@ModelAttribute 폼에서입력하면 컨트롤러로 전달~~
     @GetMapping("/guestLogin")
-    public String guestLoginPage(@ModelAttribute("guestUser") GuestUserJoin guestUser) {
+    public String guestLoginPage() {
         return "/user/userInfo/guestLogin";
     }
 
@@ -218,7 +217,6 @@ public class UserController {
 
         // 기존 사용자가 있고 grade_code가 0인 경우에만 로그인 성공
         if (existingUser != null && existingUser.getGradeCode() == 0) {
-            session.setAttribute(SessionConst.LOGIN_MEMBER, existingUser);
             mv.setViewName("redirect:/");
         } else {
             // guestUserJoin 객체에 필요한 값 설정
@@ -227,13 +225,20 @@ public class UserController {
             // 중복된 DB가 없으면 회원가입을 시도
             boolean isSuccess = userInfoService.saveGuestUser(guestUserJoin, guestUserJoin2);
             if (isSuccess) {
-                mv.addObject("message", "회원가입이 완료되었습니다. 로그인해주세요.");
+                // 회원가입이 완료되면 자동으로 로그인
+                mv.addObject("message", "회원가입이 완료되었습니다. 로그인되었습니다.");
             } else {
-                mv.addObject("message", "회원가입에 실패했습니다. 다시 시도해주세요.");
+                mv.addObject("message", "로그인에 실패했습니다. 다시 시도해주세요.");
             }
-            mv.setViewName("redirect:/guestLogin");
+            mv.setViewName("redirect:/");
         }
-
+        // 나중에 수정해야할 부분
+        UserInfoBySession sessionUser = new UserInfoBySession();
+        sessionUser.setUserNickname("게스트유저");
+        sessionUser.setUserCode(guestUserJoin.getUserCode());
+        sessionUser.setGradeCode(1);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, sessionUser);
+        ////수정
         return mv;
     }
 

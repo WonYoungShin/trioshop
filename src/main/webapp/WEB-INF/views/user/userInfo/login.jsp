@@ -10,6 +10,61 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome 아이콘 CDN 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            border-bottom: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-outline-primary:hover {
+            color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -21,11 +76,6 @@
                     <!-- 이미지 추가 -->
                     <img src="/images/logo.png" class="img-fluid mb-4" alt="부트스트랩 이미지">
 
-                    <!-- 광고 추가 -->
-                    <div class="alert alert-info" role="alert">
-                        이 광고는 간단한 예시입니다. 여기에 광고 내용을 추가할 수 있습니다.
-                    </div>
-
                     <!-- 기본 로그인 폼 -->
                     <form id="loginForm" method="post" action="/login" autocomplete="on">
                         <div class="form-group">
@@ -34,7 +84,7 @@
                         <div class="form-group position-relative">
                             <input type="password" class="form-control" name="userPasswd" id="userPasswd" placeholder="Password" autocomplete="current-password" required>
                             <!-- 눈 모양 아이콘 -->
-                            <div class="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer; display: none;">
+                            <div class="toggle-password">
                                 <i class="far fa-eye"></i>
                             </div>
                         </div>
@@ -44,28 +94,20 @@
                             <label class="form-check-label" for="rememberMe">아이디 저장</label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">로그인</button>
-                        <a href="/join" class="btn btn-primary" role="button">회원가입</a>
-                        <a href="/findId" class="btn btn-primary" role="button">아이디 찾기</a>
-                        <a href="/findPw" class="btn btn-primary" role="button">비밀번호 찾기</a>
-
-
-                        <!-- 카카오톡 로그인 버튼 -->
-                        <button id="kakao-login-btn" class="btn btn-warning btn-block" style="background-color: transparent; border: none;">
-                            <div class="text-SNS">
-                                <br><b>SNS 계정 간편 로그인</b>
-                            </div>
-                            <br>
-                            <img src="images/kakaoLog.png" alt="Kakao 로그인" style="width: 100%;">
-                        </button>
+                        <button type="submit" class="btn btn-primary btn-block">로그인</button>
+                        <a href="/guestLogin" class="btn btn-outline-primary btn-block">비회원 로그인</a>
+                        <a href="/join" class="btn btn-outline-primary btn-block">회원가입</a>
+                        <a href="/findId" class="btn btn-outline-primary btn-block">아이디 찾기</a>
+                        <a href="/findPw" class="btn btn-outline-primary btn-block">비밀번호 찾기</a>
 
                         <!-- 에러 메시지 표시 -->
                         <c:if test="${not empty error}">
-                        <script>
-                            alert("${error}");
-                            document.getElementById('loginForm').reset();
-                        </script>
+                            <script>
+                                alert("${error}");
+                                document.getElementById('loginForm').reset();
+                            </script>
                         </c:if>
+                    </form>
                 </div>
             </div>
         </div>
@@ -99,11 +141,11 @@
 
     togglePassword.addEventListener('mouseenter', function() {
         passwordInput.type = 'text';
-    });+
+    });
 
-        togglePassword.addEventListener('mouseleave', function() {
-            passwordInput.type = 'password';
-        });
+    togglePassword.addEventListener('mouseleave', function() {
+        passwordInput.type = 'password';
+    });
 
     // 아이디 저장 체크 박스 이벤트
     const rememberMeCheckbox = document.getElementById('rememberMe');

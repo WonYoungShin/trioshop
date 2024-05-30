@@ -21,4 +21,15 @@ public class GuestUserJoin {
         this.userAddress = userAddress;
         this.userTel = userTel;
     }
+
+    @Override
+    public String toString() {
+        return "GuestUserJoin{" +
+                "userCode=" + userCode +
+                ", gradeCode=" + gradeCode +
+                ", userName='" + userName + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", userTel='" + userTel + '\'' +
+                '}';
+    }
 }
