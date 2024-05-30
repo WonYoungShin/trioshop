@@ -83,7 +83,7 @@ public class ItemService {
             for (OrderItemEntity orderItemEntity : orderItemList) {
                 orderItemEntity.setOrderCode(orderCode);
                 itemInfoDao.insertOrderItems(orderItemEntity);
-                // 재고 업데이트
+                // 재고 업데이트 (Map으로?)
                 ItemCodeAndQty itemCodeAndQty
                         = new ItemCodeAndQty(orderItemEntity.getItemCode(),
                         orderItemEntity.getOrderQty());
@@ -125,18 +125,6 @@ public class ItemService {
     // 카트 항목 delete
     public void deleteCartItem (CartEntity cartEntity) {
         itemInfoDao.deleteCartItem(cartEntity);
-    }
-
-    public List<String> findColors(String itemName) {
-        return itemInfoDao.findColors(itemName);
-    }
-
-    public List<String> findSizes(String itemName) {
-        return itemInfoDao.findSizes(itemName);
-    }
-
-    public ItemDetailSearch itemDetailSearch(ItemDetailSearch itemDetailSearch) {
-        return itemInfoDao.itemDetailSearch(itemDetailSearch);
     }
     public List<ItemDetailSearch> itemDetailNameSearch(String itemName) {
         return  itemInfoDao.itemDetailNameSearch(itemName);

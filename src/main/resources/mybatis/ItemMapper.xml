@@ -216,33 +216,6 @@
         SET cartitem_qty = cartitem_qty + #{cartItemQty}
         WHERE user_code = #{userCode} AND item_code = #{itemCode}
     </update>
-
-    <!-- Select Colors by Item Name and Current Color -->
-    <select id="findColors" resultType="String">
-        SELECT DISTINCT item_color
-        FROM TRIO_ITEMS
-        WHERE item_name = #{itemName}
-    </select>
-
-    <!-- Select Sizes by Item Name and Current Size -->
-    <select id="findSizes" resultType="String">
-        SELECT DISTINCT item_size
-        FROM TRIO_ITEMS
-        WHERE item_name = #{itemName}
-    </select>
-    <!--  -->
-    <select id="itemDetailSearch" resultType="ItemDetailSearch">
-        SELECT
-            item_code AS itemCode,
-            item_name AS itemName,
-            item_color AS itemColor,
-            item_size AS itemSize
-        FROM TRIO_ITEMS
-
-        WHERE item_name = #{itemName}
-            AND item_color = #{itemColor}
-            AND item_size = #{itemSize}
-    </select>
     <!--  -->
     <select id="itemDetailNameSearch" resultType="ItemDetailSearch">
         SELECT

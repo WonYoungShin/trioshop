@@ -74,17 +74,6 @@ public class ItemInfoDao {
     public void updateCartItem(CartEntity cartEntity) {
         itemMapper.updateCartItem(cartEntity);
     }
-
-    public List<String> findColors(String itemName) {
-        return itemMapper.findColors(itemName);
-    }
-
-    public List<String> findSizes(String itemName) {
-        return itemMapper.findSizes(itemName);
-    }
-    public ItemDetailSearch itemDetailSearch(ItemDetailSearch itemDetailSearch) {
-        return itemMapper.itemDetailSearch(itemDetailSearch);
-    }
     public List<ItemDetailSearch> itemDetailNameSearch(String itemName) {
         return itemMapper.itemDetailNameSearch(itemName);
     }

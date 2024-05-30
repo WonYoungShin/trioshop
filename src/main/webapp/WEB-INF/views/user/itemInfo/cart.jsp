@@ -5,58 +5,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shopping Cart</title>
+    <title>장바구니</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <h1 class="my-4">Shopping Cart</h1>
+<div class="container mt-5">
+    <h1 class="my-4">장바구니</h1>
     <c:if test="${not empty cartItems}">
         <form id="orderForm" method="post" action="/orders">
             <input type="hidden" name="userCode" value="${loginMember.userCode}">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>
-                        <input type="checkbox" id="selectAll" checked> Select All
-                    </th>
-                    <th>Item Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="cartItem" items="${cartItems}">
-                    <tr class="item-row" data-item-page="${pageContext.request.contextPath}/item/${cartItem.itemCode}">
-                        <td>
-                            <input type="checkbox" class="item-checkbox" value="${cartItem.cartCode}" data-item-code="${cartItem.itemCode}" checked>
-                        </td>
-                        <td>${cartItem.itemName}</td>
-                        <td>₩<span class="item-price">${cartItem.itemPrice}</span></td>
-                        <td>
-                            <input type="number" value="${cartItem.cartItemQty}" min="1" class="form-control quantity-input" style="width: 70px;" data-price="${cartItem.itemPrice}" data-item-code="${cartItem.itemCode}">
-                        </td>
-                        <td>₩<span class="item-subtotal">${cartItem.itemPrice * cartItem.cartItemQty}</span></td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-danger remove-button" data-item-code="${cartItem.itemCode}">Remove</button>
-                        </td>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th><input type="checkbox" id="selectAll" checked> 전체선택</th>
+                        <th>상품명</th>
+                        <th>가격</th>
+                        <th>수량</th>
+                        <th>가격</th>
+                        <th>비고</th>
                     </tr>
-                </c:forEach>
-                <tr>
-                    <td colspan="3" class="text-right"><strong>Total:</strong></td>
-                    <td colspan="2">₩<span id="total-price">0</span></td>
-                </tr>
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-primary">Checkout</button>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="cartItem" items="${cartItems}">
+                        <tr class="item-row" data-item-page="${pageContext.request.contextPath}/item/${cartItem.itemCode}">
+                            <td><input type="checkbox" class="item-checkbox" value="${cartItem.cartCode}" data-item-code="${cartItem.itemCode}" checked></td>
+                            <td>${cartItem.itemName}</td>
+                            <td>₩<span class="item-price">${cartItem.itemPrice}</span></td>
+                            <td><input type="number" value="${cartItem.cartItemQty}" min="1" class="form-control quantity-input" style="width: 70px;" data-price="${cartItem.itemPrice}" data-item-code="${cartItem.itemCode}"></td>
+                            <td>₩<span class="item-subtotal">${cartItem.itemPrice * cartItem.cartItemQty}</span></td>
+                            <td><button type="button" class="btn btn-sm btn-danger remove-button" data-item-code="${cartItem.itemCode}">삭제</button></td>
+                        </tr>
+                    </c:forEach>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                        <td colspan="2">₩<span id="total-price">0</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">주문</button>
         </form>
     </c:if>
     <c:if test="${empty cartItems}">
-        <p>Your cart is empty. <a href="/items">Continue shopping</a></p>
+        <p class="text-center">Your cart is empty. <a href="/items">Continue shopping</a></p>
     </c:if>
 </div>
 
@@ -124,6 +118,7 @@
             form.off('submit').submit();
         });
     });
+
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.remove-button').forEach(function(button) {
             button.addEventListener('click', function() {

@@ -5,25 +5,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Order List</title>
+    <title>주문 목록</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="mb-4">Order List</h1>
+    <h1 class="mb-4">주문 목록</h1>
     <c:if test="${not empty orderList}">
         <table class="table table-bordered">
             <thead class="thead-light">
             <tr>
-                <th scope="col">Order Code</th>
-                <th scope="col">Order Date</th>
-                <th scope="col">Status</th>
-                <th scope="col">Item Names</th>
-                <th scope="col">Quantities</th>
-                <th scope="col">Prices</th>
-                <th scope="col">Total Price</th>
-                <th scope="col">Actions</th>
+                <th scope="col">주문 코드</th>
+                <th scope="col">주문 날짜</th>
+                <th scope="col">주문 상태</th>
+                <th scope="col">상품명</th>
+                <th scope="col">수량</th>
+                <th scope="col">가격</th>
+                <th scope="col">총가격</th>
+                <th scope="col">비고</th>
             </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@
                         ₩${totalPrice}
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/orderDetails?orderCode=${order.orderCode}" class="btn btn-primary btn-sm">Details</a>
+                        <a href="${pageContext.request.contextPath}/orderDetails?orderCode=${order.orderCode}" class="btn btn-primary btn-sm">상세</a>
                     </td>
                 </tr>
             </c:forEach>

@@ -39,11 +39,6 @@ public interface ItemMapper {
     int selectCartItem(CartEntity cartEntity);
 
     void updateCartItem(CartEntity cartEntity);
-
-    List<String> findColors(String itemName);
-
-    List<String> findSizes(String itemName);
-    ItemDetailSearch itemDetailSearch(ItemDetailSearch itemDetailSearch);
     List<ItemDetailSearch> itemDetailNameSearch(String itemName);
     UserAddressInfo selectUserAddressInfo (long userCode);
 }

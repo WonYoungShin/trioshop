@@ -10,7 +10,7 @@
 <body>
 
 <div class="container">
-  <h1 class="my-4">All Items</h1>
+  <h1 class="my-4">상품 목록</h1>
   <div class="row mb-4">
     <div class="col-md-12 d-flex justify-content-end">
       <!-- 검색창 및 카테고리 선택 항목 결합 -->
@@ -33,11 +33,11 @@
           <img class="card-img-top" src="${item.itemSrc}" alt="${item.itemName}">
           <div class="card-body">
             <h4 class="card-title">${item.itemName}</h4>
-            <h5>₩${item.itemPrice}</h5>
+            <h5 class="text-primary">₩${item.itemPrice}</h5>
             <p class="card-text">
-              Category: ${item.categoryName}<br>
-              Factory: ${item.factoryName}<br>
-              Stock Quantity: ${item.stockQty}
+              <strong>Category:</strong> ${item.categoryName}<br>
+              <strong>Factory:</strong> ${item.factoryName}<br>
+              <strong>Stock Quantity:</strong> ${item.stockQty}
             </p>
           </div>
         </div>
