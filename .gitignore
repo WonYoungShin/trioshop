@@ -26,6 +26,7 @@ replay_pid*
 
 .gradle
 build
+.idea
 
  #추가사항
  modules.xml
