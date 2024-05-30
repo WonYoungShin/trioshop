@@ -119,10 +119,6 @@ public class OrderManagementController {
     @PostMapping("/orderStatus/{orderCode}")
     @ResponseBody
     public String waybillAdd(@PathVariable String orderCode, @ModelAttribute WaybillModel waybill) {
-        // 로그로 입력된 파라미터 확인
-        System.out.println("orderCode: " + orderCode);
-        System.out.println("deliveryCode: " + waybill.getDeliveryCode());
-        System.out.println("waybillNum: " + waybill.getWaybillNum());
 
         WaybillModel waybillModel = getBuild(orderCode, waybill);
         try {

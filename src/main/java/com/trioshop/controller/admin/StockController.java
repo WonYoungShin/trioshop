@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/trioAdmin/stock")
 @Slf4j
 @RequiredArgsConstructor
-public class StockController implements AdminController<AddItemModel ,Long> {
+public class StockController implements AdminController<AddItemModel> {
     private final StockService stockService;
     private final CategoryList categoryList;
 
@@ -47,7 +47,7 @@ public class StockController implements AdminController<AddItemModel ,Long> {
 
     @Override
     @GetMapping("/{itemCode}")
-    public String findByCode(@PathVariable("itemCode") Long code, Model model) throws NoSuchElementException {
+    public String findByCode(@PathVariable("itemCode") Long code, Model model) {
         try {
             log.info("itemCode = {}",code);
             StockModel stockItem = stockService.findByCode(code).orElseThrow(NoSuchElementException::new);
