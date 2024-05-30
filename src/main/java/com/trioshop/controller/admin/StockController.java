@@ -33,7 +33,7 @@ public class StockController implements AdminController<AddItemModel ,Long> {
     @Override
     public String save(@ModelAttribute AddItemModel itemModel) {
         stockService.save(itemModel);
-        return "redirect:/admin/stock";
+        return "redirect:/trioAdmin/stock/list";
     }
 
     @GetMapping("/list")

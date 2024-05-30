@@ -63,7 +63,7 @@ public class OrderManagementController {
         model.addAttribute("selectedYear", salesCondition.getYear());
         model.addAttribute("selectedMonth", salesCondition.getMonth());
 
-        return "admin/sales/monthlySales";
+        return "/admin/sales/monthlySales";
     }
 
     @GetMapping("/orderStatus")
@@ -74,7 +74,7 @@ public class OrderManagementController {
 
         model.addAttribute("statusList", statusList);
         model.addAttribute("orderList", orderList);
-        return "admin/orderStatusList";
+        return "/admin/orderStatusList";
     }
 
     @GetMapping("/orderStatus/edit/{orderCode}")
@@ -82,7 +82,7 @@ public class OrderManagementController {
         List<OrderStatusEntity> statusList = orderService.statusList();
         model.addAttribute("orderCode",orderCode);
         model.addAttribute("statusList", statusList);
-        return "admin/orderStatusEditForm";
+        return "/admin/orderStatusEditForm";
     }
 
     @PostMapping("/orderStatus/edit/{orderCode}")
@@ -111,7 +111,7 @@ public class OrderManagementController {
         model.addAttribute("oldWaybillNum", oldWaybillNum);
         model.addAttribute("orderCode", orderCode);
 
-        return "admin/deliveryAddForm";
+        return "/admin/deliveryAddForm";
     }
 
 
@@ -151,7 +151,7 @@ public class OrderManagementController {
             log.info("운송장 정보 없음");
         }
 
-        return "admin/deliveryInformation";
+        return "/admin/deliveryInformation";
     }
 
 }
