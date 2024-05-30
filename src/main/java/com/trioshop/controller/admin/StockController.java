@@ -32,11 +32,8 @@ public class StockController implements AdminController<AddItemModel ,Long> {
     @PostMapping
     @Override
     public String save(@ModelAttribute AddItemModel itemModel) {
-        log.info("Received itemModel: " + itemModel.toString());
-
-        AddItemModel saveItemModel = stockService.save(itemModel);
-        log.info("Saved itemModel: " + saveItemModel.toString());
-        return "redirect:/trioAdmin";
+        stockService.save(itemModel);
+        return "redirect:/admin/stock";
     }
 
     @GetMapping("/list")

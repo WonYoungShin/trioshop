@@ -21,6 +21,10 @@ public class StockDaoImpl implements StockDao{
         adminMapper.itemSave(itemModel);
         return itemModel;
     }
+    @Override
+    public void stockSave(Long itemCode){
+        adminMapper.stockSave(itemCode);
+    }
 
     @Override
     public List<StockModel> findAll(ItemCondition itemCondition) {

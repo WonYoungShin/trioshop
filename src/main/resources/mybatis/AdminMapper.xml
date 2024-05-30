@@ -8,6 +8,10 @@
         INSERT INTO TRIO_ITEMS (item_name, category_code, item_price, factory_code, item_size, item_color)
         VALUES (#{itemName},#{categoryCode},#{itemPrice},#{factoryCode},#{itemSize},#{itemColor})
     </insert>
+    <insert id="stockSave">
+        INSERT INTO TRIO_STOCK (item_code, stock_qty)
+        VALUES (#{itemCode}, 0)
+    </insert>
 
     <insert id="purchaseSave" useGeneratedKeys="true" keyProperty="purchaseCode">
         INSERT INTO TRIO_PURCHASE (purchase_qty, item_code, purchase_price)
@@ -117,8 +121,8 @@
     <select id="stockFindAll" resultType="StockModel">
             SELECT st.item_code, item_name, category_name, item_price,
             stock_qty, factory_code, item_size, item_color
-            FROM TRIO_STOCK st
-            JOIN TRIO_ITEMS item ON st.item_code = item.item_code
+            FROM TRIO_ITEMS item
+            JOIN TRIO_STOCK st ON st.item_code = item.item_code
             JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
             <where>
                 <if test="itemName != null and itemName != ''">

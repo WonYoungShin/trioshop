@@ -6,5 +6,6 @@ import com.trioshop.model.dto.admin.UpdateItemModel;
 
 public interface StockDao extends AdminDao<AddItemModel, StockModel> {
 
+    void stockSave(Long itemCode);
     void updateItem(UpdateItemModel itemModel);
 }
