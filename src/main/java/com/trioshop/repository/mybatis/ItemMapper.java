@@ -30,6 +30,7 @@ public interface ItemMapper {
 
     void updateStockQty(ItemCodeAndQty itemCodeAndQty);
 
+    //수정필요?
     void deleteItemsFromCart(long userCode, List<Long> itemCodeList);
 
     void insertCartItem(CartEntity cartEntity);

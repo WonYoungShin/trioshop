@@ -15,14 +15,14 @@
     <div class="col-md-12 d-flex justify-content-end">
       <!-- 검색창 및 카테고리 선택 항목 결합 -->
       <form class="form-inline" method="get" action="${pageContext.request.contextPath}/searchItems">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="itemName" value="${param.itemName}">
+        <input class="form-control mr-sm-2" type="search" placeholder="상품 이름" aria-label="Search" name="itemName" value="${param.itemName}">
         <select class="form-control mr-sm-2" name="category">
-          <option value="">Select Category</option>
+          <option value="">카테고리 선택</option>
           <c:forEach var="category" items="${categoryList}">
             <option value="${category.categoryName}" <c:if test="${param.category == category.categoryName}">selected</c:if>>${category.categoryName}</option>
           </c:forEach>
         </select>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
       </form>
     </div>
   </div>
@@ -35,9 +35,9 @@
             <h4 class="card-title">${item.itemName}</h4>
             <h5 class="text-primary">₩${item.itemPrice}</h5>
             <p class="card-text">
-              <strong>Category:</strong> ${item.categoryName}<br>
-              <strong>Factory:</strong> ${item.factoryName}<br>
-              <strong>Stock Quantity:</strong> ${item.stockQty}
+              <strong>카테고리:</strong> ${item.categoryName}<br>
+              <strong>제조업체:</strong> ${item.factoryName}<br>
+              <strong>제고:</strong> ${item.stockQty}
             </p>
           </div>
         </div>
