@@ -3,146 +3,120 @@
 <mapper namespace="com.trioshop.repository.mybatis.UserMapper">
 
     <select id="loginUser" parameterType="UserIdPasswd" resultType="UserInfoBySession">
-        SELECT
-            tuser.user_code AS userCode,
-            tuser.grade_code AS gradeCode,
-            tuser.user_id AS userId,
-            tuser.user_passwd AS userPasswd,
-            info.user_name AS userName,
-            info.user_address AS userAddress,
-            info.user_tel AS userTel,
-            info.user_nickname AS userNickname
-        FROM
-            TRIO_USERS tuser
-                JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
-        WHERE
-            tuser.user_id = #{userId}
+        SELECT tuser.user_code    AS userCode,
+               tuser.grade_code   AS gradeCode,
+               tuser.user_id      AS userId,
+               tuser.user_passwd  AS userPasswd,
+               info.user_name     AS userName,
+               info.user_address  AS userAddress,
+               info.user_tel      AS userTel,
+               info.user_nickname AS userNickname
+        FROM TRIO_USERS tuser
+                 JOIN
+             TRIO_USERS_INFO info
+             ON
+                 tuser.user_code = info.user_code
+        WHERE tuser.user_id = #{userId}
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
     <select id="findUserByUserCode" parameterType="String" resultType="UserPatch">
-        SELECT
-            tuser.user_code AS userCode,
-            tuser.user_id AS userId,
-            tuser.user_passwd AS userPasswd,
-            info.user_name AS userName,
-            info.user_address AS userAddress,
-            info.user_tel AS userTel,
-            info.user_nickname AS userNickname
-        FROM
-            TRIO_USERS tuser
-                JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
-        WHERE
-            tuser.user_code = #{userCode}
+        SELECT tuser.user_code    AS userCode,
+               tuser.user_id      AS userId,
+               tuser.user_passwd  AS userPasswd,
+               info.user_name     AS userName,
+               info.user_address  AS userAddress,
+               info.user_tel      AS userTel,
+               info.user_nickname AS userNickname
+        FROM TRIO_USERS tuser
+                 JOIN
+             TRIO_USERS_INFO info
+             ON
+                 tuser.user_code = info.user_code
+        WHERE tuser.user_code = #{userCode}
     </select>
 
     <select id="findId" parameterType="map" resultType="UserFindId">
-        SELECT
-            info.user_name AS userName,
-            info.user_tel AS userTel,
-            tuser.user_id AS userId
-        FROM
-            TRIO_USERS tuser
-                JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
-        WHERE
-            info.user_name = #{userName}
+        SELECT info.user_name AS userName,
+               info.user_tel  AS userTel,
+               tuser.user_id  AS userId
+        FROM TRIO_USERS tuser
+                 JOIN
+             TRIO_USERS_INFO info
+             ON
+                 tuser.user_code = info.user_code
+        WHERE info.user_name = #{userName}
           AND info.user_tel = #{userTel}
     </select>
 
-    <select id="findPw" parameterType="com.trioshop.model.dto.user.UserFindPw" resultType="com.trioshop.model.dto.user.UserFindPw">
-        SELECT
-            tuser.user_id AS userId,
-            info.user_name AS userName,
-            tuser.user_passwd AS userPasswd
-        FROM
-            TRIO_USERS tuser
-                JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
-        WHERE
-            info.user_name = #{userName}
+    <select id="findPw" parameterType="com.trioshop.model.dto.user.UserFindPw"
+            resultType="com.trioshop.model.dto.user.UserFindPw">
+        SELECT tuser.user_id     AS userId,
+               info.user_name    AS userName,
+               tuser.user_passwd AS userPasswd
+        FROM TRIO_USERS tuser
+                 JOIN
+             TRIO_USERS_INFO info
+             ON
+                 tuser.user_code = info.user_code
+        WHERE info.user_name = #{userName}
           AND tuser.user_id = #{userId}
     </select>
 
     <update id="updatePw" parameterType="String">
-        UPDATE
-            TRIO_USERS
-        SET
-            user_passwd = #{userPasswd}
-        WHERE
-            user_id = #{userId}
+        UPDATE TRIO_USERS
+        SET user_passwd = #{userPasswd}
+        WHERE user_id = #{userId}
     </update>
 
     <select id="LoginGuestUser" parameterType="GuestUserJoin" resultType="GuestUserJoin">
-        SELECT
-            info.user_code AS userCode,
-            tuser.grade_code AS gradeCode,
-            info.user_name AS userName,
-            info.user_tel AS userTel
-        FROM
-            TRIO_USERS_INFO info
-                JOIN TRIO_USERS tuser ON tuser.user_code = info.user_code
-        WHERE
-            info.user_name = #{userName}
+        SELECT info.user_code   AS userCode,
+               tuser.grade_code AS gradeCode,
+               info.user_name   AS userName,
+               info.user_tel    AS userTel
+        FROM TRIO_USERS_INFO info
+                 JOIN
+             TRIO_USERS tuser
+             ON
+                 tuser.user_code = info.user_code
+        WHERE info.user_name = #{userName}
           AND info.user_tel = #{userTel}
     </select>
 
     <insert id="saveGuestUsers" parameterType="GuestUserJoin">
-        INSERT INTO
-            TRIO_USERS (grade_code, user_id)
-        VALUES
-            (0, 'guestID')
+        INSERT INTO TRIO_USERS (grade_code, user_id)
+        VALUES (0, 'guestID')
     </insert>
 
     <insert id="saveGuestUsers2" parameterType="GuestUserJoin2" useGeneratedKeys="true" keyProperty="userCode">
-        INSERT INTO
-            TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
-        VALUES
-            (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, 'guestNickname')
+        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
+        VALUES (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, 'guestNickname')
     </insert>
 
     <insert id="saveUsers" parameterType="UserJoin" useGeneratedKeys="true" keyProperty="userCode">
-        <!--  TRIO_USERS 테이블에 사용자 정보 저장  -->
-        INSERT INTO
-        TRIO_USERS (grade_code, user_id, user_passwd)
-        VALUES
-        (1, #{userId}, #{userPasswd})
+        <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
+        INSERT INTO TRIO_USERS (grade_code, user_id, user_passwd)
+        VALUES (1, #{userId}, #{userPasswd})
     </insert>
 
     <insert id="saveUserInfo" parameterType="UserJoin">
-        <!--  TRIO_USERS_INFO 테이블에 사용자 상세 정보 저장  -->
-        INSERT INTO
-        TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
-        VALUES
-        (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, #{userNickname})
+        <!-- TRIO_USERS_INFO 테이블에 사용자 상세 정보 저장 -->
+        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
+        VALUES (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, #{userNickname})
     </insert>
 
     <update id="patchUser" parameterType="UserPatch">
-        UPDATE
-        TRIO_USERS_INFO
+        UPDATE TRIO_USERS_INFO
         <set>
-            <if test="userAddress != null and userAddress != ''">
-                user_address = #{userAddress},
-            </if>
-            <if test="userTel != null and userTel != ''">
-                user_tel = #{userTel},
-            </if>
-            <if test="userNickname != null and userNickname != ''">
-                user_nickname = #{userNickname}
-            </if>
+            <if test="userAddress != null and userAddress != ''">user_address = #{userAddress},</if>
+            <if test="userTel != null and userTel != ''">user_tel = #{userTel},</if>
+            <if test="userNickname != null and userNickname != ''">user_nickname = #{userNickname}</if>
         </set>
-        WHERE
-        user_code = #{userCode}
+        WHERE user_code = #{userCode}
     </update>
 
-    <update id="patchUserPw" parameterType="UserPatch">
-        UPDATE
-        TRIO_USERS
-        <set>
-            <if test="userPasswd != null and userPasswd != ''">
-                user_passwd = #{userPasswd}
-            </if>
-        </set>
-        WHERE
-        user_code = #{userCode}
-    </update>
-
+    <select id="patchUserPw" parameterType="UserPatch">
+        SELECT *
+        FROM TRIO_USERS_INFO
+        WHERE user_code = #{userCode} </select>
 </mapper>

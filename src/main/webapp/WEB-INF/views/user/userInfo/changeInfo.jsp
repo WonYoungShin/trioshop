@@ -33,48 +33,71 @@
             margin-bottom: 20px;
             color: #343a40;
         }
+        .btn-primary, .btn-secondary {
+            min-width: 120px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <c:choose>
-                <c:when test="${empty userPatch}">
-                    <div class="alert alert-warning text-center mt-5">
-                        세션이 만료되었거나 잘못된 접근입니다.
+            <!-- 첫 번째 폼 -->
+            <div class="form-container" id="firstForm">
+                <h2 class="form-heading text-center">비밀번호 확인</h2>
+                <form action="/changeInfo" method="post">
+                    <div class="form-group">
+                        <label for="currentPassword">현재 비밀번호:</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호 입력">
                     </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="form-container">
-                        <h2 class="form-heading text-center">정보 입력하기</h2>
-                        <form action="/changeInfo" method="post">
-                            <div class="form-group">
-                                <label for="newPassword">새 비밀번호:</label>
-                                <input type="password" class="form-control" id="newPassword" name="userPasswd" placeholder="새 비밀번호">
-                            </div>
-                            <div class="form-group">
-                                <label for="userAddress">주소:</label>
-                                <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userPatch.userAddress}">
-                            </div>
-                            <div class="form-group">
-                                <label for="userTel">전화번호:</label>
-                                <input type="text" class="form-control" id="userTel" name="userTel" value="${userPatch.userTel}">
-                            </div>
-                            <div class="form-group">
-                                <label for="userNickname">닉네임:</label>
-                                <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userPatch.userNickname}">
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">저장</button>
-                                <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
-                            </div>
-                        </form>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary mr-2" id="nextButton">다음</button>
+                        <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
                     </div>
-                </c:otherwise>
-            </c:choose>
+                </form>
+            </div>
+
+            <!-- 두 번째 폼 -->
+            <div class="form-container" id="secondForm" style="display: none;">
+                <h2 class="form-heading text-center">추가 정보 입력하기</h2>
+                <form action="/changeInfo" method="post" id="additionalInfoForm">
+                    <div class="form-group">
+                        <label for="userAddress">주소:</label>
+                        <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userPatch.userAddress}">
+                    </div>
+                    <div class="form-group">
+                        <label for="userTel">전화번호:</label>
+                        <input type="text" class="form-control" id="userTel" name="userTel" value="${userPatch.userTel}">
+                    </div>
+                    <div class="form-group">
+                        <label for="userNickname">닉네임:</label>
+                        <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userPatch.userNickname}">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary mr-2">저장</button>
+                        <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#nextButton").click(function () {
+            // 현재 비밀번호 필드가 비어있는지 확인
+            if ($("#currentPassword").val() === "") {
+                alert("현재 비밀번호를 입력하세요.");
+                return;
+            }
+
+            // 첫 번째 폼 숨기고 두 번째 폼 보이도록 변경
+            $("#firstForm").hide();
+            $("#secondForm").show();
+        });
+    });
+</script>
+
 </body>
 </html>
