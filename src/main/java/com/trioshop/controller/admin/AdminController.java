@@ -5,13 +5,16 @@ import org.springframework.ui.Model;
 
 import java.util.NoSuchElementException;
 
-
-public interface AdminController<T, ID> {
+/***
+ * @param <T> PurchaseItemModel, AddItemModel, StoreItemModel
+ *     PurchaseController, StoresController, StockController
+ */
+public interface AdminController<T> {
     String savePage();
     String save(T itemModel);
 
     String findAll(ItemCondition itemCondition, Model model);
 
-    String findByCode(ID code, Model model) throws NoSuchElementException;
+    String findByCode(Long code, Model model);
 
 }
