@@ -19,34 +19,30 @@ import java.util.NoSuchElementException;
 @RequestMapping("/trioAdmin/purchase")
 @Slf4j
 @RequiredArgsConstructor
-public class PurchaseController implements AdminController<PurchaseItemModel>{
+public class PurchaseController{
     private final PurchaseService purchaseService;
     private final CategoryList categoryList;
+
     @GetMapping
-    @Override
     public String savePage() {
-        log.info("homeController/purchase");
         return "/admin/purchase";
     }
 
     @PostMapping
-    @Override
     public String save(@ModelAttribute PurchaseItemModel itemModel) {
-        System.out.println(itemModel);
-        PurchaseItemModel saveItemModel = purchaseService.save(itemModel);
+        purchaseService.save(itemModel);
         return "redirect:/trioAdmin/purchase/list";
     }
 
     @GetMapping("/list")
-    @Override
     public String findAll(@ModelAttribute ItemCondition itemCondition, Model model) {
         List<PurchaseListModel> purchaseList = purchaseService.findAll(itemCondition);
         model.addAttribute("categoryList",categoryList.getCategoryList());
         model.addAttribute("purchaseList", purchaseList);
         return "/admin/purchaseList";
     }
+
     @GetMapping("/{purchaseCode}")
-    @Override
     public String findByCode(@PathVariable("purchaseCode") Long code, Model model) {
         try {
             PurchaseListModel purchaseItem = purchaseService.findByCode(code).orElseThrow(NoSuchElementException::new);

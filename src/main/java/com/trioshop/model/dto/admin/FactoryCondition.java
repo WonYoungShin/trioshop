@@ -1,10 +1,12 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@Getter @Setter
+
+@Getter
+@RequiredArgsConstructor
 public class FactoryCondition {
-    String factoryCode;
-    String factoryName;
+    private final String factoryCode;
+    private final String factoryName;
 }

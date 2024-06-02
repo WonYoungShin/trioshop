@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class UpdateItemModel {
+public class ItemCodeAdjustModel {
     private final Long itemCode;
-    private final String itemName;
-    private final String factoryCode;
-    private final String itemColor;
+    private final Integer quantity;
 }

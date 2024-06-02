@@ -19,25 +19,24 @@ import java.util.NoSuchElementException;
 @RequestMapping("/trioAdmin/stock")
 @Slf4j
 @RequiredArgsConstructor
-public class StockController implements AdminController<AddItemModel> {
+public class StockController{
     private final StockService stockService;
     private final CategoryList categoryList;
 
     @GetMapping
-    @Override
     public String savePage(){
         return "/admin/addItem";
     }
 
     @PostMapping
-    @Override
     public String save(@ModelAttribute AddItemModel itemModel) {
+        log.info(itemModel.toString());
         stockService.save(itemModel);
+
         return "redirect:/trioAdmin/stock/list";
     }
 
     @GetMapping("/list")
-    @Override
     public String findAll(ItemCondition itemCondition, Model model) {
         List<StockModel> stockList = stockService.findAll(itemCondition);
         model.addAttribute("categoryList",categoryList.getCategoryList());
@@ -45,7 +44,6 @@ public class StockController implements AdminController<AddItemModel> {
         return "/admin/stock";
     }
 
-    @Override
     @GetMapping("/{itemCode}")
     public String findByCode(@PathVariable("itemCode") Long code, Model model) {
         try {

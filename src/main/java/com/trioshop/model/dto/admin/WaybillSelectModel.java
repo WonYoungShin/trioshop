@@ -1,10 +1,11 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class WaybillSelectModel {
-    String deliveryName;
-    String waybillNum;
-    String orderCode;  // orderCode 필드 추가
+    private final String deliveryName;
+    private final String waybillNum;
 }

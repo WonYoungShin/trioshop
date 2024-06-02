@@ -27,17 +27,17 @@
                 <div class="form-group mr-2">
                     <label class="mr-2" for="selectedYear">연도 선택:</label>
                     <select class="form-control" id="selectedYear" name="year">
-                        <c:forEach var="year" items="${yearList}">
-                            <option value="${year}" <c:if test="${year == selectedYear}">selected</c:if>>${year}</option>
+                        <c:forEach var="year" items="${monthSalesModel.yearList}">
+                            <option value="${year}" <c:if test="${year == monthSalesModel.salesCondition.year}">selected</c:if>>${year}</option>
                         </c:forEach>
                     </select>
                 </div>
                 <div class="form-group mr-2">
                     <label class="mr-2" for="selectedMonth">월 선택:</label>
                     <select class="form-control" id="selectedMonth" name="month">
-                        <option value="" <c:if test="${empty selectedMonth}">selected</c:if>>전체</option>
-                        <c:forEach var="month" items="${monthList}">
-                            <option value="${month}" <c:if test="${month == selectedMonth}">selected</c:if>>${month}</option>
+                        <option value="" <c:if test="${empty monthSalesModel.salesCondition.month}">selected</c:if>>전체</option>
+                        <c:forEach var="month" items="${monthSalesModel.monthList}">
+                            <option value="${month}" <c:if test="${month == monthSalesModel.salesCondition.month}">selected</c:if>>${month}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -58,7 +58,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="sale" items="${salesList}">
+                <c:forEach var="sale" items="${monthSalesModel.salesList}">
                     <tr>
                         <td>${sale.orderMonth}</td>
                         <td><fmt:formatNumber value="${sale.totalSales}" type="currency" currencySymbol="₩"/></td>
@@ -73,7 +73,7 @@
     <div class="row mt-4">
         <div class="col-md-12 text-right">
             <div class="total-sales d-flex justify-content-end">
-                <h3>총매출: <fmt:formatNumber value="${totalSales}" type="currency" currencySymbol="₩"/></h3>
+                <h3>총매출: <fmt:formatNumber value="${monthSalesModel.totalSales}" type="currency" currencySymbol="₩"/></h3>
             </div>
         </div>
     </div>

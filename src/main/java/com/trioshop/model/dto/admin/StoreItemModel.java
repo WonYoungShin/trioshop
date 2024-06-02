@@ -1,41 +1,28 @@
 package com.trioshop.model.dto.admin;
 
+
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+import java.util.Objects;
+
+@Getter
 public class StoreItemModel {
-    private Long itemCode;
-    private Long storeCode;
-    private Integer storeQty;
-    private Long purchaseCode;
-    private Integer storePrice;
+    private final Long itemCode;
+    private final Long storeCode;
+    private final Integer storeQty;
+    private final Long purchaseCode;
+    private final Integer storePrice;
 
-    public StoreItemModel() {
-    }
-
-    public StoreItemModel(Long storeCode, Integer storeQty, Long purchaseCode, Long itemCode, Integer stockPrice) {
+    public StoreItemModel(Long itemCode, Long storeCode, Integer storeQty, Long purchaseCode, Integer storePrice) {
         this.itemCode = itemCode;
         this.storeCode = storeCode;
         this.storeQty = storeQty;
-        this.purchaseCode = purchaseCode;
-        this.storePrice = stockPrice;
-    }
-    public StoreItemModel(Long storeCode, Integer storeQty, Long itemCode, Integer stockPrice) {
-        this.itemCode = itemCode;
-        this.storeCode = storeCode;
-        this.storeQty = storeQty;
-        this.storePrice = stockPrice;
-    }
 
-    @Override
-    public String toString() {
-        return "StoreItemModel{" +
-                "storeCode='" + storeCode + '\'' +
-                ", storeQty=" + storeQty +
-                ", purchaseCode='" + purchaseCode + '\'' +
-                ", storePrice=" + storePrice +
-                ", itemCode=" + itemCode +
-                '}';
+        if(Objects.nonNull(purchaseCode)) {
+            this.purchaseCode = purchaseCode;
+        }else{
+            this.purchaseCode = 0L;
+        }
+        this.storePrice = storePrice;
     }
 }
