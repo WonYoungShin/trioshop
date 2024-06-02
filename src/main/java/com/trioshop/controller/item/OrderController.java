@@ -8,6 +8,7 @@ import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
+import com.trioshop.service.item.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +18,16 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class OrderController {
-    private final ItemService itemService;
+    private final OrderService orderService;
 
     @PostMapping("/orders") // 주문 상세 페이지로
     public String ordersPage(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
                              @RequestParam(value = "quantities", required = false) List<Long> quantities,
                              @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                              Model model) {
-        List<ItemInfoByUser> itemList = itemService.makeOrderItems(itemCodes, quantities);
+        List<ItemInfoByUser> itemList = orderService.makeOrderItems(itemCodes, quantities);
         UserAddressInfo userAddressInfo =
-                itemService.selectUserAddressInfo(userInfoBySession.getUserCode());
+                orderService.selectUserAddressInfo(userInfoBySession.getUserCode());
         model.addAttribute("userAddressInfo",userAddressInfo);
         model.addAttribute("itemList", itemList);
         return "user/itemInfo/orders";
@@ -36,7 +37,7 @@ public class OrderController {
     public String orderListPage(@SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                 Model model) {
 
-        List<OrderListModel> orderList = itemService.orderList(userInfoBySession.getUserCode());
+        List<OrderListModel> orderList = orderService.orderList(userInfoBySession.getUserCode());
         model.addAttribute("orderList", orderList);
         return "user/itemInfo/orderList";
     }
@@ -48,9 +49,9 @@ public class OrderController {
                                Model model) {
 
         ordersEntity.setUserCode(userInfoBySession.getUserCode());
-        boolean check = itemService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
+        boolean check = orderService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
         if (check) {
-            List<OrderListModel> orderList = itemService.orderList(ordersEntity.getUserCode());
+            List<OrderListModel> orderList = orderService.orderList(ordersEntity.getUserCode());
             model.addAttribute("orderList", orderList);
             return "redirect:/orderList";
         } else {
