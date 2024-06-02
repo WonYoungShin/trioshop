@@ -6,18 +6,15 @@ import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.PurchaseService;
 import com.trioshop.utils.CategoryList;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/trioAdmin/purchase")
-@Slf4j
 @RequiredArgsConstructor
 public class PurchaseController{
     private final PurchaseService purchaseService;
@@ -44,13 +41,8 @@ public class PurchaseController{
 
     @GetMapping("/{purchaseCode}")
     public String findByCode(@PathVariable("purchaseCode") Long code, Model model) {
-        try {
-            PurchaseListModel purchaseItem = purchaseService.findByCode(code).orElseThrow(NoSuchElementException::new);
-            model.addAttribute("purchase", purchaseItem);
-        } catch (NoSuchElementException e) {
-            log.info("조회 실패");
-            return "/admin/purchaseList";
-        }
+        PurchaseListModel purchaseItem = purchaseService.findByCode(code);
+        model.addAttribute("purchase", purchaseItem);
 
         return "/admin/purchaseDetail";
     }

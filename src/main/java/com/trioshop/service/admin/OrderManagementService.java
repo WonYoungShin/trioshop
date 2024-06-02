@@ -1,5 +1,6 @@
 package com.trioshop.service.admin;
 
+import com.trioshop.controller.exception.QuantityAdjustFailed;
 import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.repository.dao.admin.OrderManagementDao;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -90,8 +92,12 @@ public class OrderManagementService {
         }
     }
 
-    public Optional<WaybillSelectModel> findWaybillByCode(String orderCode) {
-        return orderDao.findWaybillByCode(orderCode);
+    public WaybillSelectModel findWaybillByCode(String orderCode) {
+        try{
+            return orderDao.findWaybillByCode(orderCode).orElseThrow(NoSuchElementException::new);
+        } catch (NoSuchElementException e){
+            throw new NoSuchElementException();
+        }
     }
 
 }

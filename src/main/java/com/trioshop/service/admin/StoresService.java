@@ -62,8 +62,12 @@ public class StoresService{
         return storesDao.findAll(itemCondition);
     }
 
-    public Optional<StoresListModel> findByCode(Long code) {
-        return storesDao.findByCode(code);
+    public StoresListModel findByCode(Long code) {
+        try{
+            return storesDao.findByCode(code).orElseThrow(NoSuchElementException::new);
+        } catch (NoSuchElementException e){
+            throw new NoSuchElementException();
+        }
     }
 
     @Transactional

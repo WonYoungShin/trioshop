@@ -7,17 +7,14 @@ import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.StockService;
 import com.trioshop.utils.CategoryList;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/trioAdmin/stock")
-@Slf4j
 @RequiredArgsConstructor
 public class StockController{
     private final StockService stockService;
@@ -30,7 +27,6 @@ public class StockController{
 
     @PostMapping
     public String save(@ModelAttribute AddItemModel itemModel) {
-        log.info(itemModel.toString());
         stockService.save(itemModel);
 
         return "redirect:/trioAdmin/stock/list";
@@ -46,28 +42,18 @@ public class StockController{
 
     @GetMapping("/{itemCode}")
     public String findByCode(@PathVariable("itemCode") Long code, Model model) {
-        try {
-            log.info("itemCode = {}",code);
-            StockModel stockItem = stockService.findByCode(code).orElseThrow(NoSuchElementException::new);
-            model.addAttribute("item", stockItem);
-        } catch (NoSuchElementException e) {
-            log.info("조회 실패");
-            return "/admin/stock";
-        }
+        StockModel stockItem = stockService.findByCode(code);
+        model.addAttribute("item", stockItem);
 
         return "/admin/itemDetail";
     }
 
     @GetMapping("/{itemCode}/edit")
-    public String itemEditForm(@PathVariable("itemCode") Long itemCode, Model model){
-        try {
-            log.info("itemCode = {}",itemCode);
-            StockModel stockItem = stockService.findByCode(itemCode).orElseThrow(NoSuchElementException::new);
-            model.addAttribute("item", stockItem);
-        } catch (NoSuchElementException e) {
-            log.info("조회 실패");
-            return "/admin/itemDetail";
-        }
+    public String itemEditForm(@PathVariable("itemCode") Long itemCode, Model model) {
+
+        StockModel stockItem = stockService.findByCode(itemCode);
+        model.addAttribute("item", stockItem);
+
 
         return "/admin/itemEditForm";
     }

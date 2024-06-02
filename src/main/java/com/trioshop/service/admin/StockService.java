@@ -36,8 +36,13 @@ public class StockService {
     }
 
 
-    public Optional<StockModel> findByCode(Long code) {
-        return stockDao.findByCode(code);
+    public StockModel findByCode(Long code) {
+        try{
+            return stockDao.findByCode(code).orElseThrow(NoSuchElementException::new);
+
+        }catch (NoSuchElementException e){
+            throw new NoSuchElementException();
+        }
     }
 
 

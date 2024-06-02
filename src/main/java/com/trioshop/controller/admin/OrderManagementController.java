@@ -4,7 +4,6 @@ import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.service.admin.OrderManagementService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/trioAdmin")
@@ -116,12 +113,9 @@ public class OrderManagementController {
 
     @GetMapping("/orderStatus/{orderCode}/information")
     public String waybillAddForm(@PathVariable String orderCode, Model model) {
-        try {
-            WaybillSelectModel waybillModel = orderService.findWaybillByCode(orderCode).orElseThrow(NoSuchElementException::new);
+
+            WaybillSelectModel waybillModel = orderService.findWaybillByCode(orderCode);
             model.addAttribute("waybillModel", waybillModel);
-        }catch (NoSuchElementException e){
-            log.info("운송장 정보 없음");
-        }
 
         return "/admin/deliveryInformation";
     }

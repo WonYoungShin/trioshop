@@ -7,7 +7,6 @@ import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.StoresService;
 import com.trioshop.utils.CategoryList;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 @Controller
 @RequestMapping("/trioAdmin/stores")
-@Slf4j
 @RequiredArgsConstructor
 public class StoresController {
     private final StoresService storesService;
@@ -25,12 +23,11 @@ public class StoresController {
 
     @GetMapping
     public String savePage(){
-        log.info("homeController/stores");
         return "/admin/stores";
     }
 
     @PostMapping
-    public String save(@ModelAttribute StoreItemModel itemModel) throws Exception {
+    public String save(@ModelAttribute StoreItemModel itemModel) {
         storesService.save(itemModel);
 
         return "redirect:/trioAdmin/stores/list";
@@ -44,14 +41,11 @@ public class StoresController {
         return "/admin/storesList";
     }
     @GetMapping("/{storeCode}")
-    public String findByCode(@PathVariable("storeCode") Long code, Model model)  {
-        try {
-            StoresListModel storeItem = storesService.findByCode(code).orElseThrow(NoSuchElementException::new);
-            model.addAttribute("store", storeItem);
-        } catch (NoSuchElementException e) {
-            log.info("조회 실패");
-            return "/admin/storesList";
-        }
+    public String findByCode(@PathVariable("storeCode") Long code, Model model) {
+
+        StoresListModel storeItem = storesService.findByCode(code);
+        model.addAttribute("store", storeItem);
+
 
         return "/admin/storesDetail";
     }

@@ -25,8 +25,12 @@ public class PurchaseService {
         return purchaseDao.findAll(itemCondition);
     }
 
-    public Optional<PurchaseListModel> findByCode(Long code) {
-        return purchaseDao.findByCode(code);
+    public PurchaseListModel findByCode(Long code) {
+        try{
+            return purchaseDao.findByCode(code).orElseThrow(NoSuchElementException::new);
+        }catch (NoSuchElementException e){
+            throw new NoSuchElementException();
+        }
     }
 
     public void deleteByCode(Long code) {
