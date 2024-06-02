@@ -5,17 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Getter
-@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ItemDetailSearch {
-    long itemCode;
-    String itemName;
-    String itemColor;
-    String itemSize;
-    long orderQty;
-
-    public ItemDetailSearch() {
-    }
+    private long itemCode;
+    private String itemName;
+    private String itemColor;
+    private String itemSize;
+    private long orderQty;
 
     public ItemDetailSearch(long itemCode, String itemColor, String itemSize) {
         this.itemCode = itemCode;
@@ -23,14 +20,4 @@ public class ItemDetailSearch {
         this.itemSize = itemSize;
     }
 
-    @Override
-    public String toString() {
-        return "ItemDetailSearch{" +
-                "itemCode=" + itemCode +
-                ", itemName='" + itemName + '\'' +
-                ", itemColor='" + itemColor + '\'' +
-                ", itemSize='" + itemSize + '\'' +
-                ", orderQty=" + orderQty +
-                '}';
-    }
 }
