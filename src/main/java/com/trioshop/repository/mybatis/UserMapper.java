@@ -25,7 +25,6 @@ public interface UserMapper {
 
     GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin);
     boolean saveGuestUsers(GuestUserJoin guestUserJoin);
-    boolean saveGuestUsers2(GuestUserJoin2 guestUserJoin2);
 
     boolean patchUserPw(UserPatch userPatch);
     boolean patchUser(UserPatch userPatch);

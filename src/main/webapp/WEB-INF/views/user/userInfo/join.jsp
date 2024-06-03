@@ -129,7 +129,7 @@
 
                         <div class="form-group">
                             <label for="userTel">전화번호:</label>
-                            <input type="text" class="form-control" id="userTel" name="userTel" required>
+                            <input type="number" class="form-control" id="userTel" name="userTel" required>
                         </div>
 
                         <div class="form-group">
