@@ -1,13 +1,13 @@
 package com.trioshop.controller.item;
 
 import com.trioshop.SessionConst;
-import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.model.dto.item.OrderItemList;
+import com.trioshop.model.dto.item.OrderListByUser;
 import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.model.dto.user.UserInfoBySession;
-import com.trioshop.service.item.ItemService;
+
 import com.trioshop.service.item.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -37,7 +37,7 @@ public class OrderController {
     public String orderListPage(@SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                 Model model) {
 
-        List<OrderListModel> orderList = orderService.orderList(userInfoBySession.getUserCode());
+        List<OrderListByUser> orderList = orderService.orderListByUser(userInfoBySession.getUserCode());
         model.addAttribute("orderList", orderList);
         return "user/itemInfo/orderList";
     }
@@ -51,7 +51,7 @@ public class OrderController {
         ordersEntity.setUserCode(userInfoBySession.getUserCode());
         boolean check = orderService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
         if (check) {
-            List<OrderListModel> orderList = orderService.orderList(ordersEntity.getUserCode());
+            List<OrderListByUser> orderList = orderService.orderListByUser(ordersEntity.getUserCode());
             model.addAttribute("orderList", orderList);
             return "redirect:/orderList";
         } else {

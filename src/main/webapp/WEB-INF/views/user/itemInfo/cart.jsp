@@ -50,7 +50,7 @@
         </form>
     </c:if>
     <c:if test="${empty cartItems}">
-        <p class="text-center">Your cart is empty. <a href="/items">Continue shopping</a></p>
+        <p class="text-center">Your cart is empty. <a href="/itemList">Continue shopping</a></p>
     </c:if>
 </div>
 

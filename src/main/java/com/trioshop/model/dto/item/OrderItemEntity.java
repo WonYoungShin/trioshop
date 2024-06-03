@@ -2,9 +2,10 @@ package com.trioshop.model.dto.item;
 
 import lombok.*;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter // 객체 리스트로 받을시 필요
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderItemEntity {
     private String orderCode;
     private long itemCode;

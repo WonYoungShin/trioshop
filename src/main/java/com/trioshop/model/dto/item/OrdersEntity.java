@@ -1,11 +1,11 @@
 package com.trioshop.model.dto.item;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@Setter // 객체로 주소및 값들을 가져오기 위하여
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrdersEntity {
 
     private String orderCode;
@@ -15,4 +15,5 @@ public class OrdersEntity {
     private String orderDate;
     private String orderTel;
     private String statusCode;
+
 }
