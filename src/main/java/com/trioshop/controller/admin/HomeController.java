@@ -23,18 +23,21 @@ public class HomeController {
     private final OrderManagementService orderService;
 
     @GetMapping(value = {"/", ""})
-    public String index(@RequestParam(defaultValue = "") String userCode, @RequestParam(defaultValue = "") String statusCode,Model model) {
+    public String index(@RequestParam(defaultValue = "") String userCode,
+                        @RequestParam(defaultValue = "") String statusCode,
+                        Model model) {
         StatusCondition statusCondition = new StatusCondition(userCode, statusCode);
+
         List<OrderListModel> orderList = orderService.orderList(statusCondition);
         List<OrderStatusEntity> statusList = orderService.statusList();
         DashboardModel dashboardModel = orderService.dashboard();
-
 
         model.addAttribute("dashboard", dashboardModel);
         model.addAttribute("statusList", statusList);
         model.addAttribute("orderList", orderList);
         return "/admin/adminMain";
     }
+
 
 
 }

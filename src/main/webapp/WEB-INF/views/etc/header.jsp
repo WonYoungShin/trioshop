@@ -4,13 +4,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>TRIOShop</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/" >TRIOShop</a>
+    <a class="navbar-brand" href="/">TRIOShop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -19,6 +20,10 @@
         <ul class="navbar-nav ml-auto">
             <c:choose>
                 <c:when test="${not empty loginMember}">
+                    <!-- 로그인된 사용자의 닉네임 표시 -->
+                    <li class="nav-item">
+                        <span class="navbar-text mr-3">안녕하세요, ${loginMember.userNickname}님</span>
+                    </li>
                     <c:choose>
                         <c:when test="${loginMember.gradeCode == 4}">
                             <!-- 관리자 메뉴 -->
@@ -55,9 +60,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/cart">장바구니</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/myPage">마이페이지</a>
-                            </li>
+                            <c:if test="${loginMember.gradeCode != 0}">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/myPage">마이페이지</a>
+                                </li>
+                            </c:if>
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">로그아웃</a>
                             </li>

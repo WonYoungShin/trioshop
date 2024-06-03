@@ -42,8 +42,9 @@ public class StoresAdminServiceImpl extends AbstractAdminService<StoreItemModel,
     @Transactional
     public StoreItemModel save(StoreItemModel itemModel) {
         try{
-            if(itemModel.getPurchaseCode() != 0){
-                purchaseAdminServiceImpl.deleteByCode(itemModel.getPurchaseCode());
+            Long purchaseCode = itemModel.getPurchaseCode();
+            if(purchaseCode != 0){
+                purchaseAdminServiceImpl.deleteByCode(purchaseCode);
             }
         } catch (Exception e) {
             log.info("error!!!, NoSearchPurchaseCode");

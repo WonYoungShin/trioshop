@@ -138,7 +138,6 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block">회원가입</button>
-                        <button type="button" class="btn btn-secondary btn-block" onclick="location.href='/guestLogin'">비회원으로 로그인하기</button>
                         <button type="button" class="btn btn-secondary btn-block" onclick="location.href='/login'">로그인창으로 돌아가기</button>
                     </form>
                 </div>

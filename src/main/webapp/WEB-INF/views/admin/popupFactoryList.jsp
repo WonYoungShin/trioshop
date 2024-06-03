@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/views/etc/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +19,7 @@
             <form class="form-inline" method="get" action="">
                 <input class="form-control mr-sm-2" type="search" placeholder="업체코드 검색" aria-label="Search" name="factoryCode" value="${param.factoryCode}">
                 <input class="form-control mr-sm-2" type="search" placeholder="업체이름 검색" aria-label="Search" name="factoryName" value="${param.factoryName}">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
             </form>
         </div>
     </div>

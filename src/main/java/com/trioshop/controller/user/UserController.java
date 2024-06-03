@@ -19,23 +19,25 @@ public class UserController {
     private UserInfoService userInfoService;
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage_G() {
         return "/user/userInfo/login";
     }
 
+    //@ModelAttribute 객체를 받아오는거 @RequestParam 변수명을 가져오는거
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute UserIdPasswd userIdPasswd) {
+    public ModelAndView loginPage(@ModelAttribute UserIdPasswd userIdPasswd) {
         ModelAndView mv = new ModelAndView();
-        UserInfoBySession user = userInfoService.isValidUser(userIdPasswd.getUserId(), userIdPasswd.getUserPasswd());
 
-        if (user == null || user.getGradeCode() == 0) {
+        UserInfoBySession user = userInfoService.isValidUser(userIdPasswd);
+        System.out.println("user = " + user);
+        if (user == null) {
             mv.setViewName("/user/userInfo/login");
             mv.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
             return mv;
         }
 
         session.setAttribute(SessionConst.LOGIN_MEMBER, user);
-        System.out.println("user = " + user);
+        //스프링이 자동으로 관리하는 세션 객체에 속성이 설정됩니다. 이렇게 하면 사용자가 로그인한 정보를 세션에 저장할 수 있습니다.
         if (user.getGradeCode() == 4) {
             mv.setViewName("redirect:/trioAdmin");
             return mv;
@@ -46,22 +48,22 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String logoutPage() {
-        if (session != null)
-            session.invalidate();
+    public String logoutPage(HttpSession session) {
+        session.invalidate();
         return "redirect:/";
     }
 
+    //@ModelAttribute 객체로 반환 UserJoin객체를 userJoin 라는 이름으로 가져온것임
     @GetMapping("/join")
-    public String joinPage(@ModelAttribute("userJoin") UserJoin userJoin) {
+    public String joinPage_G(@ModelAttribute("userJoin") UserJoin userJoin) {
         return "/user/userInfo/join";
     }
 
     @PostMapping("/join")
-    public ModelAndView registerUserPage(@ModelAttribute("userJoin") UserJoin userJoin) {
+    public ModelAndView joinPage(@ModelAttribute("userJoin") UserJoin userJoin) {
         ModelAndView mv = new ModelAndView();
         try {
-            boolean isRegistered = userInfoService.registerUser(userJoin);
+            boolean isRegistered = userInfoService.saveUserInfo(userJoin);
             if (isRegistered) {
                 mv.setViewName("redirect:/login");
                 mv.addObject("success", "회원가입에 성공했습니다.");
@@ -71,26 +73,31 @@ public class UserController {
             }
         } catch (Exception e) {
             mv.setViewName("redirect:/join");
-            mv.addObject("error", "회원가입 중 오류가 발생했습니다.");
+            mv.addObject("exception", "회원가입 중 오류가 발생했습니다.");
         }
         return mv;
     }
 
     @GetMapping("/findId")
-    public String findIdPage() {
+    public String findId_G() {
         return "/user/userInfo/findId";
     }
 
+    //여기서 @RequestParam 쓴이유는 객체에서 필요한 정보만을 뺴오기 위해서 사용한거다. 그리고 반환하기위해서이다.
     @PostMapping("/findId")
-    public ModelAndView findId(String userName, String userTel) {
+    public ModelAndView findIdPage(@RequestParam String userName, @RequestParam String userTel) {
         UserFindId userId = userInfoService.isfindId(userName, userTel);
-        ModelAndView modelAndView = new ModelAndView("/user/userInfo/findId");
-        if (userId != null) {
-            modelAndView.addObject("userInfo", userId);
+        ModelAndView mv = new ModelAndView("/user/userInfo/findId");
+        if (userId != null && userId.getUserId() != null) { // 사용자
+            if (userId.getUserName().equals(userName) && userId.getUserTel().equals(userTel)) { // 사용자 이름과 전화번호가 일치하는 경우
+                mv.addObject("userInfo", userId);
+            } else {
+                mv.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
+            }
         } else {
-            modelAndView.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
+            mv.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
         }
-        return modelAndView;
+        return mv;
     }
 
     @GetMapping("/findPw")
@@ -99,10 +106,7 @@ public class UserController {
     }
 
     @PostMapping("/findPw")
-    public ModelAndView findPw(@RequestParam String userName,
-                               @RequestParam String userId,
-                               @RequestParam(required = false) String newPassword,
-                               @RequestParam(required = false) String confirmPassword) {
+    public ModelAndView findPw(@RequestParam String userName, @RequestParam String userId, @RequestParam(required = false) String newPassword, @RequestParam(required = false) String confirmPassword) {
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findPw");
         try {
             // 이름과 아이디로 비밀번호 찾기 시도
@@ -169,19 +173,25 @@ public class UserController {
         return mv;
     }
 
-
     @PostMapping("/changeInfo")
-    public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession currentUser) {
+    public ModelAndView changeInfo(@ModelAttribute UserPatch userPatch) {
         ModelAndView mv = new ModelAndView();
         try {
-            // 입력값이 모두 비어있는지 확인
-            if (userPatch.getUserPasswd().isEmpty() && userPatch.getUserAddress().isEmpty() && userPatch.getUserTel().isEmpty() && userPatch.getUserNickname().isEmpty()) {
-                mv.setViewName("redirect:/changeInfo");
+            UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+            if (currentUser == null) {
+                mv.setViewName("redirect:/login");
+                mv.addObject("error", "세션이 만료되었거나 잘못된 접근입니다.");
                 return mv;
             }
 
+            // 입력값이 모두 비어있는지 확인
+            if (!userInfoService.changedInfo(userPatch)) {
+                mv.setViewName("redirect:/changeInfo");
+                return mv;
+            } // Validation 적용 시 삭제
+
             // 세션에서 현재 사용자 정보 가져오기
-            currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
             userPatch.setUserCode(currentUser.getUserCode());
 
             boolean isUpdated = userInfoService.patchUser(userPatch);
@@ -202,7 +212,7 @@ public class UserController {
 
     //@ModelAttribute 폼에서입력하면 컨트롤러로 전달~~
     @GetMapping("/guestLogin")
-    public String guestLoginPage(@ModelAttribute("guestUser") GuestUserJoin guestUser) {
+    public String guestLoginPage() {
         return "/user/userInfo/guestLogin";
     }
 
@@ -215,7 +225,6 @@ public class UserController {
 
         // 기존 사용자가 있고 grade_code가 0인 경우에만 로그인 성공
         if (existingUser != null && existingUser.getGradeCode() == 0) {
-            session.setAttribute(SessionConst.LOGIN_MEMBER, existingUser);
             mv.setViewName("redirect:/");
         } else {
             // guestUserJoin 객체에 필요한 값 설정
@@ -224,13 +233,20 @@ public class UserController {
             // 중복된 DB가 없으면 회원가입을 시도
             boolean isSuccess = userInfoService.saveGuestUser(guestUserJoin, guestUserJoin2);
             if (isSuccess) {
-                mv.addObject("message", "회원가입이 완료되었습니다. 로그인해주세요.");
+                // 회원가입이 완료되면 자동으로 로그인
+                mv.addObject("message", "회원가입이 완료되었습니다. 로그인되었습니다.");
             } else {
-                mv.addObject("message", "회원가입에 실패했습니다. 다시 시도해주세요.");
+                mv.addObject("message", "로그인에 실패했습니다. 다시 시도해주세요.");
             }
-            mv.setViewName("redirect:/guestLogin");
+            mv.setViewName("redirect:/");
         }
-
+        // 나중에 수정해야할 부분
+        UserInfoBySession sessionUser = new UserInfoBySession();
+        sessionUser.setUserNickname("게스트유저");
+        sessionUser.setUserCode(guestUserJoin.getUserCode());
+        sessionUser.setGradeCode(1);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, sessionUser);
+        ////수정
         return mv;
     }
 

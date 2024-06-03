@@ -5,51 +5,50 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Item Detail Page</title>
+    <title>상품 상세 정보</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-5">
     <div class="card">
-        <div class="card-header">
-            <h2>Item Details</h2>
+        <div class="card-header bg-primary text-white">
+            <h2>상품 상세</h2>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="${item.itemSrc}" alt="${item.itemName}" class="img-fluid">
+                    <img src="${item.itemSrc}" alt="${item.itemName}" class="img-fluid rounded">
                 </div>
                 <div class="col-md-6">
                     <h3>${item.itemName}</h3>
-                    <p><strong>Category:</strong> ${item.categoryName}</p>
-                    <p><strong>Factory:</strong> ${item.factoryName}</p>
-                    <p><strong>Color:</strong> ${item.itemColor}</p>
-                    <p><strong>Size:</strong> ${item.itemSize}</p>
-                    <p><strong>Stock Quantity:</strong> ${item.stockQty}</p>
-                    <p><strong>Order Quantity:</strong> ${item.orderQty}</p>
-                    <p><strong>Price:</strong> $${item.itemPrice}</p>
+                    <p><strong>분류:</strong> ${item.categoryName}</p>
+                    <p><strong>제조사:</strong> ${item.factoryName}</p>
+                    <p><strong>색상:</strong> ${item.itemColor}</p>
+                    <p><strong>크기:</strong> ${item.itemSize}</p>
+                    <p><strong>재고수량:</strong> ${item.stockQty}</p>
+                    <p><strong>가격:</strong> $${item.itemPrice}</p>
 
-                    <label for="detailQty" class="mr-2">Quantity:</label>
-                    <input type="number" id="detailQty" name="detailQty" value="1" class="form-control mr-2" min="1">
+                    <label for="detailQty" class="mr-2">선택 수량:</label>
+                    <input type="number" id="detailQty" name="detailQty" value="1" class="form-control d-inline w-auto mr-2" min="1">
 
                     <form action="/addCart" method="post" class="form-inline mt-2" onsubmit="return updateQty('cartItemQty')">
                         <input type="hidden" name="itemCode" value="${item.itemCode}">
-                        <input type="hidden" id="cartItemQty" name="quantities">
-                        <button type="submit" class="btn btn-primary mr-2">Add to Cart</button>
+                        <input type="hidden" id="cartItemQty" name="cartItemQty">
+                        <button type="submit" class="btn btn-primary mr-2">장바구니 추가</button>
                     </form>
 
                     <form action="/orders" method="post" class="form-inline mt-2" onsubmit="return updateQty('orderQty')">
                         <input type="hidden" name="itemCodes" value="${item.itemCode}">
                         <input type="hidden" id="orderQty" name="quantities">
-                        <button type="submit" class="btn btn-success">Order Now</button>
+                        <button type="submit" class="btn btn-success">주문하기</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
     <div class="card mt-4">
-        <div class="card-header">
-            <h3>Similar Items</h3>
+        <div class="card-header bg-secondary text-white">
+            <h3>유사 상품</h3>
         </div>
         <div class="card-body">
             <form id="similarItemsForm" method="post">
@@ -57,11 +56,11 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>Select</th>
-                            <th>Name</th>
-                            <th>Color</th>
-                            <th>Size</th>
-                            <th>Order Quantity</th>
+                            <th>선택</th>
+                            <th>상품명</th>
+                            <th>색상</th>
+                            <th>크기</th>
+                            <th>주문수량</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -83,8 +82,8 @@
                 </div>
                 <input type="hidden" name="itemCodes" id="itemCodes">
                 <input type="hidden" name="quantitiesList" id="quantitiesList">
-                <button type="button" class="btn btn-primary" onclick="addToCart()">Add Selected to Cart</button>
-                <button type="button" class="btn btn-success" onclick="orderSelected()">Order Selected</button>
+                <button type="button" class="btn btn-primary" onclick="addToCart()">선택 장바구니 추가</button>
+                <button type="button" class="btn btn-success" onclick="orderSelected()">선택 주문하기</button>
             </form>
         </div>
     </div>

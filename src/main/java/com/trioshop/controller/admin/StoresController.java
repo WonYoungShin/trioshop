@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/trioAdmin/stores")
 @Slf4j
 @RequiredArgsConstructor
-public class StoresController implements AdminController<StoreItemModel, Long>{
+public class StoresController implements AdminController<StoreItemModel> {
     private final StoresService storesService;
     private final CategoryList categoryList;
 
@@ -59,7 +59,7 @@ public class StoresController implements AdminController<StoreItemModel, Long>{
     }
     @GetMapping("/{storeCode}")
     @Override
-    public String findByCode(@PathVariable("storeCode") Long code, Model model) throws NoSuchElementException {
+    public String findByCode(@PathVariable("storeCode") Long code, Model model)  {
         try {
             StoresListModel storeItem = storesService.findByCode(code).orElseThrow(NoSuchElementException::new);
             model.addAttribute("store", storeItem);
@@ -81,10 +81,7 @@ public class StoresController implements AdminController<StoreItemModel, Long>{
             // 재고 수량 조정이 성공하면 저장소 항목을 삭제합니다.
             storesService.deleteByCode(storeCode);
             return ResponseEntity.ok().build();
-        } catch (NoSuchElementException e) {
-            // 특정 예외에 대해 다른 응답을 보낼 수 있습니다.
-            return ResponseEntity.status(404).body("해당 항목을 찾을 수 없습니다.");
-        } catch (Exception e) {
+        }  catch (Exception e) {
             // 일반 예외 처리
             return ResponseEntity.status(500).body("삭제 중 오류가 발생했습니다.");
         }
@@ -95,7 +92,6 @@ public class StoresController implements AdminController<StoreItemModel, Long>{
             // StoreItem을 찾습니다.
             StoresListModel storeItem = storesService.findByCode(delStoreCode)
                     .orElseThrow(() -> new NoSuchElementException("Store item not found for code: " + delStoreCode));
-
             // Item을 찾습니다.
             ItemQtyModel item = storesService.itemFindById(storeItem.getItemCode())
                     .orElseThrow(() -> new NoSuchElementException("Item not found for code: " + storeItem.getItemCode()));

@@ -11,7 +11,6 @@ version = '0.0.1-SNAPSHOT'
 java {
 	sourceCompatibility = '17'
 }
-
 repositories {
 	mavenCentral()
 }
@@ -30,7 +29,6 @@ dependencies {
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트	3.0 이상
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
 	//JSP 추가 끝
-
 
 	//db관련
 	// MySQL

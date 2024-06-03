@@ -3,6 +3,7 @@ package com.trioshop.repository.mybatis;
 import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.ItemCondition;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import java.util.Optional;
 public interface AdminMapper {
 
     void itemSave(AddItemModel ItemModel);
+    void stockSave(Long itemCode);
     void storeSave(StoreItemModel ItemModel);
     void purchaseSave(PurchaseItemModel ItemModel);
 
@@ -26,7 +28,7 @@ public interface AdminMapper {
     Optional<ItemQtyModel> itemFindByCode(Long itemCode);
 
     void updateItem(UpdateItemModel ItemModel);
-    void addItemQty(Long itemCode, Integer qty);
+    void addItemQty(@Param("itemCode")Long itemCode, @Param("qty")Integer qty);
     void deletePurchaseByCode(Long purchaseCode);
     void deleteStoresByCode(Long storeCode);
 }
