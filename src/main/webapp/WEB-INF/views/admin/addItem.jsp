@@ -18,20 +18,25 @@
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemName">상품이름</label>
-                <input type="text" class="form-control" id="itemName" name="itemName" required/>
+                <input type="text" class="form-control" id="itemName" name="itemName" value="${itemModel.itemName}" required/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="categoryCode">상품분류</label>
-                <input type="text" class="form-control" id="categoryCode" name="categoryCode" required/>
+                <input type="text" class="form-control ${bindingResult.hasFieldErrors('categoryCode') ? 'is-invalid' : ''}" id="categoryCode" name="categoryCode" value="${itemModel.categoryCode}" required/>
+                <c:if test="${bindingResult.hasFieldErrors('categoryCode')}">
+                    <div class="invalid-feedback">
+                            ${bindingResult.getFieldError('categoryCode').defaultMessage}
+                    </div>
+                </c:if>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="factoryCode">제조업체</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="factoryCode" name="factoryCode" required readonly/>
+                    <input type="text" class="form-control" id="factoryCode" name="factoryCode" value="${itemModel.factoryCode}" required readonly/>
                     <div class="input-group-append">
                         <button type="button" class="btn btn-secondary" onclick="openFactoryPopup()">선택</button>
                     </div>
@@ -41,19 +46,19 @@
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemSize">상품사이즈</label>
-                <input type="text" class="form-control" id="itemSize" name="itemSize" required/>
+                <input type="text" class="form-control" id="itemSize" name="itemSize" value="${itemModel.itemSize}" required/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemColor">상품컬러</label>
-                <input type="text" class="form-control" id="itemColor" name="itemColor" required/>
+                <input type="text" class="form-control" id="itemColor" name="itemColor" value="${itemModel.itemColor}" required/>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6">
                 <label for="itemPrice">판매가격</label>
-                <input type="number" class="form-control" id="itemPrice" name="itemPrice" required/>
+                <input type="number" class="form-control" id="itemPrice" name="itemPrice" value="${itemModel.itemPrice}" required/>
             </div>
         </div>
         <div class="form-row justify-content-center">

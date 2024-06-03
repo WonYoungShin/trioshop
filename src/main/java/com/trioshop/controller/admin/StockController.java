@@ -6,10 +6,15 @@ import com.trioshop.model.dto.admin.UpdateItemModel;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.StockService;
 import com.trioshop.utils.CategoryList;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -26,7 +31,12 @@ public class StockController{
     }
 
     @PostMapping
-    public String save(@ModelAttribute AddItemModel itemModel) {
+    public String save(@Validated @ModelAttribute AddItemModel itemModel, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("itemModel",itemModel);
+            model.addAttribute("bindingResult", bindingResult);
+            return "/admin/addItem";
+        }
         stockService.save(itemModel);
 
         return "redirect:/trioAdmin/stock/list";
