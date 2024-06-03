@@ -1,10 +1,14 @@
 package com.trioshop.service.user;
 
+import com.trioshop.controller.exception.DontSaveException;
+import com.trioshop.controller.exception.UserNotFoundException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserInfoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.rmi.NoSuchObjectException;
 
 @Service
 public class UserInfoService {
@@ -14,7 +18,13 @@ public class UserInfoService {
 
     // 사용자의 유효성을 확인하고 로그인하는 메소드입니다.
     public UserInfoBySession isValidUser(UserIdPasswd userIdPasswd) {
-        return userInfoDao.loginUser(userIdPasswd);
+        UserInfoBySession userInfoBySession = userInfoDao.loginUser(userIdPasswd);
+        try{
+            if(userInfoBySession == null) throw new RuntimeException();
+        }catch (RuntimeException e){
+            throw new UserNotFoundException();
+        }
+        return userInfoBySession;
     }
 
 

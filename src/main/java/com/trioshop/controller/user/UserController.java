@@ -6,8 +6,11 @@ import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Objects;
 
 @Controller
 public class UserController {
@@ -19,33 +22,26 @@ public class UserController {
     private UserInfoService userInfoService;
 
     @GetMapping("/login")
-    public String loginPage_G() {
+    public String loginPage_G(@RequestParam(value = "error", required = false)String error, Model model) {
+        if(Objects.nonNull(error)){
+            model.addAttribute("error","정보를 찾을 수 없습니다.");
+        }
         return "/user/userInfo/login";
     }
 
     //@ModelAttribute 객체를 받아오는거 @RequestParam 변수명을 가져오는거
     @PostMapping("/login")
-    public ModelAndView loginPage(@ModelAttribute UserIdPasswd userIdPasswd) {
-        ModelAndView mv = new ModelAndView();
-
+    public String loginPage(@ModelAttribute UserIdPasswd userIdPasswd) {
         UserInfoBySession user = userInfoService.isValidUser(userIdPasswd);
-        System.out.println("user = " + user);
-        if (user == null) {
-            mv.setViewName("/user/userInfo/login");
-            mv.addObject("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
-            return mv;
-        }
-
+        String redirectURI="/";
         session.setAttribute(SessionConst.LOGIN_MEMBER, user);
         //스프링이 자동으로 관리하는 세션 객체에 속성이 설정됩니다. 이렇게 하면 사용자가 로그인한 정보를 세션에 저장할 수 있습니다.
         if (user.getGradeCode() == 4) {
-            mv.setViewName("redirect:/trioAdmin");
-            return mv;
-        } else {
-            mv.setViewName("redirect:/");
-            return mv;
+           redirectURI = "/trioAdmin";
         }
+        return "redirect:"+redirectURI;
     }
+
 
     @GetMapping("/logout")
     public String logoutPage(HttpSession session) {
