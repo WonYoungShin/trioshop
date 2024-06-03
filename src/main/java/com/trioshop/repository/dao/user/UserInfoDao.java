@@ -14,8 +14,7 @@ public class UserInfoDao {
     private UserMapper userMapper;
 
     // 로그인 기능을 제공하는 메소드입니다. 사용자 아이디와 비밀번호를 받아와서 해당 정보로 로그인을 시도하고, 로그인에 성공하면 세션에 사용자 정보를 저장하여 반환합니다.
-    public UserInfoBySession loginUser(String userId, String userPasswd) {
-        UserIdPasswd userIdPasswd = new UserIdPasswd(userId, userPasswd);
+    public UserInfoBySession loginUser(UserIdPasswd userIdPasswd) {
         return userMapper.loginUser(userIdPasswd);
     }
 
@@ -24,10 +23,15 @@ public class UserInfoDao {
         return userMapper.findUserByUserCode(userCode);
     }
 
-    // 사용자 이름과 전화번호를 기반으로 아이디를 찾아 반환하는 메소드입니다.
+    public void saveUsers(UserJoin userJoin) {userMapper.saveUsers(userJoin);}
+    // 사용자 아이디 중복 체크
+    public UserJoin checkUserIdExists(String userId) {return userMapper.checkUserIdExists(userId);}
+    public void saveUserInfo(UserJoin userJoin) {userMapper.saveUserInfo(userJoin);}
+
     public UserFindId findId(String userName, String userTel) {
         return userMapper.findId(userName, userTel);
     }
+
 
     // 비밀번호 찾기를 위해 사용자 정보를 조회하고, 새로운 비밀번호로 업데이트하는 메소드입니다.
     @Transactional
@@ -42,19 +46,6 @@ public class UserInfoDao {
         } catch (Exception e) {
             e.printStackTrace();
             return false; // 에러 발생 시
-        }
-    }
-
-    // 회원가입 정보를 저장하는 메소드입니다.
-    @Transactional
-    public boolean saveUserInfo(UserJoin userJoin) {
-        try {
-            userMapper.saveUsers(userJoin);
-            userMapper.saveUserInfo(userJoin);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
