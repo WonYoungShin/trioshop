@@ -14,9 +14,7 @@ public class UserInfoDao {
     private UserMapper userMapper;
 
     // 로그인 기능을 제공하는 메소드입니다. 사용자 아이디와 비밀번호를 받아와서 해당 정보로 로그인을 시도하고, 로그인에 성공하면 세션에 사용자 정보를 저장하여 반환합니다.
-    public UserInfoBySession loginUser(UserIdPasswd userIdPasswd) {
-        return userMapper.loginUser(userIdPasswd);
-    }
+
 
     // 사용자 코드를 기반으로 사용자 정보를 찾아 반환하는 메소드입니다.
     public UserPatch findUserByUserCode(String userCode) {
@@ -28,26 +26,32 @@ public class UserInfoDao {
     public UserJoin checkUserIdExists(String userId) {return userMapper.checkUserIdExists(userId);}
     public void saveUserInfo(UserJoin userJoin) {userMapper.saveUserInfo(userJoin);}
 
-    public UserFindId findId(String userName, String userTel) {
-        return userMapper.findId(userName, userTel);
+    public String findId(UserFindId userFindId) {
+        return userMapper.findId(userFindId);
+    }
+
+    public Long findUserCodeByNameAndId(PasswordChangeCodeSelectModel psModel){
+        return userMapper.findUserCodeByNameAndId(psModel);
+    }
+    public void updatePw(UpdateUserPwModel updateUserPwModel){
+        userMapper.updatePw(updateUserPwModel);
     }
 
 
-    // 비밀번호 찾기를 위해 사용자 정보를 조회하고, 새로운 비밀번호로 업데이트하는 메소드입니다.
-    @Transactional
-    public boolean findAndUpdatePw(UserFindPw userFindPw) {
-        try {
-            UserFindPw result = userMapper.findPw(userFindPw.getUserName(), userFindPw.getUserId());
-            if (result != null) {
-                return userMapper.updatePw(userFindPw.getUserId(), userFindPw.getUserPasswd());
-            } else {
-                return false; // 일치하는 정보가 없을 경우
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false; // 에러 발생 시
-        }
-    }
+//    // 비밀번호 찾기를 위해 사용자 정보를 조회하고, 새로운 비밀번호로 업데이트하는 메소드입니다.
+//    public Long findUserCodeByNameAndId(PasswordChangeCodeSelectModel userFindPw) {
+//        try {
+//
+//            if (result != null) {
+//                return userMapper.updatePw(userFindPw.getUserId(), userFindPw.getUserPasswd());
+//            } else {
+//                return false; // 일치하는 정보가 없을 경우
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false; // 에러 발생 시
+//        }
+//    }
 
     // 비회원으로 로그인하는 메소드입니다.
     public GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin) {

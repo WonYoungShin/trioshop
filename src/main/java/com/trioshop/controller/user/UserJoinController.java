@@ -8,6 +8,7 @@ import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @RequiredArgsConstructor
+@Controller
 public class UserJoinController {
     private final HttpSession session;
     private final UserInfoService userInfoService;
@@ -73,11 +75,11 @@ public class UserJoinController {
             mv.setViewName("redirect:/");
         }
         // 나중에 수정해야할 부분
-        UserInfoBySession sessionUser = new UserInfoBySession();
-        sessionUser.setUserNickname("게스트유저");
-        sessionUser.setUserCode(guestUserJoin.getUserCode());
-        sessionUser.setGradeCode(1);
-        session.setAttribute(SessionConst.LOGIN_MEMBER, sessionUser);
+//        UserInfoBySession sessionUser = new UserInfoBySession();
+//        sessionUser.setUserNickname("게스트유저");
+//        sessionUser.setUserCode(guestUserJoin.getUserCode());
+//        sessionUser.setGradeCode(1);
+//        session.setAttribute(SessionConst.LOGIN_MEMBER, sessionUser);
         ////수정
         return mv;
     }

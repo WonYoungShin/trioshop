@@ -5,21 +5,11 @@
     <!--사용자 로그인을 위한 쿼리문 -->
     <!--usercode가 두테이블모두사용되기때문에 별칭을 정해줘야한다.-->
     <!--tuser가 TRIO_USERS,info가 TRIO_USERS_INFO-->
-    <select id="loginUser" parameterType="map" resultType="UserInfoBySession">
-        SELECT
-            tuser.user_code AS userCode,
-            tuser.grade_code AS gradeCode,
-            tuser.user_id AS userId,
-            tuser.user_passwd AS userPasswd,
-            info.user_nickname AS userNickname
-        FROM
-            TRIO_USERS tuser
-                JOIN
-            TRIO_USERS_INFO info
-            ON
-                tuser.user_code = info.user_code
-        WHERE
-            tuser.user_id = #{userId}
+    <select id="loginUser" resultType="UserInfoBySession">
+        SELECT tuser.user_code, grade_code, user_id, user_nickname
+        FROM TRIO_USERS tuser
+        JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        WHERE tuser.user_id = #{userId}
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
@@ -40,16 +30,10 @@
         WHERE tuser.user_code = #{userCode}
     </select>
 
-    <!-- 사용자 아이디찾기를 위한 쿼리문 -->
-    <select id="findId" parameterType="map" resultType="UserFindId">
-        SELECT info.user_name AS userName,
-               info.user_tel  AS userTel,
-               tuser.user_id  AS userId
+    <select id="findId" resultType="String">
+        SELECT user_id
         FROM TRIO_USERS tuser
-                 JOIN
-             TRIO_USERS_INFO info
-             ON
-                 tuser.user_code = info.user_code
+        JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
         WHERE info.user_name = #{userName}
           AND info.user_tel = #{userTel}
     </select>
@@ -59,24 +43,18 @@
       map: 다양한 형식을 유연하게사용가능-->
     <!-- 사용자 비밀번호찾기를 위한 쿼리문 -->
 
-    <select id="findPw" parameterType="com.trioshop.model.dto.user.UserFindPw"
-            resultType="com.trioshop.model.dto.user.UserFindPw">
-        SELECT tuser.user_id     AS userId,
-               info.user_name    AS userName,
-               tuser.user_passwd AS userPasswd
-        FROM TRIO_USERS tuser
-                 JOIN
-             TRIO_USERS_INFO info
-             ON
-                 tuser.user_code = info.user_code
-        WHERE info.user_name = #{userName}
-          AND tuser.user_id = #{userId}
+    <select id="findUserCodeByNameAndId" resultType="Long">
+        SELECT tuser.user_code
+        FROM TRIO_USERS_INFO info
+        JOIN TRIO_USERS tuser ON tuser.user_code = info.user_code
+        WHERE user_name = #{userName}
+          AND user_id = #{userId}
     </select>
 
-    <update id="updatePw" parameterType="String">
+    <update id="updatePw">
         UPDATE TRIO_USERS
         SET user_passwd = #{userPasswd}
-        WHERE user_id = #{userId}
+        WHERE user_code = #{userCode}
     </update>
 
     <select id="LoginGuestUser" parameterType="GuestUserJoin" resultType="GuestUserJoin">

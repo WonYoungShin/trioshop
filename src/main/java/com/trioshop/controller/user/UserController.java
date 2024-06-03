@@ -4,7 +4,8 @@ import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,81 +14,57 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
-    @Autowired
-    HttpSession session;
+    private final HttpSession session;
 
-    @Autowired
-    private UserInfoService userInfoService;
+    private final UserInfoService userInfoService;
 
     @GetMapping("/findId")
-    public String findId_G() {
+    public String findIdPage(@RequestParam(value = "message", required = false) String message, Model model) {
+        if(Objects.nonNull(message)){
+            model.addAttribute("message","정보를 찾을 수 없습니다.");
+        }
         return "/user/userInfo/findId";
     }
 
-    //여기서 @RequestParam 쓴이유는 객체에서 필요한 정보만을 뺴오기 위해서 사용한거다. 그리고 반환하기위해서이다.
     @PostMapping("/findId")
-    public ModelAndView findIdPage(@RequestParam String userName, @RequestParam String userTel) {
-        UserFindId userId = userInfoService.isfindId(userName, userTel);
-        ModelAndView mv = new ModelAndView("/user/userInfo/findId");
-        if (userId != null && userId.getUserId() != null) { // 사용자
-            if (userId.getUserName().equals(userName) && userId.getUserTel().equals(userTel)) { // 사용자 이름과 전화번호가 일치하는 경우
-                mv.addObject("userInfo", userId);
-            } else {
-                mv.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
-            }
-        } else {
-            mv.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
-        }
-        return mv;
+    public String findId(@ModelAttribute UserFindId userFindId, Model model) {
+        String id = userInfoService.isFindId(userFindId);
+
+        model.addAttribute("id", id);
+
+        return "/user/userInfo/findId";
     }
 
     @GetMapping("/findPw")
-    public String findPwPage() {
+    public String findPwPage(@RequestParam(value = "message", required = false) String message, Model model) {
+        if(Objects.nonNull(message)){
+            model.addAttribute("message","정보를 찾을 수 없습니다.");
+        }
         return "/user/userInfo/findPw";
     }
 
     @PostMapping("/findPw")
-    public ModelAndView findPw(@RequestParam String userName, @RequestParam String userId, @RequestParam(required = false) String newPassword, @RequestParam(required = false) String confirmPassword) {
-        ModelAndView modelAndView = new ModelAndView("/user/userInfo/findPw");
-        try {
-            // 이름과 아이디로 비밀번호 찾기 시도
-            UserFindPw userFindPw = new UserFindPw(userName, userId, null); // 비밀번호는 필요없음
-            boolean result = userInfoService.findAndUpdatePw(userFindPw);
+    public String findCode(@ModelAttribute PasswordChangeCodeSelectModel psModel, Model model) {
+        PasswordChangeCodeAndStatus passwordChangeCodeAndStatus = userInfoService.findUserCodeByNameAndId(psModel);
 
-            // 사용자 정보가 없을 경우
-            if (!result) {
-                modelAndView.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
-            } else {
-                // 새 비밀번호와 비밀번호 확인이 입력된 경우
-                if (newPassword != null && confirmPassword != null) {
-                    if (!newPassword.equals(confirmPassword)) {
-                        modelAndView.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-                    } else {
-                        // 새 비밀번호를 업데이트
-                        userFindPw.setUserPasswd(newPassword);
-                        boolean isUpdated = userInfoService.findAndUpdatePw(userFindPw);
-                        if (isUpdated) {
-                            modelAndView.setViewName("redirect:/login");
-                            modelAndView.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
-                        } else {
-                            modelAndView.addObject("message", "비밀번호 변경 중 오류가 발생했습니다.");
-                        }
-                    }
-                } else {
-                    // 새 비밀번호와 비밀번호 확인이 입력되지 않은 경우
-                    modelAndView.addObject("showForm", true);
-                    modelAndView.addObject("userName", userName);
-                    modelAndView.addObject("userId", userId);
-                }
-            }
-        } catch (Exception e) {
-            modelAndView.addObject("message", "예외 발생");
-        }
-        return modelAndView;
+        session.setAttribute("userCode", passwordChangeCodeAndStatus.getUserCode());
+        model.addAttribute("showForm", passwordChangeCodeAndStatus.getStatus());
+        return "/user/userInfo/findPw";
     }
 
+    @PostMapping("/updatePw")
+    public String updatePw(@ModelAttribute PasswordCheckedModel password, @SessionAttribute Long userCode) {
+        if(password.checkingPassword()){
+            userInfoService.updatePw(userCode, password.getNewPassword());
+            session.invalidate();
+            return "redirect:/login";
+        }
+        return "forward:/user/userInfo/findPw";
+    }
 
     @GetMapping("/myPage")
     public String myPage() {

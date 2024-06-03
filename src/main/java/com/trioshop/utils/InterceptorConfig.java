@@ -21,7 +21,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/","/login", "/css/**", "/images/*", "/itemInfo" ,"/itemList",
                         "/SearchItems", "/cart", "/item/**" , "/join", "/findId",
-                        "/findPw", "/guestLogin","/logout", "/*.ico","/error");
+                        "/findPw", "/guestLogin","/logout", "/*.ico","/error","/updatePw");
 
         registry.addInterceptor(new AdminCheckInterceptor())
                 .order(3)

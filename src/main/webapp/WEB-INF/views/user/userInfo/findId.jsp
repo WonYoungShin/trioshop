@@ -29,9 +29,9 @@
                         <button type="button" onclick="location.href='/login'" class="btn btn-secondary btn-block">로그인 페이지로 돌아가기</button>
                     </form>
                     <br>
-                    <c:if test="${not empty userInfo}">
+                    <c:if test="${not empty id}">
                         <div class="alert alert-success" role="alert">
-                            당신의 아이디는 <strong>${userInfo.userId}</strong> 입니다.
+                            당신의 아이디는 <strong>${id}</strong> 입니다.
                         </div>
                     </c:if>
                     <c:if test="${not empty message}">

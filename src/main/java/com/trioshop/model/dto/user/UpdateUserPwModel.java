@@ -2,13 +2,12 @@ package com.trioshop.model.dto.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @RequiredArgsConstructor
-public class UserInfoBySession {
+@ToString
+public class UpdateUserPwModel {
     private final Long userCode;
-    private final Long gradeCode;
-    private final String userId;
-    private final String userNickname;
+    private final String userPasswd;
 }
