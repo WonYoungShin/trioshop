@@ -6,7 +6,7 @@ import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.model.dto.item.OrderItemEntity;
 import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.user.UserAddressInfo;
-import com.trioshop.repository.dao.item.ItemInfoDao;
+import com.trioshop.repository.dao.item.ItemDao;
 import com.trioshop.repository.dao.item.OrderDao;
 import com.trioshop.utils.GenerateDate;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderDao orderDao;
-    private final ItemInfoDao itemInfoDao;
+    private final ItemDao itemInfoDao;
 
     public List<OrderListModel> orderList(long userCode) {
         return orderDao.orderList(userCode);
@@ -37,7 +37,7 @@ public class OrderService {
             // Orders 테이블 입력
             OrdersEntity ordersEntityResult = makeOrdersEntity(ordersEntity);
             // OrderItem 테이블 입력
-            List<Long> deleteCartCodeList = makeOrderItemEntity(orderItemList, ordersEntity.getOrderCode());
+            List<Long> deleteCartCodeList = makeOrderItemEntity(orderItemList, ordersEntityResult.getOrderCode());
             // 구매 품목 카트 에서 제외
             orderDao.deleteItemsFromCart(ordersEntityResult.getUserCode(),deleteCartCodeList);
             return true;
@@ -72,11 +72,15 @@ public class OrderService {
         String orderCode = GenerateDate.generateOrderCode(ordersEntity.getUserCode());
 
         // 주문 테이블 저장
-        ordersEntity.setOrderCode(orderCode);
-        ordersEntity.setStatusCode("10"); //DB 에서 DEFAULT '10' 입력
-        ordersEntity.setOrderDate(GenerateDate.generateOrderDate()); // 시간 yyMMdd-HHmmss
-        orderDao.insertOrders(ordersEntity);
-        return ordersEntity;
+        OrdersEntity ordersEntityResult = new OrdersEntity(orderCode,
+                                                           ordersEntity.getUserCode(),
+                                                           ordersEntity.getOrderReceiver(),
+                                                           ordersEntity.getOrderDestination(),
+                                                           GenerateDate.generateOrderDate(),
+                                                           ordersEntity.getOrderTel(),
+                                                           "10");
+        orderDao.insertOrders(ordersEntityResult);
+        return ordersEntityResult;
     }
     private List<Long> makeOrderItemEntity(List<OrderItemEntity> orderItemList, String orderCode) {
 
