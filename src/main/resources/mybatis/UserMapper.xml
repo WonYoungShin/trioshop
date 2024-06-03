@@ -135,7 +135,6 @@
          사용하지않습니다.
          map: 다양한 형식을 유연하게사용가능-->
 
-
     <update id="patchUser" parameterType="UserPatch">
         UPDATE TRIO_USERS_INFO
         <set>
@@ -149,5 +148,14 @@
     <select id="patchUserPw" parameterType="UserPatch">
         SELECT *
         FROM TRIO_USERS_INFO
-        WHERE user_code = #{userCode} </select>
+        WHERE user_code = #{userCode}
+    </select>
+        <!-- 여기서 부터 swy -->
+    <select id="searchGuestUser" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM TRIO_USERS_INFO
+        WHERE user_name = #{userName}
+        AND user_tel = #{userTel}
+    </select>
+
 </mapper>

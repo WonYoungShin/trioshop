@@ -14,21 +14,40 @@
 
     <form id="secondForm" action="/guestLogin" method="post">
         <div class="form-group">
-            <label for="userName2">이름:</label>
-            <input type="text" class="form-control" id="userName2" name="userName" required>
+            <label for="userName">이름:</label>
+            <input type="text" class="form-control" id="userName" name="userName" required>
         </div>
         <div class="form-group">
-            <label for="userAddress2">주소:</label>
-            <input type="text" class="form-control" id="userAddress2" name="userAddress" required>
-        </div>
-        <div class="form-group">
-            <label for="userTel2">전화번호:</label>
-            <input type="tel" class="form-control" id="userTel2" name="userTel" pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}" required>
+            <label for="userTel">전화번호:</label>
+            <input type="tel" class="form-control" id="userTel" name="userTel" pattern="\d{3}-\d{3,4}-\d{4}" required>
             <small class="form-text text-muted">올바른 전화번호 형식: 010-1234-5678</small>
         </div>
         <button type="submit" class="btn btn-primary btn-block">가입하기</button>
         <a href="/login" class="btn btn-secondary btn-block">뒤로가기</a>
     </form>
 </div>
+
+<!-- 부트스트랩 JS 및 jQuery 링크 -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- 전화번호 포맷팅을 위한 JavaScript -->
+<script>
+    document.getElementById('userTel').addEventListener('input', function (e) {
+        var input = e.target.value.replace(/\D/g, ''); // 숫자만 남기기
+        var formatted = '';
+
+        if (input.length <= 3) {
+            formatted = input;
+        } else if (input.length <= 7) {
+            formatted = input.slice(0, 3) + '-' + input.slice(3);
+        } else {
+            formatted = input.slice(0, 3) + '-' + input.slice(3, 7) + '-' + input.slice(7, 11);
+        }
+
+        e.target.value = formatted;
+    });
+</script>
 </body>
 </html>

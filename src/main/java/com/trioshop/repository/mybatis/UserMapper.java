@@ -1,7 +1,6 @@
 package com.trioshop.repository.mybatis;
 
 import com.trioshop.model.dto.user.*;
-import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
@@ -23,11 +22,13 @@ public interface UserMapper {
 
     boolean updatePw(@Param("userId") String userId, @Param("userPasswd") String userPasswd);
 
-    GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin);
-    boolean saveGuestUsers(GuestUserJoin guestUserJoin);
+    GuestUserJoinInfo LoginGuestUser(GuestUserJoinInfo guestUserJoin);
+    boolean saveGuestUsers(GuestUserJoinInfo guestUserJoin);
 
     boolean patchUserPw(UserPatch userPatch);
     boolean patchUser(UserPatch userPatch);
 
+    // 여기서 부터
+    boolean searchGuestUser(GuestUserLoginInfo guestUserLoginInfo);
 
 }

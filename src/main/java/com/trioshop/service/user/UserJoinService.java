@@ -1,6 +1,7 @@
 package com.trioshop.service.user;
 
-import com.trioshop.model.dto.user.GuestUserJoin;
+import com.trioshop.model.dto.user.GuestUserJoinInfo;
+import com.trioshop.model.dto.user.GuestUserLoginInfo;
 import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.repository.dao.user.UserJoinDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,23 +29,32 @@ public class UserJoinService {
         }
     }
 
+    public void guestUserLoginProcess(GuestUserLoginInfo guestUserLoginInfo) {
+        boolean booleanUserExist = userJoinDao.searchGuestUser(guestUserLoginInfo);
+        if(booleanUserExist) {
+            //검색해서 로그인
+        } else {
+            //가입하고 로그인
+        }
+    }
+
     // 비회원으로 로그인하는 메소드입니다.
-    public GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin) {
+    public GuestUserJoinInfo LoginGuestUser(GuestUserJoinInfo guestUserJoin) {
         return userJoinDao.LoginGuestUser(guestUserJoin);
     }
 
     // 비회원으로 회원가입하는 메소드입니다.
-    public boolean saveGuestUser(GuestUserJoin guestUserJoin) {
-        try {
-            boolean isSuccess = userJoinDao.saveGuestUser(guestUserJoin);
-            if (isSuccess) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    public boolean saveGuestUser(GuestUserJoinInfo guestUserJoin) {
+//        try {
+//            boolean isSuccess = userJoinDao.saveGuestUser(guestUserJoin);
+//            if (isSuccess) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 }
