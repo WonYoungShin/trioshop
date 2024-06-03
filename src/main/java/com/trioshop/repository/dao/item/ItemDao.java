@@ -1,8 +1,6 @@
 package com.trioshop.repository.dao.item;
 
-import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.item.*;
-import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.mybatis.ItemMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ItemInfoDao {
+public class ItemDao {
     private final ItemMapper itemMapper;
 
     public List<ItemInfoByUser> findAllItem() {

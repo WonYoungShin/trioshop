@@ -36,6 +36,9 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.33'
 	// oracle
 	//	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+
+	// JSON 관련 추가
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 	//passwd 해싱
 	//	implementation 'org.springframework.boot:spring-boot-starter-security'
 	

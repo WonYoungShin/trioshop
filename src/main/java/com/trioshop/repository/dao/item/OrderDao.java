@@ -3,6 +3,7 @@ package com.trioshop.repository.dao.item;
 import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.item.ItemCodeAndQty;
 import com.trioshop.model.dto.item.OrderItemEntity;
+import com.trioshop.model.dto.item.OrderListByUser;
 import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.mybatis.ItemMapper;
@@ -16,8 +17,8 @@ import java.util.List;
 public class OrderDao {
     private final ItemMapper itemMapper;
 
-    public List<OrderListModel> orderList(long userCode) {
-        return itemMapper.orderList(userCode);
+    public List<OrderListByUser> orderListByUser(long userCode) {
+        return itemMapper.orderListByUser(userCode);
     }
 
     public void insertOrders(OrdersEntity ordersEntity) {

@@ -68,8 +68,6 @@
 
         <h3 class="mt-4">Total Price: ₩<span id="total-price">0</span></h3>
         <button type="submit" class="btn btn-primary btn-block mt-3">결제하기</button>
-        <!-- 토스로 결제하기 버튼 추가 -->
-        <button type="button" class="btn btn-secondary btn-block mt-3" id="tossPaymentButton">토스로 결제하기</button>
     </form>
 </div>
 
@@ -97,44 +95,6 @@
         // 수량 변경 시 총 가격 업데이트
         $('.quantity-input').on('input', function() {
             updateTotalPrice();
-        });
-
-        // 토스로 결제하기 버튼 클릭 이벤트
-        $('#tossPaymentButton').on('click', function() {
-            // 주문 데이터를 JSON 형식으로 변환
-            let orderData = {
-                userCode: $('input[name="userCode"]').val(),
-                orderItemEntityList: []
-            };
-
-            $('.quantity-input').each(function(index) {
-                let orderItem = {
-                    orderCode: $('input[name="orderItemEntityList[' + index + '].orderCode"]').val(),
-                    itemCode: $('input[name="orderItemEntityList[' + index + '].itemCode"]').val(),
-                    orderQty: $(this).val()
-                };
-                orderData.orderItemEntityList.push(orderItem);
-            });
-
-            orderData.orderDestination = $('#orderDestination').val();
-            orderData.orderReceiver = $('#orderReceiver').val();
-            orderData.orderTel = $('#orderTel').val();
-
-            // JSON 데이터를 서버로 전송
-            $.ajax({
-                type: 'POST',
-                url: '/toss/confirm',
-                contentType: 'application/json',
-                data: JSON.stringify(orderData),
-                success: function(response) {
-                    alert('결제가 성공적으로 완료되었습니다.');
-                    window.location.href = '/toss/success';
-                },
-                error: function(response) {
-                    alert('결제에 실패했습니다. 다시 시도해 주세요.');
-                    window.location.href = '/toss/fail';
-                }
-            });
         });
     });
 </script>

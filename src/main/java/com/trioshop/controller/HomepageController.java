@@ -18,7 +18,7 @@ public class HomepageController {
 
     @GetMapping("/") // 홈화면
     public String userList(Model model) {
-        List<ItemInfoByUser> itemList = itemService.findAllItem();
+        List<ItemInfoByUser> itemList = itemService.searchItems(null);;
         model.addAttribute("itemList", itemList);
         //카테고리 목록 불러오기
         model.addAttribute("categoryList", categoryList.getCategoryList());

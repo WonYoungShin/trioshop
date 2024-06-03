@@ -31,9 +31,13 @@
                     <label for="detailQty" class="mr-2">선택 수량:</label>
                     <input type="number" id="detailQty" name="detailQty" value="1" class="form-control d-inline w-auto mr-2" min="1">
 
-                    <form action="/addCart" method="post" class="form-inline mt-2" onsubmit="return updateQty('cartItemQty')">
-                        <input type="hidden" name="itemCode" value="${item.itemCode}">
-                        <input type="hidden" id="cartItemQty" name="cartItemQty">
+                    <form action="/addCart" method="POST" class="form-inline mt-2" onsubmit="return updateQty('cartItemQty')">
+<%--                        <input type="hidden" name="itemCode" value="${item.itemCode}">--%>
+<%--                        <input type="hidden" id="cartItemQty" name="cartItemQty">--%>
+                        <%-- 다중 카트 추가와 동일 매서드를 쓰기 위하여 변수 변경 --%>
+                        <input type="hidden" name="itemCodes" value="${item.itemCode}">
+                        <input type="hidden" id="cartItemQty" name="quantities">
+                        <%--                        --%>
                         <button type="submit" class="btn btn-primary mr-2">장바구니 추가</button>
                     </form>
 
@@ -109,7 +113,7 @@
         if (selectedItems.length > 0) {
             document.getElementById('itemCodes').value = selectedItems.join(',');
             document.getElementById('quantitiesList').value = quantities.join(',');
-            document.getElementById('similarItemsForm').action = "/addCarts";
+            document.getElementById('similarItemsForm').action = "/addCart";
             document.getElementById('similarItemsForm').submit();
         } else {
             alert("Please select at least one item.");

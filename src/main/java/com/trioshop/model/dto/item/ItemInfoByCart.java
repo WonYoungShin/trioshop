@@ -1,20 +1,20 @@
 package com.trioshop.model.dto.item;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemInfoByCart {
-    long cartCode;
-    long userCode;
-    long cartItemQty;
-    long itemCode;
-    String itemName;
-    long itemPrice;
-    String itemSrc;
-    String itemColor;
-    String itemSize;
-    long stockQty;
-    String categoryName;
+    private long cartCode;
+    private long userCode;
+    private long cartItemQty;
+    private long itemCode;
+    private String itemName;
+    private long itemPrice;
+    private String itemSrc;
+    private String itemColor;
+    private String itemSize;
+    private long stockQty;
+    private String categoryName;
 }

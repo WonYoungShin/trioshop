@@ -3,9 +3,8 @@ package com.trioshop.service.item;
 import com.trioshop.model.dto.item.CartEntity;
 import com.trioshop.model.dto.item.ItemDetailSearch;
 import com.trioshop.model.dto.item.ItemInfoByCart;
-import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.dao.item.CartDao;
-import com.trioshop.repository.dao.item.ItemInfoDao;
+import com.trioshop.repository.dao.item.ItemDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +14,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartService {
     private final CartDao cartDao;
-    private final ItemInfoDao itemInfoDao;
+    private final ItemDao itemInfoDao;
 
     public List<ItemInfoByCart> cartItemList(long userCode) {
         return cartDao.cartItemList(userCode);
     }
     //카트 단일 항목 추가
-    public void addCartItem (CartEntity cartEntity) {
-        if( cartDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
-
-            cartDao.updateCartItem(cartEntity); // 수량을 업데이트
-        } else {
-            cartDao.insertCartItem(cartEntity); // cart에 insert
-        }
-    }
-    //카트 다중 항목 추가
-    public void addCartItems (long userCode, List<Long> itemCodes, List<Long> quantities) {
+//    public void addCartItem (CartEntity cartEntity) {
+//        if( cartDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
+//
+//            cartDao.updateCartItem(cartEntity); // 수량을 업데이트
+//        } else {
+//            cartDao.insertCartItem(cartEntity); // cart에 insert
+//        }
+//    }
+    //카트 단일,다중 항목 추가
+    public void addCartItem (long userCode, List<Long> itemCodes, List<Long> quantities) {
         for (int i = 0; i < itemCodes.size(); i++) {
             CartEntity cartEntity = new CartEntity(userCode,itemCodes.get(i),quantities.get(i));
             if( cartDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
