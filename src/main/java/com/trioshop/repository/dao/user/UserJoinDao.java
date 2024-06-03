@@ -2,6 +2,7 @@ package com.trioshop.repository.dao.user;
 
 import com.trioshop.model.dto.user.GuestUserJoinInfo;
 import com.trioshop.model.dto.user.GuestUserLoginInfo;
+import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.repository.mybatis.UserMapper;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,10 @@ public class UserJoinDao {
     // 여기서부터
     public boolean searchGuestUser (GuestUserLoginInfo guestUserLoginInfo) {
         return userMapper.searchGuestUser(guestUserLoginInfo);
+    }
+
+    public void saveGuestUser (GuestUserJoinInfo guestUserJoinInfo) {
+        return userMapper.saveGuestUser(guestUserJoinInfo);
     }
 
 }

@@ -2,6 +2,7 @@ package com.trioshop.service.user;
 
 import com.trioshop.model.dto.user.GuestUserJoinInfo;
 import com.trioshop.model.dto.user.GuestUserLoginInfo;
+import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.repository.dao.user.UserJoinDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +30,22 @@ public class UserJoinService {
         }
     }
 
-    public void guestUserLoginProcess(GuestUserLoginInfo guestUserLoginInfo) {
+    public UserInfoBySession guestUserLoginProcess(GuestUserLoginInfo guestUserLoginInfo) {
+
         boolean booleanUserExist = userJoinDao.searchGuestUser(guestUserLoginInfo);
         if(booleanUserExist) {
             //검색해서 로그인
+           UserInfoBySession userInfoBySession = userJoinDao.guestUserLogin(guestUserLoginInfo);
+           return userInfoBySession;
         } else {
             //가입하고 로그인
+            userJoinDao.saveGuestUser( makeGuestUserJoinInfo(guestUserLoginInfo) );
+           return this.guestUserLoginProcess(guestUserLoginInfo);
         }
+    }
+
+    private GuestUserJoinInfo makeGuestUserJoinInfo(GuestUserLoginInfo guestUserLoginInfo) {
+        GuestUserJoinInfo guestUserJoinInfo = new GuestUserJoinInfo();
     }
 
     // 비회원으로 로그인하는 메소드입니다.

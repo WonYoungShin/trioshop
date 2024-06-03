@@ -46,8 +46,8 @@ public class UserJoinController {
 
     @PostMapping("/guestLogin")
     public String guestLogin(@ModelAttribute GuestUserLoginInfo guestUserLoginInfo) {
-        // 첫 번째 로그인 시도
-        userJoinService.guestUserLoginProcess(guestUserLoginInfo);
+        // 게스트 로그인 시도
+        boolean useruser = userJoinService.guestUserLoginProcess(guestUserLoginInfo);
 
 //        // 기존 사용자가 있고 grade_code가 0인 경우에만 로그인 성공
 //        if (existingUser != null && existingUser.getGradeCode() == 0) {
