@@ -49,7 +49,7 @@
                             <option value="${status.statusCode}" <c:if test="${param.statusCode == status.statusCode}">selected</c:if>>${status.statusName}</option>
                         </c:forEach>
                     </select>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
                 </form>
             </div>
         </div>
@@ -140,8 +140,8 @@
     }
 
     function openPopup(orderCode, statusCode) {
-        var width = 500;
-        var height = 400;
+        var width = 100;
+        var height = 200;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
         window.open('/trioAdmin/orderStatus/edit/' + encodeURIComponent(orderCode) + '?statusCode=' + encodeURIComponent(statusCode), 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');

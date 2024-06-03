@@ -1,9 +1,12 @@
 package com.trioshop.repository.mybatis;
 
+import com.trioshop.model.dto.admin.OrderListModel;
 import com.trioshop.model.dto.item.*;
+import com.trioshop.model.dto.user.UserAddressInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ItemMapper {
@@ -19,7 +22,7 @@ public interface ItemMapper {
 
     List<ItemInfoByCart> cartItemList(long userCode);
 
-    List<ItemInfoByOrderList> orderList(long userCode);
+    List<OrderListModel> orderList(long userCode);
 
     void insertOrders(OrdersEntity ordersEntity);
 
@@ -27,6 +30,7 @@ public interface ItemMapper {
 
     void updateStockQty(ItemCodeAndQty itemCodeAndQty);
 
+    //수정필요?
     void deleteItemsFromCart(long userCode, List<Long> itemCodeList);
 
     void insertCartItem(CartEntity cartEntity);
@@ -36,8 +40,6 @@ public interface ItemMapper {
     int selectCartItem(CartEntity cartEntity);
 
     void updateCartItem(CartEntity cartEntity);
-
-    List<String> findColors(String itemName);
-
-    List<String> findSizes(String itemName);
+    List<ItemDetailSearch> itemDetailNameSearch(String itemName);
+    UserAddressInfo selectUserAddressInfo (long userCode);
 }

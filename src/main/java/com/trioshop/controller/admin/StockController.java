@@ -7,40 +7,32 @@ import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.StockService;
 import com.trioshop.utils.CategoryList;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/trioAdmin/stock")
-@Slf4j
 @RequiredArgsConstructor
-public class StockController implements AdminController<AddItemModel ,Long> {
+public class StockController{
     private final StockService stockService;
     private final CategoryList categoryList;
 
     @GetMapping
-    @Override
     public String savePage(){
         return "/admin/addItem";
     }
 
     @PostMapping
-    @Override
     public String save(@ModelAttribute AddItemModel itemModel) {
-        log.info("Received itemModel: " + itemModel.toString());
+        stockService.save(itemModel);
 
-        AddItemModel saveItemModel = stockService.save(itemModel);
-        log.info("Saved itemModel: " + saveItemModel.toString());
-        return "redirect:/trioAdmin";
+        return "redirect:/trioAdmin/stock/list";
     }
 
     @GetMapping("/list")
-    @Override
     public String findAll(ItemCondition itemCondition, Model model) {
         List<StockModel> stockList = stockService.findAll(itemCondition);
         model.addAttribute("categoryList",categoryList.getCategoryList());
@@ -48,31 +40,20 @@ public class StockController implements AdminController<AddItemModel ,Long> {
         return "/admin/stock";
     }
 
-    @Override
     @GetMapping("/{itemCode}")
-    public String findByCode(@PathVariable("itemCode") Long code, Model model) throws NoSuchElementException {
-        try {
-            log.info("itemCode = {}",code);
-            StockModel stockItem = stockService.findByCode(code).orElseThrow(NoSuchElementException::new);
-            model.addAttribute("item", stockItem);
-        } catch (NoSuchElementException e) {
-            log.info("조회 실패");
-            return "/admin/stock";
-        }
+    public String findByCode(@PathVariable("itemCode") Long code, Model model) {
+        StockModel stockItem = stockService.findByCode(code);
+        model.addAttribute("item", stockItem);
 
         return "/admin/itemDetail";
     }
 
     @GetMapping("/{itemCode}/edit")
-    public String itemEditForm(@PathVariable("itemCode") Long itemCode, Model model){
-        try {
-            log.info("itemCode = {}",itemCode);
-            StockModel stockItem = stockService.findByCode(itemCode).orElseThrow(NoSuchElementException::new);
-            model.addAttribute("item", stockItem);
-        } catch (NoSuchElementException e) {
-            log.info("조회 실패");
-            return "/admin/itemDetail";
-        }
+    public String itemEditForm(@PathVariable("itemCode") Long itemCode, Model model) {
+
+        StockModel stockItem = stockService.findByCode(itemCode);
+        model.addAttribute("item", stockItem);
+
 
         return "/admin/itemEditForm";
     }

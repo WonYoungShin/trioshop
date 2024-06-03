@@ -5,70 +5,69 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Order Page</title>
+    <title>주문 페이지</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <h1 class="my-4">Order Page</h1>
+<div class="container mt-5">
+    <h1 class="my-4 text-center">주문 페이지</h1>
 
     <form id="orderForm" method="post" action="/placeOrder">
         <input type="hidden" name="userCode" value="${loginMember.userCode}">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Image</th>
-                <th>Item Name</th>
-                <th>Category</th>
-                <th>Factory</th>
-                <th>Price</th>
-                <th>Stock Quantity</th>
-                <th>Order Quantity</th>
-                <th>Subtotal</th>
-                <th>Color</th>
-                <th>Size</th>
-            </tr>
-            </thead>
-            <tbody>
-
-
-            <c:forEach var="item" items="${itemList}" varStatus="delivery">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
                 <tr>
-                    <td><img src="${item.itemSrc}" alt="${item.itemName}" style="width: 100px; height: 100px;"></td>
-                    <td>${item.itemName}</td>
-                    <td>${item.categoryName}</td>
-                    <td>${item.factoryName}</td>
-                    <td>₩<span class="item-price">${item.itemPrice}</span></td>
-                    <td>${item.stockQty}</td>
-                    <td>
-                        <input type="hidden" name="orderItemEntityList[${delivery.index}].orderCode" value="${item.itemSrc}"/>
-                        <input type="hidden" name="orderItemEntityList[${delivery.index}].itemCode" value="${item.itemCode}"/>
-                        <input type="number" name="orderItemEntityList[${delivery.index}].orderQty" value="${item.orderQty}" min="1" max="${item.stockQty}" class="form-control quantity-input" data-price="${item.itemPrice}">
-                    </td>
-                    <td>₩<span class="item-subtotal">${item.itemPrice * item.orderQty}</span></td>
-                    <td>${item.itemColor}</td>
-                    <td>${item.itemSize}</td>
+                    <th>이미지</th>
+                    <th>상품명</th>
+                    <th>분류</th>
+                    <th>제조사</th>
+                    <th>가격</th>
+                    <th>재고수량</th>
+                    <th>주문수량</th>
+                    <th>가격</th>
+                    <th>색</th>
+                    <th>크기</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach var="item" items="${itemList}" varStatus="delivery">
+                    <tr>
+                        <td><img src="${item.itemSrc}" alt="${item.itemName}" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
+                        <td>${item.itemName}</td>
+                        <td>${item.categoryName}</td>
+                        <td>${item.factoryName}</td>
+                        <td>₩<span class="item-price">${item.itemPrice}</span></td>
+                        <td>${item.stockQty}</td>
+                        <td>
+                            <input type="hidden" name="orderItemEntityList[${delivery.index}].orderCode" value="${item.itemSrc}"/>
+                            <input type="hidden" name="orderItemEntityList[${delivery.index}].itemCode" value="${item.itemCode}"/>
+                            <input type="number" name="orderItemEntityList[${delivery.index}].orderQty" value="${item.orderQty}" min="1" max="${item.stockQty}" class="form-control quantity-input" data-price="${item.itemPrice}">
+                        </td>
+                        <td>₩<span class="item-subtotal">${item.itemPrice * item.orderQty}</span></td>
+                        <td>${item.itemColor}</td>
+                        <td>${item.itemSize}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
 
         <div class="form-group">
-            <label for="orderReceiver">Receiver Name</label>
-            <input type="text" class="form-control" id="orderReceiver" name="orderReceiver" required>
+            <label for="orderDestination">배송지</label>
+            <input type="text" class="form-control" id="orderDestination" name="orderDestination" value="${userAddressInfo.userName}" required>
         </div>
         <div class="form-group">
-            <label for="orderDestination">Destination</label>
-            <input type="text" class="form-control" id="orderDestination" name="orderDestination" required>
+            <label for="orderReceiver">수취인</label>
+            <input type="text" class="form-control" id="orderReceiver" name="orderReceiver" value="${userAddressInfo.userAddress}" required>
         </div>
         <div class="form-group">
-            <label for="orderTel">Contact Number</label>
-            <input type="tel" class="form-control" id="orderTel" name="orderTel" required>
+            <label for="orderTel">연락처</label>
+            <input type="tel" class="form-control" id="orderTel" name="orderTel" value="${userAddressInfo.userTel}" required>
         </div>
 
-        <h3>Total Price: ₩<span id="total-price">0</span></h3>
-            <c:set var="userCode" value="${sessionScope.loginMember.userCode}" />
-        <button type="submit" class="btn btn-primary">Place Order</button>
+        <h3 class="mt-4">Total Price: ₩<span id="total-price">0</span></h3>
+        <button type="submit" class="btn btn-primary btn-block mt-3">결제하기</button>
     </form>
 </div>
 

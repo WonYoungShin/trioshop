@@ -14,7 +14,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">아이디 찾기</div>
+                <div class="card-header bg-primary text-white">아이디 찾기</div>
                 <div class="card-body">
                     <form action="/findId" method="post">
                         <div class="form-group">
@@ -25,10 +25,8 @@
                             <label for="userTel">전화번호</label>
                             <input type="tel" class="form-control" name="userTel" id="userTel" placeholder="전화번호를 입력해주세요" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">아이디 찾기</button>
-                        <button type="button" onclick="location.href='/login'" class="btn btn-primary">로그인 페이지로 돌아가기</button>
-
-
+                        <button type="submit" class="btn btn-primary btn-block">아이디 찾기</button>
+                        <button type="button" onclick="location.href='/login'" class="btn btn-secondary btn-block">로그인 페이지로 돌아가기</button>
                     </form>
                     <br>
                     <c:if test="${not empty userInfo}">

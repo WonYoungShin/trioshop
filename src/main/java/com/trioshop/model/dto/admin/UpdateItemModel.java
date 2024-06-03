@@ -1,21 +1,13 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class UpdateItemModel {
-    private Long itemCode;
-    private String itemName;
-    private String factoryCode;
-    private String itemColor;
-
-    public UpdateItemModel() {
-    }
-
-    public UpdateItemModel(Long itemCode, String itemName, String factoryCode, String itemColor) {
-        this.itemCode = itemCode;
-        this.itemName = itemName;
-        this.factoryCode = factoryCode;
-        this.itemColor = itemColor;
-    }
+    private final Long itemCode;
+    private final String itemName;
+    private final String factoryCode;
+    private final String itemColor;
 }

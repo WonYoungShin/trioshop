@@ -2,8 +2,6 @@ package com.trioshop.controller.user;
 
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.ui.Model;
 import com.trioshop.service.user.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +47,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logoutPage() {
-        if (session != null)
-            session.invalidate();
+        session.invalidate();
         return "redirect:/";
     }
 
@@ -84,7 +81,7 @@ public class UserController {
     }
 
     @PostMapping("/findId")
-    public ModelAndView findId(String userName, String userTel) {
+    public ModelAndView findId(@RequestParam String userName, @RequestParam String userTel) {
         UserFindId userId = userInfoService.isfindId(userName, userTel);
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findId");
         if (userId != null) {
@@ -101,39 +98,44 @@ public class UserController {
     }
 
     @PostMapping("/findPw")
-    // 첫 번째 단계:/findPw POST 요청 핸들러 메소드에서 새 비밀번호와 비밀번호 확인을 @RequestParam(required = false)로 설정하여 필수가 아님을 나타냈습니다.
-    public ModelAndView findPw(@RequestParam String userName,
-                               @RequestParam String userId,
-                               @RequestParam(required = false) String newPassword,
-                               @RequestParam(required = false) String confirmPassword) {
+    public ModelAndView findPw(@RequestParam String userName, @RequestParam String userId, @RequestParam(required = false) String newPassword, @RequestParam(required = false) String confirmPassword) {
         ModelAndView modelAndView = new ModelAndView("/user/userInfo/findPw");
+        try {
+            // 이름과 아이디로 비밀번호 찾기 시도
+            UserFindPw userFindPw = new UserFindPw(userName, userId, null); // 비밀번호는 필요없음
+            boolean result = userInfoService.findAndUpdatePw(userFindPw);
 
-        if (newPassword == null || confirmPassword == null) {
-            // 새 비밀번호와 비밀번호 확인이 입력되지 않은 경우
-            modelAndView.addObject("showForm", true);
-            modelAndView.addObject("userName", userName);
-            modelAndView.addObject("userId", userId);
-            return modelAndView;
+            // 사용자 정보가 없을 경우
+            if (!result) {
+                modelAndView.addObject("message", "일치하는 정보를 찾을 수 없습니다.");
+            } else {
+                // 새 비밀번호와 비밀번호 확인이 입력된 경우
+                if (newPassword != null && confirmPassword != null) {
+                    if (!newPassword.equals(confirmPassword)) {
+                        modelAndView.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                    } else {
+                        // 새 비밀번호를 업데이트
+                        userFindPw.setUserPasswd(newPassword);
+                        boolean isUpdated = userInfoService.findAndUpdatePw(userFindPw);
+                        if (isUpdated) {
+                            modelAndView.setViewName("redirect:/login");
+                            modelAndView.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
+                        } else {
+                            modelAndView.addObject("message", "비밀번호 변경 중 오류가 발생했습니다.");
+                        }
+                    }
+                } else {
+                    // 새 비밀번호와 비밀번호 확인이 입력되지 않은 경우
+                    modelAndView.addObject("showForm", true);
+                    modelAndView.addObject("userName", userName);
+                    modelAndView.addObject("userId", userId);
+                }
+            }
+        } catch (Exception e) {
+            modelAndView.addObject("message", "예외 발생");
         }
-
-        // 새 비밀번호와 비밀번호 확인이 입력된 경우
-        if (!newPassword.equals(confirmPassword)) {
-            modelAndView.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-            return modelAndView;
-        }
-
-        UserFindPw userFindPw = new UserFindPw(userName, userId, newPassword);
-        boolean isUpdated = userInfoService.findAndUpdatePw(userFindPw);
-        if (isUpdated) {
-            modelAndView.setViewName("redirect:/login");
-            modelAndView.addObject("message", "비밀번호가 성공적으로 변경되었습니다.");
-        } else {
-            modelAndView.addObject("message", "비밀번호 변경 중 오류가 발생했습니다.");
-        }
-
         return modelAndView;
     }
-
 
 
     @GetMapping("/myPage")
@@ -142,30 +144,47 @@ public class UserController {
     }
 
     @GetMapping("/changeInfo")
-    public ModelAndView changeInfoPage() {
+    public ModelAndView changeInfoPage(HttpSession session) {
         ModelAndView mv = new ModelAndView();
         UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
         if (currentUser == null) {
             mv.setViewName("redirect:/login");
             mv.addObject("error", "세션이 만료되었거나 잘못된 접근입니다.");
         } else {
-            UserPatch userPatch = new UserPatch();
-            userPatch.setUserCode(currentUser.getUserCode());
-            userPatch.setUserNickname(currentUser.getUserNickname());
-            mv.setViewName("/user/userInfo/changeInfo");
-            mv.addObject("userPatch", userPatch);
+            long userCode = currentUser.getUserCode();
+            UserPatch userPatch = userInfoService.getUserByUserCode(String.valueOf(userCode)); // getUserByUserCode의 인자를 String으로 변환하여 전달
+            if (userPatch != null) {
+                mv.setViewName("/user/userInfo/changeInfo");
+                mv.addObject("userPatch", userPatch);
+            } else {
+                mv.setViewName("redirect:/login");
+                mv.addObject("error", "사용자 정보를 찾을 수 없습니다.");
+            }
         }
         return mv;
     }
 
     @PostMapping("/changeInfo")
-    public ModelAndView changeInfoPage(@ModelAttribute UserPatch userPatch, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession currentUser) {
-        System.out.println("userPatch = " + userPatch); //SessionAttribute 을 사용해서 loginMember에서 session을 불러옴 currentUser 로 이름정의
-        currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        userPatch.setUserCode(currentUser.getUserCode());
-
+    public ModelAndView changeInfo(@ModelAttribute UserPatch userPatch) {
         ModelAndView mv = new ModelAndView();
         try {
+            UserInfoBySession currentUser = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+            if (currentUser == null) {
+                mv.setViewName("redirect:/login");
+                mv.addObject("error", "세션이 만료되었거나 잘못된 접근입니다.");
+                return mv;
+            }
+
+            // 입력값이 모두 비어있는지 확인
+            if (!userInfoService.changedInfo(userPatch)) {
+                mv.setViewName("redirect:/changeInfo");
+                return mv;
+            } // Validation 적용 시 삭제
+
+            // 세션에서 현재 사용자 정보 가져오기
+            userPatch.setUserCode(currentUser.getUserCode());
 
             boolean isUpdated = userInfoService.patchUser(userPatch);
 
@@ -181,6 +200,46 @@ public class UserController {
             mv.addObject("error", "예외발생");
             return mv;
         }
+    }
+
+    //@ModelAttribute 폼에서입력하면 컨트롤러로 전달~~
+    @GetMapping("/guestLogin")
+    public String guestLoginPage() {
+        return "/user/userInfo/guestLogin";
+    }
+
+    @PostMapping("/guestLogin")
+    public ModelAndView guestLogin(@ModelAttribute GuestUserJoin guestUserJoin, @ModelAttribute GuestUserJoin2 guestUserJoin2) {
+        ModelAndView mv = new ModelAndView();
+
+        // 첫 번째 로그인 시도
+        GuestUserJoin existingUser = userInfoService.LoginGuestUser(guestUserJoin);
+
+        // 기존 사용자가 있고 grade_code가 0인 경우에만 로그인 성공
+        if (existingUser != null && existingUser.getGradeCode() == 0) {
+            mv.setViewName("redirect:/");
+        } else {
+            // guestUserJoin 객체에 필요한 값 설정
+            guestUserJoin.setGradeCode(0); // 예시로 gradeCode를 설정하고, 필요한 다른 값들도 설정해야 함
+
+            // 중복된 DB가 없으면 회원가입을 시도
+            boolean isSuccess = userInfoService.saveGuestUser(guestUserJoin, guestUserJoin2);
+            if (isSuccess) {
+                // 회원가입이 완료되면 자동으로 로그인
+                mv.addObject("message", "회원가입이 완료되었습니다. 로그인되었습니다.");
+            } else {
+                mv.addObject("message", "로그인에 실패했습니다. 다시 시도해주세요.");
+            }
+            mv.setViewName("redirect:/");
+        }
+        // 나중에 수정해야할 부분
+        UserInfoBySession sessionUser = new UserInfoBySession();
+        sessionUser.setUserNickname("게스트유저");
+        sessionUser.setUserCode(guestUserJoin.getUserCode());
+        sessionUser.setGradeCode(1);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, sessionUser);
+        ////수정
+        return mv;
     }
 
 }

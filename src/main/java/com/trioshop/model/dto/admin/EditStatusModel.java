@@ -1,14 +1,11 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class EditStatusModel {
-    String orderCode;
-    String statusCode;
-
-    public EditStatusModel(String orderCode, String statusCode) {
-        this.orderCode = orderCode;
-        this.statusCode = statusCode;
-    }
+    private final String orderCode;
+    private final String statusCode;
 }

@@ -1,12 +1,13 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@Getter @Setter
+@Getter
+@RequiredArgsConstructor
 public class FactoryEntity {
-    private String factoryCode;
-    private String factoryName;
-    private String factoryTel;
-    private String factoryAddr;
+    private final String factoryCode;
+    private final String factoryName;
+    private final String factoryTel;
+    private final String factoryAddr;
 }

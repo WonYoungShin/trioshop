@@ -2,18 +2,20 @@ package com.trioshop.model.dto.admin;
 
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@Getter @Setter
+
+@Getter
+@RequiredArgsConstructor
 public class OrderListModel {
-    private String orderCode;
-    private Long userCode;
-    private String orderDate;
-    private String itemNames;
-    private String orderQtys;
-    private String statusName;
-    private String statusCode;
-    private String itemPrices;
-    private String deliveryCode;
-    private String waybillNum;
+    private final String orderCode;
+    private final Long userCode;
+    private final String orderDate;
+    private final String itemNames;
+    private final String orderQtys;
+    private final String statusName;
+    private final String statusCode;
+    private final String itemPrices;
+    private final String deliveryCode;
+    private final String waybillNum;
 }

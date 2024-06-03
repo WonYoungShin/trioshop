@@ -1,16 +1,17 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@Getter @Setter
+@Getter
+@RequiredArgsConstructor
 public class StockModel {
-    private Long itemCode;
-    private String itemName;
-    private String categoryName;
-    private Integer itemPrice;
-    private Integer stockQty;
-    private String factoryCode;
-    private String itemSize;
-    private String itemColor;
+    private final Long itemCode;
+    private final String itemName;
+    private final String categoryName;
+    private final Integer itemPrice;
+    private final Integer stockQty;
+    private final String factoryCode;
+    private final String itemSize;
+    private final String itemColor;
 }

@@ -1,16 +1,11 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-
-@Getter @Setter
+@Getter
+@RequiredArgsConstructor
 public class DashboardModel {
-    Long allOrderPrice;
-    Integer allPurchaseCount;
-
-    public DashboardModel(Long allOrderPrice, Integer allPurchaseCount) {
-        this.allOrderPrice = allOrderPrice;
-        this.allPurchaseCount = allPurchaseCount;
-    }
+    private final Long allOrderPrice;
+    private final Integer allPurchaseCount;
 }

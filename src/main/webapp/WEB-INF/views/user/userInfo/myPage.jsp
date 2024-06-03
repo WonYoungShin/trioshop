@@ -47,7 +47,7 @@
             <div class="row">
                 <!-- 주문 내역 링크 -->
                 <div class="col-12">
-                    <a href="/user/itemInfo/orderList" class="btn btn-secondary btn-block btn-custom">주문 내역</a>
+                    <a href="/orderList" class="btn btn-secondary btn-block btn-custom">주문 내역</a>
                 </div>
             </div>
             <div class="row">

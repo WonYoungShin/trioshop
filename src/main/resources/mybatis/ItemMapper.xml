@@ -119,10 +119,13 @@
     </select>
 
     <!--  order list -->
-    <select id="orderList" resultType="ItemInfoByOrderList">
+    <select id="orderList" resultType="OrderListModel">
         SELECT o.order_code,
                o.order_date,
                os.status_name,
+               GROUP_CONCAT(i.item_name SEPARATOR ', ') AS item_names,
+               GROUP_CONCAT(oi.order_qty SEPARATOR ', ') AS order_qtys,
+               GROUP_CONCAT(i.item_price SEPARATOR ', ') AS item_prices,
                oi.item_code,
                i.item_name,
                oi.order_qty,
@@ -132,6 +135,34 @@
                  JOIN TRIO_ORDER_ITEMS oi ON o.order_code = oi.order_code
                  JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
         WHERE o.user_code = #{userCode}
+        GROUP BY o.order_code, o.user_code, o.order_date, os.status_name
+        ORDER BY o.order_date DESC, o.user_code ASC
+    </select>
+    <select id="orderListTEST" resultType="OrderListModel">
+        SELECT o.order_code,
+        o.user_code,
+        o.order_date,
+        os.status_name,
+        GROUP_CONCAT(i.item_name SEPARATOR ', ') AS item_names,
+        GROUP_CONCAT(oi.order_qty SEPARATOR ', ') AS order_qtys,
+        GROUP_CONCAT(i.item_price SEPARATOR ', ') AS item_prices,
+        o.status_code,
+        o.delivery_code,
+        o.waybill_num
+        FROM TRIO_ORDERS o
+        JOIN TRIO_ORDER_STATUS os ON o.status_code = os.status_code
+        JOIN TRIO_ORDER_ITEMS oi ON o.order_code = oi.order_code
+        JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
+        <where>
+            <if test="userCode != null and userCode != ''">
+                AND o.user_code = #{userCode}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                AND o.status_code = #{statusCode}
+            </if>
+        </where>
+        GROUP BY o.order_code, o.user_code, o.order_date, os.status_name
+        ORDER BY o.order_date DESC, o.user_code ASC
     </select>
     <!--  insert TRIO_ORDERS  -->
     <insert id="insertOrders">
@@ -185,19 +216,26 @@
         SET cartitem_qty = cartitem_qty + #{cartItemQty}
         WHERE user_code = #{userCode} AND item_code = #{itemCode}
     </update>
-
-    <!-- Select Colors by Item Name and Current Color -->
-    <select id="findColors" resultType="String">
-        SELECT DISTINCT item_color
+    <!--  -->
+    <select id="itemDetailNameSearch" resultType="ItemDetailSearch">
+        SELECT
+            item_code AS itemCode,
+            item_name AS itemName,
+            item_color AS itemColor,
+            item_size AS itemSize
         FROM TRIO_ITEMS
         WHERE item_name = #{itemName}
+        ORDER BY item_color, item_size
     </select>
-
-    <!-- Select Sizes by Item Name and Current Size -->
-    <select id="findSizes" resultType="String">
-        SELECT DISTINCT item_size
-        FROM TRIO_ITEMS
-        WHERE item_name = #{itemName}
+    <!-- UserAddressInfo 조회하여 UserAddressInfo로 (추후 위치변경해야함)-->
+    <select id="selectUserAddressInfo" resultType="UserAddressInfo">
+        SELECT
+            user_name AS userName,
+            user_address AS userAddress,
+            user_tel AS userTel
+        FROM
+            TRIO_USERS_INFO
+        WHERE
+            user_code = #{userCode}
     </select>
-
 </mapper>
