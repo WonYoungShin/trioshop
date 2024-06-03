@@ -121,14 +121,13 @@
     </select>
 
     <!--  order list -->
-    <select id="orderList" resultType="OrderListModel">
+    <select id="orderListByUser" resultType="OrderListByUser">
         SELECT o.order_code,
                o.order_date,
                os.status_name,
                GROUP_CONCAT(i.item_name SEPARATOR ', ') AS item_names,
                GROUP_CONCAT(oi.order_qty SEPARATOR ', ') AS order_qtys,
                GROUP_CONCAT(i.item_price SEPARATOR ', ') AS item_prices,
-               oi.item_code,
                i.item_name,
                oi.order_qty,
                i.item_price
