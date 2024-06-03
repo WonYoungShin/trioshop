@@ -1,10 +1,13 @@
 package com.trioshop.model.dto.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserJoin {
     private Long userCode;
     private String userId;
@@ -13,14 +16,6 @@ public class UserJoin {
     private String userAddress;
     private String userTel;
     private String userNickname;
+    private Long gradeCode;
 
-    public UserJoin(String userId, String userPasswd, String userName, String userAddress, String userTel, String userNickname) {
-        this.userCode = null;
-        this.userId = userId;
-        this.userPasswd = userPasswd;
-        this.userName = userName;
-        this.userAddress = userAddress;
-        this.userTel = userTel;
-        this.userNickname = userNickname;
-    }
 }
