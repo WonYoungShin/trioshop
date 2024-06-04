@@ -2,7 +2,7 @@ package com.trioshop.controller.item;
 
 import com.trioshop.model.dto.item.*;
 import com.trioshop.service.item.ItemService;
-import com.trioshop.utils.CategoryList;
+import com.trioshop.utils.business.CategoryList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

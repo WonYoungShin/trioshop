@@ -1,4 +1,4 @@
-package com.trioshop.utils;
+package com.trioshop.utils.service;
 
 import com.trioshop.interceptor.AdminCheckInterceptor;
 import com.trioshop.interceptor.LogInterceptor;
