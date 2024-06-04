@@ -22,7 +22,7 @@ public interface ItemMapper {
 
     List<ItemInfoByCart> cartItemList(long userCode);
 
-    List<OrderListModel> orderList(long userCode);
+    List<OrderListByUser> orderListByUser(long userCode);
 
     void insertOrders(OrdersEntity ordersEntity);
 

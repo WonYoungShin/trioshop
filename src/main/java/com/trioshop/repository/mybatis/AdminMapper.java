@@ -25,7 +25,7 @@ public interface AdminMapper {
     List<StockModel> stockFindAll(ItemCondition itemCondition);
     Optional<StockModel> stockFindByCode(Long itemCode);
 
-    Optional<ItemQtyModel> itemFindByCode(Long itemCode);
+    Optional<Integer> itemFindByCode(Long itemCode);
 
     void updateItem(UpdateItemModel ItemModel);
     void addItemQty(@Param("itemCode")Long itemCode, @Param("qty")Integer qty);

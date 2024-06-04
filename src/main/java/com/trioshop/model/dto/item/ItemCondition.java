@@ -1,10 +1,13 @@
 package com.trioshop.model.dto.item;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@RequiredArgsConstructor
 public class ItemCondition {
-    String itemName;
-    String category;
+    private final String itemName;
+    private final String category;
 }

@@ -1,18 +1,20 @@
 package com.trioshop.model.dto.admin;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@Getter @Setter
+
+@Getter
+@RequiredArgsConstructor
 public class PurchaseListModel {
-    private Long purchaseCode;
-    private Long itemCode;
-    private Integer purchaseQty;
-    private String factoryCode;
-    private String itemName;
-    private Integer purchasePrice;
-    private String categoryName;
-    private String categoryCode;
-    private String itemSize;
-    private String itemColor;
+    private final Long purchaseCode;
+    private final Long itemCode;
+    private final Integer purchaseQty;
+    private final String factoryCode;
+    private final String itemName;
+    private final Integer purchasePrice;
+    private final String categoryName;
+    private final String itemSize;
+    private final String itemColor;
+    private final String categoryCode;
 }

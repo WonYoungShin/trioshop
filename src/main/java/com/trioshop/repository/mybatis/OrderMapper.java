@@ -1,10 +1,8 @@
 package com.trioshop.repository.mybatis;
 
 import com.trioshop.model.dto.admin.*;
-import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +10,8 @@ import java.util.Optional;
 
 @Mapper
 public interface OrderMapper {
-    List<SalesModel> yearSales(SalesCondition salesCondition);
-    List<SalesModel> monthSales(SalesCondition salesCondition);
+    List<YearSalesModel> yearSales(SalesCondition salesCondition);
+    List<MonthSalesModel> monthSales(SalesCondition salesCondition);
     Long allOrderPrice();
     Integer allPurchaseQty();
     List<OrderListModel> orderList(StatusCondition statusCondition);

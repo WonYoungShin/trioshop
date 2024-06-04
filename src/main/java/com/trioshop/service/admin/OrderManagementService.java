@@ -1,7 +1,6 @@
 package com.trioshop.service.admin;
 
 import com.trioshop.model.dto.admin.*;
-import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.repository.dao.admin.OrderManagementDao;
 import com.trioshop.utils.DateUtils;
@@ -10,28 +9,46 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class OrderManagementService {
     private final OrderManagementDao orderDao;
+    private final DateUtils dateUtil;
 
-
-    public List<SalesModel> yearSales(SalesCondition salesCondition) {
+    public YearSalesCombineModel yearSales(SalesCondition salesCondition) {
         if (salesCondition.getYear() != null && salesCondition.getYear() < 100) {
             DateUtils dateUtils = new DateUtils();
             int year = salesCondition.getYear();
             int current = dateUtils.getCurrentYear() / 100;
             year += current * 100;
-            salesCondition.setYear(year);
+            salesCondition = new SalesCondition(year, null);
         }
 
-        return orderDao.yearSales(salesCondition);
+        List<YearSalesModel> yearlySales = orderDao.yearSales(salesCondition);
+
+        double totalSales = yearlySales.stream()
+                .mapToDouble(YearSalesModel::getTotalSales)
+                .sum();
+
+        return new YearSalesCombineModel(yearlySales, totalSales);
     }
 
-    public List<SalesModel> monthSales(SalesCondition salesCondition) {
-        return orderDao.monthSales(salesCondition);
+    public MonthSalesCombineModel monthSales(SalesCondition salesCondition) {
+        if (salesCondition.getYear() == null) {
+            if(Objects.nonNull(salesCondition.getMonth())) {
+                salesCondition = new SalesCondition(dateUtil.getCurrentYear(), salesCondition.getMonth());
+            }else{
+                salesCondition = new SalesCondition(dateUtil.getCurrentYear(),null);
+            }
+        }
+
+        List<MonthSalesModel> salesList = orderDao.monthSales(salesCondition);
+
+        double totalSales = salesList.stream().mapToDouble(MonthSalesModel::getTotalSales).sum();
+        return new MonthSalesCombineModel(dateUtil.getYearList(),dateUtil.getMonthList(),salesList, totalSales, salesCondition);
     }
 
     @Transactional
@@ -73,8 +90,12 @@ public class OrderManagementService {
         }
     }
 
-    public Optional<WaybillSelectModel> findWaybillByCode(String orderCode) {
-        return orderDao.findWaybillByCode(orderCode);
+    public WaybillSelectModel findWaybillByCode(String orderCode) {
+        try{
+            return orderDao.findWaybillByCode(orderCode).orElseThrow(NoSuchElementException::new);
+        } catch (NoSuchElementException e){
+            throw new NoSuchElementException();
+        }
     }
 
 }

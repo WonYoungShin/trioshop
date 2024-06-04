@@ -1,10 +1,10 @@
 package com.trioshop.model.dto.item;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@RequiredArgsConstructor
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemInfoByOrderList {
     private String orderCode;
     private String orderDate;

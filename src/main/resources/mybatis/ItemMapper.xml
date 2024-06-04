@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trioshop.repository.mybatis.ItemMapper">
-    <!--  모든 아이템 검색  -->
+    <!--  모든 아이템 검색 (많을경우를 대비하여 일단 최대수량 100개만 검색되도록함) -->
     <select id="findAllItem" resultType="ItemInfoByUser">
         SELECT TI.item_code itemCode,
                TC.category_name categoryName,
@@ -17,6 +17,7 @@
         WHERE TI.item_code=TS.item_code
           AND TI.category_code=TC.category_code
           AND TI.factory_code=TF.factory_code
+        LIMIT 100
     </select>
     <!--  itemName, category 으로 아이템 검색  -->
     <select id="searchItems" resultType="ItemInfoByUser">
@@ -41,6 +42,7 @@
         <if test="category != null and category != ''">
             AND TC.category_name = #{category}
         </if>
+        LIMIT 100
     </select>
     <!--  카테코리 선택을 위한 목록 검색  -->
     <select id="categoryList" resultType="CategoryEntity">
@@ -119,14 +121,13 @@
     </select>
 
     <!--  order list -->
-    <select id="orderList" resultType="OrderListModel">
+    <select id="orderListByUser" resultType="OrderListByUser">
         SELECT o.order_code,
                o.order_date,
                os.status_name,
                GROUP_CONCAT(i.item_name SEPARATOR ', ') AS item_names,
                GROUP_CONCAT(oi.order_qty SEPARATOR ', ') AS order_qtys,
                GROUP_CONCAT(i.item_price SEPARATOR ', ') AS item_prices,
-               oi.item_code,
                i.item_name,
                oi.order_qty,
                i.item_price
@@ -138,32 +139,7 @@
         GROUP BY o.order_code, o.user_code, o.order_date, os.status_name
         ORDER BY o.order_date DESC, o.user_code ASC
     </select>
-    <select id="orderListTEST" resultType="OrderListModel">
-        SELECT o.order_code,
-        o.user_code,
-        o.order_date,
-        os.status_name,
-        GROUP_CONCAT(i.item_name SEPARATOR ', ') AS item_names,
-        GROUP_CONCAT(oi.order_qty SEPARATOR ', ') AS order_qtys,
-        GROUP_CONCAT(i.item_price SEPARATOR ', ') AS item_prices,
-        o.status_code,
-        o.delivery_code,
-        o.waybill_num
-        FROM TRIO_ORDERS o
-        JOIN TRIO_ORDER_STATUS os ON o.status_code = os.status_code
-        JOIN TRIO_ORDER_ITEMS oi ON o.order_code = oi.order_code
-        JOIN TRIO_ITEMS i ON oi.item_code = i.item_code
-        <where>
-            <if test="userCode != null and userCode != ''">
-                AND o.user_code = #{userCode}
-            </if>
-            <if test="statusCode != null and statusCode != ''">
-                AND o.status_code = #{statusCode}
-            </if>
-        </where>
-        GROUP BY o.order_code, o.user_code, o.order_date, os.status_name
-        ORDER BY o.order_date DESC, o.user_code ASC
-    </select>
+
     <!--  insert TRIO_ORDERS  -->
     <insert id="insertOrders">
         INSERT INTO TRIO_ORDERS (order_code, user_code, status_code, order_receiver, order_destination, order_date, order_tel)
@@ -216,7 +192,7 @@
         SET cartitem_qty = cartitem_qty + #{cartItemQty}
         WHERE user_code = #{userCode} AND item_code = #{itemCode}
     </update>
-    <!--  -->
+    <!-- 상품이름이 같고 사이즈,색이 다른물품 탐색 -->
     <select id="itemDetailNameSearch" resultType="ItemDetailSearch">
         SELECT
             item_code AS itemCode,

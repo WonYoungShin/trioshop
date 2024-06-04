@@ -6,21 +6,23 @@
 
     <insert id="itemSave" useGeneratedKeys="true" keyProperty="itemCode">
         INSERT INTO TRIO_ITEMS (item_name, category_code, item_price, factory_code, item_size, item_color)
-        VALUES (#{itemName},#{categoryCode},#{itemPrice},#{factoryCode},#{itemSize},#{itemColor})
+        VALUES (#{itemName}, #{categoryCode}, #{itemPrice}, #{factoryCode}, #{itemSize}, #{itemColor})
     </insert>
+
+
     <insert id="stockSave">
         INSERT INTO TRIO_STOCK (item_code, stock_qty)
         VALUES (#{itemCode}, 0)
     </insert>
 
-    <insert id="purchaseSave" useGeneratedKeys="true" keyProperty="purchaseCode">
+    <insert id="purchaseSave">
         INSERT INTO TRIO_PURCHASE (purchase_qty, item_code, purchase_price)
         VALUES (#{purchaseQty}, #{itemCode}, #{purchasePrice})
     </insert>
 
     <select id="purchaseFindAll" resultType="PurchaseListModel">
         SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name, purchase_price,
-        category_name, item_size, item_color, item.category_code
+        category_name, item_size, item_color, item.category_code, item.category_code
         FROM TRIO_PURCHASE pur
         JOIN TRIO_ITEMS item ON pur.item_code = item.item_code
         JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
@@ -38,7 +40,7 @@
 
     <select id="purchaseFindByCode" resultType="PurchaseListModel">
         SELECT purchase_code, pur.item_code, purchase_qty, factory_code, item_name, purchase_price,
-               category_name, item_size, item_color
+               category_name, item_size, item_color, item.category_code
         FROM TRIO_PURCHASE pur, TRIO_ITEMS item, TRIO_CATEGORY cate
         WHERE pur.item_code = item.item_code
           AND item.category_code = cate.category_code
@@ -54,12 +56,12 @@
 
     <insert id="storeSave" useGeneratedKeys="true" keyProperty="storeCode">
         INSERT INTO TRIO_STORES (stores_qty, item_code, stores_price
-        <if test="purchaseCode != null">
+        <if test="purchaseCode != 0">
             , purchase_code
         </if>
         )
         VALUES (#{storeQty}, #{itemCode}, #{storePrice}
-        <if test="purchaseCode != null">
+        <if test="purchaseCode != 0">
             , #{purchaseCode}
         </if>
         )
@@ -68,8 +70,9 @@
 
     <select id="storesFindAll" resultType="StoresListModel">
         SELECT st.store_code, st.stores_qty, st.purchase_code,
-        st.item_code, item.factory_code, item.item_name,
-        cate.category_name, st.stores_price, item.item_size, item.item_color
+               st.item_code, item.factory_code, item.item_name,
+               cate.category_name, st.stores_price, item.item_size,
+               item.item_color
         FROM TRIO_STORES st
         JOIN TRIO_ITEMS item ON st.item_code = item.item_code
         JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
@@ -86,10 +89,10 @@
     </select>
 
     <select id="storesFindByCode" resultType="StoresListModel">
-        SELECT st.store_code, st.stores_qty, st.item_code,
-               item.factory_code, item.item_name, cate.category_name,
-               st.stores_price, item.item_size, item.item_color,
-               st.purchase_code
+        SELECT st.store_code, st.stores_qty, st.purchase_code,
+               st.item_code, item.factory_code, item.item_name,
+               cate.category_name, st.stores_price, item.item_size,
+               item.item_color
         FROM TRIO_STORES st
                  JOIN TRIO_ITEMS item ON st.item_code = item.item_code
                  JOIN TRIO_CATEGORY cate ON item.category_code = cate.category_code
@@ -105,8 +108,8 @@
         WHERE store_code = #{storeCode}
     </delete>
 
-    <select id="itemFindByCode" resultType="ItemQtyModel">
-        SELECT item_code, stock_qty
+    <select id="itemFindByCode" resultType="Integer">
+        SELECT stock_qty
         FROM TRIO_STOCK
         WHERE item_code = item_code
         AND item_code = #{itemCode}

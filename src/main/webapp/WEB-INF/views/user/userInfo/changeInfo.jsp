@@ -42,36 +42,20 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <!-- 첫 번째 폼 -->
-            <div class="form-container" id="firstForm">
-                <h2 class="form-heading text-center">비밀번호 확인</h2>
-                <form action="/changeInfo" method="post">
-                    <div class="form-group">
-                        <label for="currentPassword">현재 비밀번호:</label>
-                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호 입력">
-                    </div>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary mr-2" id="nextButton">다음</button>
-                        <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
-                    </div>
-                </form>
-            </div>
-
-            <!-- 두 번째 폼 -->
-            <div class="form-container" id="secondForm" style="display: none;">
+            <div class="form-container" id="secondForm" >
                 <h2 class="form-heading text-center">추가 정보 입력하기</h2>
-                <form action="/changeInfo" method="post" id="additionalInfoForm">
+                <form action="" method="post" id="additionalInfoForm">
                     <div class="form-group">
                         <label for="userAddress">주소:</label>
-                        <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userPatch.userAddress}">
+                        <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userPatchModel.userAddress}" required>
                     </div>
                     <div class="form-group">
                         <label for="userTel">전화번호:</label>
-                        <input type="text" class="form-control" id="userTel" name="userTel" value="${userPatch.userTel}">
+                        <input type="text" class="form-control" id="userTel" name="userTel" value="${userPatchModel.userTel}" required>
                     </div>
                     <div class="form-group">
                         <label for="userNickname">닉네임:</label>
-                        <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userPatch.userNickname}">
+                        <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userPatchModel.userNickname}" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary mr-2">저장</button>
@@ -82,22 +66,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $("#nextButton").click(function () {
-            // 현재 비밀번호 필드가 비어있는지 확인
-            if ($("#currentPassword").val() === "") {
-                alert("현재 비밀번호를 입력하세요.");
-                return;
-            }
-
-            // 첫 번째 폼 숨기고 두 번째 폼 보이도록 변경
-            $("#firstForm").hide();
-            $("#secondForm").show();
-        });
-    });
-</script>
-
 </body>
 </html>

@@ -13,10 +13,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderManagementDao {
     private final OrderMapper orderMapper;
-    public List<SalesModel> yearSales(SalesCondition salesCondition) {
+    public List<YearSalesModel> yearSales(SalesCondition salesCondition) {
         return orderMapper.yearSales(salesCondition);
     }
-    public List<SalesModel> monthSales(SalesCondition salesCondition) {
+    public List<MonthSalesModel> monthSales(SalesCondition salesCondition) {
         return orderMapper.monthSales(salesCondition);
     }
 

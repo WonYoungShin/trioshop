@@ -1,10 +1,12 @@
 package com.trioshop.model.dto.admin;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@Getter @Setter
+@Getter
+@RequiredArgsConstructor
 public class SalesCondition {
-    Integer year;
-    Integer month;
+    private final Integer year;
+    @Nullable private final Integer month;
 }
