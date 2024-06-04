@@ -41,7 +41,7 @@ public class UserInfoService {
         if(Objects.nonNull(result)){
             return new PasswordChangeCodeAndStatus(result,true);
         }
-        throw new MatchingFailedPassword();
+        throw new UserNotFoundException();
     }
     public void updatePw(Long userCode, String password) {
         if(Objects.isNull(userCode)) throw new SessionExpirationException();

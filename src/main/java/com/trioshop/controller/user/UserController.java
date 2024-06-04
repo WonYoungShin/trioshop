@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -55,7 +57,7 @@ public class UserController {
             session.invalidate();
             return "redirect:/login";
         }
-        return "forward:/user/userInfo/findPw";
+        return "forward:/findPw";
     }
 
     @GetMapping("/myPage")
@@ -78,9 +80,10 @@ public class UserController {
         session.setAttribute("passwordChecked", true);
         if(status.equals("info")){
             return "redirect:/changeInfo/" + userCode;
-        }else{
-            return "redirect:/changePassword/" + userCode;
         }
+
+        return "redirect:/changePassword/" + userCode;
+
     }
 
     @GetMapping("/changeInfo/{userCode}")
@@ -94,5 +97,18 @@ public class UserController {
     public String changeInfo(@PathVariable("userCode") Long userCode, @ModelAttribute UserPatchModel userPatchModel) {
         userInfoService.patchUserInfo(userCode, userPatchModel);
         return "redirect:/myPage";
+    }
+
+    @GetMapping("/changePassword/{userCode}")
+    public String changePasswordPage(@PathVariable("userCode") Long userCode, @ModelAttribute PasswordCheckedModel password) {
+        return "/user/userInfo/changePasswordForm";
+    }
+    @PostMapping("/changePassword/{userCode}")
+    public String changePassword(@PathVariable("userCode") Long userCode, @ModelAttribute PasswordCheckedModel password, Model model) {
+        if (password.checkingPassword()) {
+            userInfoService.updatePw(userCode, password.getNewPassword());
+            return "redirect:/myPage";
+        }
+        return "/user/userInfo/changePasswordForm";
     }
 }
