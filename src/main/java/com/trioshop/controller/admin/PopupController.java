@@ -7,7 +7,7 @@ import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.model.dto.popup.PopupItemModel;
 import com.trioshop.service.admin.PopupService;
 import com.trioshop.service.admin.PurchaseService;
-import com.trioshop.utils.CategoryList;
+import com.trioshop.utils.business.CategoryList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

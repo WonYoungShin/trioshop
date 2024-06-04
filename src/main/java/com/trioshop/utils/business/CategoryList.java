@@ -1,4 +1,4 @@
-package com.trioshop.utils;
+package com.trioshop.utils.business;
 
 import com.trioshop.model.dto.item.CategoryEntity;
 import com.trioshop.service.item.ItemService;

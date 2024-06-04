@@ -5,16 +5,13 @@ import com.trioshop.model.dto.admin.StockModel;
 import com.trioshop.model.dto.admin.UpdateItemModel;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.StockService;
-import com.trioshop.utils.CategoryList;
-import jakarta.validation.Valid;
+import com.trioshop.utils.business.CategoryList;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 

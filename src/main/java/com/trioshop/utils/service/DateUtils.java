@@ -1,4 +1,4 @@
-package com.trioshop.utils;
+package com.trioshop.utils.service;
 
 import org.springframework.stereotype.Component;
 

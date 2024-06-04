@@ -4,7 +4,7 @@ import com.trioshop.model.dto.admin.PurchaseItemModel;
 import com.trioshop.model.dto.admin.PurchaseListModel;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.service.admin.PurchaseService;
-import com.trioshop.utils.CategoryList;
+import com.trioshop.utils.business.CategoryList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
