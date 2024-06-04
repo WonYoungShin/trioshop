@@ -77,12 +77,12 @@
                     <img src="/images/logo.png" class="img-fluid mb-4" alt="부트스트랩 이미지">
 
                     <!-- 기본 로그인 폼 -->
-                    <form id="loginForm" method="post" action="/login" autocomplete="on">
+                    <form id="loginForm" method="post" action="">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="userId" id="userId" placeholder="Id" autocomplete="Login" required>
+                            <input type="text" class="form-control" name="userId" id="userId" placeholder="ID" autocomplete="Login" required>
                         </div>
                         <div class="form-group position-relative">
-                            <input type="password" class="form-control" name="userPasswd" id="userPasswd" placeholder="Password" autocomplete="current-password" required>
+                            <input type="password" class="form-control" name="userPasswd" id="userPasswd" placeholder="Password" required>
                             <!-- 눈 모양 아이콘 -->
                             <div class="toggle-password">
                                 <i class="far fa-eye"></i>
@@ -101,9 +101,9 @@
                         <a href="/findPw" class="btn btn-outline-primary btn-block">비밀번호 찾기</a>
 
                         <!-- 에러 메시지 표시 -->
-                        <c:if test="${not empty error}">
+                        <c:if test="${not empty message}">
                             <script>
-                                alert("${error}");
+                                alert("${message}");
                                 document.getElementById('loginForm').reset();
                             </script>
                         </c:if>

@@ -1,50 +1,54 @@
 package com.trioshop.service.user;
 
-import com.trioshop.controller.exception.DontSaveException;
+import com.trioshop.controller.exception.MatchingFailedPassword;
+import com.trioshop.controller.exception.SessionExpirationException;
 import com.trioshop.controller.exception.UserNotFoundException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserInfoDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.rmi.NoSuchObjectException;
+import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class UserInfoService {
 
-    @Autowired
-    private UserInfoDao userInfoDao;
-
-    // 사용자의 유효성을 확인하고 로그인하는 메소드입니다.
-    public UserInfoBySession isValidUser(UserIdPasswd userIdPasswd) {
-        UserInfoBySession userInfoBySession = userInfoDao.loginUser(userIdPasswd);
-        try{
-            if(userInfoBySession == null) throw new RuntimeException();
-        }catch (RuntimeException e){
-            throw new UserNotFoundException();
-        }
-        return userInfoBySession;
-    }
-
+    private final UserInfoDao userInfoDao;
 
     // 사용자 코드를 기반으로 사용자 정보를 가져오는 메소드입니다.
-    public UserPatch getUserByUserCode(String userCode) {
-        return userInfoDao.findUserByUserCode(userCode);
+    public UserPatchModel findByUserCode(Long userCode) {
+        return userInfoDao.findByUserCode(userCode);
     }
 
     // 사용자 이름과 전화번호를 기반으로 아이디를 찾는 메소드입니다.
-    public UserFindId isfindId(String userName, String userTel) {
-        return userInfoDao.findId(userName, userTel);
+    public String isFindId(UserFindId userFindId) {
+        String id = userInfoDao.findId(userFindId);
+
+        if (Objects.isNull(id)) throw new UserNotFoundException();
+
+        return id;
+    }
+    public void passwordCheck(Long userCode, String password){
+        Integer check = userInfoDao.passwordCheck(new UserCodePwModel(userCode, password));
+        if(check == 0){
+            throw new MatchingFailedPassword();
+        }
     }
 
-    // 비밀번호를 찾아 업데이트하는 메소드입니다.
-    public boolean findAndUpdatePw(UserFindPw userFindPw) {
-        return userInfoDao.findAndUpdatePw(userFindPw);
+    public PasswordChangeCodeAndStatus findUserCodeByNameAndId(PasswordChangeCodeSelectModel psModel) {
+        Long result = userInfoDao.findUserCodeByNameAndId(psModel);
+        if(Objects.nonNull(result)){
+            return new PasswordChangeCodeAndStatus(result,true);
+        }
+        throw new MatchingFailedPassword();
+    }
+    public void updatePw(Long userCode, String password) {
+        if(Objects.isNull(userCode)) throw new SessionExpirationException();
+        userInfoDao.updatePw(new UserCodePwModel(userCode,password));
     }
 
-    // saveUserInfo Dao에서 saveUsers,saveUserInfo 를 불러오고 boolean을 사용해서 판단합니다.
-    // @Transactional를 사용해서 2개의 sql을 동시에 판단할 수 있게 한다.
     @Transactional
     public boolean saveUserInfo(UserJoin userJoin) {
         try {
@@ -85,17 +89,12 @@ public class UserInfoService {
     }
 
     // 사용자 정보가 변경되었는지 확인하는 메소드입니다.
-    public boolean changedInfo(UserPatch userPatch) {
+    public boolean changedInfo(UserPatchModel userPatch) {
         return userInfoDao.changedInfo(userPatch);
     }
 
     // 사용자 정보를 업데이트하는 메소드입니다.
-    public boolean patchUser(UserPatch userPatch) {
-        try {
-            return userInfoDao.patchUser(userPatch);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void patchUserInfo(Long userCode,UserPatchModel userPatchModel) {
+        userInfoDao.patchUserInfo(new UserPatchPostModel(userCode,userPatchModel));
     }
 }

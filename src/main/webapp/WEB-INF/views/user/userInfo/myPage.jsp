@@ -41,7 +41,12 @@
             <div class="row">
                 <!-- 정보 수정 링크 -->
                 <div class="col-12">
-                    <a href="/changeInfo" class="btn btn-primary btn-block btn-custom">정보 수정</a>
+                    <a href="/passwordCheck/${userCode}?status=info" class="btn btn-primary btn-block btn-custom">정보 수정</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="/passwordCheck/${userCode}?status=pw" class="btn btn-secondary btn-block btn-custom">비밀번호 변경</a>
                 </div>
             </div>
             <div class="row">
@@ -53,7 +58,7 @@
             <div class="row">
                 <!-- 닉네임 수정 링크 -->
                 <div class="col-12">
-                    <a href="logout" class="btn btn-success btn-block btn-custom">로그아웃</a>
+                    <a href="/logout" class="btn btn-success btn-block btn-custom">로그아웃</a>
                 </div>
             </div>
             <div class="row">
