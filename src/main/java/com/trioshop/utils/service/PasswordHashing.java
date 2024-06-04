@@ -1,4 +1,4 @@
-package com.trioshop.utils;
+package com.trioshop.utils.service;
 
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

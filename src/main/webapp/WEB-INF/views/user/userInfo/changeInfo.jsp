@@ -51,7 +51,8 @@
                     </div>
                     <div class="form-group">
                         <label for="userTel">전화번호:</label>
-                        <input type="text" class="form-control" id="userTel" name="userTel" value="${userPatchModel.userTel}" required>
+                        <input type="tel" class="form-control" id="userTel" name="userTel" value="${userPatchModel.userTel}" pattern="\d{3}-\d{3,4}-\d{4}" required>
+                        <small class="form-text text-muted">올바른 전화번호 형식: 010-1234-5678</small>
                     </div>
                     <div class="form-group">
                         <label for="userNickname">닉네임:</label>
@@ -66,5 +67,21 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('userTel').addEventListener('input', function (e) {
+        var input = e.target.value.replace(/\D/g, ''); // 숫자만 남기기
+        var formatted = '';
+
+        if (input.length <= 3) {
+            formatted = input;
+        } else if (input.length <= 7) {
+            formatted = input.slice(0, 3) + '-' + input.slice(3);
+        } else {
+            formatted = input.slice(0, 3) + '-' + input.slice(3, 7) + '-' + input.slice(7, 11);
+        }
+
+        e.target.value = formatted;
+    });
+</script>
 </body>
 </html>
