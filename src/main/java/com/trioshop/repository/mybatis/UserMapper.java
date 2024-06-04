@@ -1,13 +1,12 @@
 package com.trioshop.repository.mybatis;
 
 import com.trioshop.model.dto.user.*;
-import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     /* TRIO_USERS에서 user_id, user_passwd 정보 확인 /login */
     UserInfoBySession loginUser(LoginModel userIdPasswd);
 
-    UserPatch findUserByUserCode(String userCode);
+    UserPatchModel findByUserCode(Long userCode);
 
     void saveUsers(UserJoin userJoin);
     UserJoin checkUserIdExists(String userId);
@@ -18,14 +17,15 @@ public interface UserMapper {
 
     Long findUserCodeByNameAndId(PasswordChangeCodeSelectModel psModel);
 
-    void updatePw(UpdateUserPwModel updateUserPwModel);
+    void updatePw(UserCodePwModel updateUserPwModel);
 
     GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin);
     boolean saveGuestUsers(GuestUserJoin guestUserJoin);
     boolean saveGuestUsers2(GuestUserJoin2 guestUserJoin2);
 
-    boolean patchUserPw(UserPatch userPatch);
-    boolean patchUser(UserPatch userPatch);
+    boolean patchUserPw(UserPatchModel userPatch);
+    void patchUserInfo(UserPatchPostModel userPatchModel);
 
 
+    Integer passwordCheck(UserCodePwModel userCodePwModel);
 }

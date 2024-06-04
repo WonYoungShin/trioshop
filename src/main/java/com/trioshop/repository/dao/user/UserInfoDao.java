@@ -15,10 +15,12 @@ public class UserInfoDao {
 
     // 로그인 기능을 제공하는 메소드입니다. 사용자 아이디와 비밀번호를 받아와서 해당 정보로 로그인을 시도하고, 로그인에 성공하면 세션에 사용자 정보를 저장하여 반환합니다.
 
-
+    public Integer passwordCheck(UserCodePwModel userCodePwModel){
+        return userMapper.passwordCheck(userCodePwModel);
+    }
     // 사용자 코드를 기반으로 사용자 정보를 찾아 반환하는 메소드입니다.
-    public UserPatch findUserByUserCode(String userCode) {
-        return userMapper.findUserByUserCode(userCode);
+    public UserPatchModel findByUserCode(Long userCode) {
+        return userMapper.findByUserCode(userCode);
     }
 
     public void saveUsers(UserJoin userJoin) {userMapper.saveUsers(userJoin);}
@@ -33,7 +35,7 @@ public class UserInfoDao {
     public Long findUserCodeByNameAndId(PasswordChangeCodeSelectModel psModel){
         return userMapper.findUserCodeByNameAndId(psModel);
     }
-    public void updatePw(UpdateUserPwModel updateUserPwModel){
+    public void updatePw(UserCodePwModel updateUserPwModel){
         userMapper.updatePw(updateUserPwModel);
     }
 
@@ -71,21 +73,12 @@ public class UserInfoDao {
         }
     }
 
-    // 사용자 정보를 수정하는 메소드입니다. 비밀번호와 기타 정보를 모두 수정할 수 있습니다.
-    @Transactional
-    public boolean patchUser(UserPatch userPatch) {
-        try {
-            boolean patchUserSuccess = userMapper.patchUser(userPatch);
-            boolean patchUserPwSuccess = userMapper.patchUserPw(userPatch);
-            return patchUserSuccess && patchUserPwSuccess;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void patchUserInfo(UserPatchPostModel userPatchModel) {
+        userMapper.patchUserInfo(userPatchModel);
     }
 
     // 변경된 정보가 있는지 확인하는 메소드입니다.
-    public boolean changedInfo(UserPatch userPatch) {
+    public boolean changedInfo(UserPatchModel userPatch) {
         return userPatch.getUserNickname() != null ||
                 userPatch.getUserAddress() != null ||
                 userPatch.getUserTel() != null;

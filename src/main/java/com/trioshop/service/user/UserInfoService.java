@@ -1,11 +1,11 @@
 package com.trioshop.service.user;
 
+import com.trioshop.controller.exception.MatchingFailedPassword;
 import com.trioshop.controller.exception.SessionExpirationException;
 import com.trioshop.controller.exception.UserNotFoundException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserInfoDao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +17,9 @@ public class UserInfoService {
 
     private final UserInfoDao userInfoDao;
 
-
     // 사용자 코드를 기반으로 사용자 정보를 가져오는 메소드입니다.
-    public UserPatch getUserByUserCode(String userCode) {
-        return userInfoDao.findUserByUserCode(userCode);
+    public UserPatchModel findByUserCode(Long userCode) {
+        return userInfoDao.findByUserCode(userCode);
     }
 
     // 사용자 이름과 전화번호를 기반으로 아이디를 찾는 메소드입니다.
@@ -31,17 +30,23 @@ public class UserInfoService {
 
         return id;
     }
+    public void passwordCheck(Long userCode, String password){
+        Integer check = userInfoDao.passwordCheck(new UserCodePwModel(userCode, password));
+        if(check == 0){
+            throw new MatchingFailedPassword();
+        }
+    }
 
     public PasswordChangeCodeAndStatus findUserCodeByNameAndId(PasswordChangeCodeSelectModel psModel) {
         Long result = userInfoDao.findUserCodeByNameAndId(psModel);
         if(Objects.nonNull(result)){
             return new PasswordChangeCodeAndStatus(result,true);
         }
-        throw new UserNotFoundException();
+        throw new MatchingFailedPassword();
     }
     public void updatePw(Long userCode, String password) {
         if(Objects.isNull(userCode)) throw new SessionExpirationException();
-        userInfoDao.updatePw(new UpdateUserPwModel(userCode,password));
+        userInfoDao.updatePw(new UserCodePwModel(userCode,password));
     }
 
     @Transactional
@@ -84,17 +89,12 @@ public class UserInfoService {
     }
 
     // 사용자 정보가 변경되었는지 확인하는 메소드입니다.
-    public boolean changedInfo(UserPatch userPatch) {
+    public boolean changedInfo(UserPatchModel userPatch) {
         return userInfoDao.changedInfo(userPatch);
     }
 
     // 사용자 정보를 업데이트하는 메소드입니다.
-    public boolean patchUser(UserPatch userPatch) {
-        try {
-            return userInfoDao.patchUser(userPatch);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void patchUserInfo(Long userCode,UserPatchModel userPatchModel) {
+        userInfoDao.patchUserInfo(new UserPatchPostModel(userCode,userPatchModel));
     }
 }

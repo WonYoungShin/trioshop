@@ -42,26 +42,23 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="form-container" id="secondForm" >
-                <h2 class="form-heading text-center">추가 정보 입력하기</h2>
-                <form action="" method="post" id="additionalInfoForm">
+            <div class="form-container" id="firstForm">
+                <h2 class="form-heading text-center">비밀번호 확인</h2>
+                <form action="" method="post">
                     <div class="form-group">
-                        <label for="userAddress">주소:</label>
-                        <input type="text" class="form-control" id="userAddress" name="userAddress" value="${userPatchModel.userAddress}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="userTel">전화번호:</label>
-                        <input type="text" class="form-control" id="userTel" name="userTel" value="${userPatchModel.userTel}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="userNickname">닉네임:</label>
-                        <input type="text" class="form-control" id="userNickname" name="userNickname" value="${userPatchModel.userNickname}" required>
+                        <label for="currentPassword">현재 비밀번호:</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호 입력">
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary mr-2">저장</button>
+                        <button type="submit" class="btn btn-primary mr-2" id="nextButton">다음</button>
                         <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
                     </div>
                 </form>
+                <c:if test="${not empty message}">
+                    <div class="alert alert-danger mt-3" role="alert">
+                            ${message}
+                    </div>
+                </c:if>
             </div>
         </div>
     </div>

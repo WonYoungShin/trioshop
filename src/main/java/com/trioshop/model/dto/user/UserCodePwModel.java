@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class UpdateUserPwModel {
+public class UserCodePwModel {
     private final Long userCode;
     private final String userPasswd;
 }

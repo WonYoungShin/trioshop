@@ -7,13 +7,9 @@ import com.trioshop.service.user.UserLoginService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Controller
@@ -22,10 +18,7 @@ public class UserLoginController {
     private final UserLoginService userLoginService;
 
     @GetMapping("/login")
-    public String loginPage(@RequestParam(value = "message", required = false)String message, Model model) {
-        if(Objects.nonNull(message)){
-            model.addAttribute("message","정보를 찾을 수 없습니다.");
-        }
+    public String loginPage() {
         return "/user/userInfo/login";
     }
 
