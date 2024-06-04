@@ -41,11 +41,13 @@
             <div class="row">
                 <!-- 정보 수정 링크 -->
                 <div class="col-12">
+                    <input type="hidden" name="path" value="info">
                     <a href="/passwordCheck/${userCode}?status=info" class="btn btn-primary btn-block btn-custom">정보 수정</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
+                    <input type="hidden" name="path" value="pass">
                     <a href="/passwordCheck/${userCode}?status=pw" class="btn btn-secondary btn-block btn-custom">비밀번호 변경</a>
                 </div>
             </div>

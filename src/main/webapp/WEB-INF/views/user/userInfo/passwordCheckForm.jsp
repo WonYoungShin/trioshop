@@ -47,7 +47,7 @@
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="currentPassword">현재 비밀번호:</label>
-                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호 입력">
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호 입력" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary mr-2" id="nextButton">다음</button>

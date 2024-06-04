@@ -14,27 +14,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public String UserNotFoundException(@RequestParam(defaultValue = "", required = false) String status, UserNotFoundException e, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String UserNotFoundException(UserNotFoundException e, HttpServletRequest request, Model model){
         String requestURI = request.getRequestURI();
         String message="요청하신 정보를 찾을 수 없습니다.";
         if(requestURI.contains("login")){
             message = "아아디/패스워드가 틀렸습니다.";
         }
-        redirectAttributes.addFlashAttribute("message", message);
-        return "redirect:"+requestURI+status;
+        model.addAttribute("message", message);
+        return "/user/userInfo/"+requestURI;
     }
 
     @ExceptionHandler(SessionExpirationException.class)
     public String SessionExpirationException(UserNotFoundException e, HttpServletRequest request, Model model){
         model.addAttribute("message",e.getMessage());
-        return request.getRequestURI();
+        return "/user/userInfo/"+request.getRequestURI();
     }
 
     @ExceptionHandler(MatchingFailedPassword.class)
-    public String MatchingFailedPassword(@RequestParam(defaultValue = "", required = false) String status, MatchingFailedPassword e, HttpServletRequest request, RedirectAttributes redirectAttributes){
-        String requestURI = request.getRequestURI();
-
-        redirectAttributes.addFlashAttribute("message", e.getMessage());
-        return "redirect:"+requestURI+status;
+    public String MatchingFailedPassword(MatchingFailedPassword e, Model model) {
+        model.addAttribute("message", "패스워드가 일치하지 않습니다.");
+        return "/user/userInfo/passwordCheckForm";
     }
 }
