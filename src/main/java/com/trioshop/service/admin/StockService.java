@@ -1,6 +1,6 @@
 package com.trioshop.service.admin;
 
-import com.trioshop.controller.exception.DontSaveException;
+import com.trioshop.exception.DontSaveException;
 import com.trioshop.model.dto.admin.AddItemModel;
 import com.trioshop.model.dto.admin.StockModel;
 import com.trioshop.model.dto.admin.UpdateItemModel;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

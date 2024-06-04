@@ -1,6 +1,6 @@
 package com.trioshop.service.user;
 
-import com.trioshop.controller.exception.UserNotFoundException;
+import com.trioshop.exception.UserNotFoundException;
 import com.trioshop.model.dto.user.LoginModel;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.repository.dao.user.UserLoginDao;

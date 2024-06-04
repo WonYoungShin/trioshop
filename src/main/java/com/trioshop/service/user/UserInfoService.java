@@ -1,13 +1,12 @@
 package com.trioshop.service.user;
 
-import com.trioshop.controller.exception.MatchingFailedPassword;
-import com.trioshop.controller.exception.SessionExpirationException;
-import com.trioshop.controller.exception.UserNotFoundException;
+import com.trioshop.exception.MatchingFailedPassword;
+import com.trioshop.exception.SessionExpirationException;
+import com.trioshop.exception.UserNotFoundException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserInfoDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -48,51 +47,6 @@ public class UserInfoService {
         if(Objects.isNull(userCode)) throw new SessionExpirationException();
         userInfoDao.updatePw(new UserCodePwModel(userCode,password));
     }
-
-    @Transactional
-    public boolean saveUserInfo(UserJoin userJoin) {
-        try {
-            // 이미 해당 아이디를 가진 사용자가 존재하는지 확인하기위해서이다.
-            UserJoin existingUser = userInfoDao.checkUserIdExists(userJoin.getUserId());
-            if (existingUser != null) {
-                return false; // 이미 존재하는 아이디이므로 회원가입 실패
-            } else {
-                // 아이디가 중복되지 않으므로 사용자 정보를 저장
-                userInfoDao.saveUsers(userJoin);
-                userInfoDao.saveUserInfo(userJoin);
-                return true; // 회원가입 성공
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false; // 예외 발생 시 회원가입 실패
-        }
-    }
-
-    // 비회원으로 로그인하는 메소드입니다.
-    public GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin) {
-        return userInfoDao.LoginGuestUser(guestUserJoin);
-    }
-
-    // 비회원으로 회원가입하는 메소드입니다.
-    public boolean saveGuestUser(GuestUserJoin guestUserJoin, GuestUserJoin2 guestUserJoin2) {
-        try {
-            boolean isSuccess = userInfoDao.saveGuestUser(guestUserJoin, guestUserJoin2);
-            if (isSuccess) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // 사용자 정보가 변경되었는지 확인하는 메소드입니다.
-    public boolean changedInfo(UserPatchModel userPatch) {
-        return userInfoDao.changedInfo(userPatch);
-    }
-
     // 사용자 정보를 업데이트하는 메소드입니다.
     public void patchUserInfo(Long userCode,UserPatchModel userPatchModel) {
         userInfoDao.patchUserInfo(new UserPatchPostModel(userCode,userPatchModel));

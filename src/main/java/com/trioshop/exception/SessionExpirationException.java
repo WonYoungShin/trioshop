@@ -1,4 +1,4 @@
-package com.trioshop.controller.exception;
+package com.trioshop.exception;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 

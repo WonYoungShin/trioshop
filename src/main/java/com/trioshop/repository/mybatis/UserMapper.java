@@ -19,13 +19,13 @@ public interface UserMapper {
 
     void updatePw(UserCodePwModel updateUserPwModel);
 
-    GuestUserJoin LoginGuestUser(GuestUserJoin guestUserJoin);
-    boolean saveGuestUsers(GuestUserJoin guestUserJoin);
-    boolean saveGuestUsers2(GuestUserJoin2 guestUserJoin2);
 
-    boolean patchUserPw(UserPatchModel userPatch);
     void patchUserInfo(UserPatchPostModel userPatchModel);
 
 
     Integer passwordCheck(UserCodePwModel userCodePwModel);
+
+    UserInfoBySession searchGuestUser(GuestUserLoginInfo guestUserLoginInfo);
+    UsersEntity insertUsersData(UsersEntity usersEntity);
+    boolean insertUsersInfoData(UsersInfoEntity usersInfoEntity);
 }

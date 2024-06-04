@@ -1,8 +1,8 @@
-package com.trioshop.controller.exception.advice;
+package com.trioshop.exception.advice;
 
-import com.trioshop.controller.exception.MatchingFailedPassword;
-import com.trioshop.controller.exception.SessionExpirationException;
-import com.trioshop.controller.exception.UserNotFoundException;
+import com.trioshop.exception.MatchingFailedPassword;
+import com.trioshop.exception.SessionExpirationException;
+import com.trioshop.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

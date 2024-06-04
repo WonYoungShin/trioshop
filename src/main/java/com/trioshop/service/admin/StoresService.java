@@ -1,7 +1,7 @@
 package com.trioshop.service.admin;
 
-import com.trioshop.controller.exception.DontSaveException;
-import com.trioshop.controller.exception.QuantityAdjustFailed;
+import com.trioshop.exception.DontSaveException;
+import com.trioshop.exception.QuantityAdjustFailed;
 import com.trioshop.model.dto.admin.ItemCodeAdjustModel;
 import com.trioshop.model.dto.admin.StoreItemModel;
 import com.trioshop.model.dto.admin.StoresListModel;

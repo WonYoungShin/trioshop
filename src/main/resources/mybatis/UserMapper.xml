@@ -54,29 +54,6 @@
         AND user_passwd = #{userPasswd}
     </select>
 
-    <select id="LoginGuestUser" parameterType="GuestUserJoin" resultType="GuestUserJoin">
-        SELECT info.user_code   AS userCode,
-               tuser.grade_code AS gradeCode,
-               info.user_name   AS userName,
-               info.user_tel    AS userTel
-        FROM TRIO_USERS_INFO info
-                 JOIN
-             TRIO_USERS tuser
-             ON
-                 tuser.user_code = info.user_code
-        WHERE info.user_name = #{userName}
-          AND info.user_tel = #{userTel}
-    </select>
-
-    <insert id="saveGuestUsers" parameterType="GuestUserJoin">
-        INSERT INTO TRIO_USERS (grade_code, user_id)
-        VALUES (0, 'guestID')
-    </insert>
-
-    <insert id="saveGuestUsers2" parameterType="GuestUserJoin2" useGeneratedKeys="true" keyProperty="userCode">
-        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
-        VALUES (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, 'guestNickname')
-    </insert>
 
     <!-- 사용자 회원가입을 위한 쿼리문 -->
     <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
@@ -91,9 +68,9 @@
         VALUES (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, #{userNickname})
     </insert>
     <!-- /join에서 이미 만들어진 userId 인지를 파악할수있는지 확인할수있는 쿼리문을 만들었습니다. -->
-    <select id="checkUserIdExists" parameterType="map" resultType="UserJoin">
-        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}
-    </select>
+<!--    <select id="checkUserIdExists" parameterType="map" resultType="UserJoin">-->
+<!--        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}-->
+<!--    </select>-->
     <!-- 음 이게 가능은 하다는데 굳이 사용은 안했습니다... 저번에도 이렇게 insert 2개쓰니까 안돼던데 gpt 바보..
       <insert id="saveUserAndInfo" parameterType="UserJoin">
       INSERT INTO TRIO_USERS (grade_code, user_id, user_passwd)
@@ -123,4 +100,31 @@
 <!--        SELECT *-->
 <!--        FROM TRIO_USERS_INFO-->
 <!--        WHERE user_code = #{userCode} </select>-->
+
+<!-- 아래로 swy  -->
+    <select id="searchGuestUser" resultType="UserInfoBySession">
+        SELECT u.user_code, u.grade_code, u.user_id, ui.user_nickname
+        FROM TRIO_USERS u
+                 JOIN TRIO_USERS_INFO ui ON u.user_code = ui.user_code
+        WHERE ui.user_name = #{userName}
+          AND ui.user_tel = #{userTel}
+    </select>
+    <!-- TRIO_USERS 테이블에 유저를 삽입 하고 select 하여 userEntity형식으로 반환-->
+    <insert id="insertUsersData" >
+        INSERT INTO TRIO_USERS (grade_code, user_id)
+        VALUES (#{gradeCode}, #{userId})
+        <!-- 삽입된 유저 조회 -->
+        <selectKey resultType="UsersEntity" order="AFTER">
+            SELECT user_code, grade_code, user_id
+            FROM TRIO_USERS
+            WHERE grade_code = #{gradeCode}
+            AND user_code = #{userCode}
+        </selectKey>
+    </insert>
+
+    <!-- TRIO_USERS_INFO 테이블에 유저 정보를 삽입 -->
+    <insert id="insertUsersInfoData">
+        INSERT INTO TRIO_USERS_INFO (user_code, user_tel, user_nickname)
+        VALUES (#{userCode}, #{userTel}, #{userNickname})
+    </insert>
 </mapper>
