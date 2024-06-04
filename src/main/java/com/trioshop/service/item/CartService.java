@@ -19,15 +19,7 @@ public class CartService {
     public List<ItemInfoByCart> cartItemList(long userCode) {
         return cartDao.cartItemList(userCode);
     }
-    //카트 단일 항목 추가
-//    public void addCartItem (CartEntity cartEntity) {
-//        if( cartDao.selectCartItem(cartEntity) != 0) { // 검색된 항목이 있다면
-//
-//            cartDao.updateCartItem(cartEntity); // 수량을 업데이트
-//        } else {
-//            cartDao.insertCartItem(cartEntity); // cart에 insert
-//        }
-//    }
+
     //카트 단일,다중 항목 추가
     public void addCartItem (long userCode, List<Long> itemCodes, List<Long> quantities) {
         for (int i = 0; i < itemCodes.size(); i++) {

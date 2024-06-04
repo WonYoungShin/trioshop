@@ -26,6 +26,7 @@ public interface UserMapper {
     Integer passwordCheck(UserCodePwModel userCodePwModel);
 
     UserInfoBySession searchGuestUser(GuestUserLoginInfo guestUserLoginInfo);
-    UsersEntity insertUsersData(UsersEntity usersEntity);
-    boolean insertUsersInfoData(UsersInfoEntity usersInfoEntity);
+    void insertUsersData(UsersEntity usersEntity);
+    void insertUsersInfoData(UsersInfoEntity usersInfoEntity);
+    Long selectGuestUsersEntity(UsersEntity usersEntity);
 }

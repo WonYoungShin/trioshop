@@ -2,10 +2,14 @@ package com.trioshop.service.user;
 
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserJoinDao;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@RequiredArgsConstructor
 public class UserJoinService {
-    UserJoinDao userJoinDao;
+    private final UserJoinDao userJoinDao;
     // saveUserInfo Dao에서 saveUsers,saveUserInfo 를 불러오고 boolean을 사용해서 판단합니다.
     // @Transactional를 사용해서 2개의 sql을 동시에 판단할 수 있게 한다.
     @Transactional
@@ -34,19 +38,20 @@ public class UserJoinService {
             //이미 유저가 존재하므로 바로 로그인
            return guestUser;
         } else { // 가입후 재귀하여 로그인
-             saveGuestUserInfo(guestUserLoginInfo);
+            saveGuestUserInfo(guestUserLoginInfo);
            return this.guestUserLoginProcess(guestUserLoginInfo);
         }
     }
     @Transactional
     protected void saveGuestUserInfo(GuestUserLoginInfo guestUserLoginInfo) {
         // TRIO_USERS 에 데이터 입력
-        UsersEntity usersEntityResult =
-                userJoinDao.insertUsersData( //
-                new UsersEntity(9,guestUserLoginInfo.getUserTel()));  // 게스트 유저의 코드를 9로 지정, id=userTel로 지정
+        UsersEntity usersEntity = new UsersEntity(9,guestUserLoginInfo.getUserTel());
+        // 게스트 유저의 코드를 9로 지정, id=userTel로 지정
+        userJoinDao.insertUsersData(usersEntity);
         // 입력된 유저데이터 확인
+        long userCode = userJoinDao.selectGuestUsersEntity(usersEntity);
         // TRIO_USERS_INFO 에 데이터 입력
-        userJoinDao.insertUsersInfoData(new UsersInfoEntity(usersEntityResult.getUserCode(), //
+        userJoinDao.insertUsersInfoData(new UsersInfoEntity(userCode, //
                                                             guestUserLoginInfo.getUserName(),
                                                             guestUserLoginInfo.getUserTel(),
                                              "게스트유저"

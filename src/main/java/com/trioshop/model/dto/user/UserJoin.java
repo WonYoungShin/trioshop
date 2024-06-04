@@ -17,5 +17,4 @@ public class UserJoin {
     private String userTel;
     private String userNickname;
     private Long gradeCode;
-
 }

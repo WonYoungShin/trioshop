@@ -13,7 +13,6 @@
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
-
     <select id="findByUserCode" resultType="UserPatchModel">
         SELECT user_name, user_address, user_tel
         FROM TRIO_USERS_INFO
@@ -54,7 +53,6 @@
         AND user_passwd = #{userPasswd}
     </select>
 
-
     <!-- 사용자 회원가입을 위한 쿼리문 -->
     <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
     <insert id="saveUsers" parameterType="UserJoin">
@@ -68,25 +66,9 @@
         VALUES (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, #{userNickname})
     </insert>
     <!-- /join에서 이미 만들어진 userId 인지를 파악할수있는지 확인할수있는 쿼리문을 만들었습니다. -->
-<!--    <select id="checkUserIdExists" parameterType="map" resultType="UserJoin">-->
-<!--        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}-->
-<!--    </select>-->
-    <!-- 음 이게 가능은 하다는데 굳이 사용은 안했습니다... 저번에도 이렇게 insert 2개쓰니까 안돼던데 gpt 바보..
-      <insert id="saveUserAndInfo" parameterType="UserJoin">
-      INSERT INTO TRIO_USERS (grade_code, user_id, user_passwd)
-      VALUES (1, #{userId}, #{userPasswd});
-
-      INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
-      VALUES (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, #{userNickname});
-      </insert>
-      그리고 LAST_INSERT_ID()이거말고느 도저히 다른방법을 못 찾겠습니다...
-      -->
-
-    <!-- parameterType="map" : 매퍼 메서드의 매개변수 타입을 지정합니다
-         resultType="UserFindId" : SQL 쿼리의 결과를 매핑할 객체의 타입을 지정합니다. insert 는 반환된는결과가없어서
-         사용하지않습니다.
-         map: 다양한 형식을 유연하게사용가능-->
-
+    <select id="checkUserIdExists" parameterType="map" resultType="UserJoin">
+        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}
+    </select>
 
     <update id="patchUserInfo">
         UPDATE TRIO_USERS_INFO
@@ -95,11 +77,6 @@
             user_nickname = #{userNickname}
         WHERE user_code = #{userCode}
     </update>
-
-<!--    <select id="patchUserPw" parameterType="UserPatch">-->
-<!--        SELECT *-->
-<!--        FROM TRIO_USERS_INFO-->
-<!--        WHERE user_code = #{userCode} </select>-->
 
 <!-- 아래로 swy  -->
     <select id="searchGuestUser" resultType="UserInfoBySession">
@@ -114,17 +91,19 @@
         INSERT INTO TRIO_USERS (grade_code, user_id)
         VALUES (#{gradeCode}, #{userId})
         <!-- 삽입된 유저 조회 -->
-        <selectKey resultType="UsersEntity" order="AFTER">
-            SELECT user_code, grade_code, user_id
-            FROM TRIO_USERS
-            WHERE grade_code = #{gradeCode}
-            AND user_code = #{userCode}
-        </selectKey>
+    </insert>
+        <!-- TRIO_USERS_INFO 테이블에 유저 정보를 삽입 -->
+    <insert id="insertUsersInfoData">
+        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_tel, user_nickname)
+        VALUES (#{userCode},#{userName}, #{userTel}, #{userNickname})
     </insert>
 
-    <!-- TRIO_USERS_INFO 테이블에 유저 정보를 삽입 -->
-    <insert id="insertUsersInfoData">
-        INSERT INTO TRIO_USERS_INFO (user_code, user_tel, user_nickname)
-        VALUES (#{userCode}, #{userTel}, #{userNickname})
-    </insert>
+    <!-- 삽입된 유저 조회 -->
+    <select id="selectGuestUsersEntity" resultType="long">
+        SELECT user_code
+        FROM TRIO_USERS
+        WHERE grade_code = #{gradeCode}
+        AND user_id = #{userId}
+        LIMIT 1
+    </select>
 </mapper>

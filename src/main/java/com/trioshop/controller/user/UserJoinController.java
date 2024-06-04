@@ -7,13 +7,15 @@ import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.service.user.UserJoinService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+
 
 @RequiredArgsConstructor
+@Controller
 public class UserJoinController {
     private final HttpSession session;
     private final UserJoinService userJoinService;
@@ -41,7 +43,6 @@ public class UserJoinController {
         }
         //여기까지전부
     }
-    //@ModelAttribute 폼에서입력하면 컨트롤러로 전달~~
     @GetMapping("/guestLogin")
     public String guestLoginPage() {
         return "/user/userInfo/guestLogin";
