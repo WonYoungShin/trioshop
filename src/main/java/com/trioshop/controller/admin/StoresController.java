@@ -1,6 +1,6 @@
 package com.trioshop.controller.admin;
 
-import com.trioshop.controller.exception.QuantityAdjustFailed;
+import com.trioshop.exception.QuantityAdjustFailed;
 import com.trioshop.model.dto.admin.StoreItemModel;
 import com.trioshop.model.dto.admin.StoresListModel;
 import com.trioshop.model.dto.item.ItemCondition;
@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+
 @Controller
 @RequestMapping("/trioAdmin/stores")
 @RequiredArgsConstructor

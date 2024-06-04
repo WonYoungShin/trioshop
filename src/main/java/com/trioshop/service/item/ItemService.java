@@ -29,6 +29,7 @@ public class ItemService {
     public ItemInfoByUser itemInfoByCode (long itemCode) {
         return itemInfoDao.itemInfoByCode(itemCode);
     }
+
     public List<ItemInfoByUser> itemInfoByCodes (List<Long> itemCodes) {
         return itemInfoDao.itemInfoByCodes(itemCodes);
     }

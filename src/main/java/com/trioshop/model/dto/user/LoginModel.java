@@ -1,12 +1,12 @@
 package com.trioshop.model.dto.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @RequiredArgsConstructor
-public class UserFindId {
-    private final String userName;
-    private final String userTel;
+public class LoginModel {
+    private final String userId;
+    private final String userPasswd;
 }

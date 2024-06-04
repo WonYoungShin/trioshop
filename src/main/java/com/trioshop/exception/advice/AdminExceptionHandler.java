@@ -1,7 +1,7 @@
-package com.trioshop.controller.exception.advice;
+package com.trioshop.exception.advice;
 
-import com.trioshop.controller.exception.DontSaveException;
-import com.trioshop.controller.exception.QuantityAdjustFailed;
+import com.trioshop.exception.DontSaveException;
+import com.trioshop.exception.QuantityAdjustFailed;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;

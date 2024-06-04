@@ -6,15 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJoin {
-    private Long userCode;
-    private String userId;
-    private String userPasswd;
+public class GuestUserLoginInfo {
     private String userName;
-    private String userAddress;
     private String userTel;
-    private String userNickname;
-    private Long gradeCode;
 }
