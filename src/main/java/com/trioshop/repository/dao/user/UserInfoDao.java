@@ -26,7 +26,7 @@ public class UserInfoDao {
     public void saveUsers(UserJoin userJoin) {userMapper.saveUsers(userJoin);}
     // 사용자 아이디 중복 체크
     public UserJoin checkUserIdExists(String userId) {return userMapper.checkUserIdExists(userId);}
-    public void saveUserInfo(UserJoin userJoin) {userMapper.saveUserInfo(userJoin);}
+    public void saveUserInfo(UsersInfoEntity usersInfoEntity) {userMapper.saveUserInfo(usersInfoEntity);}
 
     public String findId(UserFindId userFindId) {
         return userMapper.findId(userFindId);
