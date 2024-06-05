@@ -26,7 +26,7 @@ public class TossPaymentController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
-        return "checkout";
+        return "payment/checkout";
     }
 
     @GetMapping("/fail")

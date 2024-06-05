@@ -7,6 +7,7 @@ import com.trioshop.repository.dao.item.CartDao;
 import com.trioshop.repository.dao.item.ItemDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class CartService {
     }
 
     //카트 단일,다중 항목 추가
+    @Transactional
     public void addCartItem (long userCode, List<Long> itemCodes, List<Long> quantities) {
         for (int i = 0; i < itemCodes.size(); i++) {
             CartEntity cartEntity = new CartEntity(userCode,itemCodes.get(i),quantities.get(i));
