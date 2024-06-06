@@ -1,8 +1,6 @@
 package com.trioshop.utils.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trioshop.SessionConst;
-import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.utils.handler.LoginFailureHandler;
 import com.trioshop.utils.handler.LoginSuccessHandler;
 import jakarta.servlet.http.HttpSession;
@@ -11,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -22,9 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-
-import java.io.PrintWriter;
-import java.util.Map;
 
 /**
  * 시큐리티 설정 파일
@@ -72,8 +66,8 @@ public class WebSecurityConfig{
                  * 시큐리티 403(권한 없음)관련 예외 처리
                  */
                 .exceptionHandling(exceptionConfig -> exceptionConfig
-                        .authenticationEntryPoint(unauthorizedEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler)
+                        .authenticationEntryPoint(unauthorizedEntryPoint) //인증 안된 사용자가 접근시 호출되는 메서드
+                        .accessDeniedHandler(accessDeniedHandler) //인증이 됫지만 권한이 없는 사용자가 접근시 호출되는 메서드
                 );
 
         return http.build();
@@ -121,14 +115,8 @@ public class WebSecurityConfig{
     private final AuthenticationEntryPoint unauthorizedEntryPoint =
             (request, response, authException) -> {
                 HttpSession session = request.getSession();
-                UserInfoBySession user = (UserInfoBySession) session.getAttribute(SessionConst.LOGIN_MEMBER);
-                if(user!=null){
-                    session.setAttribute(SessionConst.ERROR_MESSAGE,"로그인 후 접근 가능합니다.");
-                    response.sendRedirect("/login");
-                }else{
-                    session.setAttribute(SessionConst.ERROR_MESSAGE,"권한이 없습니다.");
-                    response.sendRedirect("/");
-                }
+                session.setAttribute(SessionConst.ERROR_MESSAGE,"로그인 후 접근 가능합니다.");
+                response.sendRedirect("/login");
             };
 
     /**
@@ -136,13 +124,9 @@ public class WebSecurityConfig{
      */
     private final AccessDeniedHandler accessDeniedHandler =
             (request, response, accessDeniedException) -> {
-                ErrorResponse fail = new ErrorResponse(HttpStatus.FORBIDDEN, "Spring security forbidden...");
-                response.setStatus(HttpStatus.FORBIDDEN.value());
-                String json = new ObjectMapper().writeValueAsString(fail);
-                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                PrintWriter writer = response.getWriter();
-                writer.write(json);
-                writer.flush();
+                HttpSession session = request.getSession();
+                session.setAttribute(SessionConst.ERROR_MESSAGE,"권한이 부족합니다.");
+                response.sendRedirect("/");
             };
 
 

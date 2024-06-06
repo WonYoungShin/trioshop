@@ -20,14 +20,16 @@ public class HomepageController {
     private final CategoryList categoryList;
 
     @GetMapping("/") // 홈화면
-    public String userList(Model model, HttpSession httpSession) {
-        String message = (String) httpSession.getAttribute(SessionConst.ERROR_MESSAGE);
+    public String userList(Model model, HttpSession session) {
+        String message = (String) session.getAttribute(SessionConst.ERROR_MESSAGE);
         List<ItemInfoByUser> itemList = itemService.searchItems(null);;
         model.addAttribute("itemList", itemList);
         //카테고리 목록 불러오기
         model.addAttribute("categoryList", categoryList.getCategoryList());
+
         if(message != null) {
-            model.addAttribute(SessionConst.ERROR_MESSAGE,message);
+            model.addAttribute(SessionConst.ERROR_MESSAGE, message);
+            session.removeAttribute(SessionConst.ERROR_MESSAGE);
         }
         return "etc/homePage";
     }
