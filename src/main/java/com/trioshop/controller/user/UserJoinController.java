@@ -7,6 +7,7 @@ import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.service.user.UserJoinService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,23 +27,15 @@ public class UserJoinController {
     }
     @PostMapping("/join") // 회원가입 진행
     public String userJoinProcess(@ModelAttribute UserJoin userJoin, Model model) {
-        try {
-            boolean isRegistered = userJoinService.saveUserInfo(userJoin);
-
-            // exception 처리
-            if (isRegistered) {
-                model.addAttribute("success", "회원가입에 성공했습니다.");
-                return "redirect:/login";
-            } else {
-                model.addAttribute("error", "이미 사용중인 계정입니다.");
-                return "redirect:/join";
-            }
-        } catch (Exception e) {
-            model.addAttribute("exception", "회원가입 중 오류가 발생했습니다.");
-            return "redirect:/join";
+        boolean userIdExists = userJoinService.userJoinProcess(userJoin);
+        if(userIdExists) { // 유저가 존재한다면 기족 작성기록을 가지고 다시 회원가입페이지로
+            model.addAttribute("userJoin", userJoin);
+            return "/user/userInfo/join";
+        } else { // 로그인 페이지로
+            return "/user/userInfo/login";
         }
-        //여기까지전부
     }
+
     @GetMapping("/guestLogin")
     public String guestLoginPage() {
         return "/user/userInfo/guestLogin";

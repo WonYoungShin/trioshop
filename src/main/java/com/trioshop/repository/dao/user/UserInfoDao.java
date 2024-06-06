@@ -23,10 +23,6 @@ public class UserInfoDao {
         return userMapper.findByUserCode(userCode);
     }
 
-    public void saveUsers(UserJoin userJoin) {userMapper.saveUsers(userJoin);}
-    // 사용자 아이디 중복 체크
-    public UserJoin checkUserIdExists(String userId) {return userMapper.checkUserIdExists(userId);}
-    public void saveUserInfo(UserJoin userJoin) {userMapper.saveUserInfo(userJoin);}
 
     public String findId(UserFindId userFindId) {
         return userMapper.findId(userFindId);
