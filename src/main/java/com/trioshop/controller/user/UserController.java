@@ -75,7 +75,7 @@ public class UserController {
     public String passwordCheck(@PathVariable("userCode") Long userCode,
                                 @RequestParam("status")String status,
                                 @RequestParam("currentPassword") String password) {
-        userInfoService.passwordCheck(userCode, password);
+        userInfoService.passwordCheck(userCode,password);
 
         session.setAttribute("passwordChecked", true);
         if(status.equals("info")){
