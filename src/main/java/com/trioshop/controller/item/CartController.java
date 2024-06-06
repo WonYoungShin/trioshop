@@ -29,16 +29,6 @@ public class CartController {
         model.addAttribute("cartItems", cartItems);
         return "user/itemInfo/cart";
     }
-
-//    @PostMapping("/addCart") // 단일 품목 카트 추가
-//    public String addCartItem(@RequestParam("itemCode") long itemCode,
-//                              @RequestParam("cartItemQty") long cartItemQty,
-//                              @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
-//                              Model model) {
-//        cartService.addCartItem(new CartEntity(userInfoBySession.getUserCode(), itemCode, cartItemQty));
-//        //return "user/itemInfo/itemList";
-//        return "redirect:/itemList";
-//    }
     @PostMapping("/addCart") // 단일,다중 품목 카트 추가
     public String addCartItem(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
                                @RequestParam(value = "quantities", required = false) List<Long> quantities,

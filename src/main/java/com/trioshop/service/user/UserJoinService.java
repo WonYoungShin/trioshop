@@ -1,5 +1,6 @@
 package com.trioshop.service.user;
 
+import com.trioshop.exception.UserSaveFailedException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserJoinDao;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,23 @@ public class UserJoinService {
         } else {
             saveUserJoinData(userJoin);
             return false;
+        }
+    }
+    private void saveUserJoinData(UserJoin userJoin) {
+        try {
+            // UsersEntity insert
+            userJoinDao.saveUsers(userJoin);
+            long userCode = userJoinDao.selectUserCode(userJoin);
+            // UsersInfoEntity insert
+            userJoinDao.saveUserInfo(new UsersInfoEntity(
+                    userCode,
+                    userJoin.getUserName(),
+                    userJoin.getUserAddress(),
+                    userJoin.getUserTel(),
+                    userJoin.getUserNickname()
+            ));
+        } catch (Exception e) {
+            throw new UserSaveFailedException("Failed to save user data: " + e.getMessage());
         }
     }
     public UserInfoBySession guestUserLoginProcess(GuestUserLoginInfo guestUserLoginInfo) {
@@ -47,16 +65,5 @@ public class UserJoinService {
                                         ));
     }
 
-    private void saveUserJoinData(UserJoin userJoin) {
-        // UsersEntity insert
-        userJoinDao.saveUsers(userJoin);
-       long userCode = userJoinDao.selectUserCode(userJoin);
-        System.out.println("userCode = " + userCode);
-        // UsersInfoEntity insert
-        userJoinDao.saveUserInfo(new UsersInfoEntity(userCode,
-                                                     userJoin.getUserName(),
-                                                     userJoin.getUserAddress(),
-                                                     userJoin.getUserTel(),
-                                                     userJoin.getUserNickname()));
-    }
+
 }
