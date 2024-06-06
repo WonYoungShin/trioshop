@@ -1,7 +1,7 @@
 package com.trioshop.repository.dao.user;
 
-import com.trioshop.model.dto.user.LoginModel;
 import com.trioshop.model.dto.user.UserInfoBySession;
+import com.trioshop.model.dto.user.UserJoinModel;
 import com.trioshop.repository.mybatis.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -11,8 +11,11 @@ import org.springframework.stereotype.Repository;
 public class UserLoginDao {
     private final UserMapper userMapper;
 
-    public UserInfoBySession loginUser(LoginModel loginModel) {
+    public UserInfoBySession loginUser(UserJoinModel loginModel) {
         return userMapper.loginUser(loginModel);
+    }
+    public UserInfoBySession loadUserByUsername(String userId){
+        return userMapper.loadUserByUsername(userId);
     }
 
 }

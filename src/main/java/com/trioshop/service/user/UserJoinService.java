@@ -1,9 +1,9 @@
 package com.trioshop.service.user;
 
-import com.trioshop.exception.UserSaveFailedException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserJoinDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserJoinService {
     private final UserJoinDao userJoinDao;
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public boolean userJoinProcess(UserJoin userJoin) {
         boolean userIdExists = userJoinDao.checkUserIdExists(userJoin.getUserId());
@@ -23,17 +25,20 @@ public class UserJoinService {
     }
     private void saveUserJoinData(UserJoin userJoin) {
         try {
-            // UsersEntity insert
-            userJoinDao.saveUsers(userJoin);
-            long userCode = userJoinDao.selectUserCode(userJoin);
-            // UsersInfoEntity insert
-            userJoinDao.saveUserInfo(new UsersInfoEntity(
-                    userCode,
+            UserJoinModel userJoinModel = UserJoinModel.builder()
+                    .userId(userJoin.getUserId())
+                    .userPasswd(passwordEncoder.encode(userJoin.getUserPasswd()))
+                    .build();
+
+            Long userCode = userJoinDao.saveUsers(userJoinModel);
+
+//        long userCode = userJoinDao.selectUserCode(userJoin);
+//        // UsersInfoEntity insert
+            userJoinDao.saveUserInfo(new UsersInfoEntity(userCode,
                     userJoin.getUserName(),
                     userJoin.getUserAddress(),
                     userJoin.getUserTel(),
-                    userJoin.getUserNickname()
-            ));
+                    userJoin.getUserNickname()));
         } catch (Exception e) {
             throw new UserSaveFailedException("Failed to save user data: " + e.getMessage());
         }
@@ -64,6 +69,5 @@ public class UserJoinService {
                                              "게스트유저"
                                         ));
     }
-
 
 }

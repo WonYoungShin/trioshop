@@ -10,7 +10,10 @@ import org.springframework.stereotype.Repository;
 public class UserJoinDao {
     private final UserMapper userMapper;
 
-    public void saveUsers(UserJoin userJoin) {userMapper.saveUsers(userJoin);}
+    public Long saveUsers(UserJoinModel userJoinModel) {
+        userMapper.saveUsers(userJoinModel);
+        return userJoinModel.getUserCode();
+    }
     public void saveUserInfo(UsersInfoEntity usersInfoEntity) {userMapper.saveUserInfo(usersInfoEntity);}
     // 사용자 아이디 중복 체크
     public boolean checkUserIdExists(String userId) {
@@ -20,13 +23,14 @@ public class UserJoinDao {
     public UserInfoBySession searchGuestUser (GuestUserLoginInfo guestUserLoginInfo) {
         return userMapper.searchGuestUser(guestUserLoginInfo);
     }
-    public void insertUsersData(UsersEntity usersEntity) {
+    public Long insertUsersData(UsersEntity usersEntity) {
         userMapper.insertUsersData(usersEntity);
+        return usersEntity.getUserCode();
     }
     public void insertUsersInfoData(UsersInfoEntity usersInfoEntity) {
         userMapper.insertUsersInfoData(usersInfoEntity);
     }
-    public Long selectUserCode(Object object) {
-        return userMapper.selectUserCode(object);
-    }
+//    public Long selectUserCode(Object object) {
+//        return userMapper.selectUserCode(object);
+//    }
 }

@@ -9,6 +9,7 @@ import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.model.dto.user.UserInfoBySession;
 
 import com.trioshop.service.item.OrderService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +20,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final HttpSession httpSession;
 
     @PostMapping("/orders") // 주문 상세 페이지로
     public String ordersPage(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,
                              @RequestParam(value = "quantities", required = false) List<Long> quantities,
                              @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                              Model model) {
+        System.out.println("UserInfoBySession retrieved from session: " + userInfoBySession);
         List<ItemInfoByUser> itemList = orderService.makeOrderItems(itemCodes, quantities);
         UserAddressInfo userAddressInfo =
                 orderService.selectUserAddressInfo(userInfoBySession.getUserCode());
@@ -45,9 +48,8 @@ public class OrderController {
     @PostMapping("/placeOrder") // 주문로직
     public String orderProcess(@ModelAttribute OrdersEntity ordersEntity,
                                @ModelAttribute OrderItemList orderItemList,
-                               @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                Model model) {
-
+        UserInfoBySession userInfoBySession =(UserInfoBySession) httpSession.getAttribute(SessionConst.LOGIN_MEMBER);
         ordersEntity.setUserCode(userInfoBySession.getUserCode());
         boolean check = orderService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
         if (check) {

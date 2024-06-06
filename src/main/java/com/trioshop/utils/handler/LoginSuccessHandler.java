@@ -1,7 +1,8 @@
-package com.trioshop.utils.service;
+package com.trioshop.utils.handler;
 
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.UserInfoBySession;
+import com.trioshop.utils.service.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import java.io.IOException;
 
-public class loginSuccessHandler implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
