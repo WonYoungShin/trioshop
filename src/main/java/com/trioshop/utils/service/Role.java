@@ -3,6 +3,10 @@ package com.trioshop.utils.service;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 시큐리티 권한 관련 Enum
+ */
+
 @Getter
 @RequiredArgsConstructor
 public enum Role {

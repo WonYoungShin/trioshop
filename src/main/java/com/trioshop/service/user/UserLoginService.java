@@ -32,7 +32,7 @@ public class UserLoginService implements UserDetailsService{
     public UserInfoBySession loadUserByUsername(String username) {
         UserInfoBySession userInfoBySession = userLoginDao.loadUserByUsername(username);
         if (userInfoBySession == null) {
-            throw new UsernameNotFoundException("아이디 또는 비밀번호가 일치하지 않습니다.");
+            throw new UsernameNotFoundException(username);
         }
         return userInfoBySession;
     }

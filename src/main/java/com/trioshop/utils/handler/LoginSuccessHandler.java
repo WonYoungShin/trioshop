@@ -12,14 +12,25 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import java.io.IOException;
 
+/**
+ * 로그인 성공시 호출 되는 클래스(핸들러)
+ */
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
-        UserInfoBySession userInfoBySession =(UserInfoBySession) authentication.getPrincipal();
-        System.out.println(userInfoBySession);
-        session.setAttribute(SessionConst.LOGIN_MEMBER,userInfoBySession);
-        if(userInfoBySession.getRole().equals(Role.ADMIN)){
+        UserInfoBySession user =(UserInfoBySession) authentication.getPrincipal();
+        user = UserInfoBySession.builder()
+                .userCode(user.getUserCode())
+                .gradeCode(user.getGradeCode())
+                .userId(user.getUserId())
+                .userNickname(user.getUserNickname())
+                .userPasswd("")
+                .role(user.getRole())
+                .build();
+
+        session.setAttribute(SessionConst.LOGIN_MEMBER,user);
+        if(user.getRole().equals(Role.ADMIN)){
             response.sendRedirect("/trioAdmin");
         }else{
             response.sendRedirect("/");

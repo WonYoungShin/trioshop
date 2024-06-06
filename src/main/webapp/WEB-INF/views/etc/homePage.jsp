@@ -12,6 +12,12 @@
 <%--itemList를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/itemListPart.jsp" %>
 
+<c:if test="${not empty message}">
+    <script>
+        alert("${message}");
+        document.getElementById('loginForm').reset();
+    </script>
+</c:if>
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

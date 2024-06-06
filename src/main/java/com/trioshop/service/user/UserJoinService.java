@@ -1,5 +1,6 @@
 package com.trioshop.service.user;
 
+import com.trioshop.exception.UserSaveFailedException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserJoinDao;
 import lombok.RequiredArgsConstructor;
@@ -59,9 +60,9 @@ public class UserJoinService {
         // TRIO_USERS 에 데이터 입력
         UsersEntity usersEntity = new UsersEntity(9,guestUserLoginInfo.getUserTel());
         // 게스트 유저의 코드를 9로 지정, id=userTel로 지정
-        userJoinDao.insertUsersData(usersEntity);
+        Long userCode = userJoinDao.insertUsersData(usersEntity);
         // 입력된 유저데이터 확인
-        long userCode = userJoinDao.selectUserCode(usersEntity);
+//        long userCode = userJoinDao.sele(usersEntity);
         // TRIO_USERS_INFO 에 데이터 입력
         userJoinDao.insertUsersInfoData(new UsersInfoEntity(userCode, //
                                                             guestUserLoginInfo.getUserName(),
