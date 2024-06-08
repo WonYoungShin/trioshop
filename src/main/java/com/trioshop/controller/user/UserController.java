@@ -22,6 +22,7 @@ public class UserController {
     private final HttpSession session;
 
     private final UserInfoService userInfoService;
+    private final SecurityUtils securityUtils;
 
     @GetMapping("/findId")
     public String findIdPage() {
@@ -63,7 +64,7 @@ public class UserController {
 
     @GetMapping("/myPage")
     public String myPage(Model model) {
-        model.addAttribute("userCode", SecurityUtils.getCurrentUserCode());
+        model.addAttribute("userCode", securityUtils.getCurrentUserCode());
         return "/user/userInfo/myPage";
     }
 

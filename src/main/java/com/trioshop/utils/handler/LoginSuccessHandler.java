@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import static java.nio.charset.StandardCharsets.*;
+
 /**
  * 로그인 성공시 호출 되는 클래스(핸들러)
  */
@@ -35,15 +37,25 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         //Jwt 토큰 발급 시작
         UserInfoBySession user = (UserInfoBySession) authentication.getPrincipal();
-        String token = jwtTokenUtil.generateToken(user);
-        String encodedToken = URLEncoder.encode("Bearer " + token, StandardCharsets.UTF_8.toString());
+        String accessToken = jwtTokenUtil.generateToken(user);
+        String refreshToken= jwtTokenUtil.generateRefreshToken(user);
 
-        Cookie jwtCookie = new Cookie("Authorization", encodedToken);
+        String encodedAccessToken = URLEncoder.encode("Bearer " + accessToken, UTF_8);
+        String encodedRefreshToken = URLEncoder.encode(refreshToken, UTF_8);
+        Cookie jwtCookie = new Cookie("Authorization", encodedAccessToken);
         jwtCookie.setHttpOnly(true); // 보안을 위해 HttpOnly 플래그 설정
         // jwtCookie.setSecure(true); // 애플리케이션이 HTTPS를 사용하는 경우 Secure 플래그 설정
         jwtCookie.setPath("/"); // 쿠키의 유효 경로 설정
-        jwtCookie.setMaxAge(60 * 60 * 24); // 쿠키의 만료 시간 설정 (예: 1일)
+        jwtCookie.setMaxAge(60 * 5); // 쿠키의 만료 시간 설정 (예: 5분)
+
+        Cookie jwtRefreshCookie = new Cookie("refreshCookie", encodedRefreshToken);
+        jwtRefreshCookie.setHttpOnly(true); // 보안을 위해 HttpOnly 플래그 설정
+        // jwtRefreshCookie.setSecure(true); // 애플리케이션이 HTTPS를 사용하는 경우 Secure 플래그 설정
+        jwtRefreshCookie.setPath("/"); // 쿠키의 유효 경로 설정
+        jwtRefreshCookie.setMaxAge(60 * 60 * 24 * 7); ///7일
+
         response.addCookie(jwtCookie);
+        response.addCookie(jwtRefreshCookie);
 
         if (user.getRole().equals(Role.ADMIN)) {
             response.sendRedirect("/trioAdmin");

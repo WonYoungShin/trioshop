@@ -4,6 +4,7 @@ import com.trioshop.SessionConst;
 import com.trioshop.filter.JwtAuthenticationFilter;
 import com.trioshop.utils.handler.LoginFailureHandler;
 import com.trioshop.utils.handler.LoginSuccessHandler;
+import com.trioshop.utils.handler.LogoutCustomHandler;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,9 @@ public class WebSecurityConfig{
                         .permitAll() //접근 권한
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/") //로그아웃 성공시 URL
+                                .logoutUrl("/logout")
+                                .addLogoutHandler(new LogoutCustomHandler(jwtTokenUtil))
+//                        .logoutSuccessUrl("/") //로그아웃 성공시 URL
 //                        .invalidateHttpSession(true) //로그 아웃시 세션 만료 설정 (현 시점 세션+쿠키)
                         .permitAll()  //접근 권한
                 )

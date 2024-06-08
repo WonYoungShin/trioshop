@@ -44,9 +44,9 @@ public class UserLoginController {
 //    }
 
 
-    @GetMapping("/logout")
-    public String logoutPage(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
+//    @GetMapping("/logout")
+//    public String logoutPage(HttpSession session) {
+//        session.invalidate();
+//        return "redirect:/";
+//    }
 }
