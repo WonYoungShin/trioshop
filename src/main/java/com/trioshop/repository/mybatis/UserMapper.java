@@ -12,7 +12,7 @@ public interface UserMapper {
     Long findUserCodeByNameAndId(PasswordChangeCodeSelectModel psModel);
     void updatePw(UserCodePwModel updateUserPwModel);
     void patchUserInfo(UserPatchPostModel userPatchModel);
-    Integer passwordCheck(UserCodePwModel userCodePwModel);
+    String passwordCheck(Long userCode);
 
     //회원가입
     UserJoin checkUserIdExists(String userId);
