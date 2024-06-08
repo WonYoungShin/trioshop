@@ -53,11 +53,10 @@
         WHERE user_code = #{userCode}
     </update>
 
-    <select id="passwordCheck" resultType="Integer">
-        SELECT count(user_code)
+    <select id="passwordCheck" resultType="String">
+        SELECT user_passwd
         FROM TRIO_USERS
         WHERE user_code = #{userCode}
-        AND user_passwd = #{userPasswd}
     </select>
 
     <update id="patchUserInfo">

@@ -3,15 +3,14 @@ package com.trioshop.controller.user;
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.service.user.UserInfoService;
+import com.trioshop.utils.service.SecurityUtils;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class UserController {
     private final HttpSession session;
 
     private final UserInfoService userInfoService;
+    private final SecurityUtils securityUtils;
 
     @GetMapping("/findId")
     public String findIdPage() {
@@ -61,8 +61,8 @@ public class UserController {
     }
 
     @GetMapping("/myPage")
-    public String myPage(Model model, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession) {
-        model.addAttribute("userCode", userInfoBySession.getUserCode());
+    public String myPage(Model model) {
+        model.addAttribute("userCode", securityUtils.getCurrentUserCode());
         return "/user/userInfo/myPage";
     }
 
@@ -75,7 +75,7 @@ public class UserController {
     public String passwordCheck(@PathVariable("userCode") Long userCode,
                                 @RequestParam("status")String status,
                                 @RequestParam("currentPassword") String password) {
-        userInfoService.passwordCheck(userCode, password);
+        userInfoService.passwordCheck(userCode,password);
 
         session.setAttribute("passwordChecked", true);
         if(status.equals("info")){

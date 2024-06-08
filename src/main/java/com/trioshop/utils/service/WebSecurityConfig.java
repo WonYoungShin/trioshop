@@ -1,8 +1,10 @@
 package com.trioshop.utils.service;
 
 import com.trioshop.SessionConst;
+import com.trioshop.filter.JwtAuthenticationFilter;
 import com.trioshop.utils.handler.LoginFailureHandler;
 import com.trioshop.utils.handler.LoginSuccessHandler;
+import com.trioshop.utils.handler.LogoutCustomHandler;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
@@ -27,6 +31,9 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 @Configuration
 @RequiredArgsConstructor
 public class WebSecurityConfig{
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenUtil jwtTokenUtil;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -42,33 +49,46 @@ public class WebSecurityConfig{
                         .requestMatchers("/trioAdmin/**", "/trioAdmin").hasRole(Role.ADMIN.name())
                                         //관리자만 접근 가능한 URL
                         .anyRequest().permitAll()
+
                         //이 외 요청 모두 허용
                 )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+/**
+ * 폼 로그인 관련 설정
+ */
 
-                /**
-                 * 폼 로그인 관련 설정
-                 */
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login") //로그인 Page URL
                         .usernameParameter("userId") //ID 필드 값
                         .passwordParameter("userPasswd") //PW 필드 값
                         .loginProcessingUrl("/login") //로그인 처리 URL
-                        .successHandler(new LoginSuccessHandler()) //성공시 로직
+                        .successHandler(new LoginSuccessHandler(jwtTokenUtil)) //성공시 로직
                         .failureHandler(new LoginFailureHandler()) //실패시 로직
                         .permitAll() //접근 권한
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/") //로그아웃 성공시 URL
-                        .invalidateHttpSession(true) //로그 아웃시 세션 만료 설정 (현 시점 세션+쿠키)
+                                .logoutUrl("/logout")
+                                .addLogoutHandler(new LogoutCustomHandler(jwtTokenUtil))
+//                        .logoutSuccessUrl("/") //로그아웃 성공시 URL
+//                        .invalidateHttpSession(true) //로그 아웃시 세션 만료 설정 (현 시점 세션+쿠키)
                         .permitAll()  //접근 권한
                 )
+
                 /**
                  * 시큐리티 403(권한 없음)관련 예외 처리
                  */
                 .exceptionHandling(exceptionConfig -> exceptionConfig
                         .authenticationEntryPoint(unauthorizedEntryPoint) //인증 안된 사용자가 접근시 호출되는 메서드
                         .accessDeniedHandler(accessDeniedHandler) //인증이 됫지만 권한이 없는 사용자가 접근시 호출되는 메서드
-                );
+                )
+                /**
+                 * JWT 방식 시큐리티 설정
+                 */
+                //JWT 방식 적용시 필수!!! JWT 자체가 stateless 하게 관리하기 위함
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                //Filter 추가
+
+
 
         return http.build();
     }

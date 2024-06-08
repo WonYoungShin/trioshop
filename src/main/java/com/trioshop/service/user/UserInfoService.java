@@ -6,6 +6,7 @@ import com.trioshop.exception.UserNotFoundException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserInfoDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.Objects;
 public class UserInfoService {
 
     private final UserInfoDao userInfoDao;
+    private final PasswordEncoder passwordEncoder;
 
     // 사용자 코드를 기반으로 사용자 정보를 가져오는 메소드입니다.
     public UserPatchModel findByUserCode(Long userCode) {
@@ -29,9 +31,9 @@ public class UserInfoService {
 
         return id;
     }
-    public void passwordCheck(Long userCode, String password){
-        Integer check = userInfoDao.passwordCheck(new UserCodePwModel(userCode, password));
-        if(check == 0){
+    public void passwordCheck(Long userCode,String password){
+        String findPassword = userInfoDao.passwordCheck(userCode);
+        if(password == null|| passwordEncoder.matches(findPassword,password)){
             throw new MatchingFailedPassword();
         }
     }
@@ -45,6 +47,7 @@ public class UserInfoService {
     }
     public void updatePw(Long userCode, String password) {
         if(Objects.isNull(userCode)) throw new SessionExpirationException();
+        password = passwordEncoder.encode(password);
         userInfoDao.updatePw(new UserCodePwModel(userCode,password));
     }
     // 사용자 정보를 업데이트하는 메소드입니다.

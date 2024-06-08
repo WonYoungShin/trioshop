@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -29,7 +30,7 @@ public class UserInfoBySession implements UserDetails {
     private final String userId;
     private final String userNickname;
     private final String userPasswd;
-    private Role role;
+    private Collection<GrantedAuthority> role;
 
     public UserInfoBySession(Long userCode, Long gradeCode, String userId, String userNickname, String userPasswd) {
         this.userCode = userCode;
@@ -37,12 +38,13 @@ public class UserInfoBySession implements UserDetails {
         this.userId = userId;
         this.userNickname = userNickname;
         this.userPasswd = userPasswd;
+        role = new ArrayList<>();
         setRole();
     }
 
     //비밀번호 없애기 위한 빌더 생성자
     @Builder
-    public UserInfoBySession(Long userCode, Long gradeCode, String userId, String userNickname, String userPasswd, Role role) {
+    public UserInfoBySession(Long userCode, Long gradeCode, String userId, String userNickname, String userPasswd, Collection<GrantedAuthority> role) {
         this.userCode = userCode;
         this.gradeCode = gradeCode;
         this.userId = userId;
@@ -51,18 +53,19 @@ public class UserInfoBySession implements UserDetails {
         this.role = role;
     }
     //생성자 호출시 자동 호출 됌
+
     private void setRole() {
         switch (this.gradeCode.intValue()) {
             case 1:
             case 2:
             case 3:
-                this.role = Role.USER;
+                this.role.add(new SimpleGrantedAuthority(Role.USER.getKey()));
                 break;
             case 4:
-                this.role = Role.ADMIN;
+                this.role.add(new SimpleGrantedAuthority(Role.ADMIN.getKey()));
                 break;
             default:
-                this.role = Role.USER; // 기본 역할 설정
+                this.role.add(new SimpleGrantedAuthority(Role.USER.getKey())); // 기본 역할 설정
         }
     }
 
@@ -73,8 +76,9 @@ public class UserInfoBySession implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role.getKey()));
+        return role;
     }
+
 
     @Override
     public String getPassword() {
