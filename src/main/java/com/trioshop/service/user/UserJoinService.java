@@ -3,6 +3,10 @@ package com.trioshop.service.user;
 import com.trioshop.exception.UserSaveFailedException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserJoinDao;
+import com.trioshop.utils.handler.LoginSuccessHandler;
+import com.trioshop.utils.service.JwtTokenUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserJoinService {
     private final UserJoinDao userJoinDao;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Transactional
     public boolean userJoinProcess(UserJoin userJoin) {
@@ -55,6 +60,10 @@ public class UserJoinService {
            return this.guestUserLoginProcess(guestUserLoginInfo);
         }
     }
+//    public void guestUserJwtToken(HttpServletResponse response, UserInfoBySession guestUser){
+//        LoginSuccessHandler login = new LoginSuccessHandler(jwtTokenUtil);
+//        login.loginSuccess(response,guestUser);
+//    }
 
     protected void saveGuestUserInfo(GuestUserLoginInfo guestUserLoginInfo) {
         // TRIO_USERS 에 데이터 입력

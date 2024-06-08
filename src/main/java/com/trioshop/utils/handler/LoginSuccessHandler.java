@@ -37,6 +37,16 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         //Jwt 토큰 발급 시작
         UserInfoBySession user = (UserInfoBySession) authentication.getPrincipal();
+        loginSuccess(response, user);
+
+        if (user.getGradeCode()==4) {
+            response.sendRedirect("/trioAdmin");
+        } else {
+            response.sendRedirect("/");
+        }
+    }
+
+    public void loginSuccess(HttpServletResponse response, UserInfoBySession user) {
         String accessToken = jwtTokenUtil.generateToken(user);
         String refreshToken= jwtTokenUtil.generateRefreshToken(user);
 
@@ -56,14 +66,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         response.addCookie(jwtCookie);
         response.addCookie(jwtRefreshCookie);
-
-        if (user.getRole().equals(Role.ADMIN)) {
-            response.sendRedirect("/trioAdmin");
-        } else {
-            response.sendRedirect("/");
-        }
     }
 }
+
+
 //        쿠키를 헤더에 저장하는 방법
 //        response.addHeader("Authorization", "Bearer " + token);
         //끝
