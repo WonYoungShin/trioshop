@@ -3,6 +3,7 @@ package com.trioshop.controller.user;
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.service.user.UserInfoService;
+import com.trioshop.utils.service.SecurityUtils;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,8 +62,8 @@ public class UserController {
     }
 
     @GetMapping("/myPage")
-    public String myPage(Model model, @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession) {
-        model.addAttribute("userCode", userInfoBySession.getUserCode());
+    public String myPage(Model model) {
+        model.addAttribute("userCode", SecurityUtils.getCurrentUserCode());
         return "/user/userInfo/myPage";
     }
 

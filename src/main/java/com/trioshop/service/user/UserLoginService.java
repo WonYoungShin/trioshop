@@ -17,16 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserLoginService implements UserDetailsService{
     private final UserLoginDao userLoginDao;
 
-//    public UserInfoBySession isValidUser(UserJoinModel loginModel) {
-//
-//        UserInfoBySession userInfoBySession = userLoginDao.loginUser(loginModel);
-//        try{
-//            if(userInfoBySession == null) throw new RuntimeException();
-//        }catch (RuntimeException e){
-//            throw new UserNotFoundException();
-//        }
-//        return userInfoBySession;
-//    }
+
 
     @Override
     public UserInfoBySession loadUserByUsername(String username) {
@@ -37,13 +28,14 @@ public class UserLoginService implements UserDetailsService{
         return userInfoBySession;
     }
 
-
-
-//    @Override
-//    public UserInfoBySession loadUserByUsername(String username) {
-//        UserInfoBySession userInfoBySession = userLoginDao.loadUserByUsername(username);
-//        if(userInfoBySession == null){
-//            throw new UsernameNotFoundException(username);
+//시큐리티 적용 전
+    //    public UserInfoBySession isValidUser(UserJoinModel loginModel) {
+//
+//        UserInfoBySession userInfoBySession = userLoginDao.loginUser(loginModel);
+//        try{
+//            if(userInfoBySession == null) throw new RuntimeException();
+//        }catch (RuntimeException e){
+//            throw new UserNotFoundException();
 //        }
 //        return userInfoBySession;
 //    }
