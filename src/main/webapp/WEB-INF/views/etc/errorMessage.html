@@ -1,0 +1,10 @@
+<!-- /WEB-INF/views/etc/error.html -->
+<!-- 일단은 헤더에 포함 errorMessage변수가 있으면 경고창을 띄우도록함-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var error = "${errorMessage}";
+        if (error) {
+            alert(error);
+        }
+    });
+</script>

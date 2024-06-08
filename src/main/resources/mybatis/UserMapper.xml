@@ -92,7 +92,6 @@
         VALUES (#{userCode}, #{userName}, #{userAddress}, #{userTel}, #{userNickname})
     </insert>
 
-
     <!--    게스트유저 로그인-->
     <select id="searchGuestUser" resultType="UserInfoBySession">
         SELECT u.user_code, u.grade_code, u.user_id, ui.user_nickname

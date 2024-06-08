@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -31,7 +32,7 @@ public class OrderController {
         List<ItemInfoByUser> itemList = orderService.makeOrderItems(itemCodes, quantities);
         UserAddressInfo userAddressInfo =
                 orderService.selectUserAddressInfo(userInfoBySession.getUserCode());
-        model.addAttribute("userAddressInfo",userAddressInfo);
+        model.addAttribute("userAddressInfo", userAddressInfo);
         model.addAttribute("itemList", itemList);
         return "user/itemInfo/orders";
     }
@@ -48,17 +49,15 @@ public class OrderController {
     @PostMapping("/placeOrder") // 주문로직
     public String orderProcess(@ModelAttribute OrdersEntity ordersEntity,
                                @ModelAttribute OrderItemList orderItemList,
+                               @SessionAttribute(SessionConst.LOGIN_MEMBER) UserInfoBySession userInfoBySession,
                                Model model) {
-        UserInfoBySession userInfoBySession =(UserInfoBySession) httpSession.getAttribute(SessionConst.LOGIN_MEMBER);
+
         ordersEntity.setUserCode(userInfoBySession.getUserCode());
         boolean check = orderService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
-        if (check) {
+//        if (check) {
             List<OrderListByUser> orderList = orderService.orderListByUser(ordersEntity.getUserCode());
             model.addAttribute("orderList", orderList);
-            return "redirect:/orderList";
-        } else {
-            System.out.println("주문실패"); //테스트용
-            return "redirect:/";
-        }
+            return "user/itemInfo/orderList";
+//        }
     }
 }
