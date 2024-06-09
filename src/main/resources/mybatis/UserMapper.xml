@@ -18,6 +18,7 @@
         FROM TRIO_USERS tuser
         JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
         WHERE tuser.user_id = #{userId}
+            LIMIT 1
     </select>
 
     <select id="findByUserCode" resultType="UserPatchModel">

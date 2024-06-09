@@ -32,6 +32,10 @@ public class UserInfoBySession implements UserDetails {
     private final String userPasswd;
     private Collection<GrantedAuthority> role;
 
+    public UserInfoBySession(Long userCode, Long gradeCode, String userId, String userNickname) {
+        this(userCode,gradeCode,userId,userNickname,null);
+    }
+
     public UserInfoBySession(Long userCode, Long gradeCode, String userId, String userNickname, String userPasswd) {
         this.userCode = userCode;
         this.gradeCode = gradeCode;
