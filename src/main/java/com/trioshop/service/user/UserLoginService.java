@@ -8,6 +8,7 @@ import com.trioshop.repository.dao.user.UserLoginDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,6 @@ import org.springframework.stereotype.Service;
 public class UserLoginService implements UserDetailsService{
     private final UserLoginDao userLoginDao;
 
-
-
     @Override
     public UserInfoBySession loadUserByUsername(String username) {
         UserInfoBySession userInfoBySession = userLoginDao.loadUserByUsername(username);
@@ -27,6 +26,7 @@ public class UserLoginService implements UserDetailsService{
         }
         return userInfoBySession;
     }
+
 
 //시큐리티 적용 전
     //    public UserInfoBySession isValidUser(UserJoinModel loginModel) {

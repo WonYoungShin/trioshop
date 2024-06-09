@@ -153,12 +153,18 @@
     </insert>
 
     <!--  기존수량-orderQty 를 업데이트  -->
+<!--    <update id="updateStockQty">-->
+<!--        UPDATE TRIO_STOCK-->
+<!--        SET stock_qty = stock_qty - #{orderQty}-->
+<!--        WHERE item_code = #{itemCode}-->
+<!--    </update>-->
+    <!-- TRIO_STOCK 테이블에서 재고 수량을 업데이트하고, 음수가 될 경우 예외를 발생시킵니다 -->
     <update id="updateStockQty">
         UPDATE TRIO_STOCK
         SET stock_qty = stock_qty - #{orderQty}
         WHERE item_code = #{itemCode}
+          AND stock_qty >= #{orderQty}
     </update>
-
     <!-- userCode로 장바구니를 특정해 구매한 물품을 itemCode로 제거   -->
     <delete id="deleteItemsFromCart">
         DELETE FROM TRIO_CART

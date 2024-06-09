@@ -5,6 +5,7 @@ import com.trioshop.model.dto.user.GuestUserLoginInfo;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.model.dto.user.UserJoin;
 import com.trioshop.service.user.UserJoinService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +36,11 @@ public class UserJoinController {
             return "/user/userInfo/login";
         }
     }
+    @GetMapping("/join/terms")
+    public String userJoinTerms(){
+        return "/user/userInfo/joinOfTerms";
+    }
+
 
     @GetMapping("/guestLogin")
     public String guestLoginPage() {
@@ -42,11 +48,10 @@ public class UserJoinController {
     }
 
     @PostMapping("/guestLogin")
-    public String guestLogin(@ModelAttribute GuestUserLoginInfo guestUserLoginInfo) {
+    public String guestLogin(@ModelAttribute GuestUserLoginInfo guestUserLoginInfo, HttpServletResponse response) {
         // 게스트 로그인 시도
         UserInfoBySession guestUser = userJoinService.guestUserLoginProcess(guestUserLoginInfo);
-        session.setAttribute(SessionConst.LOGIN_MEMBER, guestUser);
-
+        userJoinService.guestUserJwtToken(response,guestUser);
         return "redirect:/";
     }
 }

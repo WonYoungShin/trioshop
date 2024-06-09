@@ -1,5 +1,7 @@
 package com.trioshop.service.item;
 
+import com.trioshop.exception.ApplicationException;
+import com.trioshop.exception.ExceptionType;
 import com.trioshop.model.dto.item.*;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.dao.item.ItemDao;
@@ -39,8 +41,7 @@ public class OrderService {
             return true;
         } catch (Exception e) {
             // 예외 발생 시 로그 출력
-            log.info("Error processing order =  {}", e.getMessage());
-            return false;
+            throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
         }
     }
 
@@ -89,11 +90,15 @@ public class OrderService {
             ItemCodeAndQty itemCodeAndQty
                     = new ItemCodeAndQty(orderItemEntity.getItemCode(),
                     orderItemEntity.getOrderQty());
-
-            // itemCode로 검색해 주문수량 update
-            orderDao.updateStockQty(itemCodeAndQty);
-            itemCodeList.add(orderItemEntity.getItemCode());
-        }
+                // itemCode로 검색해 주문수량 update
+                int checkUdate = orderDao.updateStockQty(itemCodeAndQty);
+                itemCodeList.add(orderItemEntity.getItemCode());
+                if (checkUdate == 0) {
+                    log.error("재고 부족으로 주문 실패: itemCode = " + orderItemEntity.getItemCode());
+                    throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
+                }
+                //throw new InsufficientStockException("재고가 부족합니다: " + orderItemEntity.getItemCode(), e);
+            }
         return itemCodeList;
     }
 }

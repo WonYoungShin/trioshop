@@ -60,10 +60,10 @@ public class UserJoinService {
            return this.guestUserLoginProcess(guestUserLoginInfo);
         }
     }
-//    public void guestUserJwtToken(HttpServletResponse response, UserInfoBySession guestUser){
-//        LoginSuccessHandler login = new LoginSuccessHandler(jwtTokenUtil);
-//        login.loginSuccess(response,guestUser);
-//    }
+    public void guestUserJwtToken(HttpServletResponse response, UserInfoBySession guestUser){
+        LoginSuccessHandler login = new LoginSuccessHandler(jwtTokenUtil);
+        login.loginSuccess(response,guestUser);
+    }
 
     protected void saveGuestUserInfo(GuestUserLoginInfo guestUserLoginInfo) {
         // TRIO_USERS 에 데이터 입력

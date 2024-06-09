@@ -77,7 +77,11 @@
                 <div class="card-body">
                     <!-- 이미지 추가 -->
                     <img src="/images/logo.png" class="img-fluid mb-4" alt="부트스트랩 이미지">
-
+                    <a id="kakao-login-btn" href="${kakaoURL}">
+                        <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+                             alt="카카오 로그인 버튼"/>
+                    </a>
+                    <p id="token-result"></p>
                     <!-- 기본 로그인 폼 -->
                     <form id="loginForm" method="post" action="">
                         <div class="form-group">
@@ -117,7 +121,8 @@
 </div>
 
 <script>
-    document.querySelector('.toggle-password').addEventListener('click', function () {
+
+document.querySelector('.toggle-password').addEventListener('click', function () {
         const passwordField = document.getElementById('userPasswd');
         const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordField.setAttribute('type', type);

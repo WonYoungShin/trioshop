@@ -1,9 +1,6 @@
 package com.trioshop.utils.service;
 
-import com.trioshop.interceptor.AdminCheckInterceptor;
-import com.trioshop.interceptor.LogInterceptor;
-import com.trioshop.interceptor.LoginCheckInterceptor;
-import com.trioshop.interceptor.PasswordCheckInterceptor;
+import com.trioshop.interceptor.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,6 +23,13 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new PasswordCheckInterceptor())
                 .order(2)
                 .addPathPatterns("/changeInfo","/changeInfo/**","/changePassword","/changePassword/**");
+        /**
+         * 주문 요청에 대한 모델 데이터 저장 인터셉터
+         */
+        registry.addInterceptor(new ModelDataInterceptor())
+                .order(3)
+                .addPathPatterns("/orders");
+
 /**
  * 시큐리티 적용으로 인한 권한 체크 인터셉터 주석 처리
  */

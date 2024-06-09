@@ -18,6 +18,7 @@
         FROM TRIO_USERS tuser
         JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
         WHERE tuser.user_id = #{userId}
+            LIMIT 1
     </select>
 
     <select id="findByUserCode" resultType="UserPatchModel">
@@ -90,7 +91,6 @@
         INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
         VALUES (#{userCode}, #{userName}, #{userAddress}, #{userTel}, #{userNickname})
     </insert>
-
 
     <!--    게스트유저 로그인-->
     <select id="searchGuestUser" resultType="UserInfoBySession">
