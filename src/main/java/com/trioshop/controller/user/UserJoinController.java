@@ -36,6 +36,11 @@ public class UserJoinController {
             return "/user/userInfo/login";
         }
     }
+    @GetMapping("/join/terms")
+    public String userJoinTerms(){
+        return "/user/userInfo/joinOfTerms";
+    }
+
 
     @GetMapping("/guestLogin")
     public String guestLoginPage() {

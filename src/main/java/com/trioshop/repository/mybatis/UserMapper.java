@@ -23,4 +23,6 @@ public interface UserMapper {
     void insertUsersData(UsersEntity usersEntity);
     void insertUsersInfoData(UsersInfoEntity usersInfoEntity);
 //    Long selectUserCode(Object object);
+    void insertUsersData(Oauth2JoinModel oauth2JoinModel);
+
 }

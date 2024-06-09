@@ -27,10 +27,15 @@ public class UserJoinDao {
         userMapper.insertUsersData(usersEntity);
         return usersEntity.getUserCode();
     }
+
     public void insertUsersInfoData(UsersInfoEntity usersInfoEntity) {
         userMapper.insertUsersInfoData(usersInfoEntity);
     }
 //    public Long selectUserCode(Object object) {
 //        return userMapper.selectUserCode(object);
 //    }
+public Long insertUsersData(Oauth2JoinModel oauth2JoinModel) {
+    userMapper.insertUsersData(oauth2JoinModel);
+    return oauth2JoinModel.getUserCode();
+}
 }
