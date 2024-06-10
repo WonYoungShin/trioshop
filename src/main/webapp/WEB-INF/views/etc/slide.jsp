@@ -14,13 +14,16 @@
         .carousel-item img {
             width: 100%;
             height: auto;
+
+        }
+
+        #carouselExampleIndicators {
+            margin-top: 130px;
         }
 
     </style>
 </head>
 <body>
-
-
 <!-- 슬라이더 추가 -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">

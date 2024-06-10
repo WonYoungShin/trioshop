@@ -11,21 +11,12 @@
 </head>
 <body>
 
-<div class="hdArea">
-    <div class=" clear">
-        <div class="hdCate">
-            <!-- 로고 -->
-            <div class="hdLeft"><a href="/index.html" class="hd_logo"><img src="http://jogunshop.img18.kr/web/intop/pc/main_logo.png"></a></div>
-            <!-- //로고 -->
-            <!-- 카테고리 -->
-            <div class="cateWrap">
+<div id="hdWrap" class="headroom headroom--not-bottom headroom--pinned headroom--top">
+    <div class="hdArea">
+        <div class=" clear">
+            <div class="hdCate">
+                <div class="cateWrap">
                     <span class="tmenu">
-                        <a href="/shop/shopbrand.html?xcode=071&amp;type=P">BEST</a>
-                    </span>
-                <span class="tmenu">
-                        <a href="/shop/shopbrand.html?xcode=059&amp;type=P" style="color:#cc0000;">NEW~20%</a>
-                    </span>
-                <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=065&amp;type=">MADE</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=065&amp;type=N&amp;mcode=002">티</a></li>
@@ -34,9 +25,8 @@
                             <li><a href="/shop/shopbrand.html?xcode=065&amp;type=N&amp;mcode=003">아우터</a></li>
                         </ul>
 
-
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=052&amp;type=Y">BIG SIZE</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=052&amp;type=N&amp;mcode=001">티</a></li>
@@ -45,10 +35,10 @@
                             <li><a href="/shop/shopbrand.html?xcode=052&amp;type=N&amp;mcode=004">바지</a></li>
                         </ul>
                     </span>
-                <!--<span class="tmenu">
-                    <a href="">BRAND</a>
-                </span>-->
-                <span class="tmenu">
+                    <!--<span class="tmenu">
+                        <a href="">BRAND</a>
+                    </span>-->
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=078&amp;type=Y">TOP</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=078&amp;type=N&amp;mcode=009">맨투맨&amp;후드티</a></li>
@@ -59,7 +49,7 @@
                             <li><a href="/shop/shopbrand.html?xcode=078&amp;type=N&amp;mcode=002">프린팅티</a></li>
                         </ul>
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=055&amp;type=Y">SHIRTS</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=055&amp;type=N&amp;mcode=004">베이직</a></li>
@@ -69,7 +59,7 @@
                             <li><a href="/shop/shopbrand.html?xcode=055&amp;type=N&amp;mcode=008">헨리넥&amp;차이나</a></li>
                         </ul>
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=081&amp;type=Y">PANTS</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=081&amp;type=N&amp;mcode=006">슬랙스</a></li>
@@ -79,7 +69,7 @@
                             <li><a href="/shop/shopbrand.html?xcode=081&amp;type=N&amp;mcode=004">반바지</a></li>
                         </ul>
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=079&amp;type=Y">OUTER</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=079&amp;type=N&amp;mcode=004">패딩</a></li>
@@ -92,14 +82,14 @@
                         </ul>
                     </span>
 
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=083">SHOES&amp;BAG</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=083&amp;type=N&amp;mcode=001">신발</a></li>
                             <li><a href="/shop/shopbrand.html?xcode=083&amp;type=N&amp;mcode=002">가방</a></li>
                         </ul>
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=080">ACC</a>
                         <ul class="depth2" style="display: none;">
                             <li><a href="/shop/shopbrand.html?xcode=080&amp;type=N&amp;mcode=005">양말&amp;타이</a></li>
@@ -112,38 +102,23 @@
                         </ul>
 
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=068">당일배송</a>
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=076">SALE</a>
                     </span>
-                <span class="tmenu">
+                    <span class="tmenu">
                         <a href="/shop/shopbrand.html?xcode=018">1+1</a>
                     </span>
-                <!--<span class="tmenu">
-                    <a href="/shop/shopbrand.html?xcode=046">2022</a>
-                </span>-->
+                    <!--<span class="tmenu">
+                        <a href="/shop/shopbrand.html?xcode=046">2022</a>
+                    </span>-->
+                </div>
             </div>
-            <ul class="topRight">
-                <li>
-                    <div class="searchArea">
-                        <div class="search">
-                            <form action="/shop/shopbrand.html" method="post" name="search">                                <fieldset class="searchWrap">
-                                <legend>검색 폼</legend>
-                                <input name="search" onkeydown="CheckKey_search();" value="" class="MS_search_word">                                    <a href="javascript:prev_search();search_submit();" class="searhBtn"><i class="xi-search"></i></a>
-                            </fieldset>
-                            </form>                            </div>
-                    </div>
-                </li>
-                <li class="allBtn"><a href="#none" class="menuAllBtn"><img src="http://jogunshop.img18.kr/web/intop/pc/top_icon06.png"></a></li>
-            </ul>
-            <!-- //카테고리 -->
         </div>
     </div>
 </div>
 
-
 </body>
-</script>
 </html>

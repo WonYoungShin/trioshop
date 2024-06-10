@@ -18,6 +18,12 @@
         font-family: 'Alata', sans-serif;
     }
 
+    nav.navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+    }
 </style>
 <body>
 
@@ -95,6 +101,9 @@
         </ul>
     </div>
 </nav>
+
+
+
 
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

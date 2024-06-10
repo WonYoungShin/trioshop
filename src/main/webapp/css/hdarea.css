@@ -6,11 +6,12 @@
     right: 0;
     z-index: 100;
     width: 100%;
+    text-align: center;
 }
 
 #hdWrap .hdArea {
     position: relative;
-    top: 0;
+    top: 54px;
     left: 0;
     right: 0;
     height: 75px;

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/etc/header.jsp" %>
 <%--hdarea 보여주는 파트jsp--%>
-<%--<%@ include file="/WEB-INF/views/etc/hdarea.jsp" %>--%>
+<%@ include file="/WEB-INF/views/etc/hdarea.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
