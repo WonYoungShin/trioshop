@@ -6,4 +6,10 @@ public interface JWTConst {
     public static final String USER_NICKNAME = "userNickname";
     public static final String ROLE = "role";
     public static final String USER_CODE = "userCode";
+    public static final String ACCESS_TOKEN = "Authorization";
+    public static final String ACCESS_TOKEN_START1="Bearer ";
+    public static final String ACCESS_TOKEN_START2="Bearer+";
+    public static final String REFRESH_TOKEN = "refreshCookie";
+
+
 }
