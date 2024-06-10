@@ -63,8 +63,12 @@
                                 <a class="nav-link" href="/trioAdmin/stock">상품등록</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="/board">게시판</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="/logout">로그아웃</a>
                             </li>
+
                         </c:when>
                         <c:otherwise>
                             <!-- 일반 사용자 메뉴 -->
@@ -80,6 +84,9 @@
                             <c:if test="${loginMember.gradeCode != 0}">
                                 <li class="nav-item">
                                     <a class="nav-link" href="/myPage">마이페이지</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/board">게시판</a>
                                 </li>
                             </c:if>
                             <li class="nav-item">

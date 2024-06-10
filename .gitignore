@@ -35,3 +35,4 @@ gradle/wrapper/gradle-wrapper.properties
 gradlew
 compiler.xml
 .idea
+src/main/resources/application-primary.properties
