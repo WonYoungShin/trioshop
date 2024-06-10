@@ -2,12 +2,15 @@ package com.trioshop.exception.advice;
 
 import com.trioshop.exception.ApplicationException;
 import com.trioshop.exception.ExceptionType;
+import com.trioshop.exception.QuantityAdjustFailed;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.NoSuchElementException;
 
 
 @ControllerAdvice
@@ -32,6 +35,19 @@ public class GlobalExceptionHandler {
         // 예외후 이동할 뷰를 지정
         mv.setViewName(exceptionType.getViewName());
         return mv;
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ModelAndView NoSuchElementException(NoSuchElementException e) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("errorMessage","항목을 찾을수 없습니다.");
+        return mav;
+    }
+    @ExceptionHandler(QuantityAdjustFailed.class)
+    public ModelAndView QuantityAdjustFailed(QuantityAdjustFailed e) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("error", e.getMessage());
+        return mav;
     }
 }
 
