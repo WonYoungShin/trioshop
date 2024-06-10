@@ -1,5 +1,6 @@
 package com.trioshop.filter;
 
+import com.trioshop.JWTConst;
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.HeaderModel;
 import com.trioshop.model.dto.user.UserInfoBySession;
@@ -19,6 +20,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+
+import static com.trioshop.JWTConst.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 @RequiredArgsConstructor
@@ -40,10 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("Authorization".equals(cookie.getName())) {
+                if (ACCESS_TOKEN.equals(cookie.getName())) {
                     String header = cookie.getValue();
 
-                    if (header != null && (header.startsWith("Bearer ") || header.startsWith("Bearer+"))) {
+                    if (header != null && (header.startsWith(ACCESS_TOKEN_START1) || header.startsWith(ACCESS_TOKEN_START2))) {
                         token = header.substring(7);
                         try {
                             username = jwtTokenUtil.getUsername(token); // 토큰에서 사용자 이름 추출
@@ -57,18 +62,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             token = null; // 토큰이 유효하지 않은 경우 null로 설정하여 refresh 토큰을 사용하도록 유도
                         }
                     }
-                } else if ("refreshCookie".equals(cookie.getName())) {
+                } else if (REFRESH_TOKEN.equals(cookie.getName())) {
                     refreshToken = cookie.getValue();
                 }
             }
         }
 
 
-       if (refreshToken != null && jwtTokenUtil.validateRefreshToken(refreshToken)) {
+        if (token == null && refreshToken != null && jwtTokenUtil.validateRefreshToken(refreshToken)) {
            // refresh 토큰이 유효한 경우 새로운 access 토큰 발급
            try {
                String newAccessToken = jwtTokenUtil.refreshToken(refreshToken);
                response.addCookie(createAccessTokenCookie(newAccessToken));
+               response.sendRedirect(request.getRequestURI());
+               return;
            } catch (Exception e) {
                // refresh 토큰이 유효하지 않은 경우 처리
            }
@@ -90,11 +97,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private Cookie createAccessTokenCookie(String token) {
-        Cookie cookie = new Cookie("Authorization", "Bearer+ " + token);
+        Cookie cookie = new Cookie(ACCESS_TOKEN, URLEncoder.encode(ACCESS_TOKEN_START1 + token, UTF_8));
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+//        cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60); // 1시간
+        cookie.setMaxAge(60*5); // 5분
         return cookie;
     }
 }

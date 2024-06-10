@@ -71,7 +71,7 @@ public class JwtTokenUtil {
     }
 
     public String refreshToken(String refreshToken) {
-        try{
+        try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
@@ -79,17 +79,18 @@ public class JwtTokenUtil {
                     .getBody();
 
             String userId = claims.getSubject();
-
             String storedRefreshToken = redisRepository.findById(userId);
 
-            if(refreshToken.equals(storedRefreshToken)){
+            if (refreshToken.equals(storedRefreshToken)) {
                 UserInfoBySession user = userLoginService.loadUserByUsername(userId);
                 return generateToken(user);
-            } else{
+            } else {
                 throw new RuntimeException("Invalid refresh token");
             }
-        }catch (Exception e){
-            throw new RuntimeException("Invalid refresh token");
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException("Expired refresh token", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid refresh token", e);
         }
     }
 
