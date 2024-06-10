@@ -6,15 +6,23 @@
     <!--usercode가 두테이블모두사용되기때문에 별칭을 정해줘야한다.-->
     <!--tuser가 TRIO_USERS,info가 TRIO_USERS_INFO-->
     <select id="loginUser" resultType="UserInfoBySession">
-        SELECT tuser.user_code, grade_code, user_id, user_nickname
+        SELECT tuser.user_code, grade_code, user_id, user_nickname, user_passwd
         FROM TRIO_USERS tuser
         JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
         WHERE tuser.user_id = #{userId}
           AND tuser.user_passwd = #{userPasswd}
     </select>
 
+    <select id="loadUserByUsername" resultType="UserInfoBySession">
+        SELECT tuser.user_code, grade_code, user_id, user_nickname, user_passwd
+        FROM TRIO_USERS tuser
+        JOIN TRIO_USERS_INFO info ON tuser.user_code = info.user_code
+        WHERE tuser.user_id = #{userId}
+            LIMIT 1
+    </select>
+
     <select id="findByUserCode" resultType="UserPatchModel">
-        SELECT user_name, user_address, user_tel
+        SELECT user_address, user_tel, user_nickname
         FROM TRIO_USERS_INFO
         WHERE user_code = #{userCode}
     </select>
@@ -46,28 +54,10 @@
         WHERE user_code = #{userCode}
     </update>
 
-    <select id="passwordCheck" resultType="Integer">
-        SELECT count(user_code)
+    <select id="passwordCheck" resultType="String">
+        SELECT user_passwd
         FROM TRIO_USERS
         WHERE user_code = #{userCode}
-        AND user_passwd = #{userPasswd}
-    </select>
-
-    <!-- 사용자 회원가입을 위한 쿼리문 -->
-    <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
-    <insert id="saveUsers" parameterType="UserJoin">
-        INSERT INTO TRIO_USERS (grade_code, user_id, user_passwd)
-        VALUES (1, #{userId}, #{userPasswd})
-    </insert>
-    <!-- 사용자 회원가입을 위한 쿼리문2 -->
-    <!-- TRIO_USERS_INFO 테이블에 사용자 상세 정보 저장 -->
-    <insert id="saveUserInfo" parameterType="UserJoin">
-        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
-        VALUES (LAST_INSERT_ID(), #{userName}, #{userAddress}, #{userTel}, #{userNickname})
-    </insert>
-    <!-- /join에서 이미 만들어진 userId 인지를 파악할수있는지 확인할수있는 쿼리문을 만들었습니다. -->
-    <select id="checkUserIdExists" parameterType="map" resultType="UserJoin">
-        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}
     </select>
 
     <update id="patchUserInfo">
@@ -78,7 +68,31 @@
         WHERE user_code = #{userCode}
     </update>
 
-<!-- 아래로 swy  -->
+    <!--  회원가입  -->
+    <!-- /join에서 이미 만들어진 userId 인지를 파악할수있는지 확인할수있는 쿼리문을 만들었습니다. -->
+    <select id="checkUserIdExists" parameterType="map" resultType="UserJoin">
+        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}
+    </select>
+    <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
+    <insert id="saveUsers" useGeneratedKeys="true" keyProperty="userCode">
+        INSERT INTO TRIO_USERS (grade_code, user_id, user_passwd)
+        VALUES (1, #{userId}, #{userPasswd})
+    </insert>
+    <!-- userId와 gradeCode로 userCode 검색   -->
+<!--    <select id="selectUserCode" resultType="long">-->
+<!--        SELECT user_code-->
+<!--        FROM TRIO_USERS-->
+<!--        WHERE grade_code = #{gradeCode}-->
+<!--        AND user_id = #{userId}-->
+<!--        LIMIT 1-->
+<!--    </select>-->
+    <!-- TRIO_USERS_INFO 테이블에 사용자 상세 정보 저장 -->
+    <insert id="saveUserInfo" parameterType="UsersInfoEntity">
+        INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_address, user_tel, user_nickname)
+        VALUES (#{userCode}, #{userName}, #{userAddress}, #{userTel}, #{userNickname})
+    </insert>
+
+    <!--    게스트유저 로그인-->
     <select id="searchGuestUser" resultType="UserInfoBySession">
         SELECT u.user_code, u.grade_code, u.user_id, ui.user_nickname
         FROM TRIO_USERS u
@@ -87,7 +101,7 @@
           AND ui.user_tel = #{userTel}
     </select>
     <!-- TRIO_USERS 테이블에 유저를 삽입 하고 select 하여 userEntity형식으로 반환-->
-    <insert id="insertUsersData" >
+    <insert id="insertUsersData" useGeneratedKeys="true" keyProperty="userCode">
         INSERT INTO TRIO_USERS (grade_code, user_id)
         VALUES (#{gradeCode}, #{userId})
         <!-- 삽입된 유저 조회 -->
@@ -97,13 +111,4 @@
         INSERT INTO TRIO_USERS_INFO (user_code, user_name, user_tel, user_nickname)
         VALUES (#{userCode},#{userName}, #{userTel}, #{userNickname})
     </insert>
-
-    <!-- 삽입된 유저 조회 -->
-    <select id="selectGuestUsersEntity" resultType="long">
-        SELECT user_code
-        FROM TRIO_USERS
-        WHERE grade_code = #{gradeCode}
-        AND user_id = #{userId}
-        LIMIT 1
-    </select>
 </mapper>

@@ -1,12 +1,16 @@
 package com.trioshop.model.dto.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
-public class LoginModel {
+@AllArgsConstructor
+@Getter
+@Builder
+public class Oauth2JoinModel {
     private final String userId;
-    private final String userPasswd;
+    private final String gradeCode;
+    private Long userCode;
 }

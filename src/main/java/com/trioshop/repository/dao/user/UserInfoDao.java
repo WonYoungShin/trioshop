@@ -15,18 +15,14 @@ public class UserInfoDao {
 
     // 로그인 기능을 제공하는 메소드입니다. 사용자 아이디와 비밀번호를 받아와서 해당 정보로 로그인을 시도하고, 로그인에 성공하면 세션에 사용자 정보를 저장하여 반환합니다.
 
-    public Integer passwordCheck(UserCodePwModel userCodePwModel){
-        return userMapper.passwordCheck(userCodePwModel);
+    public String passwordCheck(Long userCode){
+        return userMapper.passwordCheck(userCode);
     }
     // 사용자 코드를 기반으로 사용자 정보를 찾아 반환하는 메소드입니다.
     public UserPatchModel findByUserCode(Long userCode) {
         return userMapper.findByUserCode(userCode);
     }
 
-    public void saveUsers(UserJoin userJoin) {userMapper.saveUsers(userJoin);}
-    // 사용자 아이디 중복 체크
-    public UserJoin checkUserIdExists(String userId) {return userMapper.checkUserIdExists(userId);}
-    public void saveUserInfo(UserJoin userJoin) {userMapper.saveUserInfo(userJoin);}
 
     public String findId(UserFindId userFindId) {
         return userMapper.findId(userFindId);

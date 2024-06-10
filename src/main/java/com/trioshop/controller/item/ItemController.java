@@ -1,9 +1,11 @@
 package com.trioshop.controller.item;
 
 import com.trioshop.model.dto.item.*;
+import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
-import com.trioshop.utils.CategoryList;
+import com.trioshop.utils.business.CategoryList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ItemController {
     private final ItemService itemService;
     //카테고리 목록 싱글톤으로 관리

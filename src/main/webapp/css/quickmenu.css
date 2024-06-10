@@ -1,0 +1,330 @@
+/* BASIC css start */
+.quickMenuWrap {
+    position: fixed;
+    top: 0;
+    right: -297px;
+    height: 100vh;
+}
+.quickMenuWrap.active {
+    right: 0;
+}
+.quickMenu {
+    border: 1px solid #dbdbdb;
+    background: #fafafa;
+    width: 48px;
+    height: auto;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -126px;
+    z-index: 10;
+}
+.quickMenu > ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+.quickMenu > ul > li {
+    width: 48px;
+    height: 44px;
+    border-bottom: 1px solid #dbdbdb;
+    position: relative;
+}
+.quickMenu > ul > li > a {
+    width: 48px;
+    height: 44px;
+    display: block;
+    position: relative;
+}
+.quickMenu > ul > li > a span {
+    position: absolute;
+    left: -70px;
+    transition: 0.5s all;
+    visibility: hidden;
+    opacity: 0;
+    width: 70px;
+    text-align: center;
+    display: block;
+    background: #222;
+    border-radius: 5px;
+    color: #fff;
+    height: 20px;
+    line-height: 20px;
+    top: 50%;
+    margin-top: -10px;
+    font-size: 10px;
+}
+.quickMenu > ul > li > a span:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f3a5"; /* 다이아몬드 아이콘의 유니코드 */
+    position: absolute;
+    top: 50%;
+    right: -6px;
+    margin: -2px 0 0 -6px;
+    border-style: solid;
+    border-width: 5px 4px 0;
+    display: block;
+    width: 0;
+    z-index: 1;
+    border-color: #222 transparent;
+    transform: rotate(270deg);
+}
+.quickMenu > ul > li > a:hover > span {
+    opacity: 1;
+    visibility: visible;
+}
+.quickMenu > ul > li.kakao > a {
+    position: relative;
+    cursor: pointer;
+}
+.quickMenu > ul > li.kakao > a:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f3a5"; /* 다이아몬드 아이콘의 유니코드 */
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+}
+.quickMenu > ul > li.naver > a {
+    position: relative;
+    cursor: pointer;
+}
+.quickMenu > ul > li.naver > a:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f3a5"; /* 다이아몬드 아이콘의 유니코드 */
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+}
+.quickMenu > ul > li.wish > a {
+    position: relative;
+    cursor: pointer;
+}
+.quickMenu > ul > li.wish > a:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f3a5"; /* 다이아몬드 아이콘의 유니코드 */
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+}
+.quickMenu > ul > li.recent > a {
+    position: relative;
+    cursor: pointer;
+}
+.quickMenu > ul > li.recent > a:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f3a5"; /* 다이아몬드 아이콘의 유니코드 */
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+}
+.quickMenu > ul > li.attendance > a {
+    position: relative;
+    cursor: pointer;
+}
+.quickMenu > ul > li.attendance > a:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f3a5"; /* 다이아몬드 아이콘의 유니코드 */
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.quickMenu > ul > li.top > a {
+    position: relative;
+    cursor: pointer;
+}
+.quickMenu > ul > li.top > a:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f35b";
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+}
+.quickMenu > ul > li.bottom > a {
+    position: relative;
+    cursor: pointer;
+}
+.quickMenu > ul > li.bottom > a:after {
+    font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
+    content: "\f358"; /* 다이아몬드 아이콘의 유니코드 */
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: 20px;
+}
+
+/*.quickMenu .quickScroll a {
+    width: 48px;
+    height: 35px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    color: #555;
+    cursor: pointer;
+}
+.quickMenu .quickScroll a i {
+    font-size: 20px;
+    line-height: 35px;
+}*/
+
+#MS_shopping_tab {
+    position: fixed;
+    bottom: 20px;
+    right: -300px;
+    width: 350px;
+}
+#MS_shopping_tab.active {
+    right: 0;
+}
+#MS_shopping_tab .footer_tap {}
+#MS_shopping_tab .footer_tap .footer_tap_menu {
+    width: 50px;
+    background: #dbdbdb;
+    position: absolute;
+    bottom: 0;
+}
+#MS_shopping_tab .footer_tap .footer_tap_menu ul li {
+    padding: 10px 0;
+}
+#MS_shopping_tab .footer_tap .footer_tap_menu ul li:first-child {
+    padding: 20px 0;
+}
+#MS_shopping_tab .footer_tap .footer_tap_menu ul li a {
+    color: #fff;
+    font-size: 20px;
+}
+#MS_shopping_tab_inner {
+    width: 296px;
+    background: #fff;
+    margin-left: 50px;
+    border-left: 1px solid #dbdbdb;
+    min-height: 100vh;
+    position: relative;
+}
+#MS_shopping_tab_inner h2 {
+    line-height: 50px;
+    background: #252525;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    position: relative;
+}
+#MS_shopping_tab_inner h2 i {
+    position: absolute;
+    top: 50%;
+    margin-top: -9px;
+    font-size: 18px;
+    right: 10px;
+    cursor: pointer;
+}
+.product_wrap {
+    position: relative;
+    padding-bottom: 50px;
+}
+#MS_today_product {
+    padding: 18px 23px;
+    overflow: auto;
+    min-height: 0;
+    height: calc(100vh - 150px);
+}
+#MS_today_product::-webkit-scrollbar {
+    max-width: 8px;
+    max-height: 4px;
+}
+#MS_today_product::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0px;
+}
+#MS_today_product::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+}
+#cmd_btn {
+    position: absolute;
+    height: 50px;
+    line-height: 50px;
+    background: #fff;
+    text-align: right;
+    padding: 0 10px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #252525;
+}
+#cmd_btn a {
+    color: #252525;
+}
+.MS_today_slide_item_inner {
+    display: table;
+}
+.MS_today_slide_item_inner .thumb, .MS_today_slide_item_inner .info {
+    display: table-cell;
+}
+.MS_today_slide_item_inner .info {
+    vertical-align: bottom;
+    padding-left: 15px;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    color: #252525;
+}
+.MS_today_slide_item_inner .info .pname {
+    margin-bottom: 5px;
+    color: #252525;
+}
+.MS_today_slide_item_inner .info .engname {
+    color: #ed4e4e;
+    border-bottom: 1px solid #252525;
+    font-size: 17px;
+    margin-bottom: 5px;
+    display: inline-block;
+    font-weight: bold;
+}
+.MS_image_slider_inner ul .MS_today_slide_item {
+    margin-bottom: 20px;
+}
+.MS_image_slider_inner ul .MS_today_slide_item:last-child {
+    margin-bottom: 0;
+}
+/* BASIC css end */

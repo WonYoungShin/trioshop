@@ -7,10 +7,20 @@
   <!-- 부트스트랩 CSS 링크 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+  .mt-4, .my-4 {
+    margin-top: 4.5rem !important;
+  }
+
+  .container{
+    margin-top: 30px;
+  }
+
+
+</style>
 <body>
 
 <div class="container">
-  <h1 class="my-4">상품 목록</h1>
   <div class="row mb-4">
     <div class="col-md-12 d-flex justify-content-end">
       <!-- 검색창 및 카테고리 선택 항목 결합 -->

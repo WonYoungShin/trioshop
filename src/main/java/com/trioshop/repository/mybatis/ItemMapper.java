@@ -28,7 +28,7 @@ public interface ItemMapper {
 
     void insertOrderItems(OrderItemEntity orderItemEntity);
 
-    void updateStockQty(ItemCodeAndQty itemCodeAndQty);
+    int updateStockQty(ItemCodeAndQty itemCodeAndQty);
 
     //수정필요?
     void deleteItemsFromCart(long userCode, List<Long> itemCodeList);

@@ -1,5 +1,6 @@
 package com.trioshop.exception.advice;
 
+import com.trioshop.exception.ApplicationException;
 import com.trioshop.exception.MatchingFailedPassword;
 import com.trioshop.exception.SessionExpirationException;
 import com.trioshop.exception.UserNotFoundException;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public String UserNotFoundException(UserNotFoundException e, HttpServletRequest request, Model model){
+    public String UserNotFoundException(ApplicationException e, HttpServletRequest request, Model model){
         String requestURI = request.getRequestURI();
         String message="요청하신 정보를 찾을 수 없습니다.";
         if(requestURI.contains("login")){

@@ -1,8 +1,14 @@
 package com.trioshop.service.user;
 
+import com.trioshop.exception.UserSaveFailedException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserJoinDao;
+import com.trioshop.utils.handler.LoginSuccessHandler;
+import com.trioshop.utils.service.JwtTokenUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,27 +16,39 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserJoinService {
     private final UserJoinDao userJoinDao;
-    // saveUserInfo Dao에서 saveUsers,saveUserInfo 를 불러오고 boolean을 사용해서 판단합니다.
-    // @Transactional를 사용해서 2개의 sql을 동시에 판단할 수 있게 한다.
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtil jwtTokenUtil;
+
     @Transactional
-    public boolean saveUserInfo(UserJoin userJoin) {
-        try {
-            // 이미 해당 아이디를 가진 사용자가 존재하는지 확인하기위해서이다.
-            UserJoin existingUser = userJoinDao.checkUserIdExists(userJoin.getUserId());
-            if (existingUser != null) {
-                return false; // 이미 존재하는 아이디이므로 회원가입 실패
-            } else {
-                // 아이디가 중복되지 않으므로 사용자 정보를 저장
-                userJoinDao.saveUsers(userJoin);
-                userJoinDao.saveUserInfo(userJoin);
-                return true; // 회원가입 성공
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false; // 예외 발생 시 회원가입 실패
+    public boolean userJoinProcess(UserJoin userJoin) {
+        boolean userIdExists = userJoinDao.checkUserIdExists(userJoin.getUserId());
+        if(userIdExists) {
+            return true;
+        } else {
+            saveUserJoinData(userJoin);
+            return false;
         }
     }
+    private void saveUserJoinData(UserJoin userJoin) {
+        try {
+            UserJoinModel userJoinModel = UserJoinModel.builder()
+                    .userId(userJoin.getUserId())
+                    .userPasswd(passwordEncoder.encode(userJoin.getUserPasswd()))
+                    .build();
 
+            Long userCode = userJoinDao.saveUsers(userJoinModel);
+
+//        long userCode = userJoinDao.selectUserCode(userJoin);
+//        // UsersInfoEntity insert
+            userJoinDao.saveUserInfo(new UsersInfoEntity(userCode,
+                    userJoin.getUserName(),
+                    userJoin.getUserAddress(),
+                    userJoin.getUserTel(),
+                    userJoin.getUserNickname()));
+        } catch (Exception e) {
+            throw new UserSaveFailedException("Failed to save user data: " + e.getMessage());
+        }
+    }
     public UserInfoBySession guestUserLoginProcess(GuestUserLoginInfo guestUserLoginInfo) {
 
         UserInfoBySession guestUser = userJoinDao.searchGuestUser(guestUserLoginInfo);
@@ -42,14 +60,18 @@ public class UserJoinService {
            return this.guestUserLoginProcess(guestUserLoginInfo);
         }
     }
-    @Transactional
+    public void guestUserJwtToken(HttpServletResponse response, UserInfoBySession guestUser){
+        LoginSuccessHandler login = new LoginSuccessHandler(jwtTokenUtil);
+        login.loginSuccess(response,guestUser);
+    }
+
     protected void saveGuestUserInfo(GuestUserLoginInfo guestUserLoginInfo) {
         // TRIO_USERS 에 데이터 입력
         UsersEntity usersEntity = new UsersEntity(9,guestUserLoginInfo.getUserTel());
         // 게스트 유저의 코드를 9로 지정, id=userTel로 지정
-        userJoinDao.insertUsersData(usersEntity);
+        Long userCode = userJoinDao.insertUsersData(usersEntity);
         // 입력된 유저데이터 확인
-        long userCode = userJoinDao.selectGuestUsersEntity(usersEntity);
+//        long userCode = userJoinDao.sele(usersEntity);
         // TRIO_USERS_INFO 에 데이터 입력
         userJoinDao.insertUsersInfoData(new UsersInfoEntity(userCode, //
                                                             guestUserLoginInfo.getUserName(),

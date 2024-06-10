@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+
+<%--quickmenu를 보여주는 파트jsp--%>
+<%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>
+
 <%--itemList를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/itemListPart.jsp" %>
 <!-- 부트스트랩 JavaScript 링크 -->

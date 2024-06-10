@@ -29,8 +29,8 @@ public class OrderDao {
         itemMapper.insertOrderItems(orderItemEntity);
     }
 
-    public void updateStockQty(ItemCodeAndQty itemCodeAndQty) {
-        itemMapper.updateStockQty(itemCodeAndQty);
+    public int updateStockQty(ItemCodeAndQty itemCodeAndQty) {
+        return itemMapper.updateStockQty(itemCodeAndQty);
     }
 
     //주문서에 고객의 기존정보를 미리 기입
