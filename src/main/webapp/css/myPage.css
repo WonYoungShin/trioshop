@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color:#ffffff;
+    font-size:16px;
+}
+#wrapper{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap:1rem;
+}
+.card {
+    margin: 150px 1rem 1rem 1rem; /* 상단 150px, 좌 1rem, 우 1rem, 하단 1rem */
+    background-color: #fff;
+    box-shadow: 0px 1px 5px #222;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.card:hover {
+    transform: scale(1.05); /* 크기 확대 */
+    background-color: #ddd; /* 배경 색상 어둡게 */
+}
+
+.card > header {
+    font-size:1.5rem;
+    padding:0.5rem;
+}
+.card > p {
+    padding:0.5rem;
+    line-height:1.6em;
+}
+.card > img {
+    max-width:100%;
+}
+
+.card:hover img {
+    filter: brightness(75%); /* 이미지를 어둡게 만듦 */
+}

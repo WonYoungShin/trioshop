@@ -7,68 +7,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>마이페이지</title>
     <!-- Bootstrap CDN -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .main-container {
-            margin-top: 50px;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            margin-bottom: 30px;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #343a40;
-        }
-        .btn-custom {
-            height: 50px;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="css/myPage.css">
 </head>
 <body>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8 main-container">
-            <h2 class="text-center">마이페이지</h2>
-            <div class="row">
-                <!-- 정보 수정 링크 -->
-                <div class="col-12">
-                    <a href="/passwordCheck/${userCode}?status=info" class="btn btn-primary btn-block btn-custom">정보 수정</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <a href="/passwordCheck/${userCode}?status=pw" class="btn btn-secondary btn-block btn-custom">비밀번호 변경</a>
-                </div>
-            </div>
-            <div class="row">
-                <!-- 주문 내역 링크 -->
-                <div class="col-12">
-                    <a href="/orderList" class="btn btn-secondary btn-block btn-custom">주문 내역</a>
-                </div>
-            </div>
-            <div class="row">
-                <!-- 닉네임 수정 링크 -->
-                <div class="col-12">
-                    <a href="/logout" class="btn btn-success btn-block btn-custom">로그아웃</a>
-                </div>
-            </div>
-            <div class="row">
-                <!-- 메인 메뉴로 돌아가기 버튼 -->
-                <div class="col-12">
-                    <a href="/itemList" class="btn btn-info btn-block btn-custom">메인 메뉴로 돌아가기</a>
-                </div>
-            </div>
-        </div>
+
+<div id="wrapper">
+    <div class="card" data-usercode="1">
+        <header>정보 수정</header>
+        <img src="/images/logo.png" alt="Image 1">
     </div>
+
+    <div class="card" data-usercode="2">
+        <header>비밀번호 변경</header>
+        <img src="/images/logo.png" alt="Image 2">
+    </div>
+
+    <div class="card" data-usercode="3">
+        <header>주문 내역</header>
+        <img src="/images/logo.png" alt="Image 3">
+    </div>
+
+    <div class="card" data-usercode="4">
+        <header>로그아웃</header>
+        <img src="/images/logo.png" alt="Image 4">
+    </div>
+
+    <div class="card" data-usercode="5">
+        <header>메인 메뉴로 돌아가기</header>
+        <img src="/images/logo.png" alt="Image 5">
+    </div>
+
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const userCode = card.getAttribute('data-usercode');
+                let url;
+                switch(userCode) {
+                    case '1':
+                        url = `/passwordCheck/${userCode}?status=info`;
+                        break;
+                    case '2':
+                        url = '/passwordCheck/${userCode}?status=pw';
+                        break;
+                    case '3':
+                        url = `/orderList`;
+                        break;
+                    case '4':
+                        url = `/logout`;
+                        break;
+                    case '5':
+                        url = `/itemList`;
+                        break;
+                    default:
+                        url = `#`;
+                        break;
+                }
+                window.location.href = url;
+            });
+        });
+    });
+</script>
 </body>
 </html>

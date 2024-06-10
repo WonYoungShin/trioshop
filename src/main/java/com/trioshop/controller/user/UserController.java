@@ -46,7 +46,7 @@ public class UserController {
         PasswordChangeCodeAndStatus passwordChangeCodeAndStatus = userInfoService.findUserCodeByNameAndId(psModel);
 
         session.setAttribute("userCode", passwordChangeCodeAndStatus.getUserCode());
-        model.addAttribute("showForm", passwordChangeCodeAndStatus.getStatus());
+        model.addAttribute("findPwSuccess", passwordChangeCodeAndStatus.getStatus());
         return "/user/userInfo/findPw";
     }
 

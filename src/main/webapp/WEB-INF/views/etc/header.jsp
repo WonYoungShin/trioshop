@@ -8,7 +8,17 @@
     <title>TRIOShop</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 </head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Alata', sans-serif;
+    }
+
+</style>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
