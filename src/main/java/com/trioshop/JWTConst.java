@@ -5,4 +5,5 @@ public interface JWTConst {
     public static final String GRADE_CODE = "gradeCode";
     public static final String USER_NICKNAME = "userNickname";
     public static final String ROLE = "role";
+    public static final String USER_CODE = "userCode";
 }

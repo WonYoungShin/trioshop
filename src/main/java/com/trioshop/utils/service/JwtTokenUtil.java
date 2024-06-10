@@ -42,6 +42,7 @@ public class JwtTokenUtil {
         claims.put(ROLE, user.getRole());
         claims.put(GRADE_CODE, user.getGradeCode());
         claims.put(USER_NICKNAME, user.getUserNickname());
+        claims.put(USER_CODE, user.getUserCode());
 
 
         return Jwts.builder()
@@ -128,7 +129,10 @@ public class JwtTokenUtil {
     public Role getRoles(String token) {
         return getClaimsFromToken(token).get(ROLE, Role.class);
     }
-
+    //토큰에서 유저 코드 추출
+    public Long getUserCode(String token){
+        return getClaimsFromToken(token).get(USER_CODE, Long.class);
+    }
     // 토큰에서 클레임 추출
     private Claims getClaimsFromToken(String token) {
         return Jwts.parser()
