@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet"> <%--폰트--%>
 </head>
 <body>
-<form id="loginForm" name="loginForm" autocomplete="on" action="" method="post">
+<form id="loginForm" name="loginForm" autocomplete="off" action="" method="post">
     <div class="page-container">
         <div class="login-form-container shadow">
             <div class="login-form-right-side">

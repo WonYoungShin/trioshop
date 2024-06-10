@@ -17,7 +17,7 @@
 <body>
 <c:choose>
     <c:when test="${not findPwSuccess}">
-        <form id="find_Pw_Form" name="find_Pw_Form" autocomplete="on" action="/findPw" method="post">
+        <form id="find_Pw_Form" name="find_Pw_Form" autocomplete="off" action="/findPw" method="post">
             <div class="page-container">
                 <div class="login-form-container shadow">
                     <div class="login-form-right-side">
