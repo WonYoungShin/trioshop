@@ -34,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String username = null;
         String nickname = null;
         Long gradeCode = null;
+        Long userCode = null;
         String refreshToken = null;
         Cookie[] cookies = request.getCookies();
 
@@ -47,9 +48,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         try {
                             username = jwtTokenUtil.getUsername(token); // 토큰에서 사용자 이름 추출
                             if(jwtTokenUtil.validateToken(token) && !redisRepository.isTokenBlacklisted(token)) {
+                                userCode = jwtTokenUtil.getUserCode(token);
                                 gradeCode = jwtTokenUtil.getGradeCode(token); // 토큰에서 사용자 등급 추출
                                 nickname = jwtTokenUtil.getUserNickname(token); // 토큰에서 사용자 닉네임 추출
-                                request.setAttribute(SessionConst.LOGIN_MEMBER, new HeaderModel(nickname, gradeCode));
+                                request.setAttribute(SessionConst.LOGIN_MEMBER, new HeaderModel(userCode,nickname, gradeCode));
                             }
                         } catch (Exception e) {
                             token = null; // 토큰이 유효하지 않은 경우 null로 설정하여 refresh 토큰을 사용하도록 유도
@@ -61,6 +63,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
+
+       if (refreshToken != null && jwtTokenUtil.validateRefreshToken(refreshToken)) {
+           // refresh 토큰이 유효한 경우 새로운 access 토큰 발급
+           try {
+               String newAccessToken = jwtTokenUtil.refreshToken(refreshToken);
+               response.addCookie(createAccessTokenCookie(newAccessToken));
+           } catch (Exception e) {
+               // refresh 토큰이 유효하지 않은 경우 처리
+           }
+       }
+
         // 유저는 존재하지만, 권한이 없을 때
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserInfoBySession user = userLoginService.loadUserByUsername(username);
@@ -69,24 +82,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         user, null, user.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            } else if (refreshToken != null && jwtTokenUtil.validateRefreshToken(refreshToken)) {
-                // refresh 토큰이 유효한 경우 새로운 access 토큰 발급
-                try {
-                    String refreshTokenUsername = jwtTokenUtil.getUsername(refreshToken);
-                    if (refreshTokenUsername.equals(username)) {
-                        UserInfoBySession refreshUser = userLoginService.loadUserByUsername(refreshTokenUsername);
-                        String newAccessToken = jwtTokenUtil.generateToken(refreshUser);
-                        response.addCookie(createAccessTokenCookie(newAccessToken));
-                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                                refreshUser, null, refreshUser.getAuthorities());
-                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    }
-                } catch (Exception e) {
-                    // refresh 토큰이 유효하지 않은 경우 처리
-                }
             }
         }
+
 
         chain.doFilter(request, response);
     }
