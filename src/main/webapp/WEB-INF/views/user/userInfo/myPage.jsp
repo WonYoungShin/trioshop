@@ -8,7 +8,21 @@
     <title>마이페이지</title>
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="css/myPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 </head>
+<style>
+
+    header {
+        text-align: center;
+    }
+
+
+    .card > header {
+        font-size: 1.25rem;
+        padding: 0.5rem;
+    }
+
+</style>
 <body>
 
 <div id="wrapper">
