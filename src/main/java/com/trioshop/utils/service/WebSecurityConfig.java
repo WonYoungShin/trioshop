@@ -52,6 +52,7 @@ public class WebSecurityConfig{
 
                         //이 외 요청 모두 허용
                 )
+                //Filter 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 /**
  * 폼 로그인 관련 설정
@@ -86,7 +87,6 @@ public class WebSecurityConfig{
                  */
                 //JWT 방식 적용시 필수!!! JWT 자체가 stateless 하게 관리하기 위함
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-                //Filter 추가
 
 
 
