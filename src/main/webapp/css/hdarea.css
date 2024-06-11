@@ -182,8 +182,10 @@
 #hdWrap .hdCate .cateWrap {
     position: absolute;
     top: 0;
-    left: 180px;
+    left: 1200px;
 }
+
+
 
 #hdWrap .hdCate .cateWrap a:hover {
     color: #9c9c9c;
@@ -197,9 +199,10 @@
 }
 
 #hdWrap .hdCate .cateWrap .tmenu a {
-    font-size: 12px;
+    font-size: 20px;
     font-family: 'Noto Sans KR';
     font-weight: 400;
+    color: #000000;
 }
 
 #hdWrap .hdCate .cateWrap .tmenu .depth2 {
@@ -218,7 +221,7 @@
 #hdWrap .hdCate .cateWrap .tmenu .depth2 li a {
     display: block;
     line-height: 24px;
-    font-size: 13px;
+    font-size: 14px;
     font-family: "ProximaNova-Regular", 'Noto Sans KR';
     font-weight: 400;
 }
@@ -259,3 +262,14 @@
 #hdWrap .topRight li .dep li {
     padding: 0
 }
+
+
+#hdWrap .hdCate ul,
+#headerUtil ul,
+#headerUtil .hdCate .cateWrap .tmenu .depth2 ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+
+
