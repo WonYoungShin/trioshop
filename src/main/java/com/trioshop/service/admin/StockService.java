@@ -26,9 +26,7 @@ public class StockService {
              Long itemCode = stockDao.save(itemModel);
             System.out.println(itemCode);
             stockDao.stockSave(itemCode);
-            throw new Exception();
         } catch (Exception e){
-//            throw new DontSaveException();
             throw new ApplicationException(ExceptionType.DONT_SAVE);
         }
     }
