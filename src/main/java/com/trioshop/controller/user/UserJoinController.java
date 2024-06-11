@@ -30,7 +30,6 @@ public class UserJoinController {
     public String userJoinProcess(@ModelAttribute UserJoin userJoin, Model model) {
         boolean userIdExists = userJoinService.userJoinProcess(userJoin);
         if(userIdExists) { // 유저가 존재한다면 기족 작성기록을 가지고 다시 회원가입페이지로
-            model.addAttribute("userJoin", userJoin);
             return "/user/userInfo/join";
         } else { // 로그인 페이지로
             return "redirect:/login";

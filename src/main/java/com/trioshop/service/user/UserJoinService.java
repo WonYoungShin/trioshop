@@ -25,7 +25,7 @@ public class UserJoinService {
     public boolean userJoinProcess(UserJoin userJoin) {
         boolean userIdExists = userJoinDao.checkUserIdExists(userJoin.getUserId());
         if(userIdExists) {
-            return true;
+            throw new ApplicationException(ExceptionType.DONT_SAVED_USER);
         } else {
             saveUserJoinData(userJoin);
             return false;
