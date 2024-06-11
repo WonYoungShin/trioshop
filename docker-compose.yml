@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  trioshop:
+    image: kkgg0522/trioshop
+    container_name: trioshop
+    ports:
+      - "80:8080"
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    networks:
+      - mynetwork
+
+  redis:
+    image: redis:6.2
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
