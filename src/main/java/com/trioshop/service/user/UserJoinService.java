@@ -1,5 +1,7 @@
 package com.trioshop.service.user;
 
+import com.trioshop.exception.ApplicationException;
+import com.trioshop.exception.ExceptionType;
 import com.trioshop.exception.UserSaveFailedException;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserJoinDao;
@@ -37,7 +39,6 @@ public class UserJoinService {
                     .build();
 
             Long userCode = userJoinDao.saveUsers(userJoinModel);
-
 //        long userCode = userJoinDao.selectUserCode(userJoin);
 //        // UsersInfoEntity insert
             userJoinDao.saveUserInfo(new UsersInfoEntity(userCode,
@@ -46,7 +47,7 @@ public class UserJoinService {
                     userJoin.getUserTel(),
                     userJoin.getUserNickname()));
         } catch (Exception e) {
-            throw new UserSaveFailedException("Failed to save user data: " + e.getMessage());
+            throw new ApplicationException(ExceptionType.DONT_SAVED_USER);
         }
     }
     public UserInfoBySession guestUserLoginProcess(GuestUserLoginInfo guestUserLoginInfo) {
@@ -79,5 +80,4 @@ public class UserJoinService {
                                              "게스트유저"
                                         ));
     }
-
 }

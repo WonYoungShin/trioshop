@@ -14,7 +14,7 @@
     <%--폰트--%>
 </head>
 <body>
-<form id="find_Id_Form" name="find_Id_Form" autocomplete="on" action="/findId" method="post">
+<form id="find_Id_Form" name="find_Id_Form" autocomplete="off" action="/findId" method="post">
     <div class="page-container">
         <div class="login-form-container shadow">
             <div class="login-form-right-side">

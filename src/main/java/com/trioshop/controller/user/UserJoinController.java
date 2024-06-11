@@ -33,7 +33,7 @@ public class UserJoinController {
             model.addAttribute("userJoin", userJoin);
             return "/user/userInfo/join";
         } else { // 로그인 페이지로
-            return "/user/userInfo/login";
+            return "redirect:/login";
         }
     }
     @GetMapping("/join/terms")
