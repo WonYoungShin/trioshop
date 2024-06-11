@@ -14,6 +14,21 @@
         margin-top: 130px;
     }
 
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* 화면 확대/축소 시 고정*/
+    }
+
+    .carousel-control-prev-icon{
+        margin-right: -40px; /* 아이콘 간격을 좁게 조정 */
+    }
+
+    .carousel-control-next-icon{
+        margin-right: 22px; /* 아이콘 간격을 좁게 조정 */
+    }
+
+
 </style>
 <body>
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
@@ -32,7 +47,6 @@
         <div class="carousel-item">
             <img src="/images/slide/slide3.png" class="d-block w-100" style="height: 750px;" alt="...">
         </div>
-    </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
