@@ -15,7 +15,7 @@ public interface UserMapper {
     String passwordCheck(Long userCode);
 
     //회원가입
-    UserJoin checkUserIdExists(String userId);
+    int checkUserIdExists(String userId);
     void saveUsers(UserJoinModel userJoinModel);
     void saveUserInfo(UsersInfoEntity usersInfoEntity);
     //게스트 유저 로그인

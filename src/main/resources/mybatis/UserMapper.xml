@@ -70,8 +70,11 @@
 
     <!--  회원가입  -->
     <!-- /join에서 이미 만들어진 userId 인지를 파악할수있는지 확인할수있는 쿼리문을 만들었습니다. -->
-    <select id="checkUserIdExists" parameterType="map" resultType="UserJoin">
-        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}
+<!--    <select id="checkUserIdExists" resultType="UserJoin">-->
+<!--        SELECT * FROM TRIO_USERS WHERE user_id = #{userId}-->
+<!--    </select>-->
+    <select id="checkUserIdExists" resultType="int">
+        SELECT COUNT(*) FROM TRIO_USERS WHERE user_id = #{userId}
     </select>
     <!-- TRIO_USERS 테이블에 사용자 정보 저장 -->
     <insert id="saveUsers" useGeneratedKeys="true" keyProperty="userCode">
