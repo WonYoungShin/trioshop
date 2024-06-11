@@ -20,7 +20,6 @@ import java.util.List;
 public class HomepageController {
     private final ItemService itemService;
     private final CategoryList categoryList;
-    private final HttpSession session;
 
     @GetMapping("/") // 홈화면
     public String userList(Model model) {

@@ -27,7 +27,7 @@
                     <h1>Trio Shop</h1>
                     <h3>Sign In to Trio</h3>
                     <div class="API_img">
-                        <a href="#"><img src="/images/login/kakao.png" alt="Kakao"></a>
+                        <a href="${kakaoURL}"><img src="/images/login/kakao.png" alt="Kakao"></a>
                     </div>
                     <h3 class="or-text">- OR -</h3>
                     <div class="login-input-wrap input-id">
