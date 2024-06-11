@@ -41,24 +41,26 @@
                         <input type="password" id="userPasswd" name="userPasswd" placeholder="비밀번호" title="비밀번호" class="input_text" maxlength="20" required>
                     </div>
                 </div>
-                <!-- 에러 메시지 표시 -->
-                <c:if test="${not empty message}">
-                    <script>
-                        alert("${message}");
-                        document.getElementById('loginForm').reset();
-                    </script>
-                </c:if>
                 <div class="login-btn-wrap">
-                    <button type="button" class="login-btn" onclick="href='${pageContext.request.contextPath}/login'">로그인</button>
-                    <button type="button" class="login-btn join-btn" onclick="href='${pageContext.request.contextPath}/join'">회원가입</button>
+                    <button type="button" class="login-btn" onclick="submitForm('${pageContext.request.contextPath}/login', 'post')">로그인</button>
+                    <button type="button" class="login-btn join-btn" onclick="submitForm('${pageContext.request.contextPath}/join', 'get')">회원가입</button>
                 </div>
                 <div class="login-btn-wrap-find">
-                    <a href="/findId">Forgot Id?</a>
-                    <a href="/findPw">Forgot password?</a>
+                    <a href="/findId">아이디 찾기</a>
+                    <a> | </a>
+                    <a href="/findPw">비밀번호 찾기</a>
                 </div>
             </div>
         </div>
     </div>
 </form>
 </body>
+<script>
+    function submitForm(actionUrl, method) {
+        var form = document.getElementById('loginForm');
+        form.action = actionUrl;
+        form.method = method;
+        form.submit();
+    }
+</script>
 </html>

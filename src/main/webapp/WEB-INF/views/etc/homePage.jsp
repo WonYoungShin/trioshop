@@ -14,15 +14,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<c:if test="${not empty message}">
-    <script>
-        alert("${message}");
-    </script>
-</c:if>
-
 <%--slider를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/slide.jsp" %>
-
 
 <%--quickmenu를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>
@@ -30,8 +23,6 @@
 <%--itemList를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/itemListPart.jsp" %>
 
-
 <!-- 부트스트랩 JavaScript 링크 -->
-
 </body>
 </html>
