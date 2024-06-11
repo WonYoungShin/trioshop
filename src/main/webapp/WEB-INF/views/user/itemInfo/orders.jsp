@@ -8,6 +8,13 @@
     <title>주문 페이지</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+
+    .mt-5 {
+        margin-top: 10rem !important;
+    }
+
+</style>
 <body>
 <div class="container mt-5">
     <h1 class="my-4 text-center">주문 페이지</h1>

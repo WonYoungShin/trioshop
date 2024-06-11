@@ -17,7 +17,7 @@ public class UserJoinDao {
     public void saveUserInfo(UsersInfoEntity usersInfoEntity) {userMapper.saveUserInfo(usersInfoEntity);}
     // 사용자 아이디 중복 체크
     public boolean checkUserIdExists(String userId) {
-        return userMapper.checkUserIdExists(userId) != null;
+        return userMapper.checkUserIdExists(userId) != 0;
     }
     // 비회원으로 로그인
     public UserInfoBySession searchGuestUser (GuestUserLoginInfo guestUserLoginInfo) {

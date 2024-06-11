@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ include file="/WEB-INF/views/etc/header.jsp" %>
+<%@ include file="/WEB-INF/views/etc/hdarea.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
+<style>
+
+    .mt-5 {
+        margin-top: 10rem !important;
+    }
+
+</style>
 <body>
 <div class="container mt-5">
     <h1 class="my-4">장바구니</h1>
@@ -21,6 +29,7 @@
                     <thead class="thead-dark">
                     <tr>
                         <th><input type="checkbox" id="selectAll" checked> 전체선택</th>
+                        <th>이미지</th>
                         <th>상품명</th>
                         <th>가격</th>
                         <th>수량</th>
@@ -32,6 +41,7 @@
                     <c:forEach var="cartItem" items="${cartItems}">
                         <tr class="item-row" data-item-page="${pageContext.request.contextPath}/item/${cartItem.itemCode}">
                             <td><input type="checkbox" class="item-checkbox" value="${cartItem.cartCode}" data-item-code="${cartItem.itemCode}" checked></td>
+                            <td style="text-align: center;"><img src="${cartItem.itemSrc}" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
                             <td>${cartItem.itemName}</td>
                             <td>₩<span class="item-price">${cartItem.itemPrice}</span></td>
                             <td><input type="number" value="${cartItem.cartItemQty}" min="1" class="form-control quantity-input" style="width: 70px;" data-price="${cartItem.itemPrice}" data-item-code="${cartItem.itemCode}"></td>
