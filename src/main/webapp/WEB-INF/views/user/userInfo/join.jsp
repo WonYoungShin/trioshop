@@ -30,17 +30,12 @@
                         <i class="far fa-envelope"></i>
                         <input type="text" id="userId" name="userId" placeholder="아이디" title="아이디" class="input_text"
                                maxlength="41" value="" required autocomplete="off">
-                        <span role="button" class="btn_delete" id="id_clear" style="display: none;">
-<%--                                <i class="fa-solid fa-eraser"></i>--%>
-<%--                        <span class="sr-only">삭제</span> <!-- 스크린 리더 사용자를 위한 숨겨진 텍스트 -->--%>
-<%--                        </span>--%>
                     </div>
                     <div class="login-input-wrap input-password">
                         <i class="fas fa-key"></i>
-                        <input type="password" id="userPasswd" name="userPasswd" placeholder="비밀번호" title="비밀번호" class="input_text"
+                        <input type="password" id="userPasswd" name="userPasswd" placeholder="비밀번호" title="비밀번호"
+                               class="input_text"
                                maxlength="41" value="" required autocomplete="off">
-                        <span role="button" class="btn_delete" id="pw_clear" style="display: none;"> <!-- 삭제 버튼 -->
-
                     </div>
                     <div class="login-input-wrap input-Name">
                         <i class="fa-solid fa-signature"></i>
@@ -50,33 +45,35 @@
                     </div>
                     <div class="login-input-wrap input-Address">
                         <i class="fa-solid fa-map-location-dot"></i>
-                        <input type="text" id="userAddress" name="userAddress" placeholder="주소" title="주소" class="input_text"
+                        <input type="text" id="userAddress" name="userAddress" placeholder="주소" title="주소"
+                               class="input_text"
                                maxlength="41" value="" required autocomplete="off">
 
                     </div>
                     <div class="login-input-wrap input-Nickname">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" id="userNickname" name="userNickname" placeholder="닉네임" title="닉네임" class="input_text"
+                        <input type="text" id="userNickname" name="userNickname" placeholder="닉네임" title="닉네임"
+                               class="input_text"
                                maxlength="41" value="" required autocomplete="off">
 
                     </div>
                     <div class="login-input-wrap input-Tel">
                         <i class="fa-solid fa-phone"></i>
-                        <input type="tel" id="userTel" name="userTel" placeholder="전화번호" title="전화번호" class="input_text" pattern="\d{3}-\d{3,4}-\d{4}" required autocomplete="off">
+                        <input type="tel" id="userTel" name="userTel" placeholder="전화번호" title="전화번호" class="input_text"
+                               pattern="\d{3}-\d{3,4}-\d{4}" required autocomplete="off">
                     </div>
                     <small class="form-text text-muted">올바른 전화번호 형식: 010-1234-5678</small>
 
 
-                <div class="login-btn-wrap">
-                    <button class="login-btn join-btn">가입하기</button>
-                    <a href="/login">로그인 페이지로 돌아가기</a>
+                    <div class="login-btn-wrap">
+                        <button class="login-btn join-btn">가입하기</button>
+                        <a href="/login">로그인 페이지로 돌아가기</a>
+                    </div>
+
+
                 </div>
-
-
             </div>
         </div>
-    </div>
-
     </div>
 </form>
 </body>
@@ -102,7 +99,6 @@
         } else {
             formatted = input.slice(0, 3) + '-' + input.slice(3, 7) + '-' + input.slice(7, 11);
         }
-
         e.target.value = formatted;
     });
 

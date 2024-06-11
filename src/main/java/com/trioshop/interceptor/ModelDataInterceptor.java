@@ -20,7 +20,8 @@ public class ModelDataInterceptor implements HandlerInterceptor {
                            Object handler,
                            ModelAndView modelAndView) throws Exception {
         if (modelAndView != null
-                && request.getRequestURI().contains("/orders"
+                && (request.getRequestURI().contains("/orders")
+                || request.getRequestURI().contains("/join")
         )) { // 특정 요청 URL 에 대해서만 모델 데이터를 저장
             request.getSession().setAttribute("savedModel", modelAndView.getModelMap());
             System.out.println("Saved Model Data: " + modelAndView.getModelMap());

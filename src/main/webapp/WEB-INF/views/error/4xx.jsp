@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/views/etc/errorMessage.html" %>
+<%@ include file="/WEB-INF/views/etc/errorMessage.jsp" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>

@@ -5,6 +5,11 @@
     font-family: 'Alata', sans-serif;
 }
 
+body {
+    background-color: #eff0f2;
+}
+
+
 .page-container{
     width: 100vw;
     height: 85vh;
@@ -31,7 +36,7 @@
 
 
 .login-form-container{
-
+    margin-top: 140px;
     background:#f5f5f5 ;
     width:860px;
     height: 540px;
@@ -44,6 +49,7 @@
 
 }
 .login-form-right-side{
+    margin-bottom: 15px;
     margin-left: 44px;
     margin-top: 19px;
     width: 50%;
@@ -82,8 +88,9 @@
     align-items: center;
     padding:40px;
     background: white;
-
+    margin-top: -5px;
 }
+
 .login-form-left-side .login-top-wrap{
     margin-right: 41px;
     margin-top: 0px;
@@ -196,7 +203,7 @@
 }
 
 .API_img img {
-    width: 105px; /* 이미지 너비 조절 */
+    width: 170px; /* 이미지 너비 조절 */
     height: auto; /* 이미지 높이를 자동 조정하여 비율 유지 */
 }
 

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/views/etc/errorMessage.html" %>
+<%@ include file="/WEB-INF/views/etc/errorMessage.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +12,15 @@
     <!-- 추가된 슬라이더 CSS -->
     <link rel="stylesheet" href="css/quickmenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* 슬라이더 스타일 */
-        .carousel-item img {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
+
 </head>
+<style>
+    /* 슬라이더 스타일 */
+    .carousel-item img {
+        width: 100%;
+        height: 500px;
+    }
+</style>
 <body>
 
 <div class="quickMenuWrap">
