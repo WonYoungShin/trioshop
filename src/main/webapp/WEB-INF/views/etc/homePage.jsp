@@ -13,12 +13,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 <%--slider를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/slide.jsp" %>
 
 <%--quickmenu를 보여주는 파트jsp--%>
-<%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>
+<%--<%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>--%>
 
 <%--itemList를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/itemListPart.jsp" %>

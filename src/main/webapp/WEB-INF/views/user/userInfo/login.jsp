@@ -28,8 +28,6 @@
                     <h3>Sign In to Trio</h3>
                     <div class="API_img">
                         <a href="#"><img src="/images/login/kakao.png" alt="Kakao"></a>
-                        <a href="#"><img src="/images/login/google.png" alt="Google"></a>
-                        <a href="#"><img src="/images/login/naver.png" alt="Naver"></a>
                     </div>
                     <h3 class="or-text">- OR -</h3>
                     <div class="login-input-wrap input-id">

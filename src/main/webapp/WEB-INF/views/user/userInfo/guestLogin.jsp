@@ -29,29 +29,9 @@
                     <h1>Trio Shop</h1>
                     <h3>Sign In to Trio</h3>
 
-
-                <%--                    <a href="#" target="">--%>
-                    <%--                        <img src="/images/login/google.png" alt="Google">--%>
-                    <%--                    </a>--%>
-                    <%--                    <a href="#" target="">--%>
-                    <%--                        <img src="/images/login/naver.png" alt="Naver">--%>
-                    <%--                    </a>--%>
-                    <%--                    <a href="#" target="">--%>
-                    <%--                        <img src="/images/login/kakao.png" alt="Kakao">--%>
-                    <%--                    </a>--%>
-
                     <div class="API_img">
-                        <a href="#">
-                            <img src="/images/login/kakao.png" alt="Kakao">
-                        </a>
-                        <a href="#">
-                            <img src="/images/login/google.png" alt="Google">
-                        </a>
-                        <a href="#">
-                            <img src="/images/login/naver.png" alt="Naver">
-                        </a>
+                        <a href="#"><img src="/images/login/kakao.png" alt="Kakao"></a>
                     </div>
-
 
 
 
