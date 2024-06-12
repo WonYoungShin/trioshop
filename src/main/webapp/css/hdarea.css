@@ -11,7 +11,7 @@
 
 #hdWrap .hdArea {
     position: relative;
-    top: 54px;
+    top: -165px;
     left: 0;
     right: 0;
     height: 100px;
@@ -180,9 +180,9 @@
 }
 
 #hdWrap .hdCate .cateWrap {
-    position: inherit;
+    position: absolute;
     top: 15px;
-    left: 0;
+    left: 275px;
 }
 
 
