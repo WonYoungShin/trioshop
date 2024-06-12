@@ -1,7 +1,6 @@
 package com.trioshop.service.admin;
 
 import com.trioshop.exception.ApplicationException;
-import com.trioshop.exception.DontSaveException;
 import com.trioshop.exception.ExceptionType;
 import com.trioshop.model.dto.admin.AddItemModel;
 import com.trioshop.model.dto.admin.StockModel;
@@ -27,9 +26,7 @@ public class StockService {
              Long itemCode = stockDao.save(itemModel);
             System.out.println(itemCode);
             stockDao.stockSave(itemCode);
-            throw new Exception();
         } catch (Exception e){
-//            throw new DontSaveException();
             throw new ApplicationException(ExceptionType.DONT_SAVE);
         }
     }
@@ -42,7 +39,6 @@ public class StockService {
     public StockModel findByCode(Long code) {
         try{
             return stockDao.findByCode(code).orElseThrow(NoSuchElementException::new);
-
         }catch (NoSuchElementException e){
             throw new NoSuchElementException();
         }

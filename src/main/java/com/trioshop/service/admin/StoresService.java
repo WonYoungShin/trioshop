@@ -1,6 +1,8 @@
 package com.trioshop.service.admin;
 
-import com.trioshop.exception.DontSaveException;
+import com.trioshop.exception.ApplicationException;
+
+import com.trioshop.exception.ExceptionType;
 import com.trioshop.exception.QuantityAdjustFailed;
 import com.trioshop.model.dto.admin.ItemCodeAdjustModel;
 import com.trioshop.model.dto.admin.StoreItemModel;
@@ -37,7 +39,7 @@ public class StoresService{
                 purchaseService.deleteByCode(purchaseCode);
             }
         } catch (Exception e){
-            throw new DontSaveException();
+            throw new ApplicationException(ExceptionType.DONT_SAVE);
         }
 
     }
@@ -71,7 +73,7 @@ public class StoresService{
     }
 
     @Transactional
-    public void deleteByCode(Long code) throws QuantityAdjustFailed {
+    public void deleteByCode(Long code) throws RuntimeException{
        if (!delStockQty(code)) {
            throw new QuantityAdjustFailed();
        }

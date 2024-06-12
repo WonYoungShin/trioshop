@@ -1,4 +1,4 @@
-package com.trioshop.interceptor;
+package com.trioshop.deprecated.interceptor;
 
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.UserInfoBySession;
@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 public class AdminCheckInterceptor implements HandlerInterceptor {
     @Override

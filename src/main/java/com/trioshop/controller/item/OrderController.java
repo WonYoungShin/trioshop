@@ -1,16 +1,13 @@
 package com.trioshop.controller.item;
 
-import com.trioshop.SessionConst;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.model.dto.item.OrderItemList;
 import com.trioshop.model.dto.item.OrderListByUser;
 import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.user.UserAddressInfo;
-import com.trioshop.model.dto.user.UserInfoBySession;
 
 import com.trioshop.service.item.OrderService;
 import com.trioshop.utils.service.SecurityUtils;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

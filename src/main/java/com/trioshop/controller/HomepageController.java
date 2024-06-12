@@ -1,13 +1,8 @@
 package com.trioshop.controller;
 
-import com.trioshop.SessionConst;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.service.item.ItemService;
-import com.trioshop.utils.business.APItest;
 import com.trioshop.utils.business.CategoryList;
-import com.trioshop.utils.business.SearchAPI;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,23 +15,14 @@ import java.util.List;
 public class HomepageController {
     private final ItemService itemService;
     private final CategoryList categoryList;
-    APItest apiTest;
-//    SearchAPI searchAPI;
+
     @GetMapping("/") // 홈화면
-    public String userList(Model model, HttpSession session) {
-        String message = (String) session.getAttribute(SessionConst.ERROR_MESSAGE);
+    public String userList(Model model) {
         List<ItemInfoByUser> itemList = itemService.searchItems(null);;
         model.addAttribute("itemList", itemList);
         //카테고리 목록 불러오기
         model.addAttribute("categoryList", categoryList.getCategoryList());
-//        apiTest = new APItest();
-//        apiTest.mainTest();
-//        searchAPI = new SearchAPI();
-//        searchAPI.main();
-        if(message != null) {
-            model.addAttribute(SessionConst.ERROR_MESSAGE, message);
-            session.removeAttribute(SessionConst.ERROR_MESSAGE);
-        }
+
         return "etc/homePage";
     }
 }

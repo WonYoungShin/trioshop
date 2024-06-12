@@ -1,25 +1,18 @@
 package com.trioshop.utils.handler;
 
-import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.utils.service.JwtTokenUtil;
-import com.trioshop.utils.service.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
+import static com.trioshop.JWTConst.*;
 import static java.nio.charset.StandardCharsets.*;
 
 /**
@@ -50,15 +43,15 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String accessToken = jwtTokenUtil.generateToken(user);
         String refreshToken= jwtTokenUtil.generateRefreshToken(user);
 
-        String encodedAccessToken = URLEncoder.encode("Bearer " + accessToken, UTF_8);
+        String encodedAccessToken = URLEncoder.encode(ACCESS_TOKEN_START1 + accessToken, UTF_8);
         String encodedRefreshToken = URLEncoder.encode(refreshToken, UTF_8);
-        Cookie jwtCookie = new Cookie("Authorization", encodedAccessToken);
+        Cookie jwtCookie = new Cookie(ACCESS_TOKEN, encodedAccessToken);
         jwtCookie.setHttpOnly(true); // 보안을 위해 HttpOnly 플래그 설정
         // jwtCookie.setSecure(true); // 애플리케이션이 HTTPS를 사용하는 경우 Secure 플래그 설정
         jwtCookie.setPath("/"); // 쿠키의 유효 경로 설정
         jwtCookie.setMaxAge(60 * 5); // 쿠키의 만료 시간 설정 (예: 5분)
 
-        Cookie jwtRefreshCookie = new Cookie("refreshCookie", encodedRefreshToken);
+        Cookie jwtRefreshCookie = new Cookie(REFRESH_TOKEN, encodedRefreshToken);
         jwtRefreshCookie.setHttpOnly(true); // 보안을 위해 HttpOnly 플래그 설정
         // jwtRefreshCookie.setSecure(true); // 애플리케이션이 HTTPS를 사용하는 경우 Secure 플래그 설정
         jwtRefreshCookie.setPath("/"); // 쿠키의 유효 경로 설정

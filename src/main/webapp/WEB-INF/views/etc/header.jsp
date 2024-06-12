@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/views/etc/errorMessage.html" %>
+<%@ include file="/WEB-INF/views/etc/errorMessage.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +8,23 @@
     <title>TRIOShop</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 </head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Alata', sans-serif;
+    }
+
+    nav.navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+    }
+</style>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -47,8 +63,12 @@
                                 <a class="nav-link" href="/trioAdmin/stock">상품등록</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="/board">게시판</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="/logout">로그아웃</a>
                             </li>
+
                         </c:when>
                         <c:otherwise>
                             <!-- 일반 사용자 메뉴 -->
@@ -64,6 +84,9 @@
                             <c:if test="${loginMember.gradeCode != 0}">
                                 <li class="nav-item">
                                     <a class="nav-link" href="/myPage">마이페이지</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/board">게시판</a>
                                 </li>
                             </c:if>
                             <li class="nav-item">
@@ -85,6 +108,9 @@
         </ul>
     </div>
 </nav>
+
+
+
 
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

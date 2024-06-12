@@ -1,7 +1,4 @@
-package com.trioshop.utils.service;
-
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+package com.trioshop.deprecated.hashing;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

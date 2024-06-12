@@ -8,6 +8,14 @@
     <title>상품 상세 정보</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+
+    .mt-5 {
+        margin-top: 8rem !important;
+        margin-bottom: 15px;
+    }
+
+</style>
 <body>
 <div class="container mt-5">
     <div class="card">
@@ -29,11 +37,13 @@
                     <p><strong>가격:</strong> $${item.itemPrice}</p>
 
                     <label for="detailQty" class="mr-2">선택 수량:</label>
-                    <input type="number" id="detailQty" name="detailQty" value="1" class="form-control d-inline w-auto mr-2" min="1">
+                    <input type="number" id="detailQty" name="detailQty" value="1"
+                           class="form-control d-inline w-auto mr-2" min="1">
 
-                    <form action="/addCart" method="POST" class="form-inline mt-2" onsubmit="return updateQty('cartItemQty')">
-<%--                        <input type="hidden" name="itemCode" value="${item.itemCode}">--%>
-<%--                        <input type="hidden" id="cartItemQty" name="cartItemQty">--%>
+                    <form action="/addCart" method="POST" class="form-inline mt-2"
+                          onsubmit="return updateQty('cartItemQty')">
+                        <%--                        <input type="hidden" name="itemCode" value="${item.itemCode}">--%>
+                        <%--                        <input type="hidden" id="cartItemQty" name="cartItemQty">--%>
                         <%-- 다중 카트 추가와 동일 매서드를 쓰기 위하여 변수 변경 --%>
                         <input type="hidden" name="itemCodes" value="${item.itemCode}">
                         <input type="hidden" id="cartItemQty" name="quantities">
@@ -41,7 +51,8 @@
                         <button type="submit" class="btn btn-primary mr-2">장바구니 추가</button>
                     </form>
 
-                    <form action="/orders" method="post" class="form-inline mt-2" onsubmit="return updateQty('orderQty')">
+                    <form action="/orders" method="post" class="form-inline mt-2"
+                          onsubmit="return updateQty('orderQty')">
                         <input type="hidden" name="itemCodes" value="${item.itemCode}">
                         <input type="hidden" id="orderQty" name="quantities">
                         <button type="submit" class="btn btn-success">주문하기</button>
@@ -77,7 +88,8 @@
                                 <td>${itemDetail.itemColor}</td>
                                 <td>${itemDetail.itemSize}</td>
                                 <td>
-                                    <input type="number" name="quantities" value="1" class="form-control quantities_${itemDetail.itemCode}" min="1">
+                                    <input type="number" name="quantities" value="1"
+                                           class="form-control quantities_${itemDetail.itemCode}" min="1">
                                 </td>
                             </tr>
                         </c:forEach>
@@ -105,11 +117,11 @@
             selectedItems.push(itemCode);
             quantities.push(quantity);
         });
-        return { selectedItems, quantities };
+        return {selectedItems, quantities};
     }
 
     function addToCart() {
-        const { selectedItems, quantities } = getSelectedItems();
+        const {selectedItems, quantities} = getSelectedItems();
         if (selectedItems.length > 0) {
             document.getElementById('itemCodes').value = selectedItems.join(',');
             document.getElementById('quantitiesList').value = quantities.join(',');
@@ -121,7 +133,7 @@
     }
 
     function orderSelected() {
-        const { selectedItems, quantities } = getSelectedItems();
+        const {selectedItems, quantities} = getSelectedItems();
         if (selectedItems.length > 0) {
             document.getElementById('itemCodes').value = selectedItems.join(',');
             document.getElementById('quantitiesList').value = quantities.join(',');

@@ -1,7 +1,6 @@
 package com.trioshop.controller.item;
 
 import com.trioshop.model.dto.item.*;
-import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.business.CategoryList;
 import lombok.RequiredArgsConstructor;
