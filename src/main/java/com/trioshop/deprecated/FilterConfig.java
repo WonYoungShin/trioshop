@@ -1,9 +1,8 @@
-package com.trioshop.utils.service;
+package com.trioshop.deprecated;
 
-import com.trioshop.filter.LoginCheckFilter;
+import com.trioshop.deprecated.filter.LoginCheckFilter;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 
 /**
  * 로그인 체크 필터

@@ -1,4 +1,4 @@
-package com.trioshop.interceptor;
+package com.trioshop.deprecated.interceptor;
 
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.UserInfoBySession;

@@ -1,14 +1,15 @@
 package com.trioshop.model.dto.popup;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@Getter @Setter
+@Getter
+@RequiredArgsConstructor
 public class PopupItemModel {
-    private String itemCode;
-    private String itemName;
-    private String categoryCode;
-    private String factoryCode;
-    private String itemSize;
-    private String itemColor;
+    private final String itemCode;
+    private final String itemName;
+    private final String categoryCode;
+    private final String factoryCode;
+    private final String itemSize;
+    private final String itemColor;
 }

@@ -1,9 +1,7 @@
 package com.trioshop.controller.item;
 
-import com.trioshop.SessionConst;
 import com.trioshop.model.dto.item.CartEntity;
 import com.trioshop.model.dto.item.ItemInfoByCart;
-import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.service.item.CartService;
 import com.trioshop.utils.service.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
