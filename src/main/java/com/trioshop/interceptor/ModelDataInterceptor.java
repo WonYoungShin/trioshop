@@ -2,6 +2,7 @@ package com.trioshop.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.RequestAttributes;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 @Component
+@Slf4j
 // 특정 상황에서 예외가 발생할 경우를 대비하여 그전 컨트롤러의 내용을 저장
 public class ModelDataInterceptor implements HandlerInterceptor {
 
@@ -22,9 +24,10 @@ public class ModelDataInterceptor implements HandlerInterceptor {
         if (modelAndView != null
                 && (request.getRequestURI().contains("/orders")
                 || request.getRequestURI().contains("/join")
+                || request.getRequestURI().contains("/write")
         )) { // 특정 요청 URL 에 대해서만 모델 데이터를 저장
             request.getSession().setAttribute("savedModel", modelAndView.getModelMap());
-            System.out.println("Saved Model Data: " + modelAndView.getModelMap());
+            log.info("Saved Model Data:{}", modelAndView.getModelMap());
         }
     }
 }

@@ -3,5 +3,85 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.trioshop.repository.mybatis.BoardMapper">
+    <select id="categoryList" resultType="BoardCategoryEntity">
+        SELECT category_code, category_name
+        FROM TRIO_BOARD_CATEGORY
+    </select>
+
+    <select id="contentList" resultType="BoardContentList">
+        SELECT board_code, category_name, board_title, board.user_code, user_name, board_date, board_views
+        FROM TRIO_BOARD board
+        JOIN TRIO_USERS_INFO info ON board.user_code = info.user_code
+        JOIN TRIO_BOARD_CATEGORY cate ON cate.category_code = board.category_code
+        <where>
+            AND status_code = '10'
+            <if test="title != null and title != ''">
+                AND board_title LIKE concat('%', #{title}, '%')
+            </if>
+            <if test="category != null and category != ''">
+                AND board.category_code = #{category}
+            </if>
+        </where>
+        ORDER BY board_code asc
+    </select>
+
+    <insert id="boardWrite" useGeneratedKeys="true" keyProperty="boardCode">
+        INSERT INTO TRIO_BOARD (user_code, board_title, board_date, category_code)
+        VALUES (#{userCode},#{boardTitle},#{boardDate},#{categoryCode})
+    </insert>
+
+    <insert id="boardContentWrite">
+        INSERT INTO TRIO_BOARD_CONTENT (board_code, board_content)
+        VALUES (#{boardCode},#{boardContent})
+    </insert>
+
+    <select id="boardDetails" resultType="BoardContentDetailModel">
+        SELECT board.board_code, category_name, board_title, board.user_code, user_name, board_date, board_views, board_content
+        FROM TRIO_BOARD board
+        JOIN TRIO_USERS_INFO info ON board.user_code = info.user_code
+        JOIN TRIO_BOARD_CATEGORY cate ON cate.category_code = board.category_code
+        JOIN TRIO_BOARD_CONTENT con ON con.board_code = board.board_code
+        WHERE board.board_code = #{boardCode}
+    </select>
+
+    <select id="boardDetailsCommentList" resultType="BoardContentDetailComment">
+        SELECT comment_code, com.user_code, info.user_name, comment_content, comment_date
+        FROM TRIO_BOARD_COMMENT com
+        JOIN TRIO_USERS_INFO info ON info.user_code = com.user_code
+        WHERE board_code = #{board_code}
+        ORDER BY comment_code asc
+    </select>
+    <update id="boardViewsIncrease">
+        UPDATE TRIO_BOARD
+        SET board_views = board_views + 1
+        WHERE board_code = #{boardCode}
+    </update>
+    <update id="deleteContent">
+        UPDATE TRIO_BOARD
+        SET status_code = '20'
+        WHERE board_code = #{boardCode}
+    </update>
+
+    <select id="boardCurrentState" resultType="BoardEditModel">
+        SELECT board.board_code, category_code, board_title, board_content
+        FROM TRIO_BOARD board
+        JOIN TRIO_BOARD_CONTENT con ON con.board_code = board.board_code
+        WHERE board.board_code = #{boardCode}
+    </select>
+
+    <update id="boardEdit">
+        UPDATE TRIO_BOARD
+        SET category_code = #{categoryCode},
+        board_title = #{boardTitle}
+        WHERE board_code = #{boardCode}
+    </update>
+
+    <update id="boardContentEdit">
+        UPDATE TRIO_BOARD_CONTENT
+        SET board_content = #{boardContent}
+        WHERE board_code = #{boardCode}
+    </update>
+
+
 
 </mapper>

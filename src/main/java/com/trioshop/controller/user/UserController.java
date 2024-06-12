@@ -1,6 +1,5 @@
 package com.trioshop.controller.user;
 
-import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.service.user.UserInfoService;
 import com.trioshop.utils.service.SecurityUtils;

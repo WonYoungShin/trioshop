@@ -1,6 +1,5 @@
 package com.trioshop.utils.handler;
 
-import com.trioshop.JWTConst;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.utils.service.JwtTokenUtil;
 import jakarta.servlet.ServletException;
