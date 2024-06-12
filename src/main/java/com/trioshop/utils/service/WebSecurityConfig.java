@@ -44,7 +44,7 @@ public class WebSecurityConfig{
                  */
                 .authorizeHttpRequests(authorize -> authorize
 
-                        .requestMatchers("/myPage", "/orders", "/orderList").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
+                        .requestMatchers("/myPage", "/orders", "/orderList", "/addCart").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
                                         //로그인(비회원, 회원, 어드민)한 사용자만 접근 가능한 URL
                         .requestMatchers("/trioAdmin/**", "/trioAdmin").hasRole(Role.ADMIN.name())
                                         //관리자만 접근 가능한 URL
@@ -52,6 +52,7 @@ public class WebSecurityConfig{
 
                         //이 외 요청 모두 허용
                 )
+                //Filter 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 /**
  * 폼 로그인 관련 설정
@@ -86,7 +87,6 @@ public class WebSecurityConfig{
                  */
                 //JWT 방식 적용시 필수!!! JWT 자체가 stateless 하게 관리하기 위함
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-                //Filter 추가
 
 
 
@@ -112,7 +112,7 @@ public class WebSecurityConfig{
      *   allowUrlEncodedSlashHttpFirewall 메서드를 통한 해결
      *   개발자 예측 : http:// 의 부분
      */
-    @Bean
+//    @Bean
     public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowUrlEncodedSlash(true);
@@ -123,7 +123,7 @@ public class WebSecurityConfig{
     /**
      * @param firewall
      */
-    @Bean
+//    @Bean
     public WebSecurityCustomizer webSecurityCustomizer(HttpFirewall firewall) {
         return (web) -> web.httpFirewall(firewall);
     }

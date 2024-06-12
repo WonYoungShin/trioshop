@@ -8,9 +8,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <style>
-  .mt-4, .my-4 {
-    margin-top: 4.5rem !important;
-  }
+
 
   .container{
     margin-top: 215px;

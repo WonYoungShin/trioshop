@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/findId")
     public String findIdPage() {
-        return "/user/userInfo/findId";
+        return "user/userInfo/findId";
     }
 
     @PostMapping("/findId")
@@ -33,12 +33,12 @@ public class UserController {
 
         model.addAttribute("id", id);
 
-        return "/user/userInfo/findId";
+        return "user/userInfo/findId";
     }
 
     @GetMapping("/findPw")
     public String findPwPage() {
-        return "/user/userInfo/findPw";
+        return "user/userInfo/findPw";
     }
 
     @PostMapping("/findPw")
@@ -47,7 +47,7 @@ public class UserController {
 
         session.setAttribute("userCode", passwordChangeCodeAndStatus.getUserCode());
         model.addAttribute("findPwSuccess", passwordChangeCodeAndStatus.getStatus());
-        return "/user/userInfo/findPw";
+        return "user/userInfo/findPw";
     }
 
     @PostMapping("/updatePw")
@@ -63,12 +63,12 @@ public class UserController {
     @GetMapping("/myPage")
     public String myPage(Model model) {
         model.addAttribute("userCode", securityUtils.getCurrentUserCode());
-        return "/user/userInfo/myPage";
+        return "user/userInfo/myPage";
     }
 
     @GetMapping("/passwordCheck/{userCode}")
     public String passwordCheckForm() {
-        return "/user/userInfo/passwordCheckForm";
+        return "user/userInfo/passwordCheckForm";
     }
 
     @PostMapping("/passwordCheck/{userCode}")
@@ -90,7 +90,7 @@ public class UserController {
     public String changeInfoPage(@PathVariable("userCode") Long userCode, Model model) {
         UserPatchModel userPatchModel = userInfoService.findByUserCode(userCode);
         model.addAttribute("userPatchModel", userPatchModel);
-        return "/user/userInfo/changeInfo";
+        return "user/userInfo/changeInfo";
     }
 
     @PostMapping("/changeInfo/{userCode}")
@@ -101,7 +101,7 @@ public class UserController {
 
     @GetMapping("/changePassword/{userCode}")
     public String changePasswordPage(@PathVariable("userCode") Long userCode, @ModelAttribute PasswordCheckedModel password) {
-        return "/user/userInfo/changePasswordForm";
+        return "user/userInfo/changePasswordForm";
     }
     @PostMapping("/changePassword/{userCode}")
     public String changePassword(@PathVariable("userCode") Long userCode, @ModelAttribute PasswordCheckedModel password, Model model) {
@@ -109,6 +109,6 @@ public class UserController {
             userInfoService.updatePw(userCode, password.getNewPassword());
             return "redirect:/myPage";
         }
-        return "/user/userInfo/changePasswordForm";
+        return "user/userInfo/changePasswordForm";
     }
 }

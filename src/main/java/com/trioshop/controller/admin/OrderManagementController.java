@@ -36,7 +36,7 @@ public class OrderManagementController {
         MonthSalesCombineModel monthSalesModel = orderService.monthSales(salesCondition);
         model.addAttribute("monthSalesModel", monthSalesModel);
 
-        return "/admin/sales/monthlySales";
+        return "admin/sales/monthlySales";
     }
 
     @GetMapping("/orderStatus")
@@ -47,7 +47,7 @@ public class OrderManagementController {
 
         model.addAttribute("statusList", statusList);
         model.addAttribute("orderList", orderList);
-        return "/admin/orderStatusList";
+        return "admin/orderStatusList";
     }
 
     @GetMapping("/orderStatus/edit/{orderCode}")
@@ -55,7 +55,7 @@ public class OrderManagementController {
         List<OrderStatusEntity> statusList = orderService.statusList();
         model.addAttribute("orderCode",orderCode);
         model.addAttribute("statusList", statusList);
-        return "/admin/orderStatusEditForm";
+        return "admin/orderStatusEditForm";
     }
 
     @PostMapping("/orderStatus/edit/{orderCode}")
@@ -84,7 +84,7 @@ public class OrderManagementController {
         model.addAttribute("oldWaybillNum", oldWaybillNum);
         model.addAttribute("orderCode", orderCode);
 
-        return "/admin/deliveryAddForm";
+        return "admin/deliveryAddForm";
     }
 
 
@@ -117,7 +117,7 @@ public class OrderManagementController {
             WaybillSelectModel waybillModel = orderService.findWaybillByCode(orderCode);
             model.addAttribute("waybillModel", waybillModel);
 
-        return "/admin/deliveryInformation";
+        return "admin/deliveryInformation";
     }
 
 }

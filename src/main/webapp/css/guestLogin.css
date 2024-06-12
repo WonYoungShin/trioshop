@@ -236,3 +236,23 @@ body {
 .login-input-container h3 {
     font-size: 1rem; /* 원하는 크기로 조절 */
 }
+
+
+@media (max-width: 749px) {
+    .login-form-container {
+        flex-direction: row;
+        align-items: inherit;
+    }
+
+
+    .login-form-right-side, .login-form-left-side {
+        width: 100%;
+        padding: 20px;
+        padding-top: 60px;
+        padding-bottom: 60px;
+        margin-bottom: 50px;
+    }
+    .login-form-right-side {
+        background-image: none; /* 이미지 숨기기 */
+    }
+}

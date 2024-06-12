@@ -22,7 +22,7 @@ public class PurchaseController{
 
     @GetMapping
     public String savePage() {
-        return "/admin/purchase";
+        return "admin/purchase";
     }
 
     @PostMapping
@@ -36,7 +36,7 @@ public class PurchaseController{
         List<PurchaseListModel> purchaseList = purchaseService.findAll(itemCondition);
         model.addAttribute("categoryList",categoryList.getCategoryList());
         model.addAttribute("purchaseList", purchaseList);
-        return "/admin/purchaseList";
+        return "admin/purchaseList";
     }
 
     @GetMapping("/{purchaseCode}")
@@ -44,7 +44,7 @@ public class PurchaseController{
         PurchaseListModel purchaseItem = purchaseService.findByCode(code);
         model.addAttribute("purchase", purchaseItem);
 
-        return "/admin/purchaseDetail";
+        return "admin/purchaseDetail";
     }
 
     @DeleteMapping("/{purchaseCode}")

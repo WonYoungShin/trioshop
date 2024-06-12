@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="/WEB-INF/views/etc/errorMessage.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +54,7 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-
+</div>
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
