@@ -24,7 +24,7 @@ public class StockController{
 
     @GetMapping
     public String savePage(){
-        return "/admin/addItem";
+        return "admin/addItem";
     }
 
     @PostMapping
@@ -32,7 +32,7 @@ public class StockController{
         if(bindingResult.hasErrors()){
             model.addAttribute("itemModel",itemModel);
             model.addAttribute("bindingResult", bindingResult);
-            return "/admin/addItem";
+            return "admin/addItem";
         }
         stockService.save(itemModel);
 
@@ -44,7 +44,7 @@ public class StockController{
         List<StockModel> stockList = stockService.findAll(itemCondition);
         model.addAttribute("categoryList",categoryList.getCategoryList());
         model.addAttribute("stockList", stockList);
-        return "/admin/stock";
+        return "admin/stock";
     }
 
     @GetMapping("/{itemCode}")
@@ -52,7 +52,7 @@ public class StockController{
         StockModel stockItem = stockService.findByCode(code);
         model.addAttribute("item", stockItem);
 
-        return "/admin/itemDetail";
+        return "admin/itemDetail";
     }
 
     @GetMapping("/{itemCode}/edit")
@@ -62,7 +62,7 @@ public class StockController{
         model.addAttribute("item", stockItem);
 
 
-        return "/admin/itemEditForm";
+        return "admin/itemEditForm";
     }
 
     @PostMapping("/{itemCode}/edit")

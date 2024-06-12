@@ -23,7 +23,7 @@ public class StoresController {
 
     @GetMapping
     public String savePage(){
-        return "/admin/stores";
+        return "admin/stores";
     }
 
     @PostMapping
@@ -38,7 +38,7 @@ public class StoresController {
         List<StoresListModel> storesList = storesService.findAll(itemCondition);
         model.addAttribute("categoryList",categoryList.getCategoryList());
         model.addAttribute("storesList", storesList);
-        return "/admin/storesList";
+        return "admin/storesList";
     }
     @GetMapping("/{storeCode}")
     public String findByCode(@PathVariable("storeCode") Long code, Model model) {
@@ -47,7 +47,7 @@ public class StoresController {
         model.addAttribute("store", storeItem);
 
 
-        return "/admin/storesDetail";
+        return "admin/storesDetail";
     }
     @DeleteMapping("/{storeCode}")
     @ResponseBody

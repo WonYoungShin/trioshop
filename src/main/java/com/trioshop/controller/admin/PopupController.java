@@ -30,20 +30,20 @@ public class PopupController {
         List<PopupItemModel> popupItemList = popupService.findByAll(itemCondition);
         model.addAttribute("categoryList", categoryList.getCategoryList());
         model.addAttribute("itemList", popupItemList);
-        return "/admin/popupItemList";
+        return "admin/popupItemList";
     }
     @GetMapping("/popupFactoryList")
     public String popupFactoryList(@ModelAttribute FactoryCondition factoryCondition, Model model) {
         List<FactoryEntity> popupFactoryList = popupService.factoryFindByAll(factoryCondition);
         model.addAttribute("factoryList", popupFactoryList);
-        return "/admin/popupFactoryList";
+        return "admin/popupFactoryList";
     }
     @GetMapping("/popupPurchaseList")
     public String popupPurchaseList(@ModelAttribute ItemCondition itemCondition, Model model) {
         List<PurchaseListModel> popupPurchaseList = purchaseService.findAll(itemCondition);
         model.addAttribute("categoryList", categoryList.getCategoryList());
         model.addAttribute("purchaseList", popupPurchaseList);
-        return "/admin/popupPurchaseList";
+        return "admin/popupPurchaseList";
     }
 }
 

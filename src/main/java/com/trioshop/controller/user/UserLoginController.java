@@ -29,7 +29,7 @@ public class UserLoginController {
             session.removeAttribute(SessionConst.ERROR_MESSAGE);
         }
         model.addAttribute("kakaoURL",oAuth2LoginService.getKakaoLogin());
-        return "/user/userInfo/login";
+        return "user/userInfo/login";
 
     }
 
