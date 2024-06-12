@@ -18,6 +18,12 @@
         .reply-form, .edit-form {
             display: none;
         }
+        .reply {
+            margin-left: 20px;
+            border-left: 2px solid #ddd;
+            padding-left: 10px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -80,24 +86,52 @@
                                 <button class="btn btn-info btn-sm" onclick="showReplyForm('${comment.commentCode}')">답글</button>
 
                                 <!-- 수정 폼 -->
-                                <form id="edit-form-${comment.commentCode}" class="edit-form" action="${pageContext.request.contextPath}/comment/edit" method="post">
+                                <form id="edit-form-${comment.commentCode}" class="edit-form" action="${pageContext.request.contextPath}/board/comment/edit" method="post">
                                     <input type="hidden" name="commentCode" value="${comment.commentCode}">
                                     <div class="form-group">
                                         <textarea class="form-control" name="commentContent" rows="3" required>${comment.commentContent}</textarea>
                                     </div>
+                                    <input type="hidden" name="boardCode" value="${boardCode}">
                                     <button type="submit" class="btn btn-primary">수정 완료</button>
                                     <button type="button" class="btn btn-secondary" onclick="hideEditForm(${comment.commentCode})">취소</button>
                                 </form>
 
                                 <!-- 답글 폼 -->
-                                <form id="reply-form-${comment.commentCode}" class="reply-form" action="${pageContext.request.contextPath}/comment/reply" method="post">
-                                    <input type="hidden" name="parentCommentCode" value="${comment.commentCode}">
+                                <form id="reply-form-${comment.commentCode}" class="reply-form" action="${pageContext.request.contextPath}/board/comment/reply" method="post">
+                                    <input type="hidden" name="boardCode" value="${boardCode}">
+                                    <input type="hidden" name="replyCode" value="${comment.commentCode}">
+                                    <input type="hidden" name="userCode" value="${loginMember.userCode}">
                                     <div class="form-group">
                                         <textarea class="form-control" name="commentContent" rows="3" required></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">답글 작성</button>
                                     <button type="button" class="btn btn-secondary" onclick="hideReplyForm(${comment.commentCode})">취소</button>
                                 </form>
+
+<%--                                <!-- 답글 리스트 -->--%>
+<%--                                <div class="reply">--%>
+<%--                                    <c:forEach var="reply" items="${comment.replyList}">--%>
+<%--                                        <div class="list-group-item">--%>
+<%--                                            <p><strong>${reply.userName}</strong> <small>${reply.commentDate}</small></p>--%>
+<%--                                            <p id="reply-content-${reply.commentCode}">${reply.commentContent}</p>--%>
+
+<%--                                            <c:if test="${loginMember.userCode == reply.userCode}">--%>
+<%--                                                <!-- 수정 버튼 -->--%>
+<%--                                                <button class="btn btn-warning btn-sm" onclick="showEditForm('${reply.commentCode}', '${reply.commentContent}')">수정</button>--%>
+<%--                                                <button class="btn btn-danger btn-sm" onclick="deleteComment(${reply.commentCode})">삭제</button>--%>
+<%--                                            </c:if>--%>
+<%--                                            <!-- 수정 폼 -->--%>
+<%--                                            <form id="edit-form-${reply.commentCode}" class="edit-form" action="${pageContext.request.contextPath}/board/comment/edit" method="post">--%>
+<%--                                                <input type="hidden" name="commentCode" value="${reply.commentCode}">--%>
+<%--                                                <div class="form-group">--%>
+<%--                                                    <textarea class="form-control" name="commentContent" rows="3" required>${reply.commentContent}</textarea>--%>
+<%--                                                </div>--%>
+<%--                                                <button type="submit" class="btn btn-primary">수정 완료</button>--%>
+<%--                                                <button type="button" class="btn btn-secondary" onclick="hideEditForm(${reply.commentCode})">취소</button>--%>
+<%--                                            </form>--%>
+<%--                                        </div>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </div>--%>
                             </div>
                         </c:forEach>
                     </div>
@@ -127,36 +161,10 @@
         }
     }
 
-    function showEditForm(commentCode, commentContent) {
-        const editForm = document.getElementById(`edit-form-`+commentCode);
-        if (editForm) {
-            editForm.style.display = 'block';
-            document.getElementById(`comment-content-`+commentCode).style.display = 'none';
-        }
-    }
-
-    function showReplyForm(commentCode) {
-        const replyForm = document.getElementById(`reply-form-`+commentCode);
-        if (replyForm) {
-            replyForm.style.display = 'block';
-        }
-    }
-    function hideEditForm(commentCode) {
-        document.getElementById(`edit-form-`+commentCode).style.display = 'none';
-        document.getElementById(`comment-content-`+commentCode).style.display = 'block';
-    }
-
-    function hideReplyForm(commentCode) {
-        const replyForm = document.getElementById(`reply-form-`+commentCode);
-        if (replyForm) {
-            replyForm.style.display = 'none';
-        }
-    }
-
     async function deleteComment(commentCode) {
         if (confirm('정말 삭제하시겠습니까?')) {
             try {
-                const response = await fetch(`/comment/`+commentCode, {
+                const response = await fetch(`/board/comment/` + commentCode, {
                     method: 'DELETE'
                 });
 
@@ -169,6 +177,34 @@
             } catch (error) {
                 alert('삭제 중 오류가 발생했습니다.');
             }
+        }
+    }
+
+    function showEditForm(commentCode, commentContent) {
+        hideReplyForm(commentCode); // 답글 폼 숨기기
+        const editForm = document.getElementById(`edit-form-` + commentCode);
+        if (editForm) {
+            editForm.style.display = 'block';
+            document.getElementById(`comment-content-` + commentCode).style.display = 'none';
+        }
+    }
+
+    function showReplyForm(commentCode) {
+        hideEditForm(commentCode); // 수정 폼 숨기기
+        const replyForm = document.getElementById(`reply-form-` + commentCode);
+        if (replyForm) {
+            replyForm.style.display = 'block';
+        }
+    }
+    function hideEditForm(commentCode) {
+        document.getElementById(`edit-form-` + commentCode).style.display = 'none';
+        document.getElementById(`comment-content-` + commentCode).style.display = 'block';
+    }
+
+    function hideReplyForm(commentCode) {
+        const replyForm = document.getElementById(`reply-form-` + commentCode);
+        if (replyForm) {
+            replyForm.style.display = 'none';
         }
     }
 </script>

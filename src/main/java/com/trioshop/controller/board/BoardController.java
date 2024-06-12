@@ -36,7 +36,7 @@ public class BoardController {
     @PostMapping("/write")
     public String boardWrite(@ModelAttribute BoardWriteDTO boardWriteDTO){
         Long boardCode = boardService.boardWrite(boardWriteDTO);
-        return "redirect:/board/"+boardCode;
+        return "redirect:/board/" + boardCode;
     }
 
     @GetMapping("/{boardCode}")
@@ -63,12 +63,33 @@ public class BoardController {
     @PostMapping("/{boardCode}/edit")
     public String boardEdit(@ModelAttribute BoardEditModel editModel){
         boardService.boardEdit(editModel);
-        return "redirect:/board/"+editModel.getBoardCode();
+        return "redirect:/board/" + editModel.getBoardCode();
     }
 
     @PostMapping("/comment")
     public String boardCommentAdd(@ModelAttribute CommentAddModel commentAddModel){
         boardService.boardCommentAdd(commentAddModel);
-        return "redirect:/board/"+commentAddModel.getBoardCode();
+        return "redirect:/board/" + commentAddModel.getBoardCode();
     }
+
+    @PostMapping("/comment/{commentCode}")
+    public String boardCommentEdit(@ModelAttribute CommentEditModel commentEditModel){
+        boardService.commentEdit(commentEditModel);
+        return "redirect:/board/" + commentEditModel.getBoardCode();
+    }
+    
+    @DeleteMapping("/comment/{commentCode}")
+    public ResponseEntity<Void> boardCommentDelete(@PathVariable Long commentCode) {
+        boardService.commentDelete(commentCode);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/comment/reply")
+    public String commentReplyAdd(@ModelAttribute CommentReplyAddModel replyAddModel){
+        boardService.commentReplyAdd(replyAddModel);
+        return "redirect:/board/" + replyAddModel.getBoardCode();
+    }
+
+
+
 }

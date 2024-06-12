@@ -48,7 +48,7 @@ public class TossPaymentController {
                 .userCode(securityUtils.getCurrentUserCode())
                 .paymentKey("주문키1")
                 .orderId("주문번호1")
-                .amount("의류포함 총"+"?건")
+                .amount("의류포함 총" + "?건")
                 .orderCode("주문코드1")
                 .userName("유저명1")
                 .orderName("주문명1")

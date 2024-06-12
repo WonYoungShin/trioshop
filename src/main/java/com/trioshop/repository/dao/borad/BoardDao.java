@@ -60,4 +60,16 @@ public class BoardDao {
     public void boardCommentAdd(CommentAddModel commentAddModel) {
         boardMapper.boardCommentAdd(commentAddModel);
     }
+
+    public void commentDelete(Long commentCode) {
+         boardMapper.commentDelete(commentCode);
+    }
+
+    public void commentEdit(CommentEditModel commentEditModel) {
+        boardMapper.commentEdit(commentEditModel);
+    }
+
+    public void commentReplyAdd(CommentReplyAddModel replyAddModel) {
+        boardMapper.commentReplyAdd(replyAddModel);
+    }
 }

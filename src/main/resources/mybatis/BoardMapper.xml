@@ -27,12 +27,12 @@
 
     <insert id="boardWrite" useGeneratedKeys="true" keyProperty="boardCode">
         INSERT INTO TRIO_BOARD (user_code, board_title, board_date, category_code)
-        VALUES (#{userCode},#{boardTitle},#{boardDate},#{categoryCode})
+        VALUES (#{userCode}, #{boardTitle}, #{boardDate}, #{categoryCode})
     </insert>
 
     <insert id="boardContentWrite">
         INSERT INTO TRIO_BOARD_CONTENT (board_code, board_content)
-        VALUES (#{boardCode},#{boardContent})
+        VALUES (#{boardCode}, #{boardContent})
     </insert>
 
     <select id="boardDetails" resultType="BoardContentDetailModel">
@@ -49,6 +49,7 @@
         FROM TRIO_BOARD_COMMENT com
         JOIN TRIO_USERS_INFO info ON info.user_code = com.user_code
         WHERE board_code = #{board_code}
+        AND status_code = '10'
         ORDER BY comment_code asc
     </select>
     <update id="boardViewsIncrease">
@@ -71,7 +72,7 @@
 
     <update id="boardEdit">
         UPDATE TRIO_BOARD
-        SET category_code = #{categoryCode},
+        SET category_code = #{categoryCode}, 
         board_title = #{boardTitle}
         WHERE board_code = #{boardCode}
     </update>
@@ -83,8 +84,24 @@
     </update>
 
     <insert id="boardCommentAdd" useGeneratedKeys="true" keyProperty="commentCode">
-        INSERT INTO TRIO_BOARD_COMMENT (board_code,user_code,comment_content,comment_date)
-        VALUES  (#{boardCode},#{userCode},#{commentContent},#{commentDate})
+        INSERT INTO TRIO_BOARD_COMMENT (board_code, user_code, comment_content, comment_date)
+        VALUES  (#{boardCode}, #{userCode}, #{commentContent}, #{commentDate})
     </insert>
 
+    <update id="commentDelete">
+        UPDATE TRIO_BOARD_COMMENT
+        SET status_code = '20'
+        WHERE comment_code = #{commentCode}
+    </update>
+
+    <update id="commentEdit">
+        UPDATE TRIO_BOARD_COMMENT
+        SET comment_content = #{commentContent}
+        WHERE comment_code = #{commentCode}
+    </update>
+    
+    <insert id="commentReplyAdd" useGeneratedKeys="true" keyProperty="commentCode">
+        INSERT INTO TRIO_BOARD_COMMENT (board_code, user_code, comment_content, comment_date, reply_code)
+        VALUES  (#{boardCode}, #{userCode}, #{commentContent}, #{commentDate}, #{replyCode})
+    </insert>
 </mapper>

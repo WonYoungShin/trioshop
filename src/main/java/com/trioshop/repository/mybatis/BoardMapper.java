@@ -30,4 +30,10 @@ public interface BoardMapper {
     void boardContentEdit(BoardEditModel editModel);
 
     void boardCommentAdd(CommentAddModel commentAddModel);
+
+    void commentDelete(Long commentCode);
+
+    void commentEdit(CommentEditModel commentEditModel);
+
+    void commentReplyAdd(CommentReplyAddModel replyAddModel);
 }

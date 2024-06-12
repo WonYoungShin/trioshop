@@ -66,4 +66,16 @@ public class BoardService {
     public void boardCommentAdd(CommentAddModel commentAddModel) {
         boardDao.boardCommentAdd(commentAddModel);
     }
+
+    public void commentDelete(Long commentCode) {
+        boardDao.commentDelete(commentCode);
+    }
+
+    public void commentEdit(CommentEditModel commentEditModel) {
+        boardDao.commentEdit(commentEditModel);
+    }
+
+    public void commentReplyAdd(CommentReplyAddModel replyAddModel) {
+        boardDao.commentReplyAdd(replyAddModel);
+    }
 }
