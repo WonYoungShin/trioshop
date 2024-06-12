@@ -29,7 +29,7 @@ public class HomeController {
         model.addAttribute("dashboard", dashboardModel);
         model.addAttribute("statusList", statusList);
         model.addAttribute("orderList", orderList);
-        return "/admin/adminMain";
+        return "admin/adminMain";
     }
 
 

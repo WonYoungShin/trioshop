@@ -24,7 +24,7 @@ public class UserJoinController {
 
     @GetMapping("/join") // 회원 가입 페이지
     public String userJoinPage(@ModelAttribute UserJoin userJoin) {
-        return "/user/userInfo/join";
+        return "user/userInfo/join";
     }
     @PostMapping("/join") // 회원가입 진행
     public String userJoinProcess(@ModelAttribute UserJoin userJoin, Model model) {
@@ -37,13 +37,13 @@ public class UserJoinController {
     }
     @GetMapping("/join/terms")
     public String userJoinTerms(){
-        return "/user/userInfo/joinOfTerms";
+        return "user/userInfo/joinOfTerms";
     }
 
 
     @GetMapping("/guestLogin")
     public String guestLoginPage() {
-        return "/user/userInfo/guestLogin";
+        return "user/userInfo/guestLogin";
     }
 
     @PostMapping("/guestLogin")
