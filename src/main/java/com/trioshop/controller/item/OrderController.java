@@ -32,7 +32,7 @@ public class OrderController {
                 orderService.selectUserAddressInfo(securityUtils.getCurrentUserCode());
         model.addAttribute("userAddressInfo",userAddressInfo);
         model.addAttribute("itemList", itemList);
-        return "user/itemInfo/orders";
+        return "/user/itemInfo/orders";
     }
 
     @GetMapping("/orderList") // 주문 완료 목록으로
@@ -40,7 +40,7 @@ public class OrderController {
 
         List<OrderListByUser> orderList = orderService.orderListByUser(securityUtils.getCurrentUserCode());
         model.addAttribute("orderList", orderList);
-        return "user/itemInfo/orderList";
+        return "/user/itemInfo/orderList";
     }
 
     @PostMapping("/placeOrder") // 주문로직

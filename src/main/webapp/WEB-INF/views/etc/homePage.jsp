@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/etc/header.jsp" %>
 <%--hdarea 보여주는 파트jsp--%>
-<%@ include file="/WEB-INF/views/etc/hdarea.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +14,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
+
+
+
 <body>
+
+<%@ include file="/WEB-INF/views/etc/hdarea.jsp" %>
 <%--slider를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/slide.jsp" %>
 

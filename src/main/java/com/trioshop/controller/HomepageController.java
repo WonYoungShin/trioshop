@@ -29,6 +29,6 @@ public class HomepageController {
         //카테고리 목록 불러오기
         model.addAttribute("categoryList", categoryList.getCategoryList());
 
-        return "etc/homePage";
+        return "/etc/homePage";
     }
 }

@@ -112,7 +112,7 @@ public class WebSecurityConfig{
      *   allowUrlEncodedSlashHttpFirewall 메서드를 통한 해결
      *   개발자 예측 : http:// 의 부분
      */
-    @Bean
+//    @Bean
     public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowUrlEncodedSlash(true);
@@ -123,7 +123,7 @@ public class WebSecurityConfig{
     /**
      * @param firewall
      */
-    @Bean
+//    @Bean
     public WebSecurityCustomizer webSecurityCustomizer(HttpFirewall firewall) {
         return (web) -> web.httpFirewall(firewall);
     }

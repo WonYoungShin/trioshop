@@ -27,7 +27,7 @@ public class OrderManagementController {
 
         model.addAttribute("totalSales", yearSalesModel.getTotalSales());
         model.addAttribute("yearlySales", yearSalesModel.getSalesModelList());
-        return "admin/sales/yearlySales";
+        return "/admin/sales/yearlySales";
     }
 
     @GetMapping("/monthSales")
