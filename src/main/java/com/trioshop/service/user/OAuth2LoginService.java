@@ -124,6 +124,7 @@ public class OAuth2LoginService {
             JSONObject account = (JSONObject) jsonObj.get("kakao_account");
             JSONObject profile = (JSONObject) account.get("profile");
 
+
             String email = String.valueOf(account.get("email"));
             String nickname = String.valueOf(profile.get("nickname"));
 

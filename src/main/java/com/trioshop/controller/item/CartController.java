@@ -28,7 +28,7 @@ public class CartController {
 
         List<ItemInfoByCart> cartItems = cartService.cartItemList(securityUtils.getCurrentUserCode());
         model.addAttribute("cartItems", cartItems);
-        return "user/itemInfo/cart";
+        return "/user/itemInfo/cart";
     }
     @PostMapping("/addCart") // 단일,다중 품목 카트 추가
     public String addCartItem(@RequestParam(value = "itemCodes", required = false) List<Long> itemCodes,

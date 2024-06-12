@@ -24,7 +24,7 @@ public class ItemController {
         List<ItemInfoByUser> itemList = itemService.searchItems(null);
         model.addAttribute("itemList", itemList);
         model.addAttribute("categoryList", categoryList.getCategoryList());
-        return "user/itemInfo/itemList";
+        return "/user/itemInfo/itemList";
     }
     @GetMapping("/searchItems") // 상품 검색 페이지로
     public String searchItems(@ModelAttribute ItemCondition itemCondition,
@@ -33,7 +33,7 @@ public class ItemController {
         List<ItemInfoByUser> itemList = itemService.searchItems(itemCondition);
         model.addAttribute("itemList", itemList);
         model.addAttribute("categoryList", categoryList.getCategoryList());
-        return "user/itemInfo/itemList";
+        return "/user/itemInfo/itemList";
     }
     @GetMapping("/item/{itemCode}") //아이템 상세 페이지로
     public String itemDetailPage(@PathVariable("itemCode") long itemCode,
@@ -46,7 +46,7 @@ public class ItemController {
         List<ItemDetailSearch> itemLists = itemService.itemDetailNameSearch(item.getItemName());
         model.addAttribute("itemLists", itemLists);
 
-        return "user/itemInfo/itemPage";
+        return "/user/itemInfo/itemPage";
     }
 }
 

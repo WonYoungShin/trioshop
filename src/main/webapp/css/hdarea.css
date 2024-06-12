@@ -180,9 +180,9 @@
 }
 
 #hdWrap .hdCate .cateWrap {
-    position: absolute;
+    position: inherit;
     top: 15px;
-    left: 750px;
+    left: 0;
 }
 
 
