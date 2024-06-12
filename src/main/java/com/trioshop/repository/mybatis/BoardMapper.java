@@ -28,4 +28,6 @@ public interface BoardMapper {
     void boardEdit(BoardEditModel editModel);
 
     void boardContentEdit(BoardEditModel editModel);
+
+    void boardCommentAdd(CommentAddModel commentAddModel);
 }

@@ -82,6 +82,9 @@
         WHERE board_code = #{boardCode}
     </update>
 
-
+    <insert id="boardCommentAdd" useGeneratedKeys="true" keyProperty="commentCode">
+        INSERT INTO TRIO_BOARD_COMMENT (board_code,user_code,comment_content,comment_date)
+        VALUES  (#{boardCode},#{userCode},#{commentContent},#{commentDate})
+    </insert>
 
 </mapper>

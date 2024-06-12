@@ -51,7 +51,7 @@
             <div class="row mt-3">
                 <div class="col-12">
                     <h4>댓글 작성</h4>
-                    <form action="${pageContext.request.contextPath}/comment" method="post">
+                    <form action="${pageContext.request.contextPath}/board/comment" method="post">
                         <input type="hidden" name="boardCode" value="${boardDetailModel.boardCode}">
                         <div class="form-group">
                             <label for="commentContent">댓글 내용</label>
@@ -70,11 +70,14 @@
                             <div class="list-group-item">
                                 <p><strong>${comment.userName}</strong> <small>${comment.commentDate}</small></p>
                                 <p id="comment-content-${comment.commentCode}">${comment.commentContent}</p>
+
                                 <c:if test="${loginMember.userCode == comment.userCode}">
-                                    <button class="btn btn-warning btn-sm" onclick="showEditForm(${comment.commentCode}, '${comment.commentContent}')">수정</button>
+                                    <!-- 수정 버튼 -->
+                                    <button class="btn btn-warning btn-sm" onclick="showEditForm('${comment.commentCode}', '${comment.commentContent}')">수정</button>
                                     <button class="btn btn-danger btn-sm" onclick="deleteComment(${comment.commentCode})">삭제</button>
                                 </c:if>
-                                <button class="btn btn-info btn-sm" onclick="showReplyForm(${comment.commentCode})">답글</button>
+                                <!-- 답글 버튼 -->
+                                <button class="btn btn-info btn-sm" onclick="showReplyForm('${comment.commentCode}')">답글</button>
 
                                 <!-- 수정 폼 -->
                                 <form id="edit-form-${comment.commentCode}" class="edit-form" action="${pageContext.request.contextPath}/comment/edit" method="post">
@@ -125,27 +128,35 @@
     }
 
     function showEditForm(commentCode, commentContent) {
-        document.getElementById(`edit-form-${commentCode}`).style.display = 'block';
-        document.getElementById(`comment-content-${commentCode}`).style.display = 'none';
-    }
-
-    function hideEditForm(commentCode) {
-        document.getElementById(`edit-form-${commentCode}`).style.display = 'none';
-        document.getElementById(`comment-content-${commentCode}`).style.display = 'block';
+        const editForm = document.getElementById(`edit-form-`+commentCode);
+        if (editForm) {
+            editForm.style.display = 'block';
+            document.getElementById(`comment-content-`+commentCode).style.display = 'none';
+        }
     }
 
     function showReplyForm(commentCode) {
-        document.getElementById(`reply-form-${commentCode}`).style.display = 'block';
+        const replyForm = document.getElementById(`reply-form-`+commentCode);
+        if (replyForm) {
+            replyForm.style.display = 'block';
+        }
+    }
+    function hideEditForm(commentCode) {
+        document.getElementById(`edit-form-`+commentCode).style.display = 'none';
+        document.getElementById(`comment-content-`+commentCode).style.display = 'block';
     }
 
     function hideReplyForm(commentCode) {
-        document.getElementById(`reply-form-${commentCode}`).style.display = 'none';
+        const replyForm = document.getElementById(`reply-form-`+commentCode);
+        if (replyForm) {
+            replyForm.style.display = 'none';
+        }
     }
 
     async function deleteComment(commentCode) {
         if (confirm('정말 삭제하시겠습니까?')) {
             try {
-                const response = await fetch(`/comment/${commentCode}`, {
+                const response = await fetch(`/comment/`+commentCode, {
                     method: 'DELETE'
                 });
 

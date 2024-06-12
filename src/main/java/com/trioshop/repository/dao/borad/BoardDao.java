@@ -56,4 +56,8 @@ public class BoardDao {
     public void boardContentEdit(BoardEditModel editModel) {
         boardMapper.boardContentEdit(editModel);
     }
+
+    public void boardCommentAdd(CommentAddModel commentAddModel) {
+        boardMapper.boardCommentAdd(commentAddModel);
+    }
 }

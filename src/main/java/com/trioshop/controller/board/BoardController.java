@@ -41,7 +41,7 @@ public class BoardController {
 
     @GetMapping("/{boardCode}")
     public String boardDetailPage(@PathVariable Long boardCode, Model model){
-        BoardContentDetailModelAndComment boardDetail = boardService.boardDetails(boardCode);
+        BoardContentDetailModelAndComment boardDetail = boardService.boardDetails(boardCode,securityUtils.getCurrentUserCode());
         model.addAttribute("boardDetailModel", boardDetail.getContent());
         model.addAttribute("commentList",boardDetail.getComment());
         return "board/boardDetail";
@@ -68,7 +68,7 @@ public class BoardController {
 
     @PostMapping("/comment")
     public String boardCommentAdd(@ModelAttribute CommentAddModel commentAddModel){
-
+        boardService.boardCommentAdd(commentAddModel);
         return "redirect:/board/"+commentAddModel.getBoardCode();
     }
 }

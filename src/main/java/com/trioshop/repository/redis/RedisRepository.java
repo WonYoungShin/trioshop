@@ -1,12 +1,16 @@
 package com.trioshop.repository.redis;
 
+import io.jsonwebtoken.lang.Arrays;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import static java.lang.String.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ public class RedisRepository {
     @Resource(name = "redisTemplate")
     private ValueOperations<String, Object> valueOperations;
 
+
     public void deleteToken(String userId) {
         redisTemplate.delete(userId);
     }
@@ -26,7 +31,18 @@ public class RedisRepository {
         valueOperations.set(userId, refreshToken);
     }
 
-    public String findById(String userId) {
+    public void viewSave(Long userCode, Long boardCode){
+        String board;
+
+        if(redisTemplate.hasKey(valueOf(userCode))) {
+            board = (String) valueOperations.get(valueOf(userCode))+boardCode + "_";
+        }else {
+            board = boardCode + "_";
+        }
+        valueOperations.set(valueOf(userCode), board, 2, TimeUnit.HOURS);
+    }
+
+    public String findById(String userId ) {
         if (userId == null) {
             return null;
         }
@@ -39,6 +55,21 @@ public class RedisRepository {
 
     public Boolean isTokenBlacklisted(String token) {
         return redisTemplate.hasKey(BLACKLIST_PREFIX + token);
+    }
+
+    public Boolean isCodeBoardView(Long userCode, Long boardCode) {
+        String boards = (String) valueOperations.get(valueOf(userCode));
+        if(Objects.nonNull(boards)) {
+            String[] boardArr = boards.split("_");
+            String boardCodeStr = valueOf(boardCode);
+            for (String s : boardArr) {
+                if (s.equals(boardCodeStr)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
 
