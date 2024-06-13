@@ -6,6 +6,7 @@ import lombok.*;
 @Setter // 객체 리스트로 받을시 필요
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class OrderItemEntity {
     private String orderCode;
     private long itemCode;

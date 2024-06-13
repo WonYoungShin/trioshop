@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Builder
 @ToString
 public class PaymentData {
-    long totalPrice;
+
     long userCode;
     String paymentKey;
     String orderId;
-    String amount;
+    long amount;
     String orderCode;
     String userName;
     String orderName;
