@@ -13,7 +13,6 @@
     <%--폰트--%>
 </head>
 
-</head>
 <body>
 <div class="page-container">
     <div class="login-form-container shadow">

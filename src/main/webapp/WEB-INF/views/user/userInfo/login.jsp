@@ -52,7 +52,7 @@
         </div>
     </div>
 </form>
-</body>
+
 <script>
     function submitForm(actionUrl, method) {
         var form = document.getElementById('loginForm');
@@ -60,5 +60,7 @@
         form.method = method;
         form.submit();
     }
+
 </script>
+</body>
 </html>

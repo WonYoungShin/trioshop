@@ -38,10 +38,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TossPaymentService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TossPaymentService.class);
     @Value("${toss.secret.api.key}")
     private static String WIDGET_SECRET_KEY;
     private static final String PAYMENT_CONFIRM_URL = "https://api.tosspayments.com/v1/payments/confirm";
 
+    private final OrderService orderService;
     private final OrderDao orderDao;
 
     private OrdersEntity ordersEntityResult;
@@ -54,12 +56,14 @@ public class TossPaymentService {
         String amount;
         String paymentKey;
 
+
         try {
             JSONObject requestData = (JSONObject) parser.parse(jsonBody);
             paymentKey = (String) requestData.get("paymentKey");
             orderId = (String) requestData.get("orderId");
             amount = (String) requestData.get("amount");
         } catch (ParseException e) {
+            logger.error("Error parsing JSON request body", e);
             throw new ApplicationException(ExceptionType.ORDER_FAILED_MESSAGE);
         }
 
@@ -83,6 +87,7 @@ public class TossPaymentService {
 
             outputStream = connection.getOutputStream();
             outputStream.write(obj.toString().getBytes(StandardCharsets.UTF_8));
+//            outputStream.flush();
 
             int code = connection.getResponseCode();
             boolean isSuccess = code == HttpURLConnection.HTTP_OK;
@@ -90,35 +95,28 @@ public class TossPaymentService {
             responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
             Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            try {
-                System.out.println("ordersEntityResult = " + ordersEntityResult);
-                //orders table insert
-                orderDao.insertOrders(ordersEntityResult);
-                //orders item table insert
-                List<Long> itemCodeList = new ArrayList<>(); //장바구니에서 구매품목을 지우기위한 List
-                for (OrderItemEntity orderItemEntity : orderItemEntityResultList) {
-                    System.out.println("orderItemEntity = " + orderItemEntity);
-                    orderDao.insertOrderItems(orderItemEntity);
-                    ItemCodeAndQty itemCodeAndQty
-                            = new ItemCodeAndQty(orderItemEntity.getItemCode(),
-                            orderItemEntity.getOrderQty());
-                    int checkUpdate = orderDao.updateStockQty(itemCodeAndQty);
-                    itemCodeList.add(orderItemEntity.getItemCode());
-                    if (checkUpdate == 0) {
-                        log.error("재고 부족으로 주문 실패: itemCode = " + orderItemEntity.getItemCode());
-                        throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
-                    }
+
+            //orders table insert
+            orderDao.insertOrders(ordersEntityResult);
+            //orders item table insert
+            List<Long> itemCodeList = new ArrayList<>(); //장바구니에서 구매품목을 지우기위한 List
+            for (OrderItemEntity orderItemEntity : orderItemEntityResultList) {
+                orderDao.insertOrderItems(orderItemEntity);
+                ItemCodeAndQty itemCodeAndQty
+                        = new ItemCodeAndQty(orderItemEntity.getItemCode(),
+                        orderItemEntity.getOrderQty());
+                int checkUdate = orderDao.updateStockQty(itemCodeAndQty);
+                itemCodeList.add(orderItemEntity.getItemCode());
+                if (checkUdate == 0) {
+                    log.error("재고 부족으로 주문 실패: itemCode = " + orderItemEntity.getItemCode());
+                    throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
                 }
                 // 구매 품목 카트 에서 제외
                 orderDao.deleteItemsFromCart(ordersEntityResult.getUserCode(),itemCodeList);
-            }catch (Exception e) {
-                throw new ApplicationException(ExceptionType.DONT_SAVE_TABLE);
             }
 
             return ResponseEntity.status(code).body(jsonObject);
-        } catch (Exception e) {
-            throw new ApplicationException(ExceptionType.DONT_SAVE_TABLE);
-        }finally {
+        } finally {
             if (outputStream != null) {
                 outputStream.close();
             }
@@ -130,17 +128,16 @@ public class TossPaymentService {
             }
         }
     }
-    // 주문관련 객체들을 생성
+    @Transactional
+    public void tossPaymentProcess() {
+
+    }
     public PaymentData makeTossPaymentData(OrdersEntity ordersEntity,
                                     List<OrderItemEntity> orderItemList,
                                     long totalPrice) {
 
             ordersEntityResult = makeOrdersEntity(ordersEntity);
             orderItemEntityResultList = makeOrderItemEntity(orderItemList, ordersEntityResult.getOrderCode());
-            System.out.println("ordersEntityResult = " + ordersEntityResult);
-        for (OrderItemEntity orderItemEntity : orderItemEntityResultList) {
-            System.out.println("orderItemEntity = " + orderItemEntity);
-        }
             // toss 결제를 위한 PaymentData 생성
             return makePaymentData(ordersEntityResult, orderItemEntityResultList, totalPrice);
     }
@@ -170,7 +167,7 @@ public class TossPaymentService {
         String firstItemName = orderDao.selectItemName(orderItemList.get(0).getItemCode());
         return PaymentData.builder()
                 .userCode(ordersEntity.getUserCode())
-                .orderId(ordersEntity.getOrderCode())
+                .orderId(GenerateDate.generateOrderCode(ordersEntity.getUserCode()))
                 .amount(totalPrice)
                 .userName(ordersEntity.getOrderReceiver())
                 .orderName(firstItemName+"+ 외"+(orderItemList.size()-1))

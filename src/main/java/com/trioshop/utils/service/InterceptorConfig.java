@@ -30,7 +30,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .order(3)
                 .addPathPatterns("/orders", "/join", "/board/write");
 
-
 /**
  * 시큐리티 적용으로 인한 권한 체크 인터셉터 주석 처리
  */

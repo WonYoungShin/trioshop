@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/views/etc/errorMessage.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,16 +35,16 @@
 
         const json = await response.json();
 
-        <%--if (!response.ok) {--%>
-        <%--    // 결제 실패 비즈니스 로직을 구현하세요.--%>
-        <%--    console.log(json);--%>
-        <%--    window.location.href = `/fail?message=${json.message}&code=${json.code}`;--%>
-        <%--}--%>
+        if (!response.ok) {
+            // 결제 실패 비즈니스 로직을 구현하세요.
+            console.log(json);
+            window.location.href = `/fail?message=${json.message}&code=${json.code}`;
+        }
 
         // 결제 성공 비즈니스 로직을 구현하세요.
         console.log(json);
     }
-    // confirm();
+    confirm();
 
     const paymentKeyElement = document.getElementById("paymentKey");
     const orderIdElement = document.getElementById("orderId");
@@ -54,20 +53,6 @@
     orderIdElement.textContent = "주문번호: " + orderId;
     amountElement.textContent = "결제 금액: " + amount;
     paymentKeyElement.textContent = "paymentKey: " + paymentKey;
-
-    // 특정 페이지로 리디렉션할 URL
-    var redirectUrl = "${pageContext.request.contextPath}/orderList";
-
-    // 부모 창을 리디렉션하고 팝업 창을 닫는 함수
-    function redirectToParent() {
-    if (window.opener != null && !window.opener.closed) {
-    window.opener.location.href = redirectUrl;
-    window.close();
-    }
-    }
-    // 페이지 로드 시 리디렉션 함수 호출
-    window.onload = redirectToParent;
 </script>
 </body>
 </html>
-

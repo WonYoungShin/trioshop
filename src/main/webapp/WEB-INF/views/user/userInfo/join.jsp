@@ -76,7 +76,7 @@
         </div>
     </div>
 </form>
-</body>
+
 <script>
     //guestLogin 이동
     document.addEventListener('DOMContentLoaded', function () {
@@ -103,4 +103,5 @@
     });
 
 </script>
+</body>
 </html>

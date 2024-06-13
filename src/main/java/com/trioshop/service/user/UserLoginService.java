@@ -1,14 +1,8 @@
 package com.trioshop.service.user;
 
-import com.trioshop.SessionConst;
-import com.trioshop.exception.UserNotFoundException;
 import com.trioshop.model.dto.user.UserInfoBySession;
-import com.trioshop.model.dto.user.UserJoinModel;
 import com.trioshop.repository.dao.user.UserLoginDao;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
