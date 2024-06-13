@@ -75,7 +75,7 @@
 
         <h3 class="mt-4">Total Price: ₩<span id="totalPrice">0</span></h3>
         <button type="submit" class="btn btn-primary btn-block mt-3">결제하기</button>
-        <button type="button" id="tossPaymentButton" class="btn btn-secondary btn-block mt-3" onclick="openPopup()" >토스로 결제하기</button>
+        <button type="button" id="tossPaymentButton" class="btn btn-secondary btn-block mt-3" >토스로 결제하기</button>
     </form>
 </div>
 
@@ -109,8 +109,8 @@
         $('#tossPaymentButton').on('click', function() {
             window.open(
                 '${pageContext.request.contextPath}/toss/',
-                'paymentPopup',
-                'width=1000,height=600,scrollbars=yes,resizable=yes'
+                'popup',
+                'width=900,height=600,scrollbars=yes,resizable=yes'
             );
         });
     });
