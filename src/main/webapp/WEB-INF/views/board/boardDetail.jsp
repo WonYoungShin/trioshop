@@ -60,7 +60,7 @@
                     </div>
                     <div class="card-body">
                         <div class="text-right" style="line-height: 1.5;">
-                            <p style="margin-bottom: 0.2rem;"><strong>작성자:</strong> ${boardDetailModel.userName}</p>
+                            <p style="margin-bottom: 0.2rem;"><strong>작성자:</strong> ${boardDetailModel.userNickname}</p>
                             <p style="margin-bottom: 0.2rem; font-size: 0.9rem;"><strong>작성일자:</strong> ${boardDetailModel.boardDate}</p>
                             <p style="margin-bottom: 0.2rem; font-size: 0.9rem;"><strong>조회수:</strong> ${boardDetailModel.boardViews}</p>
                         </div>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="card-footer text-muted">
                         <div class="button-group">
-                            <c:if test="${loginMember.userCode == boardDetailModel.userCode}">
+                            <c:if test="${loginMember.userCode == boardDetailModel.userCode || loginMember.gradeCode == 4}">
                                 <a href="${pageContext.request.contextPath}/board/${boardDetailModel.boardCode}/edit">수정</a>
                                 <button onclick="deleteBoard(event)">삭제</button>
                             </c:if>
@@ -86,10 +86,10 @@
                 <div class="list-group">
                     <c:forEach var="comment" items="${commentList}">
                         <div class="list-group-item comment-level-${comment.level > 3 ? 3 : comment.level}">
-                            <p><strong>${comment.userName}</strong> <small>${comment.commentDate}</small></p>
+                            <p><strong>${comment.userNickname}</strong> <small>${comment.commentDate}</small></p>
                             <p id="comment-content-${comment.commentCode}">${comment.commentContent}</p>
 
-                            <c:if test="${loginMember.userCode == comment.userCode}">
+                            <c:if test="${loginMember.userCode == comment.userCode || loginMember.gradeCode == 4}">
                                 <!-- 수정 버튼 -->
                                 <button class="btn btn-warning btn-sm" onclick="showEditForm('${comment.commentCode}', '${comment.commentContent}')">수정</button>
                                 <button class="btn btn-danger btn-sm" onclick="deleteComment(${comment.commentCode})">삭제</button>
@@ -153,7 +153,7 @@
 
                 if (response.ok) {
                     alert('삭제되었습니다.');
-                    window.location.href = '/board';
+                    window.location.href = '/board?page=1';
                 } else {
                     alert('삭제 중 오류가 발생했습니다.');
                 }
