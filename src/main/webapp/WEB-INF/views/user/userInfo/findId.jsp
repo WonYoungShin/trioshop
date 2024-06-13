@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/etc/header.jsp" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,35 +27,17 @@
                     <h1>Trio Shop</h1>
                     <h3>Forget Id</h3>
 
-                    <%--                    <a href="${pageContext.request.contextPath}#" target="">--%>
-                    <%--                        <img src="/images/login/google.png" alt="Google">--%>
-                    <%--                    </a>--%>
-                    <%--                    <a href="${pageContext.request.contextPath}#" target="">--%>
-                    <%--                        <img src="/images/login/naver.png" alt="Naver">--%>
-                    <%--                    </a>--%>
-                    <%--                    <a href="${pageContext.request.contextPath}#" target="">--%>
-                    <%--                        <img src="/images/login/kakao.png" alt="Kakao">--%>
-                    <%--                    </a>--%>
-
-
                     <div class="login-input-wrap input-id">
                         <i class="far fa-envelope"></i>
                         <input type="text" id="userName" name="userName" placeholder="이름" title="이름" class="input_text"
-                               maxlength="4" value="" required autocomplete="off">
-<%--                        <span role="button" class="btn_delete" id="name_clear" style="display: none;">--%>
-<%--                           <i class="fa-solid fa-eraser"></i>--%>
-<%--                          <span class="sr-only">삭제</span> <!-- 스크린 리더 사용자를 위한 숨겨진 텍스트 -->--%>
-<%--                        </span>--%>
+                               maxlength="11" value="" required autocomplete="off">
                     </div>
-                    <div class="login-input-wrap input-password">
+                    <div class="login-input-wrap input-Tel">
                         <i class="fa-solid fa-phone"></i>
-                        <input type="tel" id="userTel" name="userTel" placeholder="전화번호" title="전화번호" class="input_text" pattern="\d{3}-\d{3,4}-\d{4}" required autocomplete="off">
-<%--                        <span role="button" class="btn_delete" id="Tel_clear" style="display: none;">--%>
-<%--                           <i class="fa-solid fa-eraser"></i>--%>
-<%--                          <span class="sr-only">삭제</span> <!-- 스크린 리더 사용자를 위한 숨겨진 텍스트 -->--%>
-<%--                        </span>--%>
+                        <input type="tel" id="userTel" name="userTel" placeholder="전화번호" title="전화번호" class="input_text"
+                               pattern="\d{3}-\d{3,4}-\d{4}" maxlength="13" required autocomplete="off">
                     </div>
-                    <small style="margin-top: 5px;">올바른 전화번호 형식: 010-1234-5678</small>
+                    <small class="form-text text-muted">올바른 전화번호 형식: 010-1234-5678</small>
                 </div>
 
                 <br>
@@ -64,11 +46,7 @@
                         당신의 아이디는 <strong>${id}</strong> 입니다.
                     </div>
                 </c:if>
-                <c:if test="${not empty message}">
-                    <div class="alert alert-danger" role="alert">
-                            ${message}
-                    </div>
-                </c:if>
+
 
                 <!-- 에러 메시지 표시 -->
                 <c:if test="${not empty message}">
@@ -86,12 +64,24 @@
         </div>
     </div>
 </form>
-</body>
 <script>
+    // 전화번호 입력란 자동 포맷팅
+    document.getElementById('userTel').addEventListener('input', function (e) {
+        var input = e.target.value.replace(/\D/g, ''); // 숫자만 남기기
+        var formatted = '';
 
+        if (input.length <= 3) {
+            formatted = input;
+        } else if (input.length <= 7) {
+            formatted = input.slice(0, 3) + '-' + input.slice(3);
+        } else {
+            formatted = input.slice(0, 3) + '-' + input.slice(3, 7) + '-' + input.slice(7);
+        }
 
+        e.target.value = formatted.slice(0, 13); // 최대 11자까지 제한
+    });
 
-    // 아이디 입력란
+    // 아이디 입력란 초기화 버튼
     var userNameInput = document.getElementById('userName');
     var nameClearButton = document.getElementById('name_clear');
     userNameInput.addEventListener('input', function() {
@@ -100,9 +90,15 @@
         } else {
             nameClearButton.style.display = 'none';
         }
+        this.value = this.value.slice(0, 11); // 최대 11자까지 제한
     });
 
-    // 전화번호 입력란
+    nameClearButton.addEventListener('click', function() {
+        userNameInput.value = '';
+        this.style.display = 'none';
+    });
+
+    // 전화번호 입력란 초기화 버튼
     var userTelInput = document.getElementById('userTel');
     var TelClearButton = document.getElementById('Tel_clear');
     userTelInput.addEventListener('input', function() {
@@ -114,29 +110,20 @@
     });
 
 
-    nameClearButton.addEventListener('click', function() {
-        userNameInput.value = '';
-        this.style.display = 'none';
-    });
-
-
     TelClearButton.addEventListener('click', function() {
         userTelInput.value = '';
         this.style.display = 'none';
     });
 
-    // 초기에 삭제 버튼 숨기기
-    nameClearButton.style.display = 'none';
-    TelClearButton.style.display = 'none';
-
-
     // 비회원 로그인 버튼 클릭 시 폼 제출
     document.querySelector('.create-account-btn').addEventListener('click', function() {
-        // 폼 제출
         document.getElementById('find_Id_Form').submit();
-        // /guestLogin으로 이동
         window.location.href = '/guestLogin';
     });
 
+    // 초기화 버튼 숨기기
+    nameClearButton.style.display = 'none';
+    TelClearButton.style.display = 'none';
 </script>
+</body>
 </html>

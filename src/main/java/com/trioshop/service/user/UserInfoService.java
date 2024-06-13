@@ -1,8 +1,6 @@
 package com.trioshop.service.user;
 
-import com.trioshop.exception.MatchingFailedPassword;
-import com.trioshop.exception.SessionExpirationException;
-import com.trioshop.exception.UserNotFoundException;
+import com.trioshop.exception.*;
 import com.trioshop.model.dto.user.*;
 import com.trioshop.repository.dao.user.UserInfoDao;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +25,7 @@ public class UserInfoService {
     public String isFindId(UserFindId userFindId) {
         String id = userInfoDao.findId(userFindId);
 
-        if (Objects.isNull(id)) throw new UserNotFoundException();
+        if (Objects.isNull(id)) throw new ApplicationException(ExceptionType.DONT_SEARCH_USER);
 
         return id;
     }
@@ -44,12 +42,19 @@ public class UserInfoService {
         if(Objects.nonNull(result)){
             return new PasswordChangeCodeAndStatus(result,true);
         }
-        throw new UserNotFoundException();
+        throw new ApplicationException(ExceptionType.DONT_SEARCH_ID);
     }
-    public void updatePw(Long userCode, String password) {
-        if(Objects.isNull(userCode)) throw new SessionExpirationException();
-        password = passwordEncoder.encode(password);
+    public void updatePw(Long userCode, PasswordCheckedModel passwordCheckedModel) {
+        String password = passwordEncoder.encode(passwordCheck(passwordCheckedModel));
         userInfoDao.updatePw(new UserCodePwModel(userCode,password));
+    }
+
+    private String passwordCheck(PasswordCheckedModel password){
+        if(password.getNewPassword().equals(password.getConfirmPassword())){
+            return password.getConfirmPassword();
+        }else{
+            throw new ApplicationException(ExceptionType.DONT_MATCH_PASSWORD);
+        }
     }
     // 사용자 정보를 업데이트하는 메소드입니다.
     public void patchUserInfo(Long userCode,UserPatchModel userPatchModel) {

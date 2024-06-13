@@ -3,6 +3,7 @@ package com.trioshop.controller.user;
 import com.trioshop.model.dto.user.GuestUserLoginInfo;
 import com.trioshop.model.dto.user.UserInfoBySession;
 import com.trioshop.model.dto.user.UserJoin;
+import com.trioshop.service.user.OAuth2LoginService;
 import com.trioshop.service.user.UserJoinService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserJoinController {
     private final HttpSession session;
     private final UserJoinService userJoinService;
+    private final OAuth2LoginService oAuth2LoginService;
 
     @GetMapping("/join") // 회원 가입 페이지
     public String userJoinPage(@ModelAttribute UserJoin userJoin) {
@@ -40,7 +42,8 @@ public class UserJoinController {
 
 
     @GetMapping("/guestLogin")
-    public String guestLoginPage() {
+    public String guestLoginPage(Model model) {
+        model.addAttribute("kakaoURL",oAuth2LoginService.getKakaoLogin());
         return "user/userInfo/guestLogin";
     }
 

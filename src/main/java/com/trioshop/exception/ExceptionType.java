@@ -14,10 +14,13 @@ public enum ExceptionType {
     DONT_SAVED_USER("회원 가입 실패", "user/userInfo/join"),
     QUANTITY_ADJUST_FAILED("수량 조정 실패", ""),
     DONT_SAVE ("저장이 실패하였습니다.", "admin/addItem"),
-    ORDER_OUT_OF_STOCK ("재고가 부족합니다.", "user/itemInfo/orders" ),
-    NO_SUCH_ELEMENT ("재고가 부족합니다.", "user/itemInfo/orders" ),
-    DONT_SAVE_BOARD ("게시글 작성에 실패하였습니다.", "board/write" ),
-    ORDER_FAILED_MESSAGE ("주문이 실패하였습니다", "user/itemInfo/orders" ),
+    ORDER_OUT_OF_STOCK ("재고가 부족합니다.", "user/itemInfo/orders"),
+    NO_SUCH_ELEMENT ("재고가 부족합니다.", "user/itemInfo/orders"),
+    DONT_SAVE_BOARD ("게시글 작성에 실패하였습니다.", "board/write"),
+    ORDER_FAILED_MESSAGE ("주문이 실패하였습니다", "user/itemInfo/orders"),
+    DONT_SEARCH_USER ("요청하신 정보가 없습니다.", "user/userInfo/findId"),
+    DONT_SEARCH_ID ("요청하신 정보가 없습니다.", "user/userInfo/findPw"),
+    DONT_MATCH_PASSWORD ("두 비밀번호가 일치하지 않습니다", "redirect:/findPw"),
 
     ;// 오타 없애기 위함
     private final String message;

@@ -51,12 +51,11 @@ public class UserController {
 
     @PostMapping("/updatePw")
     public String updatePw(@ModelAttribute PasswordCheckedModel password, @SessionAttribute Long userCode) {
-        if (password.checkingPassword()) {
-            userInfoService.updatePw(userCode, password.getNewPassword());
-            session.invalidate();
-            return "redirect:/login";
-        }
-        return "forward:/findPw";
+
+        userInfoService.updatePw(userCode, password);
+        session.invalidate();
+
+        return "redirect:/login";
     }
 
     @GetMapping("/myPage")
@@ -104,10 +103,7 @@ public class UserController {
     }
     @PostMapping("/changePassword/{userCode}")
     public String changePassword(@PathVariable("userCode") Long userCode, @ModelAttribute PasswordCheckedModel password, Model model) {
-        if (password.checkingPassword()) {
-            userInfoService.updatePw(userCode, password.getNewPassword());
+            userInfoService.updatePw(userCode, password);
             return "redirect:/myPage";
-        }
-        return "user/userInfo/changePasswordForm";
     }
 }

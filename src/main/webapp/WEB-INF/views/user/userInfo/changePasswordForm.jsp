@@ -58,7 +58,6 @@
         </div>
     </div>
 </form>
-</div>
 <c:if test="${not empty message}">
     <div class="alert alert-danger mt-3" role="alert">
             ${message}
