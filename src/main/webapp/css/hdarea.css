@@ -11,7 +11,7 @@
 
 #hdWrap .hdArea {
     position: relative;
-    top: -165px;
+    top: -115px;
     left: 0;
     right: 0;
     height: 100px;
@@ -182,8 +182,8 @@
 
 #hdWrap .hdCate .cateWrap {
     position: absolute;
-    top: 15px;
-    left: 300px;
+    top: 40px;
+    left: 325px;
 }
 
 
@@ -194,7 +194,7 @@
 
 #hdWrap .hdCate .cateWrap .tmenu {
     position: relative;
-    line-height: 75px;
+    line-height: 25px;
     padding: 0 15px;
     display: inline-block;
 }
@@ -271,6 +271,4 @@
     list-style: none;
     padding-left: 0;
 }
-
-
 

@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/popupFactoryList.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/board/boardList.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/board" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/board/test.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/board" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/userInfo/changeInfo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/userInfo" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/userInfo/guestLogin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/userInfo" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/userInfo/login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/userInfo" />
