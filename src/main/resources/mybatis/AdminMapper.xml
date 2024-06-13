@@ -35,7 +35,7 @@
                 AND item.category_code = #{category}
             </if>
         </where>
-        ORDER BY 1;
+        ORDER BY 1
     </select>
 
     <select id="purchaseFindByCode" resultType="PurchaseListModel">
@@ -45,7 +45,7 @@
         WHERE pur.item_code = item.item_code
           AND item.category_code = cate.category_code
         AND purchase_code = #{purchaseCode}
-        ORDER BY 1;
+        ORDER BY 1
     </select>
 
     <update id="deletePurchaseByCode">
@@ -135,7 +135,7 @@
                     AND item.category_code = #{category}
                 </if>
             </where>
-            ORDER BY st.item_code;
+            ORDER BY st.item_code
     </select>
 
     <select id="stockFindByCode" resultType="StockModel">
@@ -145,7 +145,7 @@
         WHERE st.item_code = item.item_code
           AND item.category_code = cate.category_code
         AND st.item_code = #{itemCode}
-        ORDER BY 1;
+        ORDER BY 1
     </select>
 
     <update id="updateItem">
