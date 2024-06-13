@@ -131,7 +131,7 @@
 }
 .quickMenu > ul > li.recent > a:after {
     font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 패밀리 */
-    content: "\f3a5"; /* 다이아몬드 아이콘의 유니코드 */
+    content: "\f328"; /* 다이아몬드 아이콘의 유니코드 */
     color: #555;
     position: absolute;
     top: 0;

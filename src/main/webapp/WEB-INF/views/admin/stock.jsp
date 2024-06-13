@@ -26,7 +26,11 @@
             margin-left: 250px; /* 사이드바의 너비만큼 마진을 줍니다 */
             padding: 20px;
             width: calc(100% - 250px);
+            padding-top: 65px;
         }
+
+
+
     </style>
 </head>
 <body>

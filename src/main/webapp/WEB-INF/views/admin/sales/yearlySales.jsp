@@ -13,6 +13,7 @@
         .content {
             margin-left: 250px;
             padding: 20px;
+            margin-top: 30px;
         }
     </style>
 </head>

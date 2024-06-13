@@ -38,6 +38,7 @@ body {
 .login-form-right-side {
     width: 50%;
     padding: 75px;
+    margin-left: 44px;
     display: flex;
     flex-direction: column;
     justify-content: center;
