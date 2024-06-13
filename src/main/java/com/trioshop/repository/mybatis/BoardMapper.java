@@ -17,7 +17,7 @@ public interface BoardMapper {
 
     BoardContentDetailModel boardDetails(Long boardCode);
 
-    List<BoardContentDetailComment> boardDetailsCommentList(Long boardCode);
+    List<BoardCommentSelectModel> boardDetailsCommentList(Long boardCode);
 
     void boardViewsIncrease(Long boardCode);
 

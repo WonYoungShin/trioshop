@@ -33,7 +33,7 @@ public class BoardDao {
         return boardMapper.boardDetails(boardCode);
     }
 
-    public List<BoardContentDetailComment> boardDetailsCommentList(Long boardCode) {
+    public List<BoardCommentSelectModel> boardDetailsCommentList(Long boardCode) {
         return boardMapper.boardDetailsCommentList(boardCode);
     }
 
