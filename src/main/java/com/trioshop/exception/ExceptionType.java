@@ -18,6 +18,7 @@ public enum ExceptionType {
     NO_SUCH_ELEMENT ("재고가 부족합니다.", "user/itemInfo/orders" ),
     DONT_SAVE_BOARD ("게시글 작성에 실패하였습니다.", "board/write" ),
     ORDER_FAILED_MESSAGE ("주문이 실패하였습니다", "user/itemInfo/orders" ),
+    DONT_SAVE_TABLE("테이블 입력 실패", ""),
 
     ;// 오타 없애기 위함
     private final String message;

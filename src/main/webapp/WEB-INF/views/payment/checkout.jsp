@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
     <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 </head>
 <body>

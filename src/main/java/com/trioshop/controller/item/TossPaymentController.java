@@ -53,6 +53,7 @@ public class TossPaymentController {
     }
     @GetMapping("/success")
     public String paymentSuccess(HttpServletRequest request, Model model) {
+        log.info("결제 성공");
         return "payment/success";
     }
     @GetMapping("/fail")
