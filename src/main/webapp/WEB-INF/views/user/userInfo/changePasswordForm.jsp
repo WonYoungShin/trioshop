@@ -51,7 +51,7 @@
                     </div>
                     <div id="errorMessage" class="alert alert-danger" style="display:none;"></div>
                     <div class="login-btn-wrap">
-                        <button type="submit" class="login-btn">비밀번호 변경</button>
+                        <button type="submit" class="login-btn">비밀번호 확인</button>
                     </div>
                 </div>
             </div>

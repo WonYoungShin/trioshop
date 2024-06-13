@@ -20,18 +20,18 @@ public class UserExceptionHandler {
             message = "아아디/패스워드가 틀렸습니다.";
         }
         model.addAttribute("message", message);
-        return "/user/userInfo/"+requestURI;
+        return "user/userInfo/"+requestURI;
     }
 
     @ExceptionHandler(SessionExpirationException.class)
     public String SessionExpirationException(UserNotFoundException e, HttpServletRequest request, Model model){
         model.addAttribute("message",e.getMessage());
-        return "/user/userInfo/"+request.getRequestURI();
+        return "user/userInfo/"+request.getRequestURI();
     }
 
     @ExceptionHandler(MatchingFailedPassword.class)
     public String MatchingFailedPassword(MatchingFailedPassword e, Model model) {
         model.addAttribute("message", "패스워드가 일치하지 않습니다.");
-        return "/user/userInfo/passwordCheckForm";
+        return "user/userInfo/passwordCheckForm";
     }
 }

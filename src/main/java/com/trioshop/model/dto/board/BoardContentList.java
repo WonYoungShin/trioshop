@@ -10,7 +10,8 @@ public class BoardContentList {
     private final String categoryName;
     private final String boardTitle;
     private final String userCode;
-    private final String userName;
+    private final String userNickname;
     private final String boardDate;
     private final String boardViews;
+    private final Long commentCount;
 }

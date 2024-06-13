@@ -1,5 +1,6 @@
 package com.trioshop.controller.board;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.board.*;
 import com.trioshop.service.board.BoardService;
 import com.trioshop.utils.business.CategoryList;
@@ -19,8 +20,10 @@ public class BoardController {
     private final SecurityUtils securityUtils;
 
     @GetMapping
-    public String boardListPage(@ModelAttribute BoardCondition boardCondition, Model model){
-        model.addAttribute("contentList", boardService.contentList(boardCondition));
+    public String boardListPage(@ModelAttribute BoardCondition boardCondition, @RequestParam(value = "page", defaultValue = "1")int page, Model model){
+        PageInfo<BoardContentList> boardContentListPageInfo = boardService.contentList(boardCondition, page);
+        model.addAttribute("contentList", boardContentListPageInfo.getList());
+        model.addAttribute("totalPages", boardContentListPageInfo.getPages());
         model.addAttribute("categoryList",categoryList.getBoardCategoryList());
         //댓글수 추가
         return "board/boardList";

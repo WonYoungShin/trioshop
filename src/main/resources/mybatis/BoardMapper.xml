@@ -9,10 +9,16 @@
     </select>
 
     <select id="contentList" resultType="BoardContentList">
-        SELECT board_code, category_name, board_title, board.user_code, user_name, board_date, board_views
+        SELECT board.board_code, category_name, board_title, board.user_code,
+               user_nickname, board_date, board_views, COALESCE(comment_counts.comment_count, 0) AS comment_count
         FROM TRIO_BOARD board
         JOIN TRIO_USERS_INFO info ON board.user_code = info.user_code
         JOIN TRIO_BOARD_CATEGORY cate ON cate.category_code = board.category_code
+        LEFT JOIN (
+        SELECT board_code, COUNT(board_code) AS comment_count
+        FROM TRIO_BOARD_COMMENT
+        GROUP BY board_code
+        ) comment_counts ON board.board_code = comment_counts.board_code
         <where>
             AND status_code = '10'
             <if test="title != null and title != ''">
@@ -22,7 +28,7 @@
                 AND board.category_code = #{category}
             </if>
         </where>
-        ORDER BY board_code asc
+        ORDER BY board_code desc
     </select>
 
     <insert id="boardWrite" useGeneratedKeys="true" keyProperty="boardCode">
@@ -36,7 +42,8 @@
     </insert>
 
     <select id="boardDetails" resultType="BoardContentDetailModel">
-        SELECT board.board_code, category_name, board_title, board.user_code, user_name, board_date, board_views, board_content
+        SELECT board.board_code, category_name, board_title, board.user_code, user_nickname,
+               board_date, board_views, board_content
         FROM TRIO_BOARD board
         JOIN TRIO_USERS_INFO info ON board.user_code = info.user_code
         JOIN TRIO_BOARD_CATEGORY cate ON cate.category_code = board.category_code
@@ -67,7 +74,7 @@
         )
 
 -- 결과 조회 및 정렬
-        SELECT comment_code, co.user_code, user_name, comment_content, comment_date, level
+        SELECT comment_code, co.user_code, user_nickname, comment_content, comment_date, level
         FROM CommentHierarchy AS co
                  JOIN TRIO_USERS_INFO info ON info.user_code = co.user_code
         WHERE status_code = '10'

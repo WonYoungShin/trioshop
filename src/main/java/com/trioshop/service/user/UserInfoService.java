@@ -34,7 +34,7 @@ public class UserInfoService {
     public void passwordCheck(Long userCode,String password){
         String findPassword = userInfoDao.passwordCheck(userCode);
 
-        if(password == null|| !passwordEncoder.matches(password,findPassword)){
+        if(password == null || !passwordEncoder.matches(password,findPassword)){
             throw new MatchingFailedPassword();
         }
     }
