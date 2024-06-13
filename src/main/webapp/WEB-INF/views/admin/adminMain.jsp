@@ -14,37 +14,46 @@
             min-height: 100vh;
             flex-direction: column;
         }
+
         .wrapper {
             display: flex;
             flex: 1;
         }
+
         .sidebar .nav-link {
             color: #fff;
         }
+
         .sidebar .nav-link:hover {
             background-color: #495057;
         }
+
         .content {
             flex: 1;
             padding: 20px;
             margin-left: 250px;
             margin-top: 50px;
         }
+
         .card-title {
             font-size: 1.25rem;
             margin-bottom: 0.75rem;
         }
+
         .nowrap {
             white-space: nowrap;
         }
+
         .pagination .page-item.active .page-link {
             background-color: #83bdfb;
             border-color: #66c2fa;
             color: white;
         }
+
         .pagination .page-item .page-link {
             color: #535353;
         }
+
         .pagination .page-item .page-link:hover {
             background-color: #e9ecef;
             border-color: #dee2e6;
@@ -67,7 +76,8 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">총 매출</h5>
-                        <p class="card-text"><fmt:formatNumber value="${dashboard.allOrderPrice}" type="currency" currencySymbol=""/></p>
+                        <p class="card-text"><fmt:formatNumber value="${dashboard.allOrderPrice}" type="currency"
+                                                               currencySymbol=""/></p>
                         <a href="${pageContext.request.contextPath}/trioAdmin/sales" class="btn btn-primary">자세히 보기</a>
                     </div>
                 </div>
@@ -90,11 +100,13 @@
             <div class="row mb-4">
                 <div class="col-md-12 d-flex justify-content-end">
                     <form class="form-inline" method="get" action="">
-                        <input class="form-control mr-sm-2" type="search" placeholder="유저코드" aria-label="Search" name="userCode" value="${param.userCode}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="유저코드" aria-label="Search"
+                               name="userCode" value="${param.userCode}">
                         <select class="form-control mr-sm-2" name="statusCode">
                             <option value="">전체</option>
                             <c:forEach var="status" items="${statusList}">
-                                <option value="${status.statusCode}" <c:if test="${param.statusCode == status.statusCode}">selected</c:if>>${status.statusName}</option>
+                                <option value="${status.statusCode}"
+                                        <c:if test="${param.statusCode == status.statusCode}">selected</c:if>>${status.statusName}</option>
                             </c:forEach>
                         </select>
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
@@ -147,21 +159,33 @@
                 <div class="col-12 d-flex justify-content-center">
                     <nav>
                         <ul class="pagination">
-                            <c:if test="${param.page > 1}">
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=${param.page - 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">&lt 이전</a>
-                                </li>
-                            </c:if>
-                            <c:forEach var="i" begin="1" end="${totalPages}">
-                                <li class="page-item ${i == param.page ? 'active' : ''}">
-                                    <a class="page-link" href="?page=${i}&userCode=${param.userCode}&statusCode=${param.statusCode}">${i}</a>
-                                </li>
-                            </c:forEach>
-                            <c:if test="${param.page < totalPages || param.page == null}">
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=${param.page==null ? 2 : param.page + 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">다음 &gt</a>
-                                </li>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${totalPages != 1}">
+                                    <c:if test="${param.page > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page=${param.page - 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">&lt 이전</a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <li class="page-item ${i == param.page ? 'active' : ''}">
+                                            <a class="page-link"
+                                               href="?page=${i}&userCode=${param.userCode}&statusCode=${param.statusCode}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${param.page < totalPages || param.page == null}">
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page=${param.page==null ? 2 : param.page + 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">다음 &gt</a>
+                                        </li>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?page=1">1</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </nav>
                 </div>

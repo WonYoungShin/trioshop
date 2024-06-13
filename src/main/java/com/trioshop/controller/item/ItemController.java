@@ -1,5 +1,6 @@
 package com.trioshop.controller.item;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.item.*;
 import com.trioshop.service.item.ItemService;
 import com.trioshop.utils.business.CategoryList;
@@ -19,21 +20,16 @@ public class ItemController {
     //카테고리 목록 싱글톤으로 관리
     private final CategoryList categoryList;
     @GetMapping("/itemList") // 전체아이템 목록화면
-    public String itemListPage(Model model) {
-        List<ItemInfoByUser> itemList = itemService.searchItems(null);
-        model.addAttribute("itemList", itemList);
+    public String itemListPage(@ModelAttribute ItemCondition itemCondition,
+                               @RequestParam(defaultValue = "1") int page,
+                               Model model) {
+        PageInfo<ItemInfoByUser> itemListPageInfo = itemService.searchItems(itemCondition, page);
+        model.addAttribute("itemList", itemListPageInfo.getList());
         model.addAttribute("categoryList", categoryList.getCategoryList());
+        model.addAttribute("totalPages", itemListPageInfo.getPages());
         return "user/itemInfo/itemList";
     }
-    @GetMapping("/searchItems") // 상품 검색 페이지로
-    public String searchItems(@ModelAttribute ItemCondition itemCondition,
-                              Model model) {
 
-        List<ItemInfoByUser> itemList = itemService.searchItems(itemCondition);
-        model.addAttribute("itemList", itemList);
-        model.addAttribute("categoryList", categoryList.getCategoryList());
-        return "user/itemInfo/itemList";
-    }
     @GetMapping("/item/{itemCode}") //아이템 상세 페이지로
     public String itemDetailPage(@PathVariable("itemCode") long itemCode,
                                  Model model) {

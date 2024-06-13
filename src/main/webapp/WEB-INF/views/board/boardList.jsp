@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>발주 목록</title>
+    <title>게시글 목록</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome CSS 링크 -->
@@ -18,6 +18,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             overflow: hidden;
+            width: 85%; /* 테이블의 최대 폭 설정 */
+            margin: auto; /* 중앙 정렬 */
         }
         .table thead th {
             vertical-align: middle;
@@ -36,6 +38,7 @@
         .table tbody tr:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
+
         .content {
             padding-top: 85px;
             margin-left: 100px;
@@ -70,6 +73,33 @@
         .btn-circle:hover {
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
+        .category-name {
+            font-size: 0.75em;
+            color: #a69b9b;
+            text-align: left;
+            display: inline-block;
+        }
+        .board-title {
+            text-align: center;
+            display: inline-block;
+            width: calc(100% - 5em); /* 카테고리 이름의 폭을 고려한 설정 */
+            margin-left: 5px;
+        }
+        .title-cell {
+            text-align: left;
+        }
+
+        .board-title {
+            text-align: initial;!important;
+        }
+        .justify-content-end{
+            padding-right: 100px;
+        }
+
+        .text-center{
+            padding-bottom: 50px;
+        }
+
     </style>
 </head>
 <body>
@@ -116,7 +146,10 @@
                         <c:forEach var="item" items="${contentList}">
                             <tr onclick="location.href='/board/${item.boardCode}'">
                                 <td>${item.boardCode}</td>
-                                <td>[${item.categoryName}]${item.boardTitle}</td>
+                                <td class="title-cell">
+                                    <span class="category-name" style="font-size: 0.75em; color: #a69b9b;">[${item.categoryName}]</span>
+                                    <span class="board-title">${item.boardTitle}</span>
+                                </td>
                                 <td>${item.userNickname}</td>
                                 <td>${item.boardDate}</td>
                                 <td>${item.boardViews}</td>

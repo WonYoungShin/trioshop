@@ -1,5 +1,6 @@
 package com.trioshop.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.exception.QuantityAdjustFailed;
 import com.trioshop.model.dto.admin.StoreItemModel;
 import com.trioshop.model.dto.admin.StoresListModel;
@@ -34,10 +35,13 @@ public class StoresController {
     }
 
     @GetMapping("/list")
-    public String findAll(@ModelAttribute ItemCondition itemCondition, Model model) {
-        List<StoresListModel> storesList = storesService.findAll(itemCondition);
+    public String findAll(@ModelAttribute ItemCondition itemCondition,
+                          @RequestParam(defaultValue = "1")int page,
+                          Model model) {
+        PageInfo<StoresListModel> storesListPageInfo = storesService.findAll(itemCondition, page);
         model.addAttribute("categoryList",categoryList.getCategoryList());
-        model.addAttribute("storesList", storesList);
+        model.addAttribute("storesList", storesListPageInfo.getList());
+        model.addAttribute("totalPages", storesListPageInfo.getPages());
         return "admin/storesList";
     }
     @GetMapping("/{storeCode}")

@@ -51,16 +51,16 @@
                                 <a class="nav-link" href="${pageContext.request.contextPath}/trioAdmin/stores">입고</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/stores/list">입고내역</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/trioAdmin/stores/list">입고내역</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/purchase">발주</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/trioAdmin/purchase">발주</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/purchase/list">발주내역</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/trioAdmin/purchase/list">발주내역</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/stock">상품등록</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/trioAdmin/stock">상품등록</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/board">게시판</a>

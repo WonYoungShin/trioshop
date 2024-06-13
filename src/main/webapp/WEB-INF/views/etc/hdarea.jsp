@@ -52,48 +52,48 @@
                     <div class="hdCate">
                         <div class="cateWrap d-flex flex-wrap justify-content-center">
                             <div class="tmenu dropdown mx-2">
-                                <a class="dropdown-toggle" href="<c:url value='/searchItems'><c:param name='category' value='top'/></c:url>" id="navbarDropdownTop" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="<c:url value='/itemList'><c:param name='category' value='top'/></c:url>" id="navbarDropdownTop" role="button" aria-haspopup="true" aria-expanded="false">
                                     Top
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownTop">
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Basic T-Shirt'/></c:url>">Basic T-Shirt</a>
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Wool Sweater'/></c:url>">Wool Sweater</a>
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Long Shirt'/></c:url>">Long Shirt</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Basic T-Shirt'/></c:url>">Basic T-Shirt</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Wool Sweater'/></c:url>">Wool Sweater</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Long Shirt'/></c:url>">Long Shirt</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
-                                <a class="dropdown-toggle" href="<c:url value='/searchItems'><c:param name='category' value='pants'/></c:url>" id="navbarDropdownPants" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="<c:url value='/itemList'><c:param name='category' value='pants'/></c:url>" id="navbarDropdownPants" role="button" aria-haspopup="true" aria-expanded="false">
                                     Pants
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownPants">
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Classic Jeans'/></c:url>">Classic Jeans</a>
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Short Pants'/></c:url>">Short Pants</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Classic Jeans'/></c:url>">Classic Jeans</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Short Pants'/></c:url>">Short Pants</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
-                                <a class="dropdown-toggle" href="<c:url value='/searchItems'><c:param name='category' value='outer'/></c:url>" id="navbarDropdownOuter" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="<c:url value='/itemList'><c:param name='category' value='outer'/></c:url>" id="navbarDropdownOuter" role="button" aria-haspopup="true" aria-expanded="false">
                                     Outer
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownOuter">
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Leather Jacket'/></c:url>">Leather Jacket</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Leather Jacket'/></c:url>">Leather Jacket</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
-                                <a class="dropdown-toggle" href="<c:url value='/searchItems'><c:param name='category' value='shoes'/></c:url>" id="navbarDropdownShoes" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="<c:url value='/itemList'><c:param name='category' value='shoes'/></c:url>" id="navbarDropdownShoes" role="button" aria-haspopup="true" aria-expanded="false">
                                     Shoes
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownShoes">
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Formal Shoes'/></c:url>">Formal Shoes</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Formal Shoes'/></c:url>">Formal Shoes</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
-                                <a class="dropdown-toggle" href="<c:url value='/searchItems'><c:param name='category' value='acc'/></c:url>" id="navbarDropdownAcc" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="<c:url value='/itemList'><c:param name='category' value='acc'/></c:url>" id="navbarDropdownAcc" role="button" aria-haspopup="true" aria-expanded="false">
                                     Acc
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownAcc">
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Leather Belt'/></c:url>">Leather Belt</a>
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Baseball Cap'/></c:url>">Baseball Cap</a>
-                                    <a class="dropdown-item" href="<c:url value='/searchItems'><c:param name='itemName' value='Backpack'/></c:url>">Backpack</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Leather Belt'/></c:url>">Leather Belt</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Baseball Cap'/></c:url>">Baseball Cap</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Backpack'/></c:url>">Backpack</a>
                                 </div>
                             </div>
                         </div>

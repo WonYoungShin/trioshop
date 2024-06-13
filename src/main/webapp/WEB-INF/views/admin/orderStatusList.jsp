@@ -15,7 +15,7 @@
             width: calc(100% - 250px);
         }
 
-        .container{
+        .container {
             padding-top: 20px
         }
 
@@ -25,26 +25,32 @@
             text-align: center;
             white-space: nowrap; /* 줄바꿈 방지 */
         }
+
         .nowrap {
             white-space: nowrap; /* 줄바꿈 방지 */
         }
+
         .btn-container {
             display: flex;
             justify-content: space-around;
             flex-wrap: nowrap;
         }
+
         .btn-container button {
             flex: 1;
             margin: 2px;
         }
+
         .pagination .page-item.active .page-link {
             background-color: #83bdfb;
             border-color: #66c2fa;
             color: white;
         }
+
         .pagination .page-item .page-link {
             color: #535353;
         }
+
         .pagination .page-item .page-link:hover {
             background-color: #e9ecef;
             border-color: #dee2e6;
@@ -59,11 +65,13 @@
         <div class="row mb-4">
             <div class="col-md-12 d-flex justify-content-end">
                 <form class="form-inline" method="get" action="">
-                    <input class="form-control mr-sm-2" type="search" placeholder="유저코드" aria-label="Search" name="userCode" value="${param.userCode}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="유저코드" aria-label="Search"
+                           name="userCode" value="${param.userCode}">
                     <select class="form-control mr-sm-2" name="statusCode">
                         <option value="">전체</option>
                         <c:forEach var="status" items="${statusList}">
-                            <option value="${status.statusCode}" <c:if test="${param.statusCode == status.statusCode}">selected</c:if>>${status.statusName}</option>
+                            <option value="${status.statusCode}"
+                                    <c:if test="${param.statusCode == status.statusCode}">selected</c:if>>${status.statusName}</option>
                         </c:forEach>
                     </select>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
@@ -110,17 +118,26 @@
                             <td class="nowrap">${order.statusName}</td>
                             <td>
                                 <c:if test="${order.statusCode eq '10' || order.statusCode eq '20'}">
-                                    <button class="btn btn-secondary" onclick="openWaybillPopup('${order.orderCode}')">운송장입력</button>
+                                    <button class="btn btn-secondary" onclick="openWaybillPopup('${order.orderCode}')">
+                                        운송장입력
+                                    </button>
                                 </c:if>
                                 <c:if test="${order.statusCode != '10' && order.statusCode != '20'}">
                                     <div class="btn-container">
-                                        <button class="btn btn-info" onclick="openWaybillEditPopup('${order.orderCode}','${order.deliveryCode}','${order.waybillNum}')">운송장수정</button>
-                                        <button class="btn btn-secondary" onclick="openWaybillInformationPopup('${order.orderCode}')">운송장보기</button>
+                                        <button class="btn btn-info"
+                                                onclick="openWaybillEditPopup('${order.orderCode}','${order.deliveryCode}','${order.waybillNum}')">
+                                            운송장수정
+                                        </button>
+                                        <button class="btn btn-secondary"
+                                                onclick="openWaybillInformationPopup('${order.orderCode}')">운송장보기
+                                        </button>
                                     </div>
                                 </c:if>
                             </td>
                             <td>
-                                <button class="btn btn-primary" onclick="openPopup('${order.orderCode}','${order.statusCode}')">상태변경</button>
+                                <button class="btn btn-primary"
+                                        onclick="openPopup('${order.orderCode}','${order.statusCode}')">상태변경
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -132,21 +149,34 @@
             <div class="col-12 d-flex justify-content-center">
                 <nav>
                     <ul class="pagination">
-                        <c:if test="${param.page > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="?page=${param.page - 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">&lt 이전</a>
-                            </li>
-                        </c:if>
-                        <c:forEach var="i" begin="1" end="${totalPages}">
-                            <li class="page-item ${i == param.page ? 'active' : ''}">
-                                <a class="page-link" href="?page=${i}&userCode=${param.userCode}&statusCode=${param.statusCode}">${i}</a>
-                            </li>
-                        </c:forEach>
-                        <c:if test="${param.page < totalPages || param.page == null}">
-                            <li class="page-item">
-                                <a class="page-link" href="?page=${param.page + 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">다음 &gt</a>
-                            </li>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${totalPages != 1}">
+                                <c:if test="${param.page > 1}">
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page=${param.page - 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">&lt 이전</a>
+                                    </li>
+                                </c:if>
+                                <c:forEach var="i" begin="1" end="${totalPages}">
+                                    <li class="page-item ${i == param.page ? 'active' : ''}">
+                                        <a class="page-link"
+                                           href="?page=${i}&userCode=${param.userCode}&statusCode=${param.statusCode}">${i}</a>
+                                    </li>
+                                </c:forEach>
+                                <c:if test="${param.page < totalPages || param.page == null}">
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page=${param.page + 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">다음 &gt</a>
+                                    </li>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page=1">1</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+
                     </ul>
                 </nav>
             </div>
@@ -167,7 +197,7 @@
         var height = 400;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
-        window.open('/trioAdmin/orderStatus/' + encodeURIComponent(orderCode) +"/information", 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
+        window.open('/trioAdmin/orderStatus/' + encodeURIComponent(orderCode) + "/information", 'popup', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left + ',scrollbars=yes,resizable=yes');
     }
 
     function openWaybillEditPopup(orderCode, deliveryCode, waybillNum) {

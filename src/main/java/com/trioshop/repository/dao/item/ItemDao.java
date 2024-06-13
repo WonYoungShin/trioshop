@@ -13,10 +13,6 @@ import java.util.List;
 public class ItemDao {
     private final ItemMapper itemMapper;
 
-    public List<ItemInfoByUser> findAllItem() {
-        return itemMapper.findAllItem();
-    }
-
     public List<CategoryEntity> categoryList() {
         return itemMapper.categoryList();
     }

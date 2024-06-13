@@ -10,8 +10,6 @@ import java.util.Optional;
 
 @Mapper
 public interface ItemMapper {
-    List<ItemInfoByUser> findAllItem();
-
     List<ItemInfoByUser> searchItems(ItemCondition itemCondition);
 
     List<CategoryEntity> categoryList();

@@ -1,5 +1,6 @@
 package com.trioshop.service.item;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.exception.ApplicationException;
 import com.trioshop.exception.ExceptionType;
 import com.trioshop.model.dto.item.*;
@@ -8,6 +9,7 @@ import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.dao.item.ItemDao;
 import com.trioshop.repository.dao.item.OrderDao;
 import com.trioshop.utils.business.GenerateDate;
+import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,11 @@ import java.util.List;
 public class OrderService {
     private final OrderDao orderDao;
     private final ItemDao itemInfoDao;
+    private final PagingService pagingService;
+
+    public PageInfo<OrderListByUser> orderListByUserPageInfo(long userCode, int page) {
+        return pagingService.getPagedData(page, () -> orderDao.orderListByUser(userCode));
+    }
 
     public List<OrderListByUser> orderListByUser(long userCode) {
         return orderDao.orderListByUser(userCode);

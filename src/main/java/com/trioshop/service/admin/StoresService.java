@@ -1,5 +1,6 @@
 package com.trioshop.service.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.exception.ApplicationException;
 
 import com.trioshop.exception.ExceptionType;
@@ -9,6 +10,7 @@ import com.trioshop.model.dto.admin.StoreItemModel;
 import com.trioshop.model.dto.admin.StoresListModel;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.repository.dao.admin.StoresDao;
+import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class StoresService{
 
     private final StoresDao storesDao;
     private final PurchaseService purchaseService;
+    private final PagingService pagingService;
 
     private  enum Status{
         ADD, MINUS
@@ -60,8 +63,8 @@ public class StoresService{
         return qty.orElseThrow(NoSuchElementException::new);
     }
 
-    public List<StoresListModel> findAll(ItemCondition itemCondition) {
-        return storesDao.findAll(itemCondition);
+    public PageInfo<StoresListModel> findAll(ItemCondition itemCondition, int page) {
+        return pagingService.getPagedData(page, () ->storesDao.findAll(itemCondition));
     }
 
     public StoresListModel findByCode(Long code) {

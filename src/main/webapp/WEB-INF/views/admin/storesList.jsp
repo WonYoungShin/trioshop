@@ -16,8 +16,8 @@
             text-align: center;
         }
 
-        .container{
-            margin-top:60px;
+        .container {
+            margin-top: 60px;
 
         }
 
@@ -25,13 +25,29 @@
             vertical-align: middle;
             text-align: center;
         }
+
         .table tbody tr {
             cursor: pointer;
         }
+
         .content {
             margin-left: 250px; /* 사이드바의 너비만큼 마진을 줍니다 */
             padding: 20px;
             width: calc(100% - 250px);
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #83bdfb;
+            border-color: #66c2fa;
+            color: white;
+        }
+
+        .pagination .page-item .page-link {
+            color: #535353;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: #e9ecef;
+            border-color: #dee2e6;
         }
     </style>
 </head>
@@ -45,11 +61,13 @@
                 <div class="col-md-12 d-flex justify-content-end">
                     <!-- 검색창 및 카테고리 선택 항목 결합 -->
                     <form class="form-inline" method="get" action="">
-                        <input class="form-control mr-sm-2" type="search" placeholder="아이템 이름" aria-label="Search" name="itemName" value="${param.itemName}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="아이템 이름" aria-label="Search"
+                               name="itemName" value="${param.itemName}">
                         <select class="form-control mr-sm-2" name="category">
                             <option value="">카테고리 선택</option>
                             <c:forEach var="category" items="${categoryList}">
-                                <option value="${category.categoryCode}" <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
+                                <option value="${category.categoryCode}"
+                                        <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
                             </c:forEach>
                         </select>
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
@@ -93,12 +111,48 @@
                                 <td>${item.itemSize}</td>
                                 <td>${item.itemColor}</td>
                                 <td>
-                                    <button class="btn btn-danger" onclick="deletePurchase(event, ${item.storeCode})">삭제</button>
+                                    <button class="btn btn-danger" onclick="deletePurchase(event, ${item.storeCode})">
+                                        삭제
+                                    </button>
                                 </td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            <c:choose>
+                                <c:when test="${totalPages != 1}">
+                                    <c:if test="${param.page > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page=${param.page - 1}&itemName=${param.itemName}&category=${param.category}">&lt 이전</a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <li class="page-item ${i == param.page ? 'active' : ''}">
+                                            <a class="page-link"
+                                               href="?page=${i}&itemName=${param.itemName}&category=${param.category}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${param.page < totalPages || param.page == null}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=${param.page==null ? 2 : param.page + 1}&itemName=${param.itemName}&category=${param.category}">다음 &gt</a>
+                                        </li>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?page=1">1</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -112,11 +166,11 @@
             $.ajax({
                 url: '/trioAdmin/stores/' + storeCode,
                 type: 'DELETE',
-                success: function(result) {
+                success: function (result) {
                     alert('삭제되었습니다.');
                     location.reload(); // 페이지 새로고침
                 },
-                error: function(err) {
+                error: function (err) {
                     alert('삭제 중 오류가 발생했습니다.');
                 }
             });

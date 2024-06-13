@@ -53,13 +53,15 @@
         width: calc(100% - 250px);
     }
     .pagination .page-item.active .page-link {
-        background-color: #007bff;
-        border-color: #007bff;
+        background-color: #83bdfb;
+        border-color: #66c2fa;
         color: white;
     }
+
     .pagination .page-item .page-link {
-        color: #007bff;
+        color: #535353;
     }
+
     .pagination .page-item .page-link:hover {
         background-color: #e9ecef;
         border-color: #dee2e6;
@@ -116,6 +118,38 @@
             </tbody>
         </table>
     </c:if>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <nav>
+                <ul class="pagination">
+                    <c:choose>
+                        <c:when test="${totalPages != 1}">
+                            <c:if test="${param.page > 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=${param.page - 1}">&lt 이전</a>
+                                </li>
+                            </c:if>
+                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                <li class="page-item ${i == param.page ? 'active' : ''}">
+                                    <a class="page-link" href="?page=${i}">${i}</a>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${param.page < totalPages || param.page == null}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=${param.page==null ? 2 : param.page + 1}">다음 &gt</a>
+                                </li>
+                            </c:if>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item active">
+                                <a class="page-link" href="?page=1">1</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <c:if test="${empty orderList}">
         <div class="alert alert-info" role="alert">
             No orders found.
