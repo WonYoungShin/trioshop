@@ -23,7 +23,7 @@
         #hdWrap .hdCate .cateWrap {
             position: absolute;
             top: 15px;
-            left: 95px;
+            left: 90px;
         }
     }
     .tmenu .dropdown-toggle::after {
@@ -39,6 +39,10 @@
     .tmenu:hover .dropdown-menu {
         display: block; /* 마우스를 올렸을 때 메뉴를 표시 */
     }
+
+
+
+
 </style>
 <div id="hdWrap" class="headroom headroom--not-bottom headroom--pinned headroom--top">
     <div class="hdArea">

@@ -12,9 +12,16 @@
     <!-- jQuery 링크 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
+        .table {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
         .table thead th {
             vertical-align: middle;
             text-align: center;
+            background-color: #f8f9fa;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
         .table tbody td {
             vertical-align: middle;
@@ -22,13 +29,17 @@
         }
         .table tbody tr {
             cursor: pointer;
+            transition: box-shadow 0.2s;
         }
-
+        .table tbody tr:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
         .content {
-            padding-top: 100px;
+            padding-top: 85px;
             margin-left: 100px;
             width: calc(100% - 250px);
         }
+
     </style>
 </head>
 <body>
