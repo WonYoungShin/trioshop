@@ -73,9 +73,10 @@
             <input type="tel" class="form-control" id="orderTel" name="orderTel" value="${userAddressInfo.userTel}" required>
         </div>
 
-        <h3 class="mt-4">Total Price: ₩<span id="total-price">0</span></h3>
+        <h3 class="mt-4">Total Price: ₩<span id="totalPrice">0</span></h3>
+        <input type="hidden" id="hiddenTotalPrice" name="totalPrice" value="0">
         <button type="submit" class="btn btn-primary btn-block mt-3">결제하기</button>
-        <button type="button" id="tossPaymentButton" class="btn btn-secondary btn-block mt-3">토스로 결제하기</button>
+        <button type="button" id="tossPaymentButton" class="btn btn-secondary btn-block mt-3" >토스로 결제하기</button>
     </form>
 </div>
 
@@ -86,15 +87,16 @@
 <script>
     $(document).ready(function() {
         function updateTotalPrice() {
-            let totalPrice = 0;
+            let sumPrice = 0;
             $('.quantity-input').each(function() {
                 let quantity = $(this).val();
                 let price = $(this).data('price');
                 let subtotal = quantity * price;
                 $(this).closest('tr').find('.item-subtotal').text(subtotal.toLocaleString());
-                totalPrice += subtotal;
+                sumPrice += subtotal;
             });
-            $('#total-price').text(totalPrice.toLocaleString());
+            $('#totalPrice').text(sumPrice.toLocaleString());
+            $('#hiddenTotalPrice').val(sumPrice); // 숨겨진 입력 필드에 총 가격 설정
         }
 
         // 페이지 로드 시 총 가격 초기화
@@ -107,12 +109,29 @@
 
         // 토스로 결제하기 버튼 클릭 시
         $('#tossPaymentButton').on('click', function() {
-            window.open(
-                '${pageContext.request.contextPath}/toss/',
-                'paymentPopup'
-            );
+            // 기존 폼을 가져옴
+            let form = $('#orderForm');
+
+            // 폼의 action을 토스 결제 URL로 변경
+            form.attr('action', '${pageContext.request.contextPath}/toss/');
+
+            // 폼의 target을 팝업 창으로 설정
+            form.attr('target', 'popupWindow');
+
+            // 팝업 창 열기
+            window.open('', 'popupWindow', 'width=900,height=600,scrollbars=yes,resizable=yes');
+
+            // 폼 제출
+            form.submit();
+
+            // 폼의 target 속성 초기화
+            form.removeAttr('target');
+
+            // 폼의 action 속성 원래대로 복원
+            form.attr('action', '/placeOrder');
         });
     });
+
 </script>
 </body>
 </html>

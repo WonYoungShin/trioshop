@@ -58,8 +58,9 @@ dependencies {
 
 	// JSON 관련 추가
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-	//passwd 해싱
-	//	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//페이징
+	implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.6'
 
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

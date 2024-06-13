@@ -62,6 +62,7 @@
                             <th>작성자</th>
                             <th>작성일자</th>
                             <th>조회수</th>
+                            <th>댓글수</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -70,13 +71,37 @@
                                 <td>${item.boardCode}</td>
                                 <td>${item.categoryName}</td>
                                 <td>${item.boardTitle}</td>
-                                <td>${item.userName}</td>
+                                <td>${item.userNickname}</td>
                                 <td>${item.boardDate}</td>
                                 <td>${item.boardViews}</td>
+                                <td>${item.commentCount}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            <c:if test="${param.page > 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=${param.page - 1}&title=${param.title}&category=${param.category}">Previous</a>
+                                </li>
+                            </c:if>
+                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                <li class="page-item <c:if test='${i == param.page}'>active</c:if>'">
+                                    <a class="page-link" href="?page=${i}&title=${param.title}&category=${param.category}">${i}</a>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${param.page < totalPages || param.page == null}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=${param.page + 1}&title=${param.title}&category=${param.category}">Next</a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
                 </div>
             </div>
             <div class="row mt-3">

@@ -1,12 +1,21 @@
 package com.trioshop.service.payment;
 
+import com.trioshop.exception.ApplicationException;
+import com.trioshop.exception.ExceptionType;
+import com.trioshop.model.dto.item.OrderItemEntity;
+import com.trioshop.model.dto.item.OrdersEntity;
+import com.trioshop.model.dto.payment.PaymentData;
+import com.trioshop.utils.business.GenerateDate;
+import com.trioshop.utils.business.PhoneNumberUtil;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,12 +25,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 public class TossPaymentService {
 
     private static final Logger logger = LoggerFactory.getLogger(TossPaymentService.class);
-    private static final String WIDGET_SECRET_KEY = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
+    @Value("${toss.secret.api.key}")
+    private static String WIDGET_SECRET_KEY;
     private static final String PAYMENT_CONFIRM_URL = "https://api.tosspayments.com/v1/payments/confirm";
 
     public ResponseEntity<JSONObject> confirmPayment(String jsonBody) throws Exception {
@@ -30,6 +41,7 @@ public class TossPaymentService {
         String amount;
         String paymentKey;
 
+
         try {
             JSONObject requestData = (JSONObject) parser.parse(jsonBody);
             paymentKey = (String) requestData.get("paymentKey");
@@ -37,7 +49,7 @@ public class TossPaymentService {
             amount = (String) requestData.get("amount");
         } catch (ParseException e) {
             logger.error("Error parsing JSON request body", e);
-            throw new RuntimeException("Invalid JSON format", e);
+            throw new ApplicationException(ExceptionType.ORDER_FAILED_MESSAGE);
         }
 
         JSONObject obj = new JSONObject();
@@ -81,6 +93,40 @@ public class TossPaymentService {
                 connection.disconnect();
             }
         }
+    }
+
+//    @Transactional
+//    public boolean tossOrderProcess(OrdersEntity ordersEntity,
+//                                    List<OrderItemEntity> orderItemList,
+//                                    long totalPrice) {
+//        try {
+//            // Orders 테이블 입력
+//            OrdersEntity ordersEntityResult = makeOrdersEntity(ordersEntity);
+//            // OrderItem 테이블 입력
+//            List<Long> deleteCartCodeList = makeOrderItemEntity(orderItemList, ordersEntityResult.getOrderCode());
+//            // toss 결제를 위한 PaymentData 생성
+//            PaymentData paymentData = makePaymentData(ordersEntityResult, orderItemList, totalPrice);
+//
+//            // 구매 품목 카트 에서 제외
+//            orderDao.deleteItemsFromCart(ordersEntityResult.getUserCode(),deleteCartCodeList);
+//            return true;
+//        } catch (Exception e) {
+//            // 예외 발생 시 로그 출력
+//            throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
+//        }
+//    }
+
+    public PaymentData makePaymentData(OrdersEntity ordersEntity, List<OrderItemEntity> orderItemList, long totalPrice) {
+        return PaymentData.builder()
+                .userCode(ordersEntity.getUserCode())
+                .orderId(GenerateDate.generateOrderCode(ordersEntity.getUserCode()))
+                .amount(totalPrice)
+                .userName(ordersEntity.getOrderReceiver())
+                .orderName("의류"+"+ 외"+(orderItemList.size()-1))
+                .userTel(PhoneNumberUtil.removeHyphens(ordersEntity.getOrderTel()))
+                .successUrl("http://localhost:8080/toss/success")
+                .failUrl("http://localhost:8080/toss/fail")
+                .build();
     }
 
     private String generateAuthorizationHeader(String secretKey) {

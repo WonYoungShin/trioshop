@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="login-btn-wrap">
-                    <button type="button" class="login-btn" onclick="submitForm('${pageContext.request.contextPath}/login', 'post')">로그인</button>
+                    <button type="submit" class="login-btn" onclick="submitForm('${pageContext.request.contextPath}/login', 'post')">로그인</button>
                     <button type="button" class="login-btn join-btn" onclick="submitForm('${pageContext.request.contextPath}/join', 'get')">회원가입</button>
                 </div>
                 <div class="login-btn-wrap-find">

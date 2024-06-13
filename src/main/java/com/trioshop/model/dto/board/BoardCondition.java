@@ -8,4 +8,5 @@ import lombok.RequiredArgsConstructor;
 public class BoardCondition {
     private final String title;
     private final String category;
+
 }
