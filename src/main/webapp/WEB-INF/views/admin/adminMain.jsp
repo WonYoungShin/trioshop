@@ -28,6 +28,7 @@
             flex: 1;
             padding: 20px;
             margin-left: 250px;
+            margin-top: 50px;
         }
         .card-title {
             font-size: 1.25rem;

@@ -11,22 +11,34 @@
 </head>
 <body>
 <style>
-        @media (max-width: 991.5px) {
-            #hdWrap .hdCate .cateWrap {
-                position: absolute;
-                top: 15px;
-                left: 90px;
-            }
+    @media (max-width: 991.5px) {
+        #hdWrap .hdCate .cateWrap {
+            position: absolute;
+            top: 15px;
+            left: 90px;
         }
+    }
 
-        @media (max-width: 768px) {
-            #hdWrap .hdCate .cateWrap {
-                position: absolute;
-                top: 15px;
-                left: 95px;
-            }
+    @media (max-width: 768px) {
+        #hdWrap .hdCate .cateWrap {
+            position: absolute;
+            top: 15px;
+            left: 95px;
         }
+    }
+    .tmenu .dropdown-toggle::after {
+        display: none; /* 토글 아이콘 숨기기 */
+    }
 
+    .tmenu .dropdown-menu {
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+    }
+
+    .tmenu:hover .dropdown-menu {
+        display: block; /* 마우스를 올렸을 때 메뉴를 표시 */
+    }
 </style>
 <div id="hdWrap" class="headroom headroom--not-bottom headroom--pinned headroom--top">
     <div class="hdArea">

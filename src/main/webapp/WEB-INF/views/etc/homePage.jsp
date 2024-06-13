@@ -15,9 +15,6 @@
 </head>
 <style>
 
-    .container {
-        margin-top: 105px;
-    }
 </style>
 <body>
 <%--hdarea 보여주는 파트jsp--%>
@@ -28,12 +25,11 @@
 <%@ include file="/WEB-INF/views/etc/slide.jsp" %>
 
 <%--quickmenu를 보여주는 파트jsp--%>
-<%--<%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>--%>
+<%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>
 
 <%--itemList를 보여주는 파트jsp--%>
-<div class="container">
 <%@ include file="/WEB-INF/views/etc/itemListPart.jsp" %>
-</div>
+
 <!-- 부트스트랩 JavaScript 링크 -->
 </body>
 </html>

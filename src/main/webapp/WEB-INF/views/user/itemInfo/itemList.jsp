@@ -12,7 +12,7 @@
 <body>
 
 <%--quickmenu를 보여주는 파트jsp--%>
-<%--<%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>--%>
+<%@ include file="/WEB-INF/views/etc/quickmenu.jsp" %>
 
 <%--itemList를 보여주는 파트jsp--%>
 <%@ include file="/WEB-INF/views/etc/itemListPart.jsp" %>

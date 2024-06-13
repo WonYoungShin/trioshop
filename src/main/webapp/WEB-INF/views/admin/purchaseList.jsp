@@ -31,6 +31,10 @@
             padding: 20px;
             width: calc(100% - 250px);
         }
+
+        .container {
+            margin-top:60px;
+        }
     </style>
 </head>
 <body>
