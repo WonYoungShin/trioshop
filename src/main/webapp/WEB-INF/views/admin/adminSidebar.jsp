@@ -7,6 +7,7 @@
         border-right: 1px solid #dee2e6;
         height: 100vh;
         position: fixed;
+        top: 55px;
     }
     .sidebar .nav-link {
         color: #343a40;
