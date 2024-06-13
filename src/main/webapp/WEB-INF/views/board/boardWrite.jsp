@@ -17,6 +17,28 @@
             margin-left: 100px;
             width: calc(100%);
         }
+        .container {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 30px;
+            background-color: #ffffff;
+        }
+        .form-control, .btn {
+            border-radius: 5px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group.text-center {
+            margin-top: 1.5rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
     </style>
 </head>
 <body>

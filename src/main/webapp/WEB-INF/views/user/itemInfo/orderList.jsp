@@ -25,7 +25,45 @@
             max-width: 1250px;
         }
     }
-
+    .table {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .table thead th {
+        vertical-align: middle;
+        text-align: center;
+        background-color: #f8f9fa;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
+    .table tbody td {
+        vertical-align: middle;
+        text-align: center;
+    }
+    .table tbody tr {
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+    }
+    .table tbody tr:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    .content {
+        padding-top: 85px;
+        margin-left: 100px;
+        width: calc(100% - 250px);
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+    .pagination .page-item .page-link {
+        color: #007bff;
+    }
+    .pagination .page-item .page-link:hover {
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
 
 </style>
 <body>
@@ -42,7 +80,6 @@
                 <th scope="col">수량</th>
                 <th scope="col">가격</th>
                 <th scope="col">총가격</th>
-                <th scope="col">비고</th>
             </tr>
             </thead>
             <tbody>
@@ -73,9 +110,6 @@
                             <c:set var="totalPrice" value="${totalPrice + (price * qty)}"/>
                         </c:forEach>
                         ₩${totalPrice}
-                    </td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/orderDetails?orderCode=${order.orderCode}" class="btn btn-primary btn-sm">상세</a>
                     </td>
                 </tr>
             </c:forEach>
