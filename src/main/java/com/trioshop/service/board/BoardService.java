@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -40,8 +39,13 @@ public class BoardService {
             repository.viewSave(userCode,boardCode);
             boardDao.boardViewsIncrease(boardCode);
         }
+
         BoardContentDetailModel content = boardDao.boardDetails(boardCode);
-        List<BoardContentDetailComment> comment = boardDao.boardDetailsCommentList(boardCode);
+
+        List<BoardCommentSelectModel> comment = boardDao.boardDetailsCommentList(boardCode);
+
+
+
         return new BoardContentDetailModelAndComment(content,comment);
     }
 
@@ -65,5 +69,17 @@ public class BoardService {
 
     public void boardCommentAdd(CommentAddModel commentAddModel) {
         boardDao.boardCommentAdd(commentAddModel);
+    }
+
+    public void commentDelete(Long commentCode) {
+        boardDao.commentDelete(commentCode);
+    }
+
+    public void commentEdit(CommentEditModel commentEditModel) {
+        boardDao.commentEdit(commentEditModel);
+    }
+
+    public void commentReplyAdd(CommentReplyAddModel replyAddModel) {
+        boardDao.commentReplyAdd(replyAddModel);
     }
 }

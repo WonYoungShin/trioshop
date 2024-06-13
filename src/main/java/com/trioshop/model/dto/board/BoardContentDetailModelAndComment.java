@@ -9,5 +9,5 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardContentDetailModelAndComment {
     private final BoardContentDetailModel content;
-    private final List<BoardContentDetailComment> comment;
+    private final List<BoardCommentSelectModel> comment;
 }

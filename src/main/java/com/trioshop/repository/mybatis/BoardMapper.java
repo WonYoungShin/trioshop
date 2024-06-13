@@ -17,7 +17,7 @@ public interface BoardMapper {
 
     BoardContentDetailModel boardDetails(Long boardCode);
 
-    List<BoardContentDetailComment> boardDetailsCommentList(Long boardCode);
+    List<BoardCommentSelectModel> boardDetailsCommentList(Long boardCode);
 
     void boardViewsIncrease(Long boardCode);
 
@@ -30,4 +30,10 @@ public interface BoardMapper {
     void boardContentEdit(BoardEditModel editModel);
 
     void boardCommentAdd(CommentAddModel commentAddModel);
+
+    void commentDelete(Long commentCode);
+
+    void commentEdit(CommentEditModel commentEditModel);
+
+    void commentReplyAdd(CommentReplyAddModel replyAddModel);
 }

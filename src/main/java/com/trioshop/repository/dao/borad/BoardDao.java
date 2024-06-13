@@ -33,7 +33,7 @@ public class BoardDao {
         return boardMapper.boardDetails(boardCode);
     }
 
-    public List<BoardContentDetailComment> boardDetailsCommentList(Long boardCode) {
+    public List<BoardCommentSelectModel> boardDetailsCommentList(Long boardCode) {
         return boardMapper.boardDetailsCommentList(boardCode);
     }
 
@@ -59,5 +59,17 @@ public class BoardDao {
 
     public void boardCommentAdd(CommentAddModel commentAddModel) {
         boardMapper.boardCommentAdd(commentAddModel);
+    }
+
+    public void commentDelete(Long commentCode) {
+         boardMapper.commentDelete(commentCode);
+    }
+
+    public void commentEdit(CommentEditModel commentEditModel) {
+        boardMapper.commentEdit(commentEditModel);
+    }
+
+    public void commentReplyAdd(CommentReplyAddModel replyAddModel) {
+        boardMapper.commentReplyAdd(replyAddModel);
     }
 }
