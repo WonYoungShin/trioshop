@@ -32,7 +32,7 @@
 <script>
     const coupon = document.getElementById("coupon-box");
     const button = document.getElementById("payment-button");
-    const amount = "${paymentData.totalPrice}";
+    const amount = "${paymentData.amount}";
 
     // 구매자의 고유 아이디를 불러와서 customerKey로 설정하세요.
     // 이메일・전화번호와 같이 유추가 가능한 값은 안전하지 않습니다.
@@ -65,7 +65,7 @@
         // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
         // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
         paymentWidget.requestPayment({
-            orderId: "${paymentData.orderCode}",
+            orderId: "${paymentData.orderId}",
             orderName: "${paymentData.orderName}",
             successUrl: "${paymentData.successUrl}",
             failUrl: "${paymentData.failUrl}",

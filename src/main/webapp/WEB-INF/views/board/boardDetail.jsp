@@ -11,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
         .content {
-            padding-top: 50px;
+            padding-top: 160px;
             margin-left: auto;
             margin-right: auto;
             width: 70%;
@@ -45,6 +45,14 @@
             color: #343a40; /* 호버 시 조금 더 어두운 색상 */
             text-decoration: underline;
         }
+
+        .col-12 {
+            bottom: 65px;
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
     </style>
 </head>
 <body>

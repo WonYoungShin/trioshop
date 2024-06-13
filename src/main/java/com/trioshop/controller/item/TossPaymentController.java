@@ -38,24 +38,16 @@ public class TossPaymentController {
         return "payment/success";
     }
 
-    @GetMapping("/")
+    @PostMapping("/")
     public String tossPayProcess(@ModelAttribute OrdersEntity ordersEntity,
                                 @ModelAttribute OrderItemList orderItemList,
+                               @RequestParam("totalPrice") long totalPrice,
                                Model model) { {
 //        boolean check = orderService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
-        PaymentData paymentData = new PaymentData().builder()
-                .totalPrice(1)
-                .userCode(securityUtils.getCurrentUserCode())
-                .paymentKey("paymentkey1234")
-                .orderId("orderId1234") // 영문대소문자
-                .amount("의류포함 총"+"?건")
-                .orderCode("ordercode1234")
-                .userName("유저명1")
-                .orderName("주문문명1")
-                .userTel("01011111111")
-                .successUrl("http://localhost:8080/toss/success")
-                .failUrl("http://localhost:8080/toss/fail")
-                .build();
+        System.out.println("totalPrice = " + totalPrice);
+        System.out.println("ordersEntity = " + ordersEntity);
+        System.out.println("orderItemList = " + orderItemList.getOrderItemEntityList());
+        PaymentData paymentData = tossPaymentService.makePaymentData(ordersEntity, orderItemList.getOrderItemEntityList(), totalPrice);
         System.out.println("paymentData = " + paymentData);
         model.addAttribute("paymentData", paymentData);
 
