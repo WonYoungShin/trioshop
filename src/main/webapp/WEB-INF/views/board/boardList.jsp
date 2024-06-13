@@ -87,7 +87,6 @@
         </div>
     </div>
 </div>
-<%@ include file="/WEB-INF/views/board/test.jsp" %>
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
