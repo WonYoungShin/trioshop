@@ -65,7 +65,7 @@ public class OrderService {
         }
         return itemInfoList;
     }
-    private OrdersEntity makeOrdersEntity (OrdersEntity ordersEntity) {
+    public OrdersEntity makeOrdersEntity (OrdersEntity ordersEntity) {
         // userCode+현재시간 으로 orderCode생성 (userCode + "-" + dateStr)
         String orderCode = GenerateDate.generateOrderCode(ordersEntity.getUserCode());
 
@@ -80,7 +80,7 @@ public class OrderService {
         orderDao.insertOrders(ordersEntityResult);
         return ordersEntityResult;
     }
-    private List<Long> makeOrderItemEntity(List<OrderItemEntity> orderItemList, String orderCode) {
+    public List<Long> makeOrderItemEntity(List<OrderItemEntity> orderItemList, String orderCode) {
 
         List<Long> itemCodeList = new ArrayList<>(); // 장바구니에서 구매품목을 지우기위한 List
         // 주문 상품 테이블 저장

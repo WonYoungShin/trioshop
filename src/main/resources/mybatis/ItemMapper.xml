@@ -44,6 +44,8 @@
         </if>
         LIMIT 100
     </select>
+    <!-- 기본페이지에 중복이름은 표시하지 않도록   -->
+
     <!--  카테코리 선택을 위한 목록 검색  -->
     <select id="categoryList" resultType="CategoryEntity">
         SELECT category_code,
