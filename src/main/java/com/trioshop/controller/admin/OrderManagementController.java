@@ -1,5 +1,6 @@
 package com.trioshop.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.service.admin.OrderManagementService;
@@ -40,13 +41,15 @@ public class OrderManagementController {
     }
 
     @GetMapping("/orderStatus")
-    public String orderStatus(@RequestParam(defaultValue = "") String userCode, @RequestParam(defaultValue = "") String statusCode, Model model) {
-        StatusCondition statusCondition = new StatusCondition(userCode, statusCode);
-        List<OrderListModel> orderList = orderService.orderList(statusCondition);
+    public String orderStatus(@ModelAttribute StatusCondition statusCondition,
+                              @RequestParam(defaultValue = "1")int page,
+                              Model model) {
+        PageInfo<OrderListModel> orderListModelPageInfo = orderService.orderList(statusCondition,page);
         List<OrderStatusEntity> statusList = orderService.statusList();
 
         model.addAttribute("statusList", statusList);
-        model.addAttribute("orderList", orderList);
+        model.addAttribute("orderList", orderListModelPageInfo.getList());
+        model.addAttribute("totalPages", orderListModelPageInfo.getPages());
         return "admin/orderStatusList";
     }
 

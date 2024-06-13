@@ -54,6 +54,7 @@ public class WebSecurityConfig{
                 )
                 //Filter 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
 /**
  * 폼 로그인 관련 설정
  */

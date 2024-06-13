@@ -67,7 +67,7 @@
 
                     <div class="login-btn-wrap">
                         <button class="login-btn join-btn">가입하기</button>
-                        <a href="/login">로그인 페이지로 돌아가기</a>
+                        <a href="${pageContext.request.contextPath}/login">로그인 페이지로 돌아가기</a>
                     </div>
 
 

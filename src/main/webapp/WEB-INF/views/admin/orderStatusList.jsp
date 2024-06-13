@@ -37,6 +37,18 @@
             flex: 1;
             margin: 2px;
         }
+        .pagination .page-item.active .page-link {
+            background-color: #83bdfb;
+            border-color: #66c2fa;
+            color: white;
+        }
+        .pagination .page-item .page-link {
+            color: #535353;
+        }
+        .pagination .page-item .page-link:hover {
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
     </style>
 </head>
 <body>
@@ -114,6 +126,29 @@
                     </c:forEach>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <nav>
+                    <ul class="pagination">
+                        <c:if test="${param.page > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="?page=${param.page - 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">&lt 이전</a>
+                            </li>
+                        </c:if>
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == param.page ? 'active' : ''}">
+                                <a class="page-link" href="?page=${i}&userCode=${param.userCode}&statusCode=${param.statusCode}">${i}</a>
+                            </li>
+                        </c:forEach>
+                        <c:if test="${param.page < totalPages || param.page == null}">
+                            <li class="page-item">
+                                <a class="page-link" href="?page=${param.page + 1}&userCode=${param.userCode}&statusCode=${param.statusCode}">다음 &gt</a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

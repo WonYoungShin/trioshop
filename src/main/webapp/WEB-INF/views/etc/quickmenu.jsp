@@ -27,11 +27,11 @@
     <div class="quickMenu" style="display: block;">
 
         <ul>
-            <li class="recent"><a href="/board" class="#"><span>게시판</span></a></li>
-            <%--            <li class="wish"><a href="#"><span>#</span></a></li>--%>
-            <%--            <li class="attendance"><a href="#" onclick="javascript:window.open('#', '_self');" class="attend"><span>#</span></a></li>--%>
-            <%--            <li class="kakao"><a href="#none" onclick="javascript:window.open('#', '_self');" class="kakao"><span>#</span></a></li>--%>
-            <%--            <li class="naver"><a href="#none;" onclick="javascript:window.open('#', '_self');" class="talk"><span>#</span></a></li>--%>
+            <li class="recent"><a href="${pageContext.request.contextPath}/board" class="#"><span>게시판</span></a></li>
+            <%--            <li class="wish"><a href="${pageContext.request.contextPath}#"><span>#</span></a></li>--%>
+            <%--            <li class="attendance"><a href="${pageContext.request.contextPath}#" onclick="javascript:window.open('#', '_self');" class="attend"><span>#</span></a></li>--%>
+            <%--            <li class="kakao"><a href="${pageContext.request.contextPath}#none" onclick="javascript:window.open('#', '_self');" class="kakao"><span>#</span></a></li>--%>
+            <%--            <li class="naver"><a href="${pageContext.request.contextPath}#none;" onclick="javascript:window.open('#', '_self');" class="talk"><span>#</span></a></li>--%>
             <li class="top"><a onclick="" class="top"><span>top</span></a></li>
             <li class="bottom"><a onclick="" class="bottom"><span>bottom</span></a></li>
         </ul>

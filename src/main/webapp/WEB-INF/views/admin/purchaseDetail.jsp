@@ -64,7 +64,7 @@
                                                                 type="currency" currencySymbol="" /></div>
                     </div>
                     <div class="text-right">
-                        <a href="/trioAdmin/purchase/list" class="btn btn-primary">목록으로 돌아가기</a>
+                        <a href="${pageContext.request.contextPath}/trioAdmin/purchase/list" class="btn btn-primary">목록으로 돌아가기</a>
                     </div>
                 </div>
             </div>

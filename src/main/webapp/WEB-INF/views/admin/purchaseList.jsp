@@ -98,6 +98,29 @@
                     </table>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <nav>
+                        <ul class="pagination">
+                            <c:if test="${param.page > 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=${param.page - 1}&itemName=${param.itemName}&category=${param.category}">&lt 이전</a>
+                                </li>
+                            </c:if>
+                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                <li class="page-item ${i == param.page ? 'active' : ''}">
+                                    <a class="page-link" href="?page=${i}&itemName=${param.itemName}&category=${param.category}">${i}</a>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${param.page < totalPages || param.page == null}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=${param.page==null ? 2 : param.page + 1}&itemName=${param.itemName}&category=${param.category}">다음 &gt</a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 </div>

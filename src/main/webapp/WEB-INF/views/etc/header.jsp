@@ -45,52 +45,52 @@
                         <c:when test="${loginMember.gradeCode == 4}">
                             <!-- 관리자 메뉴 -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/stock/list">재고</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/trioAdmin/stock/list">재고</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/stores">입고</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/trioAdmin/stores">입고</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/stores/list">입고내역</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/stores/list">입고내역</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/purchase">발주</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/purchase">발주</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/purchase/list">발주내역</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/purchase/list">발주내역</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/trioAdmin/stock">상품등록</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}trioAdmin/stock">상품등록</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/board">게시판</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/board">게시판</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/logout">로그아웃</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/logout">로그아웃</a>
                             </li>
 
                         </c:when>
                         <c:otherwise>
                             <!-- 일반 사용자 메뉴 -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/orderList">주문내역</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/orderList">주문내역</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/itemList">상품조회</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/itemList">상품조회</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/cart">장바구니</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/cart">장바구니</a>
                             </li>
                             <c:if test="${loginMember.gradeCode != 0}">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/myPage">마이페이지</a>
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/myPage">마이페이지</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/board">게시판</a>
+                                    <a class="nav-link" href="${pageContext.request.contextPath}/board">게시판</a>
                                 </li>
                             </c:if>
                             <li class="nav-item">
-                                <a class="nav-link" href="/logout">로그아웃</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/logout">로그아웃</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -98,10 +98,10 @@
                 <c:otherwise>
                     <!-- 비회원 메뉴 -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">로그인</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/login">로그인</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/join">회원가입</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/join">회원가입</a>
                     </li>
                 </c:otherwise>
             </c:choose>

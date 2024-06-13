@@ -42,7 +42,7 @@
                         </div>
                         <div class="login-btn-wrap">
                             <button class="login-btn">비밀번호 찾기</button>
-                            <a href="/login">이미 계정이 있으신가요? <span style="color: #2178ff;">로그인하기</span></a>
+                            <a href="${pageContext.request.contextPath}/login">이미 계정이 있으신가요? <span style="color: #2178ff;">로그인하기</span></a>
                         </div>
                     </div>
                 </div>
