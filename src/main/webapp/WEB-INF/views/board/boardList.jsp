@@ -9,6 +9,8 @@
     <title>발주 목록</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- jQuery 링크 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
@@ -51,6 +53,23 @@
             background-color: #e9ecef;
             border-color: #dee2e6;
         }
+        .btn-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .btn-circle:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -75,7 +94,9 @@
             </div>
             <div class="row mt-3">
                 <div class="col-12 d-flex justify-content-end" style="margin-bottom: 10px">
-                    <a href="${pageContext.request.contextPath}/board/write" class="btn btn-primary">글작성</a>
+                    <a href="${pageContext.request.contextPath}/board/write" class="btn btn-circle">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </div>
             </div>
             <div class="row">
@@ -84,8 +105,7 @@
                         <thead class="thead-light">
                         <tr>
                             <th>No.</th>
-                            <th>카테고리</th>
-                            <th>제목</th>
+                            <th>제목[카테고리]</th>
                             <th>작성자</th>
                             <th>작성일자</th>
                             <th>조회수</th>
@@ -96,8 +116,7 @@
                         <c:forEach var="item" items="${contentList}">
                             <tr onclick="location.href='/board/${item.boardCode}'">
                                 <td>${item.boardCode}</td>
-                                <td>${item.categoryName}</td>
-                                <td>${item.boardTitle}</td>
+                                <td>${item.boardTitle}[${item.categoryName}]</td>
                                 <td>${item.userNickname}</td>
                                 <td>${item.boardDate}</td>
                                 <td>${item.boardViews}</td>
@@ -137,6 +156,6 @@
 </div>
 <!-- 부트스트랩 JavaScript 링크 -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.amazonaws.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

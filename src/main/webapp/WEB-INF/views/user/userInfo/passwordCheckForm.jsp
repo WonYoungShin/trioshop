@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="login-btn-wrap">
-                        <button class="login-btn">비밀번호 찾기</button>
+                        <button class="login-btn">비밀번호 확인</button>
                         <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
                     </div>
 
