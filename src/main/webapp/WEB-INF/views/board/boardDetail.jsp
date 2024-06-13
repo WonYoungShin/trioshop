@@ -97,14 +97,15 @@
                             <p><strong>${comment.userNickname}</strong> <small>${comment.commentDate}</small></p>
                             <p id="comment-content-${comment.commentCode}">${comment.commentContent}</p>
 
-                            <c:if test="${loginMember.userCode == comment.userCode || loginMember.gradeCode == 4}">
-                                <!-- 수정 버튼 -->
-                                <button class="btn btn-warning btn-sm" onclick="showEditForm('${comment.commentCode}', '${comment.commentContent}')">수정</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteComment(${comment.commentCode})">삭제</button>
-                            </c:if>
+                            <div class="button-group">
+                                <c:if test="${loginMember.userCode == comment.userCode || loginMember.gradeCode == 4}">
+                                    <!-- 수정 버튼 -->
+                                    <button onclick="showEditForm('${comment.commentCode}', '${comment.commentContent}')">수정</button>
+                                    <button onclick="deleteComment(${comment.commentCode})">삭제</button>
+                                </c:if>
                             <!-- 답글 버튼 -->
-                            <button class="btn btn-info btn-sm" onclick="showReplyForm('${comment.commentCode}')">답글</button>
-
+                            <button onclick="showReplyForm('${comment.commentCode}')">답글</button>
+                            </div>
                             <!-- 수정 폼 -->
                             <form id="edit-form-${comment.commentCode}" class="edit-form" action="${pageContext.request.contextPath}/board/comment/edit" method="post">
                                 <input type="hidden" name="commentCode" value="${comment.commentCode}">
@@ -112,8 +113,10 @@
                                     <textarea class="form-control" name="commentContent" rows="3" required>${comment.commentContent}</textarea>
                                 </div>
                                 <input type="hidden" name="boardCode" value="${boardCode}">
-                                <button type="submit" class="btn btn-primary">수정 완료</button>
-                                <button type="button" class="btn btn-secondary" onclick="hideEditForm(${comment.commentCode})">취소</button>
+                                <div class="button-group">
+                                    <button type="submit">수정 완료</button>
+                                    <button type="button" onclick="hideEditForm(${comment.commentCode})">취소</button>
+                                </div>
                             </form>
 
                             <!-- 답글 폼 -->
@@ -124,8 +127,11 @@
                                 <div class="form-group">
                                     <textarea class="form-control" name="commentContent" rows="3" required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">답글 작성</button>
-                                <button type="button" class="btn btn-secondary" onclick="hideReplyForm(${comment.commentCode})">취소</button>
+                                <div class="button-group">
+
+                                    <button type="submit">답글 작성</button>
+                                    <button type="button" onclick="hideReplyForm(${comment.commentCode})">취소</button>
+                                </div>
                             </form>
                         </div>
                     </c:forEach>

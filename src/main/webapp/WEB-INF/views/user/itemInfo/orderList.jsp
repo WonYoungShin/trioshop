@@ -51,9 +51,21 @@
                     <td>${order.orderCode}</td>
                     <td>${order.orderDate}</td>
                     <td>${order.statusName}</td>
-                    <td>${order.itemNames}</td>
-                    <td>${order.orderQtys}</td>
-                    <td>${order.itemPrices}</td>
+                    <td class="nowrap">
+                        <c:forEach var="itemName" items="${order.itemNames.split(',')}">
+                            <div>${itemName}</div>
+                        </c:forEach>
+                    </td>
+                    <td>
+                        <c:forEach var="orderQty" items="${order.orderQtys.split(',')}">
+                            <div>${orderQty}</div>
+                        </c:forEach>
+                    </td>
+                    <td>
+                        <c:forEach var="itemPrice" items="${order.itemPrices.split(',')}">
+                            <div>${itemPrice}</div>
+                        </c:forEach>
+                    </td>
                     <td>
                         <c:set var="totalPrice" value="0"/>
                         <c:forEach var="price" items="${fn:split(order.itemPrices, ', ')}" varStatus="loop">
