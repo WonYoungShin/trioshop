@@ -2,24 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trioshop.repository.mybatis.ItemMapper">
-    <!--  모든 아이템 검색 (많을경우를 대비하여 일단 최대수량 100개만 검색되도록함) -->
-    <select id="findAllItem" resultType="ItemInfoByUser">
-        SELECT TI.item_code itemCode,
-               TC.category_name categoryName,
-               TF.factory_name factoryName,
-               TI.item_name itemName,
-               TS.stock_qty stockQty,
-               TI.item_price itemPrice,
-               TI.item_src itemSrc,
-               TI.item_color itemColor,
-               TI.item_size itemSize
-        FROM TRIO_ITEMS TI, TRIO_STOCK TS, TRIO_CATEGORY TC, TRIO_FACTORY TF
-        WHERE TI.item_code=TS.item_code
-          AND TI.category_code=TC.category_code
-          AND TI.factory_code=TF.factory_code
-        LIMIT 100
-    </select>
-    <!--  itemName, category 으로 아이템 검색  -->
     <select id="searchItems" resultType="ItemInfoByUser">
         SELECT
         TI.item_code AS itemCode,
@@ -35,14 +17,14 @@
         JOIN TRIO_STOCK TS ON TI.item_code = TS.item_code
         JOIN TRIO_CATEGORY TC ON TI.category_code = TC.category_code
         JOIN TRIO_FACTORY TF ON TI.factory_code = TF.factory_code
-        WHERE 1=1
-        <if test="itemName != null and itemName != ''">
-            AND TI.item_name LIKE CONCAT('%', #{itemName}, '%')
-        </if>
-        <if test="category != null and category != ''">
-            AND TC.category_name = #{category}
-        </if>
-        LIMIT 100
+        <where>
+            <if test="itemName != null and itemName != ''">
+                AND TI.item_name LIKE CONCAT('%', #{itemName}, '%')
+            </if>
+            <if test="category != null and category != ''">
+                AND TC.category_name = #{category}
+            </if>
+        </where>
     </select>
     <!-- 기본페이지에 중복이름은 표시하지 않도록   -->
 

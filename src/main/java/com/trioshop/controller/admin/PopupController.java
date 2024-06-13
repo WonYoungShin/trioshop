@@ -28,16 +28,23 @@ public class PopupController {
     private final CategoryList categoryList;
 
     @GetMapping("/popupItemList")
-    public String popupItemList(@ModelAttribute ItemCondition itemCondition, Model model) {
-        List<PopupItemModel> popupItemList = popupService.findByAll(itemCondition);
+    public String popupItemList(@ModelAttribute ItemCondition itemCondition,
+                                @RequestParam(defaultValue = "1")int page,
+                                Model model) {
+        PageInfo<PopupItemModel> popupItemModelPageInfo = popupService.findByAll(itemCondition, page);
         model.addAttribute("categoryList", categoryList.getCategoryList());
-        model.addAttribute("itemList", popupItemList);
+        model.addAttribute("itemList", popupItemModelPageInfo.getList());
+        model.addAttribute("totalPages", popupItemModelPageInfo.getPages());
+
         return "admin/popupItemList";
     }
     @GetMapping("/popupFactoryList")
-    public String popupFactoryList(@ModelAttribute FactoryCondition factoryCondition, Model model) {
-        List<FactoryEntity> popupFactoryList = popupService.factoryFindByAll(factoryCondition);
-        model.addAttribute("factoryList", popupFactoryList);
+    public String popupFactoryList(@ModelAttribute FactoryCondition factoryCondition,
+                                   @RequestParam(defaultValue = "1")int page,
+                                   Model model) {
+        PageInfo<FactoryEntity> factoryEntityInfo = popupService.factoryFindByAll(factoryCondition, page);
+        model.addAttribute("factoryList", factoryEntityInfo.getList());
+        model.addAttribute("totalPages", factoryEntityInfo.getPages());
         return "admin/popupFactoryList";
     }
     @GetMapping("/popupPurchaseList")

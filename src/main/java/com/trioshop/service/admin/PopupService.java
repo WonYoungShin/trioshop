@@ -1,10 +1,12 @@
 package com.trioshop.service.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.admin.FactoryCondition;
 import com.trioshop.model.dto.admin.FactoryEntity;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.model.dto.popup.PopupItemModel;
 import com.trioshop.repository.dao.admin.PopupDao;
+import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PopupService {
     private final PopupDao popupDao;
+    private final PagingService pagingService;
 
-    public List<PopupItemModel> findByAll(ItemCondition itemCondition){
-        return popupDao.findByAll(itemCondition);
+    public PageInfo<PopupItemModel> findByAll(ItemCondition itemCondition, int page){
+        return pagingService.getPagedData(page,()->popupDao.findByAll(itemCondition));
     }
-    public List<FactoryEntity> factoryFindByAll(FactoryCondition factoryCondition){
-        return popupDao.factoryFindByAll(factoryCondition);
+    public PageInfo<FactoryEntity> factoryFindByAll(FactoryCondition factoryCondition, int page){
+        return pagingService.getPagedData(page,()->popupDao.factoryFindByAll(factoryCondition));
     }
 
 }

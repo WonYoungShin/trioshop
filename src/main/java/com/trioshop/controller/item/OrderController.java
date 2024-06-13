@@ -1,5 +1,6 @@
 package com.trioshop.controller.item;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.model.dto.item.OrderItemList;
 import com.trioshop.model.dto.item.OrderListByUser;
@@ -7,6 +8,7 @@ import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.user.UserAddressInfo;
 
 import com.trioshop.service.item.OrderService;
+import com.trioshop.utils.service.PagingService;
 import com.trioshop.utils.service.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,10 +35,11 @@ public class OrderController {
     }
 
     @GetMapping("/orderList") // 주문 완료 목록으로
-    public String orderListPage(Model model) {
-
-        List<OrderListByUser> orderList = orderService.orderListByUser(securityUtils.getCurrentUserCode());
-        model.addAttribute("orderList", orderList);
+    public String orderListPage(@RequestParam(defaultValue = "1") int page,
+                                Model model) {
+        PageInfo<OrderListByUser> orderListByUserPageInfo = orderService.orderListByUserPageInfo(securityUtils.getCurrentUserCode(),page);
+        model.addAttribute("orderList", orderListByUserPageInfo.getList());
+        model.addAttribute("totalPages", orderListByUserPageInfo.getPages());
         return "user/itemInfo/orderList";
     }
 
