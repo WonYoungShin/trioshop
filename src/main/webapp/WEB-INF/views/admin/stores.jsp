@@ -9,6 +9,14 @@
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+
+    .mt-4 {
+        margin-top: 4.5rem !important;
+    }
+
+
+</style>
 <body>
 <%@ include file="adminSidebar.jsp" %>
 <div class="container mt-4">
@@ -120,7 +128,7 @@
     }
 
     function setDetails(itemCode, itemName, categoryCode, factoryCode, itemSize,
-                            itemColor, purchasePrice, purchaseQty, purchaseCode) {
+                        itemColor, purchasePrice, purchaseQty, purchaseCode) {
         document.getElementById('itemCode').value = itemCode;
         document.getElementById('itemName').value = itemName;
         document.getElementById('categoryCode').value = categoryCode;

@@ -44,7 +44,7 @@ public class WebSecurityConfig{
                  */
                 .authorizeHttpRequests(authorize -> authorize
 
-                        .requestMatchers("/myPage", "/orders", "/orderList", "/addCart").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
+                        .requestMatchers("/myPage", "/orders", "/orderList", "/addCart", "/board").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
                                         //로그인(비회원, 회원, 어드민)한 사용자만 접근 가능한 URL
                         .requestMatchers("/trioAdmin/**", "/trioAdmin").hasRole(Role.ADMIN.name())
                                         //관리자만 접근 가능한 URL

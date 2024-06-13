@@ -2,8 +2,6 @@ package com.trioshop.controller.user;
 
 import com.trioshop.SessionConst;
 import com.trioshop.service.user.OAuth2LoginService;
-import com.trioshop.service.user.UserLoginService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +32,7 @@ public class UserLoginController {
     }
 
     @RequestMapping("/login/oauth/kakao")
-    public String kakaoLogin(@RequestParam String code, Model model, HttpServletResponse response) throws IOException {
+    public String kakaoLogin(@RequestParam String code, HttpServletResponse response) throws IOException {
         oAuth2LoginService.getKakaoInfo(code,response);
         return "redirect:/";
     }

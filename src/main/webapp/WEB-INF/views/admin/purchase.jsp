@@ -12,6 +12,11 @@
     <!-- jQuery 링크 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
+<style>
+    .mt-4 {
+        margin-top: 4.5rem !important;
+    }
+</style>
 <body>
 <%@ include file="adminSidebar.jsp" %>
 <div class="container mt-4">

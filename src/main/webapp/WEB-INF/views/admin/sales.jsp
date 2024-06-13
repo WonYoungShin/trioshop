@@ -24,6 +24,7 @@
         .table tbody tr {
             cursor: pointer;
         }
+
     </style>
 </head>
 <body>

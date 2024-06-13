@@ -70,6 +70,6 @@ public class StockController{
         UpdateItemModel updateItem = new UpdateItemModel(itemCode, item.getItemName() , item.getFactoryCode(),item.getItemColor());
         stockService.updateItem(updateItem);
 
-        return "redirect:/trioAdmin/stock/"+itemCode;
+        return "redirect:/trioAdmin/stock/" + itemCode;
     }
 }

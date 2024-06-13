@@ -1,4 +1,4 @@
-package com.trioshop.filter;
+package com.trioshop.deprecated.filter;
 
 import com.trioshop.SessionConst;
 import jakarta.servlet.*;

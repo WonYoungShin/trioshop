@@ -1,6 +1,5 @@
 package com.trioshop.filter;
 
-import com.trioshop.JWTConst;
 import com.trioshop.SessionConst;
 import com.trioshop.model.dto.user.HeaderModel;
 import com.trioshop.model.dto.user.UserInfoBySession;

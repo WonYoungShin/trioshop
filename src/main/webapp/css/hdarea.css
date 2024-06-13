@@ -163,6 +163,7 @@
 }
 
 #hdWrap {
+    height: 120px;
     transition: all 0.1s;
     -webkit-transition: all 0.1s;
     -moz-transition: all 0.1s;
@@ -182,7 +183,7 @@
 #hdWrap .hdCate .cateWrap {
     position: absolute;
     top: 15px;
-    left: 275px;
+    left: 300px;
 }
 
 

@@ -1,13 +1,8 @@
 package com.trioshop.controller;
 
-import com.trioshop.SessionConst;
 import com.trioshop.model.dto.item.ItemInfoByUser;
 import com.trioshop.service.item.ItemService;
-import com.trioshop.utils.business.APItest;
 import com.trioshop.utils.business.CategoryList;
-import com.trioshop.utils.business.SearchAPI;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +18,6 @@ public class HomepageController {
 
     @GetMapping("/") // 홈화면
     public String userList(Model model) {
-
         List<ItemInfoByUser> itemList = itemService.searchItems(null);;
         model.addAttribute("itemList", itemList);
         //카테고리 목록 불러오기

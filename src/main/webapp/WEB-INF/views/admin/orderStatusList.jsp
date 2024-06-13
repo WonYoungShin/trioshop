@@ -14,6 +14,11 @@
             padding: 20px;
             width: calc(100% - 250px);
         }
+
+        .container{
+            padding-top: 20px
+        }
+
         .table thead th,
         .table tbody td {
             vertical-align: middle;
