@@ -98,7 +98,6 @@ public class OrderService {
                     log.error("재고 부족으로 주문 실패: itemCode = " + orderItemEntity.getItemCode());
                     throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
                 }
-                //throw new InsufficientStockException("재고가 부족합니다: " + orderItemEntity.getItemCode(), e);
             }
         return itemCodeList;
     }

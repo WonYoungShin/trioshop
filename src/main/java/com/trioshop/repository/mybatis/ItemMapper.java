@@ -42,4 +42,5 @@ public interface ItemMapper {
     void updateCartItem(CartEntity cartEntity);
     List<ItemDetailSearch> itemDetailNameSearch(String itemName);
     UserAddressInfo selectUserAddressInfo (long userCode);
+    String selectItemName (long itemCode);
 }

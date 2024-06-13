@@ -222,4 +222,13 @@
         WHERE
             user_code = #{userCode}
     </select>
+
+    <select id="selectItemName" resultType="String">
+        SELECT
+            item_name AS userName
+        FROM
+            TRIO_ITEMS
+        WHERE
+            item_code = #{itemCode}
+    </select>
 </mapper>

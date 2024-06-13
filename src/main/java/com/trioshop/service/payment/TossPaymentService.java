@@ -2,6 +2,7 @@ package com.trioshop.service.payment;
 
 import com.trioshop.exception.ApplicationException;
 import com.trioshop.exception.ExceptionType;
+import com.trioshop.model.dto.item.ItemCodeAndQty;
 import com.trioshop.model.dto.item.OrderItemEntity;
 import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.payment.PaymentData;
@@ -9,18 +10,16 @@ import com.trioshop.repository.dao.item.OrderDao;
 import com.trioshop.service.item.OrderService;
 import com.trioshop.utils.business.GenerateDate;
 import com.trioshop.utils.business.PhoneNumberUtil;
-import com.trioshop.utils.service.CustomTransactionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
@@ -30,10 +29,12 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class TossPaymentService {
 
@@ -41,11 +42,14 @@ public class TossPaymentService {
     @Value("${toss.secret.api.key}")
     private static String WIDGET_SECRET_KEY;
     private static final String PAYMENT_CONFIRM_URL = "https://api.tosspayments.com/v1/payments/confirm";
-    private final CustomTransactionService transactionService;
-    private TransactionStatus status;
+
     private final OrderService orderService;
     private final OrderDao orderDao;
 
+    private OrdersEntity ordersEntityResult;
+    private List<OrderItemEntity> orderItemEntityResultList;
+
+    @Transactional
     public ResponseEntity<JSONObject> confirmPayment(String jsonBody) throws Exception {
         JSONParser parser = new JSONParser();
         String orderId;
@@ -83,7 +87,7 @@ public class TossPaymentService {
 
             outputStream = connection.getOutputStream();
             outputStream.write(obj.toString().getBytes(StandardCharsets.UTF_8));
-            outputStream.flush();
+//            outputStream.flush();
 
             int code = connection.getResponseCode();
             boolean isSuccess = code == HttpURLConnection.HTTP_OK;
@@ -91,6 +95,25 @@ public class TossPaymentService {
             responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
             Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
+
+            //orders table insert
+            orderDao.insertOrders(ordersEntityResult);
+            //orders item table insert
+            List<Long> itemCodeList = new ArrayList<>(); //장바구니에서 구매품목을 지우기위한 List
+            for (OrderItemEntity orderItemEntity : orderItemEntityResultList) {
+                orderDao.insertOrderItems(orderItemEntity);
+                ItemCodeAndQty itemCodeAndQty
+                        = new ItemCodeAndQty(orderItemEntity.getItemCode(),
+                        orderItemEntity.getOrderQty());
+                int checkUdate = orderDao.updateStockQty(itemCodeAndQty);
+                itemCodeList.add(orderItemEntity.getItemCode());
+                if (checkUdate == 0) {
+                    log.error("재고 부족으로 주문 실패: itemCode = " + orderItemEntity.getItemCode());
+                    throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
+                }
+                // 구매 품목 카트 에서 제외
+                orderDao.deleteItemsFromCart(ordersEntityResult.getUserCode(),itemCodeList);
+            }
 
             return ResponseEntity.status(code).body(jsonObject);
         } finally {
@@ -105,38 +128,50 @@ public class TossPaymentService {
             }
         }
     }
+    @Transactional
+    public void tossPaymentProcess() {
 
-
+    }
     public PaymentData makeTossPaymentData(OrdersEntity ordersEntity,
                                     List<OrderItemEntity> orderItemList,
                                     long totalPrice) {
-        status = transactionService.startTransaction();
-        try {
-            // Orders 테이블 입력
-            OrdersEntity ordersEntityResult = orderService.makeOrdersEntity(ordersEntity);
-            // OrderItem 테이블 입력
-            List<Long> deleteCartCodeList = orderService.makeOrderItemEntity(orderItemList, ordersEntityResult.getOrderCode());
-            // 구매 품목 카트 에서 제외
-            orderDao.deleteItemsFromCart(ordersEntityResult.getUserCode(),deleteCartCodeList);
-            // toss 결제를 위한 PaymentData 생성
-            return makePaymentData(ordersEntityResult, orderItemList, totalPrice);
 
-        } catch (Exception e) {
-            // 예외 발생 시 로그 출력
-            throw new ApplicationException(ExceptionType.ORDER_OUT_OF_STOCK);
+            ordersEntityResult = makeOrdersEntity(ordersEntity);
+            orderItemEntityResultList = makeOrderItemEntity(orderItemList, ordersEntityResult.getOrderCode());
+            // toss 결제를 위한 PaymentData 생성
+            return makePaymentData(ordersEntityResult, orderItemEntityResultList, totalPrice);
+    }
+
+    public OrdersEntity makeOrdersEntity (OrdersEntity ordersEntity) {
+        // userCode+현재시간 으로 orderCode생성 (userCode + "-" + dateStr)
+        String orderCode = GenerateDate.generateOrderCode(ordersEntity.getUserCode());
+        // 주문객체생성
+        ordersEntityResult = new OrdersEntity(orderCode,
+                ordersEntity.getUserCode(),
+                ordersEntity.getOrderReceiver(),
+                ordersEntity.getOrderDestination(),
+                GenerateDate.generateOrderDate(),
+                ordersEntity.getOrderTel(),
+                "10");
+        return ordersEntityResult;
+    }
+    public List<OrderItemEntity> makeOrderItemEntity(List<OrderItemEntity> orderItemList, String orderCode) {
+        // 주문 상품 테이블 저장
+        for (OrderItemEntity orderItemEntity : orderItemList) {
+            orderItemEntity.setOrderCode(orderCode);
         }
+        return orderItemList;
     }
 
     public PaymentData makePaymentData(OrdersEntity ordersEntity, List<OrderItemEntity> orderItemList, long totalPrice) {
+        String firstItemName = orderDao.selectItemName(orderItemList.get(0).getItemCode());
         return PaymentData.builder()
                 .userCode(ordersEntity.getUserCode())
                 .orderId(GenerateDate.generateOrderCode(ordersEntity.getUserCode()))
                 .amount(totalPrice)
                 .userName(ordersEntity.getOrderReceiver())
-                .orderName("의류"+"+ 외"+(orderItemList.size()-1))
+                .orderName(firstItemName+"+ 외"+(orderItemList.size()-1))
                 .userTel(PhoneNumberUtil.removeHyphens(ordersEntity.getOrderTel()))
-                .successUrl("http://localhost:8080/toss/success")
-                .failUrl("http://localhost:8080/toss/fail")
                 .build();
     }
 
@@ -144,11 +179,6 @@ public class TossPaymentService {
         Base64.Encoder encoder = Base64.getEncoder();
         byte[] encodedBytes = encoder.encode((secretKey + ":").getBytes(StandardCharsets.UTF_8));
         return "Basic " + new String(encodedBytes, StandardCharsets.UTF_8);
-    }
-    @Transactional
-    public void successPayment() {
-        System.out.println("성공1");
-        transactionService.commitTransaction(status);
     }
 }
 

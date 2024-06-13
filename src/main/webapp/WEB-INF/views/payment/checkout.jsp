@@ -7,22 +7,12 @@
     <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 </head>
 <body>
-<!-- 할인 쿠폰 -->
 <div class="wrapper">
     <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px;">
         <!-- 결제 UI -->
         <div id="payment-method"></div>
         <!-- 이용약관 UI -->
         <div id="agreement"></div>
-        <!-- 쿠폰 체크박스 -->
-<%--        <div style="padding-left: 25px">--%>
-<%--            <div class="checkable typography--p">--%>
-<%--                <label for="coupon-box" class="checkable__label typography--regular">--%>
-<%--                    <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" />--%>
-<%--                    <span class="checkable__label-text">5,000원 쿠폰 적용</span>--%>
-<%--                </label>--%>
-<%--            </div>--%>
-<%--        </div>--%>
         <!-- 결제하기 버튼 -->
         <div class="result wrapper">
             <button class="button" id="payment-button" style="margin-top: 30px">결제하기</button>
@@ -52,23 +42,16 @@
         "#agreement",
         {variantKey: "AGREEMENT"}
     );
-    // 쿠폰확인
-    // coupon.addEventListener("change", function () {
-    //     if (coupon.checked) {
-    //         paymentMethodWidget.updateAmount(amount - 5000);
-    //     } else {
-    //         paymentMethodWidget.updateAmount(amount);
-    //     }
-    // });
-
+    var successUrl = "${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/toss/success";
+    var failUrl = "${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/toss/fail";
     button.addEventListener("click", function () {
         // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
         // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
         paymentWidget.requestPayment({
             orderId: "${paymentData.orderId}",
             orderName: "${paymentData.orderName}",
-            successUrl: "${paymentData.successUrl}",
-            failUrl: "${paymentData.failUrl}",
+            successUrl: successUrl,
+            failUrl: failUrl,
             customerName: "${paymentData.userName}",
             customerMobilePhone: "${paymentData.userTel}",
         });

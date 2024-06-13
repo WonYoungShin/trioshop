@@ -18,8 +18,6 @@ public class PaymentData {
     String userName;
     String orderName;
     String userTel;
-    String successUrl;
-    String failUrl;
 }
 
 

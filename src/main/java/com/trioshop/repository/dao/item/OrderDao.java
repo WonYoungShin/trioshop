@@ -41,4 +41,7 @@ public class OrderDao {
     public void deleteItemsFromCart(long userCode, List<Long> itemCodeList) {
         itemMapper.deleteItemsFromCart(userCode, itemCodeList);
     }
+    public String selectItemName (long itemCode){
+        return itemMapper.selectItemName(itemCode);
+    }
 }
