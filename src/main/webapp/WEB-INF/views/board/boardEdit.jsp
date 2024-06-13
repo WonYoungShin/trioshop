@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary">수정</button>
-                    <a href="/board" class="btn btn-secondary">취소</a>
+                    <a href="${pageContext.request.contextPath}/board" class="btn btn-secondary">취소</a>
                 </div>
             </form>
         </div>

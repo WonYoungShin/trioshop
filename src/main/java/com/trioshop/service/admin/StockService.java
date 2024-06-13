@@ -1,5 +1,6 @@
 package com.trioshop.service.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.exception.ApplicationException;
 import com.trioshop.exception.ExceptionType;
 import com.trioshop.model.dto.admin.AddItemModel;
@@ -7,6 +8,7 @@ import com.trioshop.model.dto.admin.StockModel;
 import com.trioshop.model.dto.admin.UpdateItemModel;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.repository.dao.admin.StockDao;
+import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import java.util.NoSuchElementException;
 public class StockService {
 
     private final StockDao stockDao;
+    private final PagingService pagingService;
 
     @Transactional
     public void save(AddItemModel itemModel) {
@@ -31,8 +34,8 @@ public class StockService {
         }
     }
 
-    public List<StockModel> findAll(ItemCondition itemCondition) {
-        return stockDao.findAll(itemCondition);
+    public PageInfo<StockModel> findAll(ItemCondition itemCondition, int page) {
+        return pagingService.getPagedData(page, () -> stockDao.findAll(itemCondition));
     }
 
 

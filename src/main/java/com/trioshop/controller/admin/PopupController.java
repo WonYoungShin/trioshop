@@ -1,5 +1,6 @@
 package com.trioshop.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.admin.FactoryCondition;
 import com.trioshop.model.dto.admin.FactoryEntity;
 import com.trioshop.model.dto.admin.PurchaseListModel;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -39,10 +41,13 @@ public class PopupController {
         return "admin/popupFactoryList";
     }
     @GetMapping("/popupPurchaseList")
-    public String popupPurchaseList(@ModelAttribute ItemCondition itemCondition, Model model) {
-        List<PurchaseListModel> popupPurchaseList = purchaseService.findAll(itemCondition);
+    public String popupPurchaseList(@ModelAttribute ItemCondition itemCondition,
+                                    @RequestParam(defaultValue = "1")int page,
+                                    Model model) {
+        PageInfo<PurchaseListModel> purchaseListPageInfo = purchaseService.findAll(itemCondition,page);
         model.addAttribute("categoryList", categoryList.getCategoryList());
-        model.addAttribute("purchaseList", popupPurchaseList);
+        model.addAttribute("purchaseList", purchaseListPageInfo.getList());
+        model.addAttribute("totalPages", purchaseListPageInfo.getPages());
         return "admin/popupPurchaseList";
     }
 }

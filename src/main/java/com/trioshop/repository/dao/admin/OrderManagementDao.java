@@ -3,6 +3,7 @@ package com.trioshop.repository.dao.admin;
 import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.repository.mybatis.OrderMapper;
+import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -53,8 +53,8 @@
                         <div class="col-sm-8">${item.itemColor}</div>
                     </div>
                     <div class="text-right">
-                        <a href="/trioAdmin/stock/${item.itemCode}/edit" class="btn btn-secondary">수정</a>
-                        <a href="/trioAdmin/stock/list" class="btn btn-primary">목록으로 돌아가기</a>
+                        <a href="${pageContext.request.contextPath}/trioAdmin/stock/${item.itemCode}/edit" class="btn btn-secondary">수정</a>
+                        <a href="${pageContext.request.contextPath}/trioAdmin/stock/list" class="btn btn-primary">목록으로 돌아가기</a>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,11 @@
 package com.trioshop.service.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.admin.PurchaseItemModel;
 import com.trioshop.model.dto.admin.PurchaseListModel;
 import com.trioshop.model.dto.item.ItemCondition;
 import com.trioshop.repository.dao.admin.PurchaseDao;
+import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,13 @@ import java.util.Optional;
 public class PurchaseService {
 
     private final PurchaseDao purchaseDao;
+    private final PagingService pagingService;
 
     public void save(PurchaseItemModel itemModel) { purchaseDao.save(itemModel);
     }
 
-    public List<PurchaseListModel> findAll(ItemCondition itemCondition) {
-        return purchaseDao.findAll(itemCondition);
+    public PageInfo<PurchaseListModel> findAll(ItemCondition itemCondition,int page) {
+        return pagingService.getPagedData(page,()->purchaseDao.findAll(itemCondition));
     }
 
     public PurchaseListModel findByCode(Long code) {

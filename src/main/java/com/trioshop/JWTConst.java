@@ -10,6 +10,7 @@ public interface JWTConst {
     public static final String ACCESS_TOKEN_START1="Bearer ";
     public static final String ACCESS_TOKEN_START2="Bearer+";
     public static final String REFRESH_TOKEN = "refreshCookie";
+    public static final String REQUEST_LOGOUT = "/logout";
 
 
 }

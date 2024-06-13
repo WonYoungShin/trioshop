@@ -20,7 +20,7 @@ public class BoardController {
     private final SecurityUtils securityUtils;
 
     @GetMapping
-    public String boardListPage(@ModelAttribute BoardCondition boardCondition, @RequestParam(value = "page", defaultValue = "1")int page, Model model){
+    public String boardListPage(@ModelAttribute BoardCondition boardCondition, @RequestParam(defaultValue = "1")int page, Model model){
         PageInfo<BoardContentList> boardContentListPageInfo = boardService.contentList(boardCondition, page);
         model.addAttribute("contentList", boardContentListPageInfo.getList());
         model.addAttribute("totalPages", boardContentListPageInfo.getPages());

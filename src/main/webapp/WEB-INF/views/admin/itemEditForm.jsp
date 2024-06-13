@@ -76,7 +76,7 @@
                         </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-secondary">저장</button>
-                            <a href="/trioAdmin/stock/list" class="btn btn-primary">목록으로 돌아가기</a>
+                            <a href="${pageContext.request.contextPath}/trioAdmin/stock/list" class="btn btn-primary">목록으로 돌아가기</a>
                         </div>
                     </form>
                 </div>

@@ -105,7 +105,7 @@
                         <thead class="thead-light">
                         <tr>
                             <th>No.</th>
-                            <th>제목[카테고리]</th>
+                            <th>제목</th>
                             <th>작성자</th>
                             <th>작성일자</th>
                             <th>조회수</th>
@@ -116,7 +116,7 @@
                         <c:forEach var="item" items="${contentList}">
                             <tr onclick="location.href='/board/${item.boardCode}'">
                                 <td>${item.boardCode}</td>
-                                <td>${item.boardTitle}[${item.categoryName}]</td>
+                                <td>[${item.categoryName}]${item.boardTitle}</td>
                                 <td>${item.userNickname}</td>
                                 <td>${item.boardDate}</td>
                                 <td>${item.boardViews}</td>
@@ -143,7 +143,7 @@
                             </c:forEach>
                             <c:if test="${param.page < totalPages || param.page == null}">
                                 <li class="page-item">
-                                    <a class="page-link" href="?page=${param.page + 1}&title=${param.title}&category=${param.category}">다음 &gt</a>
+                                    <a class="page-link" href="?page=${param.page==null ? 2 : param.page + 1}&title=${param.title}&category=${param.category}">다음 &gt</a>
                                 </li>
                             </c:if>
                         </ul>

@@ -51,7 +51,7 @@
                     <label for="category">카테고리</label>
                     <select class="form-control" id="category" name="categoryCode">
                         <c:forEach var="category" items="${categoryList}">
-                            <c:if test="${category.categoryCode != '10' or category.categoryCode != '10' and loginMember.gradeCode == 4}">
+                            <c:if test="${category.categoryCode != '10' or category.categoryCode == '10' and loginMember.gradeCode == 4}">
                                 <option value="${category.categoryCode}">${category.categoryName}</option>
                             </c:if>
                         </c:forEach>
@@ -69,7 +69,7 @@
                 <input type="hidden" name="userCode" value="${loginMember.userCode}" />
                 <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary">작성</button>
-                    <a href="/board" class="btn btn-secondary">취소</a>
+                    <a href="${pageContext.request.contextPath}/board" class="btn btn-secondary">취소</a>
                 </div>
             </form>
         </div>

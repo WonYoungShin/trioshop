@@ -1,5 +1,6 @@
 package com.trioshop.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.admin.PurchaseItemModel;
 import com.trioshop.model.dto.admin.PurchaseListModel;
 import com.trioshop.model.dto.item.ItemCondition;
@@ -32,10 +33,13 @@ public class PurchaseController{
     }
 
     @GetMapping("/list")
-    public String findAll(@ModelAttribute ItemCondition itemCondition, Model model) {
-        List<PurchaseListModel> purchaseList = purchaseService.findAll(itemCondition);
+    public String findAll(@ModelAttribute ItemCondition itemCondition,
+                          @RequestParam(defaultValue = "1")int page,
+                          Model model) {
+        PageInfo<PurchaseListModel> purchaseListPageInfo = purchaseService.findAll(itemCondition, page);
         model.addAttribute("categoryList",categoryList.getCategoryList());
-        model.addAttribute("purchaseList", purchaseList);
+        model.addAttribute("purchaseList", purchaseListPageInfo.getList());
+        model.addAttribute("totalPages", purchaseListPageInfo.getPages());
         return "admin/purchaseList";
     }
 

@@ -30,7 +30,7 @@
                     <h3>Sign In to Trio</h3>
 
                     <div class="API_img">
-                        <a href="#"><img src="/images/login/kakao.png" alt="Kakao"></a>
+                        <a href="${pageContext.request.contextPath}#"><img src="/images/login/kakao.png" alt="Kakao"></a>
                     </div>
 
 

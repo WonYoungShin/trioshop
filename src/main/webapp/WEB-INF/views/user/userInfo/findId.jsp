@@ -27,13 +27,13 @@
                     <h1>Trio Shop</h1>
                     <h3>Forget Id</h3>
 
-                    <%--                    <a href="#" target="">--%>
+                    <%--                    <a href="${pageContext.request.contextPath}#" target="">--%>
                     <%--                        <img src="/images/login/google.png" alt="Google">--%>
                     <%--                    </a>--%>
-                    <%--                    <a href="#" target="">--%>
+                    <%--                    <a href="${pageContext.request.contextPath}#" target="">--%>
                     <%--                        <img src="/images/login/naver.png" alt="Naver">--%>
                     <%--                    </a>--%>
-                    <%--                    <a href="#" target="">--%>
+                    <%--                    <a href="${pageContext.request.contextPath}#" target="">--%>
                     <%--                        <img src="/images/login/kakao.png" alt="Kakao">--%>
                     <%--                    </a>--%>
 
@@ -80,7 +80,7 @@
 
                 <div class="login-btn-wrap">
                     <button class="login-btn">아이디 찾기</button>
-                    <a href="/login">이미 계정이 있으신가요? <span style="color: #2178ff;">로그인하기</span></a>
+                    <a href="${pageContext.request.contextPath}/login">이미 계정이 있으신가요? <span style="color: #2178ff;">로그인하기</span></a>
                 </div>
             </div>
         </div>

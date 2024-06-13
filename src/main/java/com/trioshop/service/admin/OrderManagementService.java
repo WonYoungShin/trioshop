@@ -1,9 +1,11 @@
 package com.trioshop.service.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.admin.*;
 import com.trioshop.model.dto.item.OrderStatusEntity;
 import com.trioshop.repository.dao.admin.OrderManagementDao;
 import com.trioshop.utils.business.DateUtils;
+import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import java.util.Objects;
 public class OrderManagementService {
     private final OrderManagementDao orderDao;
     private final DateUtils dateUtil;
+    private final PagingService pagingService;
 
     public YearSalesCombineModel yearSales(SalesCondition salesCondition) {
         if (salesCondition.getYear() != null && salesCondition.getYear() < 100) {
@@ -58,8 +61,8 @@ public class OrderManagementService {
         return new DashboardModel(allOrderPrice, allPurchaseQty);
     }
 
-    public List<OrderListModel> orderList(StatusCondition statusCondition) {
-        return orderDao.orderList(statusCondition);
+    public PageInfo<OrderListModel> orderList(StatusCondition statusCondition, int page) {
+        return pagingService.getPagedData(page, () -> orderDao.orderList(statusCondition));
     }
 
     public List<OrderStatusEntity> statusList() {

@@ -1,5 +1,6 @@
 package com.trioshop.controller.admin;
 
+import com.github.pagehelper.PageInfo;
 import com.trioshop.model.dto.admin.AddItemModel;
 import com.trioshop.model.dto.admin.StockModel;
 import com.trioshop.model.dto.admin.UpdateItemModel;
@@ -40,10 +41,13 @@ public class StockController{
     }
 
     @GetMapping("/list")
-    public String findAll(ItemCondition itemCondition, Model model) {
-        List<StockModel> stockList = stockService.findAll(itemCondition);
+    public String findAll(ItemCondition itemCondition,
+                          @RequestParam(defaultValue = "1")int page,
+                          Model model) {
+        PageInfo<StockModel> stockModelPageInfo = stockService.findAll(itemCondition,page);
         model.addAttribute("categoryList",categoryList.getCategoryList());
-        model.addAttribute("stockList", stockList);
+        model.addAttribute("stockList", stockModelPageInfo.getList());
+        model.addAttribute("totalPages", stockModelPageInfo.getPages());
         return "admin/stock";
     }
 

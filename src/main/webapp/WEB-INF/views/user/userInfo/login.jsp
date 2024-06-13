@@ -21,7 +21,7 @@
             <div class="login-form-left-side">
                 <div class="login-top-wrap">
                     <span>회원가입 없이 이용하시고 싶으신가요?</span>
-                    <a href="/guestLogin" class="create-account-btn shadow-light">비회원 로그인하기</a>
+                    <a href="${pageContext.request.contextPath}/guestLogin" class="create-account-btn shadow-light">비회원 로그인하기</a>
                 </div>
                 <div class="login-input-container">
                     <h1>Trio Shop</h1>
@@ -44,9 +44,9 @@
                     <button type="button" class="login-btn join-btn" onclick="submitForm('${pageContext.request.contextPath}/join', 'get')">회원가입</button>
                 </div>
                 <div class="login-btn-wrap-find">
-                    <a href="/findId">아이디 찾기</a>
+                    <a href="${pageContext.request.contextPath}/findId">아이디 찾기</a>
                     <a> | </a>
-                    <a href="/findPw">비밀번호 찾기</a>
+                    <a href="${pageContext.request.contextPath}/findPw">비밀번호 찾기</a>
                 </div>
             </div>
         </div>

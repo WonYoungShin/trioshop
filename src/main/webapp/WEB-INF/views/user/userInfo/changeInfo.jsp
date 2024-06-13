@@ -67,7 +67,7 @@
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary mr-2">저장</button>
-                        <a href="/myPage" class="btn btn-secondary">뒤로가기</a>
+                        <a href="${pageContext.request.contextPath}/myPage" class="btn btn-secondary">뒤로가기</a>
                     </div>
                 </form>
             </div>

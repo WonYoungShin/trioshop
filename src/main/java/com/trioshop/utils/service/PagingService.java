@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -14,6 +15,9 @@ public class PagingService {
             int size = 10;
             PageHelper.startPage(page, size);
             List<T> dataList = dataSupplier.get();
+            if (dataList == null) {
+                dataList = Collections.emptyList();
+            }
             return new PageInfo<>(dataList);
         }
 }
