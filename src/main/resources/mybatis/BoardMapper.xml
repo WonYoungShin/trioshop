@@ -28,7 +28,7 @@
                 AND board.category_code = #{category}
             </if>
         </where>
-        ORDER BY board_code desc
+        ORDER BY board.category_code asc, board_code desc
     </select>
 
     <insert id="boardWrite" useGeneratedKeys="true" keyProperty="boardCode">

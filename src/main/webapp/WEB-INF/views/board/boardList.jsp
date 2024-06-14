@@ -21,20 +21,24 @@
             width: 85%; /* 테이블의 최대 폭 설정 */
             margin: auto; /* 중앙 정렬 */
         }
+
         .table thead th {
             vertical-align: middle;
             text-align: center;
             background-color: #f8f9fa;
             box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
+
         .table tbody td {
             vertical-align: middle;
             text-align: center;
         }
+
         .table tbody tr {
             cursor: pointer;
             transition: box-shadow 0.2s;
         }
+
         .table tbody tr:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
@@ -44,18 +48,23 @@
             margin-left: 100px;
             width: calc(100% - 250px);
         }
+
         .pagination .page-item.active .page-link {
             background-color: #83bdfb;
             border-color: #66c2fa;
             color: white;
+            top: 45px;
         }
+
         .pagination .page-item .page-link {
             color: #535353;
         }
+
         .pagination .page-item .page-link:hover {
             background-color: #e9ecef;
             border-color: #dee2e6;
         }
+
         .btn-circle {
             width: 50px;
             height: 50px;
@@ -70,33 +79,39 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
         }
+
         .btn-circle:hover {
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
+
         .category-name {
             font-size: 0.75em;
             color: #a69b9b;
             text-align: left;
             display: inline-block;
         }
+
         .board-title {
             text-align: center;
             display: inline-block;
             width: calc(100% - 5em); /* 카테고리 이름의 폭을 고려한 설정 */
             margin-left: 5px;
         }
+
         .title-cell {
             text-align: left;
         }
 
         .board-title {
-            text-align: initial;!important;
+            text-align: initial;
+        !important;
         }
-        .justify-content-end{
+
+        .justify-content-end {
             padding-right: 100px;
         }
 
-        .text-center{
+        .text-center {
             padding-bottom: 50px;
         }
 
@@ -111,11 +126,13 @@
                 <div class="col-md-12 d-flex justify-content-end">
                     <!-- 검색창 및 카테고리 선택 항목 결합 -->
                     <form class="form-inline" method="get" action="">
-                        <input class="form-control mr-sm-2" type="search" placeholder="제목" aria-label="Search" name="title" value="${param.title}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="제목" aria-label="Search"
+                               name="title" value="${param.title}">
                         <select class="form-control mr-sm-2" name="category">
                             <option value="">전체</option>
                             <c:forEach var="category" items="${categoryList}">
-                                <option value="${category.categoryCode}" <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
+                                <option value="${category.categoryCode}"
+                                        <c:if test="${param.category == category.categoryCode}">selected</c:if>>${category.categoryName}</option>
                             </c:forEach>
                         </select>
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
@@ -147,7 +164,8 @@
                             <tr onclick="location.href='/board/${item.boardCode}'">
                                 <td>${item.boardCode}</td>
                                 <td class="title-cell">
-                                    <span class="category-name" style="font-size: 0.75em; color: #a69b9b;">[${item.categoryName}]</span>
+                                    <span class="category-name"
+                                          style="font-size: 0.75em; color: #a69b9b;">[${item.categoryName}]</span>
                                     <span class="board-title">${item.boardTitle}</span>
                                 </td>
                                 <td>${item.userNickname}</td>
@@ -164,21 +182,33 @@
                 <div class="col-12 d-flex justify-content-center">
                     <nav>
                         <ul class="pagination">
-                            <c:if test="${param.page > 1}">
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=${param.page - 1}&title=${param.title}&category=${param.category}">&lt 이전</a>
-                                </li>
-                            </c:if>
-                            <c:forEach var="i" begin="1" end="${totalPages}">
-                                <li class="page-item ${i == param.page ? 'active' : ''}">
-                                    <a class="page-link" href="?page=${i}&title=${param.title}&category=${param.category}">${i}</a>
-                                </li>
-                            </c:forEach>
-                            <c:if test="${param.page < totalPages || param.page == null}">
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=${param.page==null ? 2 : param.page + 1}&title=${param.title}&category=${param.category}">다음 &gt</a>
-                                </li>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${totalPages != 1}">
+                                    <c:if test="${param.page > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page=${param.page - 1}&title=${param.title}&category=${param.category}">&lt 이전</a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <li class="page-item ${i == param.page ? 'active' : ''}">
+                                            <a class="page-link"
+                                               href="?page=${i}&title=${param.title}&category=${param.category}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${param.page < totalPages || param.page == null}">
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page=${param.page==null ? 2 : param.page + 1}&title=${param.title}&category=${param.category}">다음 &gt</a>
+                                        </li>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?page=1">1</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </nav>
                 </div>
