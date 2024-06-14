@@ -25,7 +25,7 @@
             amount: amount,
         };
 
-        const response = await fetch("/confirm", {
+        const response = await fetch("/toss/confirm", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -35,11 +35,11 @@
 
         const json = await response.json();
 
-        if (!response.ok) {
-            // 결제 실패 비즈니스 로직을 구현하세요.
-            console.log(json);
-            window.location.href = `/fail?message=${json.message}&code=${json.code}`;
-        }
+        <%--if (!response.ok) {--%>
+        <%--    // 결제 실패 비즈니스 로직을 구현하세요.--%>
+        <%--    console.log(json);--%>
+        <%--    window.location.href = `/fail?message=${json.message}&code=${json.code}`;--%>
+        <%--}--%>
 
         // 결제 성공 비즈니스 로직을 구현하세요.
         console.log(json);
@@ -53,6 +53,23 @@
     orderIdElement.textContent = "주문번호: " + orderId;
     amountElement.textContent = "결제 금액: " + amount;
     paymentKeyElement.textContent = "paymentKey: " + paymentKey;
+
+    // 특정 페이지로 리디렉션할 URL
+    var redirectUrl = "${pageContext.request.contextPath}/orderList";
+
+    // 부모 창을 리디렉션하고 팝업 창을 닫는 함수
+    function redirectToParent() {
+        if (window.opener != null && !window.opener.closed) {
+            window.opener.location.href = redirectUrl;
+            window.close();
+        }
+    }
+    // 모든 페이지 로드 후에 실행되도록 딜레이를 줄 수 있음
+    function delayedRedirect() {
+        // 여기에 다른 모든 코드가 실행되었는지 확인하는 로직 추가 가능
+        setTimeout(redirectToParent, 0);  // 0ms 딜레이를 주어 마지막에 실행되도록 함
+    }
+    delayedRedirect();
 </script>
 </body>
 </html>

@@ -113,7 +113,7 @@
             let form = $('#orderForm');
 
             // 폼의 action을 토스 결제 URL로 변경
-            form.attr('action', '${pageContext.request.contextPath}/toss/');
+            form.attr('action', '${pageContext.request.contextPath}/toss');
 
             // 폼의 target을 팝업 창으로 설정
             form.attr('target', 'popupWindow');

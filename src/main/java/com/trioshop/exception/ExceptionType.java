@@ -21,6 +21,7 @@ public enum ExceptionType {
     DONT_SEARCH_USER ("요청하신 정보가 없습니다.", "user/userInfo/findId"),
     DONT_SEARCH_ID ("요청하신 정보가 없습니다.", "user/userInfo/findPw"),
     DONT_MATCH_PASSWORD ("두 비밀번호가 일치하지 않습니다", "redirect:/findPw"),
+    DONT_SAVE_TABLE("테이블 입력 실패", ""),
 
     ;// 오타 없애기 위함
     private final String message;

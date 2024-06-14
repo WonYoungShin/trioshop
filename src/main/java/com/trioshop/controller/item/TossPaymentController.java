@@ -22,39 +22,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/toss")
 @RequiredArgsConstructor
 public class TossPaymentController {
-    private final OrderService orderService;
-    private final SecurityUtils securityUtils;
     private final TossPaymentService tossPaymentService;
-    private final HttpSession session;
+
 
     @RequestMapping("/confirm")
     @ResponseBody
-    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
-        return tossPaymentService.confirmPayment(jsonBody);
+    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String requestData) throws Exception {
+        return tossPaymentService.confirmPayment(requestData);
     }
-    @PostMapping("/")
-    public String tossPayProcess(@ModelAttribute OrdersEntity ordersEntity,
-                                @ModelAttribute OrderItemList orderItemList,
-                               @RequestParam("totalPrice") long totalPrice,
-                               Model model) { {
-//        boolean check = orderService.orderProcess(ordersEntity, orderItemList.getOrderItemEntityList());
-        System.out.println("totalPrice = " + totalPrice);
-        System.out.println("ordersEntity = " + ordersEntity);
-        System.out.println("orderItemList = " + orderItemList.getOrderItemEntityList());
-        PaymentData paymentData = tossPaymentService.makeTossPaymentData(ordersEntity, orderItemList.getOrderItemEntityList(), totalPrice);
 
-        System.out.println("paymentData = " + paymentData);
-        model.addAttribute("paymentData", paymentData);
-        return "payment/checkout";
+    @PostMapping
+    public String tossPayProcess(@ModelAttribute OrdersEntity ordersEntity,
+                                 @ModelAttribute OrderItemList orderItemList,
+                                 @RequestParam("totalPrice") long totalPrice,
+                                 Model model) {
+        {
+            PaymentData paymentData = tossPaymentService.makeTossPaymentData(ordersEntity, orderItemList.getOrderItemEntityList(), totalPrice);
+            System.out.println("paymentData = " + paymentData);
+            model.addAttribute("paymentData", paymentData);
+            return "payment/checkout";
+        }
     }
-//            List<OrderListByUser> orderList = orderService.orderListByUser(ordersEntity.getUserCode());
-//            model.addAttribute("orderList", orderList);
-//            return "redirect:/orderList";
-    }
+
     @GetMapping("/success")
     public String paymentSuccess(HttpServletRequest request, Model model) {
         return "payment/success";
     }
+
     @GetMapping("/fail")
     public String paymentFail(HttpServletRequest request, Model model) {
         log.info("결제 실패");
