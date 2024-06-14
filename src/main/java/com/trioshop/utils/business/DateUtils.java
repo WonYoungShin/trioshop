@@ -2,8 +2,10 @@ package com.trioshop.utils.business;
 
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -35,6 +37,16 @@ public class DateUtils {
     // 오늘의 연도 가져오기
     public int getCurrentMonth() {
         return Calendar.getInstance().get(Calendar.MONTH) + 1;
+    }
+
+    public static String generateOrderCode(long userCode) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateStr = sdf.format(new Date());
+        return userCode + dateStr;
+    }
+    public static String generateOrderDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        return sdf.format(new Date());
     }
 
 }

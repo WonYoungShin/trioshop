@@ -4,11 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.trioshop.exception.ApplicationException;
 import com.trioshop.exception.ExceptionType;
 import com.trioshop.model.dto.item.*;
-import com.trioshop.model.dto.payment.PaymentData;
 import com.trioshop.model.dto.user.UserAddressInfo;
 import com.trioshop.repository.dao.item.ItemDao;
 import com.trioshop.repository.dao.item.OrderDao;
-import com.trioshop.utils.business.GenerateDate;
+import com.trioshop.utils.business.DateUtils;
 import com.trioshop.utils.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,14 +78,14 @@ public class OrderService {
     }
     public OrdersEntity makeOrdersEntity (OrdersEntity ordersEntity) {
         // userCode+현재시간 으로 orderCode생성 (userCode + "-" + dateStr)
-        String orderCode = GenerateDate.generateOrderCode(ordersEntity.getUserCode());
+        String orderCode = DateUtils.generateOrderCode(ordersEntity.getUserCode());
 
         // 주문 테이블 저장
         OrdersEntity ordersEntityResult = new OrdersEntity(orderCode,
                                                            ordersEntity.getUserCode(),
                                                            ordersEntity.getOrderReceiver(),
                                                            ordersEntity.getOrderDestination(),
-                                                           GenerateDate.generateOrderDate(),
+                                                           DateUtils.generateOrderDate(),
                                                            ordersEntity.getOrderTel(),
                                                            "10");
         orderDao.insertOrders(ordersEntityResult);

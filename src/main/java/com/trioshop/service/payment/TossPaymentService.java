@@ -7,20 +7,16 @@ import com.trioshop.model.dto.item.OrderItemEntity;
 import com.trioshop.model.dto.item.OrdersEntity;
 import com.trioshop.model.dto.payment.PaymentData;
 import com.trioshop.repository.dao.item.OrderDao;
-import com.trioshop.service.item.OrderService;
-import com.trioshop.utils.business.GenerateDate;
+import com.trioshop.utils.business.DateUtils;
 import com.trioshop.utils.business.PhoneNumberUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -135,13 +131,13 @@ public class TossPaymentService {
 
     public OrdersEntity makeOrdersEntity (OrdersEntity ordersEntity) {
         // userCode+현재시간 으로 orderCode생성 (userCode + "-" + dateStr)
-        String orderCode = GenerateDate.generateOrderCode(ordersEntity.getUserCode());
+        String orderCode = DateUtils.generateOrderCode(ordersEntity.getUserCode());
         // 주문객체생성
         ordersEntityResult = new OrdersEntity(orderCode,
                 ordersEntity.getUserCode(),
                 ordersEntity.getOrderReceiver(),
                 ordersEntity.getOrderDestination(),
-                GenerateDate.generateOrderDate(),
+                DateUtils.generateOrderDate(),
                 ordersEntity.getOrderTel(),
                 "10");
         return ordersEntityResult;

@@ -36,12 +36,9 @@ public class TossPaymentController {
                                  @ModelAttribute OrderItemList orderItemList,
                                  @RequestParam("totalPrice") long totalPrice,
                                  Model model) {
-        {
             PaymentData paymentData = tossPaymentService.makeTossPaymentData(ordersEntity, orderItemList.getOrderItemEntityList(), totalPrice);
-            System.out.println("paymentData = " + paymentData);
             model.addAttribute("paymentData", paymentData);
             return "payment/checkout";
-        }
     }
 
     @GetMapping("/success")
@@ -51,10 +48,8 @@ public class TossPaymentController {
 
     @GetMapping("/fail")
     public String paymentFail(HttpServletRequest request, Model model) {
-        log.info("결제 실패");
         String failCode = request.getParameter("code");
         String failMessage = request.getParameter("message");
-
         model.addAttribute("code", failCode);
         model.addAttribute("message", failMessage);
         return "payment/fail";
