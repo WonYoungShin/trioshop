@@ -66,9 +66,14 @@
                                 <a class="nav-link" href="${pageContext.request.contextPath}/board">게시판</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/itemList">상품조회</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/myPage">마이페이지</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/logout">로그아웃</a>
                             </li>
-
                         </c:when>
                         <c:otherwise>
                             <!-- 일반 사용자 메뉴 -->
