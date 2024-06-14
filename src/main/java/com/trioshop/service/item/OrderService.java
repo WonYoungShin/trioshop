@@ -28,6 +28,11 @@ public class OrderService {
     private final PagingService pagingService;
 
     public PageInfo<OrderListByUser> orderListByUserPageInfo(long userCode, int page) {
+        try{
+            Thread.sleep(200);
+        }catch (InterruptedException e){
+            return pagingService.getPagedData(page, () -> orderDao.orderListByUser(userCode));
+        }
         return pagingService.getPagedData(page, () -> orderDao.orderListByUser(userCode));
     }
 
