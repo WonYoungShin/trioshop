@@ -17,6 +17,7 @@
         LEFT JOIN (
         SELECT board_code, COUNT(board_code) AS comment_count
         FROM TRIO_BOARD_COMMENT
+        WHERE status_code = '10'
         GROUP BY board_code
         ) comment_counts ON board.board_code = comment_counts.board_code
         <where>

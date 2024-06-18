@@ -53,7 +53,6 @@
             background-color: #83bdfb;
             border-color: #66c2fa;
             color: white;
-            top: 45px;
         }
 
         .pagination .page-item .page-link {
@@ -114,7 +113,9 @@
         .text-center {
             padding-bottom: 50px;
         }
-
+        .pagination{
+            top: 20px;
+        }
     </style>
 </head>
 <body>

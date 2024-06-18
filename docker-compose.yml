@@ -12,6 +12,7 @@ services:
       SERVER_SSL_KEY_STORE_PASSWORD: tanadmin
       SERVER_SSL_KEY_STORE_TYPE: PKCS12
       SERVER_SSL_KEY_ALIAS: tomcat
+      TZ: "Asia/Seoul"
     volumes:
       - ./trio.keystore:/app/trio.keystore
     depends_on:
