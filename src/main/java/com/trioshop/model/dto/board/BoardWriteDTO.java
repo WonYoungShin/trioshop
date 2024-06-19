@@ -24,7 +24,7 @@ public class BoardWriteDTO {
         dateForCurrentDate();
     }
     private void dateForCurrentDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd hh:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd HH:mm");
         this.boardDate = formatter.format(new Date());
     }
 }

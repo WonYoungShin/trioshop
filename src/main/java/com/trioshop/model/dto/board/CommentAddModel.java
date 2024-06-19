@@ -22,7 +22,7 @@ public class CommentAddModel {
     }
 
     private void dateForCurrentDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd hh:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd HH:mm");
         this.commentDate = formatter.format(new Date());
     }
 }

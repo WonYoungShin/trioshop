@@ -56,9 +56,9 @@
                                     Top
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownTop">
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Basic T-Shirt'/></c:url>">Basic T-Shirt</a>
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Wool Sweater'/></c:url>">Wool Sweater</a>
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Long Shirt'/></c:url>">Long Shirt</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='기본 상의'/></c:url>">상의</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='울 스웨터'/></c:url>">스웨터</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='셔츠'/></c:url>">셔츠</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
@@ -66,8 +66,8 @@
                                     Pants
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownPants">
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Classic Jeans'/></c:url>">Classic Jeans</a>
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Short Pants'/></c:url>">Short Pants</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='기본 바지'/></c:url>">기본 바지</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='반 바지'/></c:url>">반 바지</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
@@ -75,7 +75,7 @@
                                     Outer
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownOuter">
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Leather Jacket'/></c:url>">Leather Jacket</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='가죽 자켓'/></c:url>">가죽 자켓</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
@@ -83,7 +83,7 @@
                                     Shoes
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownShoes">
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Formal Shoes'/></c:url>">Formal Shoes</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='구두'/></c:url>">구두</a>
                                 </div>
                             </div>
                             <div class="tmenu dropdown mx-2">
@@ -91,9 +91,9 @@
                                     Acc
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownAcc">
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Leather Belt'/></c:url>">Leather Belt</a>
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Baseball Cap'/></c:url>">Baseball Cap</a>
-                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='Backpack'/></c:url>">Backpack</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='가죽 벨트'/></c:url>">가죽 벨트</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='야구 모자'/></c:url>">야구 모자</a>
+                                    <a class="dropdown-item" href="<c:url value='/itemList'><c:param name='itemName' value='가방'/></c:url>">가방</a>
                                 </div>
                             </div>
                         </div>

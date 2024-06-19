@@ -4,11 +4,19 @@ services:
     image: kkgg0522/trioshop
     container_name: trioshop
     ports:
-      - "8080:8080"
+      - "443:8443"
     environment:
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
-
+      SERVER_SSL_KEY_STORE: /app/trio.keystore
+      SERVER_SSL_KEY_STORE_PASSWORD: tanadmin
+      SERVER_SSL_KEY_STORE_TYPE: PKCS12
+      SERVER_SSL_KEY_ALIAS: tomcat
+      TZ: "Asia/Seoul"
+    volumes:
+      - ./trio.keystore:/app/trio.keystore
+    depends_on:
+      - redis
 
   redis:
     image: redis:6.2

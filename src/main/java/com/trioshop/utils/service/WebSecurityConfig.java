@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,7 +31,7 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
-public class WebSecurityConfig{
+public class WebSecurityConfig  {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -54,6 +55,8 @@ public class WebSecurityConfig{
                 )
                 //Filter 추가
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+
 
 /**
  * 폼 로그인 관련 설정
@@ -87,9 +90,8 @@ public class WebSecurityConfig{
                  * JWT 방식 시큐리티 설정
                  */
                 //JWT 방식 적용시 필수!!! JWT 자체가 stateless 하게 관리하기 위함
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .requiresChannel(channel -> channel.anyRequest().requiresSecure());
 
         return http.build();
     }
