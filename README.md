@@ -13,9 +13,9 @@
 
 |  | 김원형 | 신원영 | 전민주 |
 | --- | --- | --- | --- |
-| E-Mail | https://github.com/kkgg0522 | https://github.com/WonYoungShin | https://github.com/jeonminju23 |
+| E-Mail | mailto:kkgg0523@gmail.com | mailto:swypawn@gmail.com | mailto:jeonminju1123@gmail.com |
 | GitHub | https://github.com/kkgg0522 | http://github.com/WonYoungShin |  |
-| Blog | https://tan-sog.tistory.com/ | https://www.notion.so/27a1fef33a064c6bb3a26ce6de2e30d4?pvs=21 | https://mom11230.tistory.com/ |
+| Blog | https://tan-sog.tistory.com/ | https://www.notion.so/d67dc3604f804e938c2a50810de43a0d?pvs=21 | https://mom11230.tistory.com/ |
 
 ## **1. 개발 환경**
 
