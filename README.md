@@ -15,7 +15,7 @@
 | --- | --- | --- | --- |
 | E-Mail | mailto:kkgg0523@gmail.com | mailto:swypawn@gmail.com | mailto:jeonminju1123@gmail.com |
 | GitHub | https://github.com/kkgg0522 | http://github.com/WonYoungShin |  |
-| Blog | https://tan-sog.tistory.com/ | https://www.notion.so/d67dc3604f804e938c2a50810de43a0d?pvs=21 | https://mom11230.tistory.com/ |
+| Blog | https://tan-sog.tistory.com/ | https://foamy-seatbelt-d10.notion.site/d67dc3604f804e938c2a50810de43a0d?pvs=4 | https://mom11230.tistory.com/ |
 
 ## **1. 개발 환경**
 
