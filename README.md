@@ -1,8 +1,6 @@
-# TrioShop
-
 # **📖 TrioShop 쇼핑몰 README**
 
-- 배포 URL : [https://trioshop.site](https://trioshop.site)
+- 배포 URL : https://trioshop.site
 - Admin Test ID/PW : admintest // admintest
 - User Test ID/PW : usertest // usertest
 
@@ -48,7 +46,7 @@
 
 ## 4. ERD
 
-![shopping_mall.png](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/shopping_mall.png)
+![shopping_mall.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/9cdb4443-f6d3-4f09-a5f8-095cbced043a/shopping_mall.png)
 
 ERD cloud : [LINK](https://www.erdcloud.com/d/ABv9hDDr684A3Fbdc)
 
@@ -127,11 +125,11 @@ ERD cloud : [LINK](https://www.erdcloud.com/d/ABv9hDDr684A3Fbdc)
 - 서비스 접속 초기화면으로 대쉬보드와 상품목록이 나타납니다.
 - 회원 : index 페이지
 
-![Untitled](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/Untitled.png)
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/63a809db-7066-4d8d-83f8-d38d37013d94/Untitled.png)
 
 - 어드민 : admin 홈 화면
 
-![Untitled](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/Untitled%201.png)
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/21b87222-bccc-4f89-a561-2eb3782424ee/Untitled.png)
 
 ---
 
@@ -144,17 +142,17 @@ ERD cloud : [LINK](https://www.erdcloud.com/d/ABv9hDDr684A3Fbdc)
 
 ---
 
-![Untitled](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/Untitled%202.png)
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/25b9bfcb-68bd-4d75-b9b3-bbcda9a7985d/Untitled.png)
 
-![회원가입 1.JPG](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/%25ED%259A%258C%25EC%259B%2590%25EA%25B0%2580%25EC%259E%2585_1.jpg)
+![회원가입 1.JPG](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/e8af84c6-cb1c-4c2c-9b14-40c47942a04b/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85_1.jpg)
 
 ---
 
 **[로그인]**
 
-![로그인1.JPG](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/%25EB%25A1%259C%25EA%25B7%25B8%25EC%259D%25B81.jpg)
+![로그인1.JPG](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/bf96a77a-6c21-4251-a672-ae84846613c1/%EB%A1%9C%EA%B7%B8%EC%9D%B81.jpg)
 
-![카카오로그인 1.JPG](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/%25EC%25B9%25B4%25EC%25B9%25B4%25EC%2598%25A4%25EB%25A1%259C%25EA%25B7%25B8%25EC%259D%25B8_1.jpg)
+![카카오로그인 1.JPG](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/eafb348a-5806-4c63-a7fe-90694d735f97/%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%A1%9C%EA%B7%B8%EC%9D%B8_1.jpg)
 
 - 아이디와 비밀번호를 입력 후 로그인 버튼을 누르게되면 유효성 검사가 진행되고
 - 로그인에 성공하면 AccessToken과 RefreshToken을 발급합니다.
@@ -172,11 +170,11 @@ ERD cloud : [LINK](https://www.erdcloud.com/d/ABv9hDDr684A3Fbdc)
 
 - 유저헤더
     
-    ![해더.JPG](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/%25ED%2595%25B4%25EB%258D%2594.jpg)
+    ![해더.JPG](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/e1e949e0-e9fb-4ec8-bd26-87cce3b4b8f6/%ED%95%B4%EB%8D%94.jpg)
     
 - 관리자헤더
     
-    ![해더 2.JPG](TrioShop%20ef061d8eade24f3ca62d8c48f4d037a0/%25ED%2595%25B4%25EB%258D%2594_2.jpg)
+    ![해더 2.JPG](https://prod-files-secure.s3.us-west-2.amazonaws.com/9fe6ea9f-e901-47cf-9865-d8628bad1c0c/8e349b89-8299-4901-af26-0a39db57679f/%ED%95%B4%EB%8D%94_2.jpg)
     
 
 ---
